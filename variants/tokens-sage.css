@@ -1,0 +1,106 @@
+/* =====================================================================
+   Sage & Stone — variant of the warm editorial system.
+   Overrides ONLY the brand-layer tokens. All structural rules
+   (borders, spacing, radius, shadow, motion, type scale, components)
+   are inherited unchanged from tokens.css.
+
+   This file IS the diff: every line below is a brand decision the
+   original made, restated with a different value.
+   ===================================================================== */
+
+@import url('tokens-clay.css');
+
+:root {
+  /* ----- Surfaces: shifted from cream-yellow toward warm stone ----- */
+  --ivory:  #F6F4EE;   /* was #FAF9F5 — less yellow, more stone */
+  --slate:  #181816;   /* was #141413 — touch warmer near-black */
+  --oat:    #DDD9CE;   /* was #E3DACC — grayer warm */
+
+  /* ----- Accent: clay coral → sage forest ----- */
+  --clay:      #3F7C5C;            /* was #D97757 (Anthropic clay) */
+  --clay-d:    #2D5E44;            /* was #B85C3E */
+  --clay-tint: rgba(63, 124, 92, 0.14);  /* was rgba(217,119,87,0.14) */
+
+  /* ----- Neutral scale: shifted from cream toward warm stone ----- */
+  --gray-100: #EBE9E1;   /* was #F0EEE6 */
+  --gray-200: #DFDCD2;   /* was #E6E3DA */
+  --gray-300: #CDCAC0;   /* was #D1CFC5 */
+  --gray-500: #84827B;   /* was #87867F */
+  --gray-700: #3A3A36;   /* was #3D3D3A */
+
+  /* Semantic colors are intentionally KEPT — olive/rust/warning/info
+     are universal earth-tone accents, not brand-coded. The yellower
+     olive (#788C5D) sits clearly apart from the bluer sage accent,
+     so they don't compete visually. */
+}
+
+/* ---------------------------------------------------------------------
+   Component touch-ups: a few rgba() literals in tokens.css hardcode
+   the original clay color instead of using a variable. Re-state them
+   with sage values here. (In a clean rebuild these would be tokens
+   from the start — see DESIGN_SYSTEM.md for that recommendation.)
+   --------------------------------------------------------------------- */
+
+.input:focus {
+  box-shadow: 0 0 0 3px rgba(63, 124, 92, 0.15);
+}
+
+.chip-dot.attention {
+  background: var(--clay-tint);
+  border-color: rgba(63, 124, 92, 0.55);
+}
+
+/* =====================================================================
+   Dark mode — Sage & Stone (forest-cabin / pine-night)
+   ===================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ivory: #13140F;
+    --paper: #1B1D17;
+    --slate: #E8E8E0;
+    --oat:   #363932;
+
+    --clay:      #6FA585;          /* lifted sage for dark-bg legibility */
+    --clay-d:    #578D6E;
+    --clay-tint: rgba(111, 165, 133, 0.18);
+
+    --gray-100: #22241E;
+    --gray-200: #2A2C26;
+    --gray-300: #373A33;
+    --gray-500: #9A9A91;
+    --gray-700: #BFBFB6;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ivory: #13140F;
+  --paper: #1B1D17;
+  --slate: #E8E8E0;
+  --oat:   #363932;
+
+  --clay:      #6FA585;
+  --clay-d:    #578D6E;
+  --clay-tint: rgba(111, 165, 133, 0.18);
+
+  --gray-100: #22241E;
+  --gray-200: #2A2C26;
+  --gray-300: #373A33;
+  --gray-500: #9A9A91;
+  --gray-700: #BFBFB6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .input:focus {
+    box-shadow: 0 0 0 3px rgba(111, 165, 133, 0.25);
+  }
+  :root:not([data-theme="light"]) .chip-dot.attention {
+    border-color: rgba(111, 165, 133, 0.6);
+  }
+}
+:root[data-theme="dark"] .input:focus {
+  box-shadow: 0 0 0 3px rgba(111, 165, 133, 0.25);
+}
+:root[data-theme="dark"] .chip-dot.attention {
+  border-color: rgba(111, 165, 133, 0.6);
+}

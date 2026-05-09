@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Editor — swap & backup files
+*.swp
+*.swo
+*~
+.#*
+
+# Editor — workspace settings (personal, not project state)
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Local Claude Code overrides — project settings.json is shareable, the .local. variant isn't
+.claude/settings.local.json

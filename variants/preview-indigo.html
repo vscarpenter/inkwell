@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Indigo &amp; Cloud — Variant Preview</title>
+<link rel="stylesheet" href="tokens-indigo.css">
+<style>
+  /* preview-only layout — identical to preview.html */
+  .wrap-wide { padding-top: 64px; padding-bottom: 120px; }
+  section { margin-top: 56px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
+  .swatch { display: flex; flex-direction: column; gap: 6px; }
+  .swatch .chip { height: 64px; border-radius: var(--r-sm); border: var(--border); }
+  .swatch .hex { font: 12px var(--mono); color: var(--gray-700); }
+  .swatch .tok { font: 11px var(--mono); color: var(--gray-500); }
+  .row-stack > * + * { margin-top: 12px; }
+  .stage {
+    background: var(--paper); border: var(--border);
+    border-radius: var(--r-md); padding: 24px;
+    display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  }
+</style>
+</head>
+<body>
+<div class="wrap-wide">
+
+  <header style="border-bottom: var(--border); padding-bottom: 28px;">
+    <div class="eyebrow">Indigo &amp; Cloud Variant</div>
+    <h1 class="t-display" style="margin: 14px 0 8px; max-width: 18ch;">
+      Same system, <em class="accent">technical</em> accent
+    </h1>
+    <p class="t-body" style="color: var(--gray-700); max-width: 60ch; margin: 0;">
+      The biggest pivot — neutrals shift cooler and the accent goes saturated blue. Serif headings still
+      anchor the editorial discipline; the cool palette gives Linear/Stripe-adjacent confidence.
+    </p>
+  </header>
+
+  <!-- COLOR -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">01</span><h2>Color</h2>
+      <span class="count">12 tokens</span>
+    </div>
+    <div class="grid-3">
+      <div class="swatch"><div class="chip" style="background: var(--ivory)"></div><span class="hex">#F4F4F0</span><span class="tok">--ivory</span></div>
+      <div class="swatch"><div class="chip" style="background: var(--paper)"></div><span class="hex">#FFFFFF</span><span class="tok">--paper</span></div>
+      <div class="swatch"><div class="chip" style="background: var(--slate); border-color: transparent;"></div><span class="hex">#13141B</span><span class="tok">--slate</span></div>
+      <div class="swatch"><div class="chip" style="background: var(--clay); border-color: transparent;"></div><span class="hex">#3B4A8C</span><span class="tok">--clay (indigo)</span></div>
+      <div class="swatch"><div class="chip" style="background: var(--oat); border-color: transparent;"></div><span class="hex">#DDDCDF</span><span class="tok">--oat</span></div>
+      <div class="swatch"><div class="chip" style="background: var(--olive); border-color: transparent;"></div><span class="hex">#788C5D</span><span class="tok">--olive</span></div>
+      <div class="swatch"><div class="chip" style="background: var(--rust); border-color: transparent;"></div><span class="hex">#B04A3F</span><span class="tok">--rust</span></div>
+      <div class="swatch"><div class="chip" style="background: var(--warning); border-color: transparent;"></div><span class="hex">#C78E3F</span><span class="tok">--warning</span></div>
+      <div class="swatch"><div class="chip" style="background: var(--gray-100)"></div><span class="hex">#EDEDEA</span><span class="tok">--gray-100</span></div>
+      <div class="swatch"><div class="chip" style="background: var(--gray-300); border-color: transparent;"></div><span class="hex">#CFCFCC</span><span class="tok">--gray-300</span></div>
+      <div class="swatch"><div class="chip" style="background: var(--gray-500); border-color: transparent;"></div><span class="hex">#85858A</span><span class="tok">--gray-500</span></div>
+      <div class="swatch"><div class="chip" style="background: var(--gray-700); border-color: transparent;"></div><span class="hex">#3A3B41</span><span class="tok">--gray-700</span></div>
+    </div>
+  </section>
+
+  <!-- TYPE -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">02</span><h2>Typography</h2>
+      <span class="count">7 styles</span>
+    </div>
+    <div class="stage" style="flex-direction: column; align-items: stretch; gap: 18px;">
+      <div class="t-display">Plan the week ahead</div>
+      <div class="t-h1">Plan the week ahead</div>
+      <div class="t-h2">Plan the week ahead</div>
+      <div class="t-h3">Plan the week ahead</div>
+      <div class="t-body">Body copy at 16/1.55, sans, weight 430. Long-form prose lives here — captions, descriptions, paragraphs of explanation.</div>
+      <div class="t-small">Small at 14/1.5 — meta information, secondary copy.</div>
+      <div class="t-caption" style="text-transform: uppercase; letter-spacing: 0.05em;">Caption · updated 2 hours ago</div>
+      <div class="eyebrow">Eyebrow label</div>
+    </div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">03</span><h2>Buttons &amp; controls</h2>
+    </div>
+    <div class="stage">
+      <button class="btn btn-primary">Create task</button>
+      <button class="btn btn-secondary">Cancel</button>
+      <button class="btn btn-ghost">Skip</button>
+      <button class="btn btn-danger">Delete</button>
+    </div>
+    <div class="stage" style="margin-top: 14px;">
+      <input class="input" type="text" placeholder="Search tasks…">
+      <input class="input" type="text" value="Weekly planning">
+      <label class="checkbox"><input type="checkbox"> Notify assignees</label>
+      <label class="checkbox"><input type="checkbox" checked> Archive on complete</label>
+    </div>
+  </section>
+
+  <!-- BADGES & PILLS -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">04</span><h2>Badges, pills &amp; chips</h2>
+    </div>
+    <div class="stage">
+      <span class="badge badge-neutral">Draft</span>
+      <span class="badge badge-accent">In review</span>
+      <span class="badge badge-success">Done</span>
+      <span class="badge badge-warning">Overdue</span>
+      <span class="badge badge-danger">Failed</span>
+    </div>
+    <div class="stage" style="margin-top: 14px;">
+      <span class="pill sev">SEV-2</span>
+      <span class="pill resolved">Resolved</span>
+      <span class="pill neutral">Duration <span class="v">42m</span></span>
+    </div>
+    <div class="stage" style="margin-top: 14px;">
+      <span class="chip-dot safe"><span class="dot"></span>auth/session.ts</span>
+      <span class="chip-dot medium"><span class="dot"></span>queue/dispatch.ts</span>
+      <span class="chip-dot attention"><span class="dot"></span>migrations/0042.sql</span>
+    </div>
+  </section>
+
+  <!-- STAT CARDS -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">05</span><h2>Stat cards</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;">
+      <div class="stat-card">
+        <div class="stat-num">23</div>
+        <div class="stat-label">Shipped</div>
+        <div class="stat-delta up">▲ 4 vs last week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Open PRs</div>
+        <div class="stat-delta flat">— flat</div>
+      </div>
+      <div class="stat-card warn">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Slipped</div>
+        <div class="stat-delta down">▼ needs attention</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">98<span style="font-size: 22px;">%</span></div>
+        <div class="stat-label">Test coverage</div>
+        <div class="stat-delta up">▲ 1.2pp</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TL;DR -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">06</span><h2>Dark callout</h2>
+    </div>
+    <div class="tldr">
+      <div class="tldr-label">TL;DR</div>
+      <p>Elevated <code>502</code> errors on <code>/sync</code> for 27 minutes. Root cause: a stale connection pool after the deploy at 14:02 UTC. Mitigated by rolling restart; permanent fix tracked in <code>INC-2025-0412</code>.</p>
+    </div>
+  </section>
+
+  <!-- TABLE -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">07</span><h2>Table</h2>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>Item</th><th>Owner</th><th>Status</th><th>Due</th></tr></thead>
+      <tbody>
+        <tr><td>Revamp planner sidebar</td><td>Avery</td><td><span class="badge badge-success">Done</span></td><td><code>Mon</code></td></tr>
+        <tr><td>Migrate auth to OAuth2</td><td>Jordan</td><td><span class="badge badge-accent">In review</span></td><td><code>Wed</code></td></tr>
+        <tr><td>Rate-limit retries</td><td>Sam</td><td><span class="badge badge-warning">At risk</span></td><td><code>Fri</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- TIMELINE -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">08</span><h2>Timeline</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-entry">
+        <div style="font: 11px var(--mono); color: var(--gray-500);">14:02 UTC</div>
+        <div class="t-h3">Deploy of v3.4.1 lands</div>
+        <div class="t-small">Routine release of the planner refactor — no flags toggled.</div>
+      </div>
+      <div class="tl-entry">
+        <div style="font: 11px var(--mono); color: var(--gray-500);">14:09 UTC</div>
+        <div class="t-h3">First 502s observed</div>
+        <div class="t-small">Pager fires. Error rate climbs from baseline 0.01% to 4.2% within 90 seconds.</div>
+      </div>
+      <div class="tl-entry">
+        <div style="font: 11px var(--mono); color: var(--gray-500);">14:29 UTC</div>
+        <div class="t-h3">Mitigated</div>
+        <div class="t-small">Rolling restart applied; error rate returns to baseline within 4 minutes.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARD GRID -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">09</span><h2>Card grid (link cards)</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px;">
+      <a class="card is-link" href="#">
+        <div class="t-h3">Three code approaches</div>
+        <div class="t-small" style="margin: 6px 0 14px;">Side-by-side comparison of three ways to solve the same problem.</div>
+        <div style="font: 11px var(--mono); color: var(--gray-500); border-top: var(--border-hair); padding-top: 10px; display: flex; justify-content: space-between;">
+          <span>01-exploration.html</span><span>→</span>
+        </div>
+      </a>
+      <a class="card is-link" href="#">
+        <div class="t-h3">Visual design directions</div>
+        <div class="t-small" style="margin: 6px 0 14px;">A handful of layout and palette options rendered live.</div>
+        <div style="font: 11px var(--mono); color: var(--gray-500); border-top: var(--border-hair); padding-top: 10px; display: flex; justify-content: space-between;">
+          <span>02-visual.html</span><span>→</span>
+        </div>
+      </a>
+      <a class="card is-link" href="#">
+        <div class="t-h3">Implementation plan</div>
+        <div class="t-small" style="margin: 6px 0 14px;">Milestones on a timeline, data-flow diagram, risk table.</div>
+        <div style="font: 11px var(--mono); color: var(--gray-500); border-top: var(--border-hair); padding-top: 10px; display: flex; justify-content: space-between;">
+          <span>16-plan.html</span><span>→</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+<!-- Light/Dark/Auto toggle (Pattern B) -->
+<button id="theme-toggle" type="button"
+  aria-label="Cycle theme: auto, light, dark"
+  style="position: fixed; top: 14px; right: 14px; z-index: 50;
+         padding: 7px 12px; border-radius: 999px;
+         border: 1.5px solid var(--gray-300);
+         background: var(--paper); color: var(--gray-700);
+         font: 600 11px/1 var(--mono); letter-spacing: 0.08em;
+         text-transform: uppercase; cursor: pointer;
+         display: inline-flex; align-items: center; gap: 8px;
+         transition: border-color 0.12s, color 0.12s, background 0.12s;">
+  <span style="width: 8px; height: 8px; border-radius: 50%;
+               background: var(--clay); flex-shrink: 0;"></span>
+  <span id="theme-label">auto</span>
+</button>
+<script>
+  (function () {
+    const root = document.documentElement;
+    const btn = document.getElementById('theme-toggle');
+    const label = document.getElementById('theme-label');
+    const KEY = 'theme-preview';
+    const order = ['auto', 'light', 'dark'];
+    function apply(s) {
+      if (s === 'auto') root.removeAttribute('data-theme');
+      else root.setAttribute('data-theme', s);
+      label.textContent = s;
+    }
+    let current = localStorage.getItem(KEY) || 'auto';
+    if (!order.includes(current)) current = 'auto';
+    apply(current);
+    btn.addEventListener('click', () => {
+      current = order[(order.indexOf(current) + 1) % order.length];
+      localStorage.setItem(KEY, current);
+      apply(current);
+    });
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'set-theme' && order.includes(e.data.value)) {
+        current = e.data.value;
+        apply(current);
+      }
+    });
+  })();
+</script>
+
+</div>
+</body>
+</html>

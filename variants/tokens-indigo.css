@@ -1,0 +1,106 @@
+/* =====================================================================
+   Indigo & Cloud — variant of the warm editorial system.
+   The most aggressive pivot: cool neutrals + saturated indigo.
+   Vibe: trustworthy, technical, Linear/Stripe/Notion-adjacent.
+
+   Of the four palettes, this one breaks the "warm editorial paper"
+   read most fully — useful when the brand needs to feel modern-tech
+   instead of artisan-warm. The serif headings still anchor it as
+   editorial; the cool neutrals give it a digital/clinical edge.
+   ===================================================================== */
+
+@import url('tokens-clay.css');
+
+:root {
+  /* ----- Surfaces: shifted away from cream toward cool stone ----- */
+  --ivory:  #F4F4F0;   /* was #FAF9F5 — barely-warm cool stone */
+  --slate:  #13141B;   /* was #141413 — slight cool-blue undertone */
+  --oat:    #DDDCDF;   /* was #E3DACC — cool putty/dove (major shift) */
+
+  /* ----- Accent: clay coral → deep indigo ----- */
+  --clay:      #3B4A8C;            /* was #D97757 (Anthropic clay) */
+  --clay-d:    #2A3768;            /* was #B85C3E */
+  --clay-tint: rgba(59, 74, 140, 0.14);  /* on cool paper, reads as periwinkle */
+
+  /* ----- Neutral scale: cream → cool putty ----- */
+  --gray-100: #EDEDEA;   /* was #F0EEE6 — cool putty cream */
+  --gray-200: #E1E1DE;   /* was #E6E3DA */
+  --gray-300: #CFCFCC;   /* was #D1CFC5 — cool putty border */
+  --gray-500: #85858A;   /* was #87867F — cool taupe */
+  --gray-700: #3A3B41;   /* was #3D3D3A — cool dark */
+
+  /* Semantic colors KEPT — but note:
+     --info (#5C7CA3) is now adjacent in hue to the indigo accent.
+     If you adopt this variant, consider shifting info to a teal
+     (e.g. #3D8B8B) so it doesn't compete with the primary accent. */
+}
+
+/* ---------------------------------------------------------------------
+   Component overrides for the rgba() literals in tokens.css that
+   hardcoded the original clay color. Restated with indigo values.
+   --------------------------------------------------------------------- */
+
+.input:focus {
+  box-shadow: 0 0 0 3px rgba(59, 74, 140, 0.18);
+}
+
+.chip-dot.attention {
+  background: var(--clay-tint);
+  border-color: rgba(59, 74, 140, 0.5);
+}
+
+/* =====================================================================
+   Dark mode — Indigo & Cloud (code editor / terminal)
+   The most natural fit; cool palette already lives in dark-mode space.
+   ===================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ivory: #0F1018;
+    --paper: #181A24;
+    --slate: #E8E8EE;
+    --oat:   #2B2D38;
+
+    --clay:      #7A8AD1;          /* lifted indigo → periwinkle in dark */
+    --clay-d:    #6273C0;
+    --clay-tint: rgba(122, 138, 209, 0.18);
+
+    --gray-100: #1E1F29;
+    --gray-200: #262732;
+    --gray-300: #34363F;
+    --gray-500: #9A9AA0;
+    --gray-700: #C0C0C7;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ivory: #0F1018;
+  --paper: #181A24;
+  --slate: #E8E8EE;
+  --oat:   #2B2D38;
+
+  --clay:      #7A8AD1;
+  --clay-d:    #6273C0;
+  --clay-tint: rgba(122, 138, 209, 0.18);
+
+  --gray-100: #1E1F29;
+  --gray-200: #262732;
+  --gray-300: #34363F;
+  --gray-500: #9A9AA0;
+  --gray-700: #C0C0C7;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .input:focus {
+    box-shadow: 0 0 0 3px rgba(122, 138, 209, 0.28);
+  }
+  :root:not([data-theme="light"]) .chip-dot.attention {
+    border-color: rgba(122, 138, 209, 0.6);
+  }
+}
+:root[data-theme="dark"] .input:focus {
+  box-shadow: 0 0 0 3px rgba(122, 138, 209, 0.28);
+}
+:root[data-theme="dark"] .chip-dot.attention {
+  border-color: rgba(122, 138, 209, 0.6);
+}

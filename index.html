@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Project · starter</title>
+<link rel="stylesheet" href="inkwell.css">
+<style>
+  /* Page-specific layout. Keep tokens.css for the system; put per-page
+     adjustments here. Most projects only need ~30 lines of custom CSS. */
+
+  body { padding-bottom: 120px; }
+
+  /* Sticky compact navbar */
+  .navbar {
+    position: sticky; top: 0; z-index: var(--z-sticky);
+    background: var(--ivory);
+    border-bottom: var(--border-rule);
+  }
+  .navbar-inner {
+    max-width: var(--content-default);
+    margin: 0 auto;
+    padding: 14px var(--page-pad-x);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .brand {
+    font: 600 14px/1 var(--serif);
+    letter-spacing: -0.01em;
+    color: var(--slate);
+    text-decoration: none;
+  }
+  .brand .dot {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .navbar nav {
+    display: flex;
+    gap: 22px;
+    margin-left: auto;
+    font: 500 13px/1 var(--sans);
+  }
+  .navbar nav a {
+    color: var(--gray-700);
+    text-decoration: none;
+    transition: color var(--t-fast);
+  }
+  .navbar nav a:hover { color: var(--accent); }
+
+  /* Hero */
+  .hero { padding: 72px 0 48px; }
+  .hero h1 {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(36px, 5.4vw, 56px);
+    line-height: 1.06;
+    letter-spacing: -0.018em;
+    margin: 14px 0 16px;
+    max-width: 18ch;
+  }
+  .hero .lede {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--gray-700);
+    max-width: 60ch;
+    margin: 0 0 28px;
+  }
+  .hero .cta-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  /* Section spacing */
+  section { margin-top: 64px; }
+
+  /* Stat row */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  /* Card grid */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+    margin-top: 18px;
+  }
+  .card-foot {
+    font: 11px var(--mono);
+    color: var(--gray-500);
+    border-top: var(--border-hair);
+    padding-top: 10px;
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 96px;
+    padding-top: 28px;
+    border-top: var(--border-rule);
+    font-size: 13px;
+    color: var(--gray-500);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer .k {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--gray-700);
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Navbar ─────────────────────────────────────────── -->
+<header class="navbar">
+  <div class="navbar-inner">
+    <a class="brand" href="#"><span class="dot"></span>My Project</a>
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#work">Work</a>
+      <a href="#status">Status</a>
+    </nav>
+    <button id="theme-toggle" type="button"
+      aria-label="Cycle theme: auto, light, dark"
+      style="padding: 6px 11px; border-radius: 999px;
+             border: var(--border); background: var(--paper);
+             color: var(--gray-700);
+             font: 600 11px/1 var(--mono); letter-spacing: 0.08em;
+             text-transform: uppercase; cursor: pointer;
+             display: inline-flex; align-items: center; gap: 7px;">
+      <span style="width: 8px; height: 8px; border-radius: 50%;
+                   background: var(--accent); flex-shrink: 0;"></span>
+      <span id="theme-label">auto</span>
+    </button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ── Hero ────────────────────────────────────────── -->
+  <section class="hero" id="overview">
+    <div class="eyebrow">Welcome</div>
+    <h1>A new project, started with <em class="accent">good bones</em>.</h1>
+    <p class="lede">
+      This is a starter template. Replace the headline, point the navbar at real pages, fill in the
+      sections below — and you have a project that already feels considered. The design system in
+      <code>tokens.css</code> handles the rest.
+    </p>
+    <div class="cta-row">
+      <a href="#work" class="btn btn-primary" style="text-decoration: none;">Get started</a>
+      <a href="preview.html" class="btn btn-secondary" style="text-decoration: none;">View components</a>
+    </div>
+  </section>
+
+  <!-- ── Stat row (drop-in metrics, delete if you don't need them) ── -->
+  <section id="status">
+    <div class="sec-head">
+      <span class="idx">01</span><h2>This week</h2>
+      <span class="count">live data</span>
+    </div>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">128</div>
+        <div class="stat-label">Sessions</div>
+        <div class="stat-delta up">▲ 12% vs prev</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">42</div>
+        <div class="stat-label">Active users</div>
+        <div class="stat-delta up">▲ 3</div>
+      </div>
+      <div class="stat-card warn">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Open issues</div>
+        <div class="stat-delta down">▼ priority</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">99.8<span style="font-size: 22px;">%</span></div>
+        <div class="stat-label">Uptime</div>
+        <div class="stat-delta flat">— stable</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Card grid (your main content, often replaces this with something else) ── -->
+  <section id="work">
+    <div class="sec-head">
+      <span class="idx">02</span><h2>Work in progress</h2>
+      <span class="count">3 items</span>
+    </div>
+    <div class="card-grid">
+
+      <a class="card is-link" href="#">
+        <div class="t-h3">Plan the migration</div>
+        <p class="t-small" style="margin: 6px 0 0;">
+          Sketch the cutover sequence, identify the riskiest tables, decide on the rollback plan
+          before any code lands.
+        </p>
+        <div class="card-foot"><span>plan.md</span><span>→</span></div>
+      </a>
+
+      <a class="card is-link" href="#">
+        <div class="t-h3">Ship the new editor</div>
+        <p class="t-small" style="margin: 6px 0 0;">
+          Behind a feature flag for the design partners — collect feedback before the broader rollout.
+        </p>
+        <div class="card-foot"><span>editor/</span><span>→</span></div>
+      </a>
+
+      <a class="card is-link" href="#">
+        <div class="t-h3">Wire up observability</div>
+        <p class="t-small" style="margin: 6px 0 0;">
+          Trace IDs through the request path, add the SLO dashboard, wire alerts to oncall.
+        </p>
+        <div class="card-foot"><span>infra/</span><span>→</span></div>
+      </a>
+
+    </div>
+  </section>
+
+  <footer>
+    <span class="k">Built on Inkwell with the Indigo &amp; Cloud palette.</span>
+    <span>See <a class="link" href="DESIGN_SYSTEM.md">DESIGN_SYSTEM.md</a> for tokens, <a class="link" href="preview.html">preview.html</a> for components.</span>
+  </footer>
+
+</div>
+
+<!-- Light/Dark/Auto toggle — same pattern as preview.html, share localStorage key -->
+<script>
+  (function () {
+    const root = document.documentElement;
+    const btn = document.getElementById('theme-toggle');
+    const label = document.getElementById('theme-label');
+    const KEY = 'theme-preview';
+    const order = ['auto', 'light', 'dark'];
+    function apply(s) {
+      if (s === 'auto') root.removeAttribute('data-theme');
+      else root.setAttribute('data-theme', s);
+      label.textContent = s;
+    }
+    let current = localStorage.getItem(KEY) || 'auto';
+    if (!order.includes(current)) current = 'auto';
+    apply(current);
+    btn.addEventListener('click', () => {
+      current = order[(order.indexOf(current) + 1) % order.length];
+      localStorage.setItem(KEY, current);
+      apply(current);
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compare · Original / Sage / Burgundy / Indigo</title>
+<style>
+  /* Comparison shell — deliberately token-free so it doesn't inherit
+     from any of the variants. Iframes give each preview true visual
+     isolation: own :root, own fonts, no class collisions. */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    background: #1A1A18;
+    color: #F6F4EE;
+    overflow: hidden;
+  }
+
+  .layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .topbar {
+    flex: 0 0 auto;
+    padding: 12px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid #2C2C29;
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+  .topbar h1 {
+    margin: 0;
+    font: 600 14px/1 ui-sans-serif, system-ui;
+    letter-spacing: 0.01em;
+  }
+  .topbar .sep { color: #67645d; }
+  .topbar .toggles {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .topbar .toolbar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .topbar .toggle-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .topbar .topbar-label {
+    font: 600 10px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #87867F;
+  }
+  .topbar .toggle {
+    appearance: none;
+    background: #2C2C29;
+    color: #F6F4EE;
+    border: 1px solid transparent;
+    font: 600 11px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 6px 11px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s;
+  }
+  .topbar .toggle .swatch {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .topbar .toggle[aria-pressed="true"] {
+    background: #F6F4EE;
+    color: #1A1A18;
+  }
+  .topbar .toggle:hover { border-color: #67645d; }
+
+  .compare {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(380px, 1fr));
+    min-height: 0;
+    overflow-x: auto;
+  }
+  .compare[data-visible="3"] { grid-template-columns: repeat(3, minmax(420px, 1fr)); }
+  .compare[data-visible="2"] { grid-template-columns: repeat(2, minmax(420px, 1fr)); }
+  .compare[data-visible="1"] { grid-template-columns: 1fr; }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: #fff;
+  }
+  .panel + .panel { border-left: 1px solid #2C2C29; }
+  .panel[hidden] { display: none; }
+
+  .label {
+    flex: 0 0 auto;
+    padding: 10px 16px;
+    font: 600 11px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 1.5px solid currentColor;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .label .dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .label .name { font-weight: 600; }
+  .label .meta { font-weight: 500; opacity: 0.65; }
+
+  .panel.original .label { background: #FAF9F5; color: #141413; border-bottom-color: #D1CFC5; }
+  .panel.sage     .label { background: #F6F4EE; color: #181816; border-bottom-color: #CDCAC0; }
+  .panel.burgundy .label { background: #F8F5EF; color: #1B1614; border-bottom-color: #D2C9BA; }
+  .panel.indigo   .label { background: #F4F4F0; color: #13141B; border-bottom-color: #CFCFCC; }
+
+  iframe {
+    flex: 1 1 auto;
+    width: 100%;
+    border: 0;
+    background: inherit;
+  }
+
+  /* Stack vertically on narrow screens */
+  @media (max-width: 1100px) {
+    body { overflow: auto; }
+    .layout { height: auto; }
+    .compare,
+    .compare[data-visible="3"],
+    .compare[data-visible="2"],
+    .compare[data-visible="1"] {
+      grid-template-columns: 1fr;
+      overflow-x: visible;
+    }
+    .panel + .panel {
+      border-left: 0;
+      border-top: 1px solid #2C2C29;
+    }
+    iframe { height: 75vh; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <div class="topbar">
+    <h1>Side-by-side</h1>
+    <span class="sep">·</span>
+    <span>Same components, four palettes, light + dark</span>
+
+    <div class="toolbar-right">
+      <div class="toggle-group">
+        <span class="topbar-label">Theme</span>
+        <div class="toggles" role="group" aria-label="Theme">
+          <button class="toggle theme-btn" data-theme="auto" aria-pressed="true">Auto</button>
+          <button class="toggle theme-btn" data-theme="light">Light</button>
+          <button class="toggle theme-btn" data-theme="dark">Dark</button>
+        </div>
+      </div>
+      <div class="toggle-group">
+        <span class="topbar-label">Variant</span>
+        <div class="toggles" role="group" aria-label="Toggle variants">
+          <button class="toggle" data-target="original" aria-pressed="true">
+            <span class="swatch" style="background: #D97757"></span>Original
+          </button>
+          <button class="toggle" data-target="sage" aria-pressed="true">
+            <span class="swatch" style="background: #3F7C5C"></span>Sage
+          </button>
+          <button class="toggle" data-target="burgundy" aria-pressed="true">
+            <span class="swatch" style="background: #8B3A3A"></span>Burgundy
+          </button>
+          <button class="toggle" data-target="indigo" aria-pressed="true">
+            <span class="swatch" style="background: #3B4A8C"></span>Indigo
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="compare" data-visible="4">
+    <div class="panel original" data-name="original">
+      <div class="label">
+        <span class="dot" style="background: #D97757"></span>
+        <span class="name">Original</span>
+        <span class="meta">· clay · #D97757</span>
+      </div>
+      <iframe src="preview-clay.html" title="Original — clay accent" loading="lazy"></iframe>
+    </div>
+
+    <div class="panel sage" data-name="sage">
+      <div class="label">
+        <span class="dot" style="background: #3F7C5C"></span>
+        <span class="name">Sage &amp; Stone</span>
+        <span class="meta">· forest · #3F7C5C</span>
+      </div>
+      <iframe src="preview-sage.html" title="Sage & Stone variant" loading="lazy"></iframe>
+    </div>
+
+    <div class="panel burgundy" data-name="burgundy">
+      <div class="label">
+        <span class="dot" style="background: #8B3A3A"></span>
+        <span class="name">Burgundy &amp; Bone</span>
+        <span class="meta">· crimson · #8B3A3A</span>
+      </div>
+      <iframe src="preview-burgundy.html" title="Burgundy & Bone variant" loading="lazy"></iframe>
+    </div>
+
+    <div class="panel indigo" data-name="indigo">
+      <div class="label">
+        <span class="dot" style="background: #3B4A8C"></span>
+        <span class="name">Indigo &amp; Cloud</span>
+        <span class="meta">· navy · #3B4A8C</span>
+      </div>
+      <iframe src="preview-indigo.html" title="Indigo & Cloud variant" loading="lazy"></iframe>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // === Variant toggles (show/hide panels) ===
+  const compare = document.querySelector('.compare');
+  const variantToggles = document.querySelectorAll('.toggle[data-target]');
+
+  function applyVariantState() {
+    const visible = [];
+    variantToggles.forEach(btn => {
+      const name = btn.dataset.target;
+      const on = btn.getAttribute('aria-pressed') === 'true';
+      const panel = compare.querySelector(`.panel[data-name="${name}"]`);
+      if (panel) panel.hidden = !on;
+      if (on) visible.push(name);
+    });
+    compare.dataset.visible = String(Math.max(visible.length, 1));
+  }
+
+  variantToggles.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const pressed = btn.getAttribute('aria-pressed') === 'true';
+      const remaining = Array.from(variantToggles).filter(b => b.getAttribute('aria-pressed') === 'true').length;
+      if (pressed && remaining <= 1) return;
+      btn.setAttribute('aria-pressed', String(!pressed));
+      applyVariantState();
+    });
+  });
+
+  // === Theme toggles (broadcast to all iframes via postMessage) ===
+  // Iframes also have their own toggle button + localStorage; the parent
+  // postMessage simply overrides whatever each iframe currently shows.
+  let currentTheme = 'auto';
+  const themeButtons = document.querySelectorAll('.theme-btn');
+
+  function pushTheme(iframe) {
+    try {
+      iframe.contentWindow.postMessage({type: 'set-theme', value: currentTheme}, '*');
+    } catch (e) { /* iframe not yet loaded — load handler will retry */ }
+  }
+
+  function broadcastTheme() {
+    document.querySelectorAll('iframe').forEach(pushTheme);
+  }
+
+  // When lazy iframes finish loading, sync them to the current theme
+  document.querySelectorAll('iframe').forEach(f => {
+    f.addEventListener('load', () => pushTheme(f));
+  });
+
+  themeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentTheme = btn.dataset.theme;
+      themeButtons.forEach(b =>
+        b.setAttribute('aria-pressed', String(b.dataset.theme === currentTheme))
+      );
+      broadcastTheme();
+    });
+  });
+</script>
+
+</body>
+</html>
