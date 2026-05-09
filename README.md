@@ -6,7 +6,7 @@ Inkwell ships with the **Indigo & Cloud** palette — cool stone background, dee
 
 ## Live demo
 
-See it in use at **[vscarpenter.github.io/inkwell](https://vscarpenter.github.io/inkwell/)** — fourteen sample pages built entirely with the design system, including a [getting-started guide](https://vscarpenter.github.io/inkwell/docs.html), a [marketing landing page](https://vscarpenter.github.io/inkwell/landing.html), a [search results layout](https://vscarpenter.github.io/inkwell/search.html), a [changelog](https://vscarpenter.github.io/inkwell/changelog.html), product pages (dashboard, settings, profile, pricing, sign-in), editorial layouts, and a 404. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`.
+See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — fourteen sample pages built entirely with the design system, including a [getting-started guide](https://vscarpenter.github.io/inkwell/docs.html), a [marketing landing page](https://vscarpenter.github.io/inkwell/landing.html), a [search results layout](https://vscarpenter.github.io/inkwell/search.html), a [changelog](https://vscarpenter.github.io/inkwell/changelog.html), product pages (dashboard, settings, profile, pricing, sign-in), editorial layouts, and a 404. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`.
 
 ## Quick start
 
