@@ -183,6 +183,12 @@ To wire a manual toggle, set/remove the attribute on `<html>` from JS and persis
 | `.tldr` | Inverted callout — dark in light mode, light in dark mode |
 | `.code-block` | Multi-line `<pre><code>` panel with optional `.copy` button slot |
 | `.dialog` | Styling for native `<dialog>` (open via `dialog.showModal()`) with backdrop blur |
+| `.tabs` (+ `.tab` / `.tab-panel`) | Underline-style tab nav; consumer wires `aria-selected` / `[hidden]` |
+| `.tooltip` (with `[data-tooltip]`) | CSS-only tooltip bubble on hover/focus — pair with `aria-label` for SR |
+| `.breadcrumbs` | `<ol>` list with `/` separators; `aria-current="page"` for the leaf |
+| `.pagination` | Numbered page list with prev/next; `aria-current="page"` for the active page |
+| `.skeleton` (+ `.is-text` / `.is-title` / `.is-block` / `.is-circle`) | Shimmer placeholder; reduced-motion-safe |
+| `.empty-state` (+ `.empty-state-icon`) | Centered no-data panel with icon slot, headline, body, action |
 | `.pill` (+ sev / resolved / neutral) | Severity / status pill |
 | `.timeline` (+ `.tl-entry`) | Vertical event timeline |
 | `.chip-dot` (+ safe / medium / attention) | Mono label with colored status dot |

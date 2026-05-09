@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Changelog · Inkwell</title>
+  <link rel="stylesheet" href="inkwell.css">
+  <link rel="stylesheet" href="demo.css">
+  <style>
+    .release { padding: 24px 0 32px; border-bottom: var(--border-hair); }
+    .release:last-of-type { border-bottom: none; }
+    .release-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+    .ver { font: 500 14px/1 var(--mono); color: var(--accent); background: var(--accent-tint); padding: 5px 10px; border-radius: var(--r-sm); }
+    .release-date { font: 12px/1 var(--mono); color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; }
+    .release h2 { margin: 8px 0 14px; font: 500 22px/1.3 var(--serif); }
+    .change-block { margin-top: 14px; }
+    .change-label { font: 600 11px/1 var(--mono); color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+    .change-list { margin: 0; padding-left: 20px; line-height: 1.7; }
+    .change-list code { font-size: 0.85em; }
+  </style>
+</head>
+<body>
+  <main class="demo-shell">
+    <div class="wrap">
+      <nav class="demo-nav" aria-label="Sample pages">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+              <path d="M5 2.5h7v12H5z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7.2 5.4h2.8M7.2 8.3h3.6M7.2 11.2h2.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="t-h3">Inkwell</span>
+        </a>
+        <div class="nav-links">
+          <a class="btn btn-ghost" href="index.html">Overview</a>
+          <a class="btn btn-ghost" href="docs.html">Docs</a>
+          <a class="btn btn-ghost" href="changelog.html" aria-current="page">Changelog</a>
+        </div>
+        <div class="theme-toggle" aria-label="Theme">
+          <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+        </div>
+      </nav>
+
+      <ol class="breadcrumbs" style="margin-bottom: 24px;">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="docs.html">Docs</a></li>
+        <li aria-current="page">Changelog</li>
+      </ol>
+
+      <header style="margin-bottom: 32px;">
+        <span class="eyebrow">Release notes</span>
+        <h1 class="t-display" style="margin: 14px 0 12px;">Changelog</h1>
+        <p class="t-body" style="max-width: 60ch; margin: 0; color: var(--gray-700);">
+          Every change to the design system, in reverse chronological order. Following <a class="link" href="https://semver.org">semver</a>: minor bumps add components or tokens; patches refine existing ones; majors break the public API.
+        </p>
+      </header>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="ver">v1.2.0</span>
+          <span class="release-date">2026-05-09</span>
+          <span class="badge badge-accent">Latest</span>
+        </div>
+        <h2>Round out the missing components</h2>
+        <p style="margin: 0; color: var(--gray-700); max-width: 64ch;">Adds the second wave of Tier-1 components plus a tokens.json export for downstream tooling.</p>
+        <div class="change-block">
+          <div class="change-label">Added</div>
+          <ul class="change-list">
+            <li><code>.tabs</code>, <code>.tab</code>, <code>.tab-panel</code> — underline-style tab nav</li>
+            <li><code>.tooltip</code> with <code>[data-tooltip]</code> — CSS-only bubble on hover/focus</li>
+            <li><code>.breadcrumbs</code> — <code>&lt;ol&gt;</code> with <code>/</code> separators and <code>aria-current</code></li>
+            <li><code>.pagination</code> — numbered list with prev/next + active state</li>
+            <li><code>.skeleton</code> — shimmer placeholder with <code>.is-text</code> / <code>.is-title</code> / <code>.is-block</code> / <code>.is-circle</code></li>
+            <li><code>.empty-state</code> — centered no-data panel with icon slot</li>
+            <li><code>tokens.json</code> — machine-readable mirror for Figma / Tailwind / Style Dictionary</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Examples</div>
+          <ul class="change-list">
+            <li><a class="link" href="landing.html">Marketing landing</a> · <a class="link" href="search.html">Search results</a> · <a class="link" href="not-found.html">404</a></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="ver">v1.1.0</span>
+          <span class="release-date">2026-05-09</span>
+        </div>
+        <h2>Form patterns + accessibility fixes</h2>
+        <p style="margin: 0; color: var(--gray-700); max-width: 64ch;">First wave of missing components plus a contrast bump for muted body text.</p>
+        <div class="change-block">
+          <div class="change-label">Added</div>
+          <ul class="change-list">
+            <li><code>.field</code>, <code>.field-label</code>, <code>.field-help</code>, <code>.field-error</code> — vertical field-group wrapper</li>
+            <li><code>.input.is-error</code>, <code>:disabled</code> states on form controls</li>
+            <li><code>.textarea</code>, <code>.select</code> with theme-aware chevron</li>
+            <li><code>.radio</code>, <code>.switch</code> matching the existing <code>.checkbox</code> pattern</li>
+            <li><code>.alert</code> with <code>.is-info</code> / <code>.is-success</code> / <code>.is-warning</code> / <code>.is-danger</code></li>
+            <li><code>.code-block</code> for multi-line <code>&lt;pre&gt;&lt;code&gt;</code> with optional copy slot</li>
+            <li><code>.dialog</code> styling for native <code>&lt;dialog&gt;</code> with <code>::backdrop</code></li>
+            <li><code>kbd</code> chip for keyboard shortcuts</li>
+            <li><code>examples/forms.html</code> · <code>examples/docs.html</code> — new showcase pages</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Changed</div>
+          <ul class="change-list">
+            <li><code>--gray-500</code>: <code>#85858A</code> → <code>#6F6F75</code> in light mode (5.05:1 on <code>--paper</code>, clears WCAG AA 4.5:1 for body text). Dark mode unchanged at 6.4:1.</li>
+            <li><code>DESIGN_SYSTEM.md</code> — new Accessibility section documenting the deliberate sub-3:1 hairline border choice and contrast guarantees for new tokens.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Migration</div>
+          <p style="color: var(--gray-700); margin-bottom: 8px;">Replace stale documentation hex literals if you've forked an older copy:</p>
+          <div class="code-block">
+            <pre><code>- &lt;span class="hex"&gt;#85858A&lt;/span&gt;&lt;span class="tok"&gt;--gray-500&lt;/span&gt;
++ &lt;span class="hex"&gt;#6F6F75&lt;/span&gt;&lt;span class="tok"&gt;--gray-500&lt;/span&gt;</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="ver">v1.0.1</span>
+          <span class="release-date">2026-05-09</span>
+        </div>
+        <h2>GitHub Pages deploy</h2>
+        <div class="change-block">
+          <div class="change-label">Added</div>
+          <ul class="change-list">
+            <li>GitHub Actions workflow (<code>.github/workflows/pages.yml</code>) deploys <code>examples/</code> on push to <code>main</code></li>
+            <li>Workflow syncs canonical <code>tokens.css</code> + <code>inkwell.css</code> into <code>examples/</code> at deploy time so the live demo never drifts from source</li>
+            <li>Live demo link in README pointing to <a class="link" href="https://vscarpenter.github.io/inkwell/">vscarpenter.github.io/inkwell</a></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="ver">v1.0.0</span>
+          <span class="release-date">2026-05-09</span>
+          <span class="pill resolved">Initial release</span>
+        </div>
+        <h2>The first cut</h2>
+        <p style="margin: 0; color: var(--gray-700); max-width: 64ch;">The structural layer, the Indigo &amp; Cloud palette, ten core components, dark mode out of the box, and an opinionated design spec.</p>
+        <div class="change-block">
+          <div class="change-label">Includes</div>
+          <ul class="change-list">
+            <li><code>tokens.css</code> — color, typography, spacing, radius, border, shadow, motion, layout</li>
+            <li><code>inkwell.css</code> — brand-named alias re-exporting <code>tokens.css</code></li>
+            <li>Components: <code>.btn</code>, <code>.input</code>, <code>.checkbox</code>, <code>.badge</code>, <code>.card</code>, <code>.stat-card</code>, <code>.tbl</code>, <code>.tldr</code>, <code>.pill</code>, <code>.timeline</code>, <code>.chip-dot</code>, <code>.avatar</code>, <code>.toc</code>, <code>.sec-head</code>, <code>.eyebrow</code></li>
+            <li>Pattern B dark mode (auto + manual override on <code>&lt;html data-theme&gt;</code>)</li>
+            <li><code>DESIGN_SYSTEM.md</code> spec, <code>preview.html</code> showcase, <code>variants/</code> with three alternate palettes</li>
+          </ul>
+        </div>
+      </article>
+
+      <nav aria-label="Pagination" style="margin-top: 32px; display: flex; justify-content: center;">
+        <ol class="pagination">
+          <li><a aria-disabled="true" style="opacity: 0.5; pointer-events: none;">←</a></li>
+          <li><a aria-current="page" href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><span class="ellipsis">…</span></li>
+          <li><a href="#">12</a></li>
+          <li><a href="#">→</a></li>
+        </ol>
+      </nav>
+
+      <footer class="page-footer t-small" style="margin-top: 56px;">
+        Demonstrates: <code>.breadcrumbs</code>, <code>.pagination</code>, version pills, <code>.code-block</code> for migration diffs, native <code>&lt;article&gt;</code> + <code>&lt;ol&gt;</code> semantics throughout.
+      </footer>
+    </div>
+  </main>
+  <script src="demo.js"></script>
+</body>
+</html>
