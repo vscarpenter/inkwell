@@ -171,13 +171,18 @@ To wire a manual toggle, set/remove the attribute on `<html>` from JS and persis
 | Class | Purpose |
 |---|---|
 | `.btn` (+ `-primary` / `-secondary` / `-ghost` / `-danger`) | Buttons across all intents |
-| `.input` | Text inputs with accent focus halo |
-| `.checkbox` | Custom checkbox with accent fill |
+| `.input` / `.textarea` / `.select` (+ `.is-error` / `:disabled`) | Form controls with accent focus halo, rust error border, and muted disabled state |
+| `.field` (+ `.field-label` / `.field-help` / `.field-error`) | Vertical field group: label + control + helper or error text |
+| `.checkbox` / `.radio` / `.switch` | Selection controls with accent fill (checkbox/radio) and pill-track toggle (switch) |
+| `kbd` / `.kbd` | Keyboard-shortcut chip in mono with bottom-edge shadow line |
 | `.badge` (+ neutral / accent / success / warning / danger) | Pill-shaped status labels |
+| `.alert` (+ `.is-info` / `.is-success` / `.is-warning` / `.is-danger`) | Flat-tinted system message with title + body slot |
 | `.card` (+ `.is-link`) | Generic card; the `.is-link` variant adds the 3px hover-lift gesture |
 | `.stat-card` (+ `.warn`) | Big-number metric tile |
 | `.tbl` | Table with mono header labels and hairline row dividers |
 | `.tldr` | Inverted callout — dark in light mode, light in dark mode |
+| `.code-block` | Multi-line `<pre><code>` panel with optional `.copy` button slot |
+| `.dialog` | Styling for native `<dialog>` (open via `dialog.showModal()`) with backdrop blur |
 | `.pill` (+ sev / resolved / neutral) | Severity / status pill |
 | `.timeline` (+ `.tl-entry`) | Vertical event timeline |
 | `.chip-dot` (+ safe / medium / attention) | Mono label with colored status dot |
@@ -206,7 +211,22 @@ These will break the look — avoid them:
 
 ---
 
-## 5. Quick start
+## 5. Accessibility
+
+Inkwell ships with WCAG-conscious defaults. The notable choices:
+
+- **Body text contrast.** `--gray-700` (`#3A3B41`) on `--paper` reads at ~10.9:1 — well past AA. `--gray-500` (`#6F6F75`) on `--paper` reads at 5.05:1, on `--ivory` at 4.64:1 — both clear AA's 4.5:1 for normal text. (An earlier `#85858A` value sat at 3.44:1 on paper; if you fork an older snapshot, bump `--gray-500` to clear AA.)
+- **Focus rings are accent.** `*:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }` is global. The accent reads at 7.9:1 (light) and 5.2:1 (dark) on its respective surface — well past WCAG 1.4.11's 3:1 for non-text UI.
+- **The 1.5px hairline border is *deliberately* below WCAG 3:1.** `--gray-300` on `--paper` is ~1.57:1 in light mode and ~1.45:1 in dark. This is the system's letterpress-quiet signature — a stronger border would read as wireframe or Material. Visual separation is achieved through the *combination* of border, surface tone shift (`--paper` vs `--ivory`), and shadow. Use `--border-strong` (1.5px solid `--slate`) when a panel genuinely needs to stand off the page.
+- **Reduced motion is honored.** `@media (prefers-reduced-motion: reduce)` shortens all animations and transitions to ~0ms. The card hover lift, dialog pop, and switch knob slide all degrade gracefully.
+- **Color is never the only signal.** Status chips pair color with an explicit dot or label; alerts pair color with a serif title; form errors pair the `--rust` border with an explicit `.field-error` text node. Don't introduce a "danger" state that only changes a hue.
+- **Native semantics first.** `<dialog>` for modals (focus trap, ESC, `::backdrop` for free), real `<input type="checkbox">` and `<input type="radio">` for selection (preserving keyboard interaction), `<kbd>` for keyboard chips. The components style native elements rather than rebuilding them.
+
+If you extend the system, the rule is: any new colored token must clear 3:1 for non-text and 4.5:1 for normal text against the surface it ships on, *unless* it's pairing with another signal.
+
+---
+
+## 6. Quick start
 
 Drop `inkwell.css` and `tokens.css` into your project and link `inkwell.css` from `<head>`. The body inherits ivory background, slate text, sans body, and the active light/dark scheme automatically.
 
@@ -236,7 +256,7 @@ For a fuller starting point, copy `index.html` — it includes the navbar, layou
 
 ---
 
-## 6. Project structure
+## 7. Project structure
 
 ```
 design-system/

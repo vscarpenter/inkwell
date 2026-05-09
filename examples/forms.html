@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inkwell Form Patterns Sample</title>
+  <link rel="stylesheet" href="inkwell.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <main class="demo-shell">
+    <div class="wrap">
+      <nav class="demo-nav" aria-label="Sample pages">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+              <path d="M3 4.5h11M3 8.5h11M3 12.5h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="t-h3">Inkwell</span>
+        </a>
+        <div class="nav-links">
+          <a class="btn btn-ghost" href="index.html">Overview</a>
+          <a class="btn btn-ghost" href="forms.html" aria-current="page">Forms</a>
+          <a class="btn btn-ghost" href="dashboard.html">Dashboard</a>
+        </div>
+        <div class="theme-toggle" aria-label="Theme">
+          <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+        </div>
+      </nav>
+
+      <header>
+        <span class="eyebrow">Form patterns</span>
+        <h1 class="t-display">Inputs, feedback, dialogs</h1>
+        <p class="t-small">A working tour of the form-control, alert, dialog, code-block, and keyboard-chip components. Every control here is a token-driven Inkwell primitive.</p>
+      </header>
+
+      <section style="margin-top: 48px;">
+        <div class="sec-head"><span class="idx">01</span><h2>Input controls</h2><span class="count">5 controls</span></div>
+        <div class="card" style="display: grid; gap: 18px;">
+          <div class="field">
+            <label class="field-label" for="f-name">Workspace name</label>
+            <input class="input" id="f-name" type="text" placeholder="e.g. Acme Editorial" value="Acme Editorial">
+            <span class="field-help">Shown to teammates and on shared links.</span>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="f-slug">URL slug</label>
+            <input class="input is-error" id="f-slug" type="text" value="acme editorial">
+            <span class="field-error">Slugs cannot contain spaces. Try <code>acme-editorial</code>.</span>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="f-region">Default region</label>
+            <select class="select" id="f-region">
+              <option>North America (us-east-1)</option>
+              <option>Europe (eu-west-1)</option>
+              <option>Asia Pacific (ap-northeast-1)</option>
+            </select>
+            <span class="field-help">Used as the seed region for new projects.</span>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="f-bio">Description</label>
+            <textarea class="textarea" id="f-bio" placeholder="Tell teammates what this workspace is for."></textarea>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="f-archived">Archived snapshot</label>
+            <input class="input" id="f-archived" type="text" value="2025-04-12 weekly export" disabled>
+            <span class="field-help">Disabled fields use <code>--gray-100</code> background and <code>--gray-500</code> text.</span>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-top: 48px;">
+        <div class="sec-head"><span class="idx">02</span><h2>Selection controls</h2><span class="count">3 controls</span></div>
+        <div class="card" style="display: grid; gap: 18px;">
+          <div class="field">
+            <span class="field-label">Notifications</span>
+            <label class="checkbox"><input type="checkbox" checked> Weekly digest email</label>
+            <label class="checkbox"><input type="checkbox"> Comment mentions</label>
+            <label class="checkbox"><input type="checkbox" checked> Release announcements</label>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Default theme</span>
+            <label class="radio"><input type="radio" name="theme" checked> Match system</label>
+            <label class="radio"><input type="radio" name="theme"> Always light</label>
+            <label class="radio"><input type="radio" name="theme"> Always dark</label>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Workspace flags</span>
+            <label class="switch"><input type="checkbox" checked> Two-factor authentication required</label>
+            <label class="switch"><input type="checkbox"> Public profile page</label>
+            <label class="switch"><input type="checkbox" checked> Quiet hours respect timezone</label>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-top: 48px;">
+        <div class="sec-head"><span class="idx">03</span><h2>System messages</h2><span class="count">4 severities</span></div>
+        <div style="display: grid; gap: 12px;">
+          <div class="alert is-info">
+            <div>
+              <p class="alert-title">Heads up</p>
+              <p class="alert-body">Your workspace will move to the new billing model on the first of next month.</p>
+            </div>
+          </div>
+          <div class="alert is-success">
+            <div>
+              <p class="alert-title">Settings saved</p>
+              <p class="alert-body">Changes are live for everyone in this workspace.</p>
+            </div>
+          </div>
+          <div class="alert is-warning">
+            <div>
+              <p class="alert-title">Approaching plan limit</p>
+              <p class="alert-body">You've used 87% of your monthly seat allocation.</p>
+            </div>
+          </div>
+          <div class="alert is-danger">
+            <div>
+              <p class="alert-title">Sync failed</p>
+              <p class="alert-body">Last attempt at <code>14:02</code> returned a 502. We'll retry in 5 minutes.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-top: 48px;">
+        <div class="sec-head"><span class="idx">04</span><h2>Keyboard &amp; code</h2><span class="count">2 patterns</span></div>
+        <div class="card" style="display: grid; gap: 18px;">
+          <p class="t-small" style="margin: 0;">
+            Save with <kbd>⌘</kbd><kbd>S</kbd> · Open command palette with <kbd>⌘</kbd><kbd>K</kbd> · Toggle theme with <kbd>⌥</kbd><kbd>T</kbd>
+          </p>
+          <div class="code-block">
+            <button class="copy" type="button" onclick="navigator.clipboard?.writeText(this.nextElementSibling.innerText)">Copy</button>
+            <pre><code>const dialog = document.querySelector('#confirm');
+document.querySelector('#open').addEventListener('click', () =&gt; {
+  dialog.showModal();
+});</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-top: 48px;">
+        <div class="sec-head"><span class="idx">05</span><h2>Confirmation dialog</h2><span class="count">native &lt;dialog&gt;</span></div>
+        <div class="card" style="display: flex; gap: 12px; align-items: center;">
+          <p class="t-small" style="margin: 0; flex: 1;">Native HTML <code>&lt;dialog&gt;</code> with focus trap, ESC-to-close, and styled <code>::backdrop</code>. Zero JS beyond <code>showModal()</code>.</p>
+          <button class="btn btn-secondary" type="button" id="open-dialog">Open dialog</button>
+        </div>
+      </section>
+
+      <dialog class="dialog" id="confirm-dialog" aria-labelledby="confirm-title">
+        <div class="dialog-head">
+          <h2 id="confirm-title">Archive this workspace?</h2>
+          <button class="dialog-close" type="button" aria-label="Close" data-close>×</button>
+        </div>
+        <div class="dialog-body">
+          <p style="margin: 0 0 8px;">Members will lose access immediately. The data is retained for 30 days, then permanently deleted.</p>
+          <p class="t-small" style="margin: 0; color: var(--gray-700);">You can restore the workspace from the recovery dashboard within that window.</p>
+        </div>
+        <div class="dialog-foot">
+          <button class="btn btn-secondary" type="button" data-close>Cancel</button>
+          <button class="btn btn-danger" type="button" data-close>Archive workspace</button>
+        </div>
+      </dialog>
+
+      <footer class="page-footer t-small" style="margin-top: 56px;">
+        Built with <code>inkwell.css</code>. Components added in this revision: <code>.field</code>, <code>.input.is-error</code>, <code>.textarea</code>, <code>.select</code>, <code>.radio</code>, <code>.switch</code>, <code>kbd</code>, <code>.alert</code>, <code>.code-block</code>, <code>.dialog</code>.
+      </footer>
+    </div>
+  </main>
+  <script src="demo.js"></script>
+  <script>
+    const dlg = document.getElementById('confirm-dialog');
+    document.getElementById('open-dialog').addEventListener('click', () => dlg.showModal());
+    dlg.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => dlg.close()));
+  </script>
+</body>
+</html>
