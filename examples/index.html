@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inkwell Sample Pages</title>
+  <link rel="stylesheet" href="inkwell.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <main class="demo-shell">
+    <div class="wrap-wide">
+      <nav class="demo-nav" aria-label="Sample pages">
+        <a class="brand" href="index.html" aria-current="page">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+              <path d="M5 2.5h7v12H5z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7.2 5.4h2.8M7.2 8.3h3.6M7.2 11.2h2.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="t-h3">Inkwell</span>
+        </a>
+        <div class="nav-links">
+          <a class="btn btn-ghost" href="index.html" aria-current="page">Overview</a>
+          <a class="btn btn-ghost" href="dashboard.html">Dashboard</a>
+          <a class="btn btn-ghost" href="settings.html">Settings</a>
+        </div>
+        <div class="theme-toggle" aria-label="Theme">
+          <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+        </div>
+      </nav>
+
+      <section class="hero">
+        <div>
+          <span class="eyebrow">Design system sample</span>
+          <h1>Editorial product UI with tokenized polish.</h1>
+          <p class="hero-copy">These pages demonstrate the Inkwell CSS system: serif headings, cool neutral surfaces, indigo accents, 1.5px borders, compact components, and automatic dark mode.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="dashboard.html">View dashboard sample</a>
+            <a class="btn btn-secondary" href="settings.html">Open form sample</a>
+          </div>
+        </div>
+
+        <aside class="demo-panel" aria-label="Component preview">
+          <div class="demo-panel-head">
+            <span class="t-caption">SYSTEM HEALTH</span>
+            <span class="badge badge-success">Ready</span>
+          </div>
+          <div class="preview-stack">
+            <div class="metric-grid">
+              <div class="stat-card">
+                <div class="stat-num">42</div>
+                <div class="stat-label">Tokens</div>
+                <div class="stat-delta up">+8 refined</div>
+              </div>
+              <div class="stat-card warn">
+                <div class="stat-num">1.5</div>
+                <div class="stat-label">Border px</div>
+                <div class="stat-delta flat">signature</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num">2</div>
+                <div class="stat-label">Themes</div>
+                <div class="stat-delta up">auto switch</div>
+              </div>
+            </div>
+            <div class="tldr">
+              <div class="tldr-label">TL;DR</div>
+              Link <code>inkwell.css</code>, then compose pages with token-backed classes.
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" id="components">
+        <div class="sec-head">
+          <span class="idx">01</span>
+          <h2>Example pages</h2>
+          <span class="count">8 pages</span>
+        </div>
+        <div class="card-grid">
+          <a class="card is-link" href="dashboard.html">
+            <span class="badge badge-accent">Operations</span>
+            <h3 class="t-h3">Dashboard patterns</h3>
+            <p class="t-small">Stats, tables, status chips, timeline entries, and compact toolbar controls.</p>
+          </a>
+          <a class="card is-link" href="settings.html">
+            <span class="badge badge-neutral">Forms</span>
+            <h3 class="t-h3">Input patterns</h3>
+            <p class="t-small">Text inputs, checkboxes, destructive actions, saved-state labels, and field grouping.</p>
+          </a>
+          <a class="card is-link" href="article.html">
+            <span class="badge badge-accent">Editorial</span>
+            <h3 class="t-h3">Article layout</h3>
+            <p class="t-small">Long-form reading, table of contents chips, callouts, and section rhythm.</p>
+          </a>
+          <a class="card is-link" href="pricing.html">
+            <span class="badge badge-success">Commerce</span>
+            <h3 class="t-h3">Pricing page</h3>
+            <p class="t-small">Plan cards, feature lists, selected states, and primary purchase actions.</p>
+          </a>
+          <a class="card is-link" href="profile.html">
+            <span class="badge badge-neutral">People</span>
+            <h3 class="t-h3">Profile page</h3>
+            <p class="t-small">Identity header, status badges, activity table, and team metadata.</p>
+          </a>
+          <a class="card is-link" href="roadmap.html">
+            <span class="badge badge-warning">Planning</span>
+            <h3 class="t-h3">Roadmap page</h3>
+            <p class="t-small">Timeline entries, severity pills, progress chips, and milestone cards.</p>
+          </a>
+          <a class="card is-link" href="signin.html">
+            <span class="badge badge-accent">Auth</span>
+            <h3 class="t-h3">Sign-in page</h3>
+            <p class="t-small">Focused form layout with inputs, checkboxes, buttons, and support copy.</p>
+          </a>
+          <div class="card">
+            <span class="badge badge-warning">Tokens</span>
+            <h3 class="t-h3">Theme primitives</h3>
+            <p class="t-small">Palette, typography, spacing, radius, shadow, motion, and layout variables.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="sec-head">
+          <span class="idx">02</span>
+          <h2>Palette samples</h2>
+          <span class="count">8 swatches</span>
+        </div>
+        <div class="swatch-grid">
+          <div class="swatch bg-ivory"><strong>--ivory</strong><span>Page background</span></div>
+          <div class="swatch bg-paper"><strong>--paper</strong><span>Panel surface</span></div>
+          <div class="swatch bg-slate"><strong>--slate</strong><span>Primary text</span></div>
+          <div class="swatch bg-accent"><strong>--accent</strong><span>Primary action</span></div>
+          <div class="swatch bg-oat"><strong>--oat</strong><span>Hover surface</span></div>
+          <div class="swatch bg-success"><strong>--olive</strong><span>Success</span></div>
+          <div class="swatch bg-warning"><strong>--warning</strong><span>Warning</span></div>
+          <div class="swatch bg-danger"><strong>--rust</strong><span>Danger</span></div>
+        </div>
+      </section>
+
+      <footer class="page-footer t-small">Built with <code>inkwell.css</code>, <code>tokens.css</code>, and demo-only helpers in <code>demo.css</code>.</footer>
+    </div>
+  </main>
+  <script src="demo.js"></script>
+</body>
+</html>

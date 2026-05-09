@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inkwell Pricing Sample</title>
+  <link rel="stylesheet" href="inkwell.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <main class="demo-shell">
+    <div class="wrap-wide">
+      <nav class="demo-nav" aria-label="Sample pages">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+              <path d="M3 5.5h11v8H3z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M5.2 3.5h6.6v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="t-h3">Inkwell</span>
+        </a>
+        <div class="nav-links">
+          <a class="btn btn-ghost" href="index.html">Overview</a>
+          <a class="btn btn-ghost" href="dashboard.html">Dashboard</a>
+          <a class="btn btn-ghost" href="settings.html">Settings</a>
+        </div>
+        <div class="theme-toggle" aria-label="Theme">
+          <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+        </div>
+      </nav>
+
+      <header class="toolbar">
+        <div>
+          <span class="eyebrow">Pricing sample</span>
+          <h1 class="t-display">Plans for product teams.</h1>
+          <p class="t-small">Pricing cards demonstrate badges, feature rows, primary actions, and selected plan emphasis.</p>
+        </div>
+        <span class="badge badge-accent">Annual billing</span>
+      </header>
+
+      <section class="section card-grid" aria-label="Plans">
+        <article class="card pricing-card">
+          <span class="badge badge-neutral">Starter</span>
+          <div>
+            <div class="price">$19</div>
+            <p class="t-small">per editor, monthly</p>
+          </div>
+          <ul class="feature-list">
+            <li><span>3 workspaces</span><span class="pill neutral"><span class="v">OK</span></span></li>
+            <li><span>Basic audit log</span><span class="pill neutral"><span class="v">90d</span></span></li>
+            <li><span>Email support</span><span class="pill neutral"><span class="v">48h</span></span></li>
+          </ul>
+          <button class="btn btn-secondary" type="button">Choose Starter</button>
+        </article>
+
+        <article class="card pricing-card">
+          <span class="badge badge-accent">Recommended</span>
+          <div>
+            <div class="price">$49</div>
+            <p class="t-small">per editor, monthly</p>
+          </div>
+          <ul class="feature-list">
+            <li><span>Unlimited workspaces</span><span class="pill resolved">Included</span></li>
+            <li><span>Advanced audit log</span><span class="pill neutral"><span class="v">1y</span></span></li>
+            <li><span>Priority support</span><span class="pill resolved">Included</span></li>
+          </ul>
+          <button class="btn btn-primary" type="button">Choose Team</button>
+        </article>
+
+        <article class="card pricing-card">
+          <span class="badge badge-warning">Enterprise</span>
+          <div>
+            <div class="price">Custom</div>
+            <p class="t-small">for governed teams</p>
+          </div>
+          <ul class="feature-list">
+            <li><span>SSO and SCIM</span><span class="pill resolved">Included</span></li>
+            <li><span>Private deployment</span><span class="pill neutral"><span class="v">SLA</span></span></li>
+            <li><span>Design review</span><span class="pill resolved">Included</span></li>
+          </ul>
+          <button class="btn btn-secondary" type="button">Contact sales</button>
+        </article>
+      </section>
+
+      <footer class="page-footer t-small"><a class="link" href="index.html">Back to overview</a></footer>
+    </div>
+  </main>
+  <script src="demo.js"></script>
+</body>
+</html>

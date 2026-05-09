@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inkwell Dashboard Sample</title>
+  <link rel="stylesheet" href="inkwell.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <main class="demo-shell">
+    <div class="wrap-wide">
+      <nav class="demo-nav" aria-label="Sample pages">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+              <path d="M3 12.5h11M3 8.5h11M3 4.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="t-h3">Inkwell</span>
+        </a>
+        <div class="nav-links">
+          <a class="btn btn-ghost" href="index.html">Overview</a>
+          <a class="btn btn-ghost" href="dashboard.html" aria-current="page">Dashboard</a>
+          <a class="btn btn-ghost" href="settings.html">Settings</a>
+        </div>
+        <div class="theme-toggle" aria-label="Theme">
+          <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+        </div>
+      </nav>
+
+      <div class="toolbar">
+        <div>
+          <span class="eyebrow">Operations sample</span>
+          <h1 class="t-display">Release dashboard</h1>
+          <p class="t-small">A compact dashboard built from Inkwell cards, tables, badges, chips, and timeline components.</p>
+        </div>
+        <div class="button-row">
+          <button class="btn btn-secondary" type="button">Export</button>
+          <button class="btn btn-primary" type="button">Create report</button>
+        </div>
+      </div>
+
+      <section class="metric-grid" aria-label="Release metrics">
+        <div class="stat-card warn">
+          <div class="stat-num">98%</div>
+          <div class="stat-label">Deploy confidence</div>
+          <div class="stat-delta up">+4.2 from last run</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">17</div>
+          <div class="stat-label">Open checks</div>
+          <div class="stat-delta flat">stable</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Attention items</div>
+          <div class="stat-delta down">-2 today</div>
+        </div>
+      </section>
+
+      <section class="section split">
+        <div>
+          <div class="sec-head">
+            <span class="idx">01</span>
+            <h2>Review queue</h2>
+            <span class="count">5 rows</span>
+          </div>
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Owner</th>
+                <th>Status</th>
+                <th>Risk</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Billing event replay</td>
+                <td><span class="avatar">AK</span></td>
+                <td><span class="badge badge-success">Passed</span></td>
+                <td><span class="pill resolved">Resolved</span></td>
+              </tr>
+              <tr>
+                <td>Search index backfill</td>
+                <td><span class="avatar">MC</span></td>
+                <td><span class="badge badge-warning">Watch</span></td>
+                <td><span class="pill neutral"><span class="v">P2</span> Medium</span></td>
+              </tr>
+              <tr>
+                <td>Invite permission audit</td>
+                <td><span class="avatar">VN</span></td>
+                <td><span class="badge badge-accent">Review</span></td>
+                <td><span class="pill sev">P1</span></td>
+              </tr>
+              <tr>
+                <td>Mobile summary view</td>
+                <td><span class="avatar">LP</span></td>
+                <td><span class="badge badge-neutral">Queued</span></td>
+                <td><span class="pill neutral"><span class="v">P3</span> Low</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <aside class="card">
+          <div class="sec-head">
+            <span class="idx">02</span>
+            <h2>Activity</h2>
+          </div>
+          <div class="timeline">
+            <div class="tl-entry">
+              <strong>Security scan finished</strong>
+              <p class="t-small">No blocking findings in the current release candidate.</p>
+            </div>
+            <div class="tl-entry">
+              <strong>Data migration rehearsed</strong>
+              <p class="t-small">Runtime stayed below the agreed maintenance window.</p>
+            </div>
+            <div class="tl-entry">
+              <strong>Design QA requested</strong>
+              <p class="t-small">Mobile table density needs one final browser pass.</p>
+            </div>
+          </div>
+          <div class="chip-row">
+            <span class="chip-dot safe"><span class="dot"></span>api stable</span>
+            <span class="chip-dot attention"><span class="dot"></span>mobile qa</span>
+            <span class="chip-dot medium"><span class="dot"></span>docs</span>
+          </div>
+        </aside>
+      </section>
+
+      <footer class="page-footer t-small"><a class="link" href="index.html">Back to overview</a></footer>
+    </div>
+  </main>
+  <script src="demo.js"></script>
+</body>
+</html>

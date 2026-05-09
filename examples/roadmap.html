@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inkwell Roadmap Sample</title>
+  <link rel="stylesheet" href="inkwell.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <main class="demo-shell">
+    <div class="wrap-wide">
+      <nav class="demo-nav" aria-label="Sample pages">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+              <path d="M4 13.5V3.5M8.5 13.5V6M13 13.5V4.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M3 13.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="t-h3">Inkwell</span>
+        </a>
+        <div class="nav-links">
+          <a class="btn btn-ghost" href="index.html">Overview</a>
+          <a class="btn btn-ghost" href="dashboard.html">Dashboard</a>
+          <a class="btn btn-ghost" href="settings.html">Settings</a>
+        </div>
+        <div class="theme-toggle" aria-label="Theme">
+          <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+        </div>
+      </nav>
+
+      <header class="toolbar">
+        <div>
+          <span class="eyebrow">Roadmap sample</span>
+          <h1 class="t-display">Q3 delivery plan</h1>
+          <p class="t-small">Roadmap views combine Inkwell cards, timelines, severity pills, and progress chips.</p>
+        </div>
+        <button class="btn btn-primary" type="button">Add milestone</button>
+      </header>
+
+      <section class="section split">
+        <div class="roadmap-list">
+          <article class="card">
+            <span class="badge badge-accent">Now</span>
+            <h2 class="t-h2">Component audit</h2>
+            <p class="t-small">Review token usage across application surfaces and retire one-off CSS values.</p>
+            <div class="chip-row">
+              <span class="pill sev">P1</span>
+              <span class="chip-dot attention"><span class="dot"></span>in progress</span>
+            </div>
+          </article>
+          <article class="card">
+            <span class="badge badge-warning">Next</span>
+            <h2 class="t-h2">Theme presets</h2>
+            <p class="t-small">Package alternate palettes while preserving the same structural layer.</p>
+            <div class="chip-row">
+              <span class="pill neutral"><span class="v">P2</span> Medium</span>
+              <span class="chip-dot medium"><span class="dot"></span>planned</span>
+            </div>
+          </article>
+          <article class="card">
+            <span class="badge badge-success">Later</span>
+            <h2 class="t-h2">Usage gallery</h2>
+            <p class="t-small">Collect production examples and document approved composition patterns.</p>
+            <div class="chip-row">
+              <span class="pill resolved">Scoped</span>
+              <span class="chip-dot safe"><span class="dot"></span>ready</span>
+            </div>
+          </article>
+        </div>
+
+        <aside class="card">
+          <div class="sec-head">
+            <span class="idx">01</span>
+            <h2>Milestones</h2>
+          </div>
+          <div class="timeline">
+            <div class="tl-entry">
+              <strong>Token review</strong>
+              <p class="t-small">Confirm color, type, spacing, and dark-mode parity.</p>
+            </div>
+            <div class="tl-entry">
+              <strong>Example expansion</strong>
+              <p class="t-small">Add representative pages for common product workflows.</p>
+            </div>
+            <div class="tl-entry">
+              <strong>Release notes</strong>
+              <p class="t-small">Document breaking selectors and migration guidance.</p>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <footer class="page-footer t-small"><a class="link" href="index.html">Back to overview</a></footer>
+    </div>
+  </main>
+  <script src="demo.js"></script>
+</body>
+</html>

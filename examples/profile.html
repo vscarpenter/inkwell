@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inkwell Profile Sample</title>
+  <link rel="stylesheet" href="inkwell.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <main class="demo-shell">
+    <div class="wrap">
+      <nav class="demo-nav" aria-label="Sample pages">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+              <circle cx="8.5" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M3.5 14c.8-2.3 2.5-3.4 5-3.4s4.2 1.1 5 3.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="t-h3">Inkwell</span>
+        </a>
+        <div class="nav-links">
+          <a class="btn btn-ghost" href="index.html">Overview</a>
+          <a class="btn btn-ghost" href="dashboard.html">Dashboard</a>
+          <a class="btn btn-ghost" href="settings.html">Settings</a>
+        </div>
+        <div class="theme-toggle" aria-label="Theme">
+          <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+        </div>
+      </nav>
+
+      <section class="card">
+        <div class="profile-head">
+          <span class="avatar avatar-lg">VC</span>
+          <div>
+            <span class="eyebrow">Profile sample</span>
+            <h1 class="t-display">Vinny Carpenter</h1>
+            <div class="chip-row">
+              <span class="badge badge-success">Active</span>
+              <span class="badge badge-accent">Design systems</span>
+              <span class="badge badge-neutral">Owner</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section two-grid">
+        <article class="card">
+          <div class="sec-head">
+            <span class="idx">01</span>
+            <h2>Responsibilities</h2>
+          </div>
+          <ul class="feature-list">
+            <li><span>Component quality</span><span class="pill resolved">Lead</span></li>
+            <li><span>Release readiness</span><span class="pill neutral"><span class="v">P1</span></span></li>
+            <li><span>Documentation</span><span class="pill neutral"><span class="v">P2</span></span></li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="sec-head">
+            <span class="idx">02</span>
+            <h2>Signals</h2>
+          </div>
+          <div class="chip-row">
+            <span class="chip-dot safe"><span class="dot"></span>available</span>
+            <span class="chip-dot attention"><span class="dot"></span>review load</span>
+            <span class="chip-dot medium"><span class="dot"></span>docs queue</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="section">
+        <div class="sec-head">
+          <span class="idx">03</span>
+          <h2>Recent activity</h2>
+          <span class="count">3 rows</span>
+        </div>
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>Project</th>
+              <th>Change</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Inkwell</td>
+              <td>Reviewed palette contrast</td>
+              <td><span class="badge badge-success">Complete</span></td>
+            </tr>
+            <tr>
+              <td>Docs</td>
+              <td>Refined usage examples</td>
+              <td><span class="badge badge-accent">In review</span></td>
+            </tr>
+            <tr>
+              <td>Release</td>
+              <td>Prepared handoff notes</td>
+              <td><span class="badge badge-neutral">Queued</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <footer class="page-footer t-small"><a class="link" href="index.html">Back to overview</a></footer>
+    </div>
+  </main>
+  <script src="demo.js"></script>
+</body>
+</html>

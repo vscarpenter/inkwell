@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inkwell Article Sample</title>
+  <link rel="stylesheet" href="inkwell.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <main class="demo-shell">
+    <div class="wrap">
+      <nav class="demo-nav" aria-label="Sample pages">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+              <path d="M4 3h9v11H4z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="t-h3">Inkwell</span>
+        </a>
+        <div class="nav-links">
+          <a class="btn btn-ghost" href="index.html">Overview</a>
+          <a class="btn btn-ghost" href="dashboard.html">Dashboard</a>
+          <a class="btn btn-ghost" href="settings.html">Settings</a>
+        </div>
+        <div class="theme-toggle" aria-label="Theme">
+          <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+        </div>
+      </nav>
+
+      <header class="section">
+        <span class="eyebrow">Editorial sample</span>
+        <h1 class="t-display">Design notes for calm product interfaces.</h1>
+        <p class="hero-copy">This article layout uses Inkwell typography, link styling, compact navigation chips, and dark callouts for documentation or product essays.</p>
+      </header>
+
+      <section class="section article-layout">
+        <article class="article-body">
+          <div class="sec-head">
+            <span class="idx">01</span>
+            <h2>Principles</h2>
+          </div>
+          <p>Inkwell keeps the system quiet so content and workflow state carry the page. It favors editorial headings, understated surfaces, and a single accent color.</p>
+          <p>Use <code>--paper</code> for panels, <code>--ivory</code> for the page, and <code>--accent</code> only where users need a strong interaction cue.</p>
+          <div class="tldr">
+            <div class="tldr-label">Rule</div>
+            If a value exists in <code>tokens.css</code>, reference the token instead of hardcoding a matching color or spacing value.
+          </div>
+          <div class="sec-head">
+            <span class="idx">02</span>
+            <h2>Application</h2>
+          </div>
+          <p>Long-form pages should use narrow reading widths, generous section spacing, and links with the built-in <a class="link" href="DESIGN_SYSTEM.md">Inkwell underline style</a>.</p>
+        </article>
+
+        <aside class="card">
+          <h2 class="t-h3">Contents</h2>
+          <div class="toc" aria-label="Article sections">
+            <a href="#"><span class="n">01</span> Principles</a>
+            <a href="#"><span class="n">02</span> Application</a>
+            <a href="index.html"><span class="n">03</span> Samples</a>
+          </div>
+        </aside>
+      </section>
+
+      <footer class="page-footer t-small"><a class="link" href="index.html">Back to overview</a></footer>
+    </div>
+  </main>
+  <script src="demo.js"></script>
+</body>
+</html>

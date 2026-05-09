@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inkwell Settings Sample</title>
+  <link rel="stylesheet" href="inkwell.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <main class="demo-shell">
+    <div class="wrap">
+      <nav class="demo-nav" aria-label="Sample pages">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+              <path d="M8.5 2.5v12M2.5 8.5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </span>
+          <span class="t-h3">Inkwell</span>
+        </a>
+        <div class="nav-links">
+          <a class="btn btn-ghost" href="index.html">Overview</a>
+          <a class="btn btn-ghost" href="dashboard.html">Dashboard</a>
+          <a class="btn btn-ghost" href="settings.html" aria-current="page">Settings</a>
+        </div>
+        <div class="theme-toggle" aria-label="Theme">
+          <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+        </div>
+      </nav>
+
+      <header>
+        <span class="eyebrow">Form sample</span>
+        <h1 class="t-display">Workspace settings</h1>
+        <p class="t-small">A settings page showing form controls, badges, button variants, callouts, and destructive actions.</p>
+      </header>
+
+      <section class="section split">
+        <form class="card form-grid">
+          <div class="sec-head">
+            <span class="idx">01</span>
+            <h2>Profile</h2>
+            <span class="count">Saved</span>
+          </div>
+          <div class="field-row">
+            <div class="field field-grow">
+              <label for="workspace-name">Workspace name</label>
+              <input class="input" id="workspace-name" type="text" value="Inkwell Labs">
+            </div>
+            <div class="field field-grow">
+              <label for="owner-email">Owner email</label>
+              <input class="input" id="owner-email" type="email" value="team@example.com">
+            </div>
+          </div>
+          <div class="field">
+            <label for="release-channel">Release channel</label>
+            <input class="input" id="release-channel" type="text" value="Production">
+          </div>
+          <label class="checkbox">
+            <input type="checkbox" checked>
+            Require review before publishing changes
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" checked>
+            Send weekly release summary
+          </label>
+          <div class="button-row">
+            <button class="btn btn-primary" type="button">Save changes</button>
+            <button class="btn btn-secondary" type="reset">Reset</button>
+          </div>
+        </form>
+
+        <aside class="form-grid">
+          <div class="tldr">
+            <div class="tldr-label">Current plan</div>
+            Inkwell keeps application chrome understated so status, tables, and editorial headings remain easy to scan.
+          </div>
+
+          <div class="card">
+            <div class="sec-head">
+              <span class="idx">02</span>
+              <h2>Access</h2>
+            </div>
+            <div class="chip-row">
+              <span class="badge badge-success">SSO enabled</span>
+              <span class="badge badge-accent">12 members</span>
+              <span class="badge badge-neutral">3 guests</span>
+            </div>
+            <hr class="rule">
+            <div class="button-row">
+              <button class="btn btn-secondary" type="button">Invite member</button>
+              <button class="btn btn-ghost" type="button">View audit log</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="sec-head">
+              <span class="idx">03</span>
+              <h2>Danger zone</h2>
+            </div>
+            <p class="t-small">Use the danger button sparingly and pair it with clear confirmation UI in real workflows.</p>
+            <button class="btn btn-danger" type="button">Delete workspace</button>
+          </div>
+        </aside>
+      </section>
+
+      <footer class="page-footer t-small"><a class="link" href="index.html">Back to overview</a></footer>
+    </div>
+  </main>
+  <script src="demo.js"></script>
+</body>
+</html>
