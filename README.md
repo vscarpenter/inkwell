@@ -56,6 +56,10 @@ The repo contains two separately-evolved branches of the system. Don't mix them:
 
 Don't reference `--clay` from anything built on root `tokens.css`, and don't introduce `--accent` inside `variants/`. They're two universes.
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the design invariants, the two-universes rule, and how to verify changes without a test suite.
+
 ## License
 
 [MIT](LICENSE) © Vinny Carpenter
