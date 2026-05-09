@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Inkwell Sign-In Sample</title>
+  <meta name="robots" content="noindex,nofollow">
+  <title>Sign-in form pattern · Inkwell design sample</title>
   <link rel="stylesheet" href="inkwell.css">
   <link rel="stylesheet" href="demo.css">
 </head>
@@ -27,26 +28,33 @@
         </div>
       </nav>
 
+      <div class="alert is-warning" role="note" style="margin-bottom: 24px;">
+        <div>
+          <p class="alert-title">Design sample — not a real sign-in</p>
+          <p class="alert-body">This page demonstrates the <em>visual pattern</em> for an authentication form using the Inkwell component set. Nothing is sent anywhere. The fields don't validate, the button doesn't submit, and no account is created. Read the source on <a class="link" href="https://github.com/vscarpenter/inkwell">GitHub</a>.</p>
+        </div>
+      </div>
+
       <section class="card form-grid">
         <div>
-          <span class="eyebrow">Auth sample</span>
-          <h1 class="t-display">Sign in to Inkwell.</h1>
-          <p class="t-small">A compact authentication surface using only existing form, button, link, and badge styles.</p>
+          <span class="eyebrow">UI pattern · sample</span>
+          <h1 class="t-display">Sign-in form pattern</h1>
+          <p class="t-small">A compact authentication surface using only existing form, button, link, and badge styles. Static demo — no submission, no validation, no real auth.</p>
         </div>
         <div class="field">
           <label for="email">Email</label>
-          <input class="input" id="email" type="email" placeholder="you@example.com">
+          <input class="input" id="email" type="text" inputmode="email" placeholder="demo@example.com" autocomplete="off" readonly>
         </div>
         <div class="field">
-          <label for="password">Password</label>
-          <input class="input" id="password" type="password" placeholder="Password">
+          <label for="password">Passphrase (sample)</label>
+          <input class="input" id="password" type="text" placeholder="••••••••" autocomplete="off" readonly>
         </div>
         <label class="checkbox">
-          <input type="checkbox" checked>
-          Keep me signed in
+          <input type="checkbox" checked disabled>
+          Keep me signed in (demo)
         </label>
-        <button class="btn btn-primary" type="button">Continue</button>
-        <p class="t-small">Need access? <a class="link" href="settings.html">Request an invite</a>.</p>
+        <button class="btn btn-primary" type="button" aria-disabled="true">Continue (demo only)</button>
+        <p class="t-small">Want to see how this is built? <a class="link" href="docs.html">Read the docs</a>.</p>
       </section>
 
       <footer class="page-footer t-small"><a class="link" href="index.html">Back to all examples</a></footer>
