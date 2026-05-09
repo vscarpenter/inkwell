@@ -69,4 +69,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the design invariants, the two-univer
 
 ## License
 
-[MIT](LICENSE) © Vinny Carpenter
+[MIT](LICENSE) © [Vinny Carpenter](https://vinny.dev)
+
+---
+
+*Made with hairlines and serifs by [Vinny Carpenter](https://vinny.dev). The 1.5px is on purpose.*

@@ -284,3 +284,7 @@ design-system/
 ```
 
 If you ever want to swap palettes, the variant files in `variants/` show the pattern: a ~30-line CSS file overriding only the brand-layer tokens. The structural layer (everything below the `:root` block in `tokens.css`) doesn't need to change.
+
+---
+
+*Made with hairlines and serifs by [Vinny Carpenter](https://vinny.dev). The 1.5px is on purpose.*

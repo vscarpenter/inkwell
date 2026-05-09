@@ -60,3 +60,7 @@ If you've forked stale documentation that hard-codes `--gray-500: #85858A`, repl
 - `preview.html` — comprehensive component showcase.
 - `index.html` — starter template with navbar, hero, and three-state theme toggle.
 - `variants/` — three alternate palettes (clay, sage, burgundy) preserved for reference.
+
+---
+
+*Made with hairlines and serifs by [Vinny Carpenter](https://vinny.dev). The 1.5px is on purpose.*
