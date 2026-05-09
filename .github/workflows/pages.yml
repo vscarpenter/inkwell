@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'examples/**'
+      - 'tokens.css'
+      - 'inkwell.css'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -29,6 +31,9 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+
+      - name: Sync canonical CSS into examples/
+        run: cp tokens.css inkwell.css examples/
 
       - name: Upload examples/ as Pages artifact
         uses: actions/upload-pages-artifact@v3

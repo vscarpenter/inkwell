@@ -4,6 +4,10 @@ A pure-CSS design system for product UI, dashboards, and technical interfaces. D
 
 Inkwell ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, and a signature 1.5px hairline border. Three alternate palettes (clay, sage, burgundy) live in `variants/` for reference.
 
+## Live demo
+
+See it in use at **[vscarpenter.github.io/inkwell](https://vscarpenter.github.io/inkwell/)** — sample pages (dashboard, article, pricing, profile, settings, sign-in) built entirely with the design system. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`.
+
 ## Quick start
 
 Copy `tokens.css` and `inkwell.css` into your project and link them from your `<head>`:
