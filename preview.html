@@ -268,7 +268,258 @@
       <a href="#"><span class="n">08</span> Timeline</a>
       <a href="#"><span class="n">09</span> Card grid</a>
       <a href="#"><span class="n">10</span> Avatars</a>
+      <a href="#"><span class="n">12</span> Form fields</a>
+      <a href="#"><span class="n">13</span> Radio &amp; switch</a>
+      <a href="#"><span class="n">14</span> Keyboard chips</a>
+      <a href="#"><span class="n">15</span> Alerts</a>
+      <a href="#"><span class="n">16</span> Code block</a>
+      <a href="#"><span class="n">17</span> Dialog</a>
+      <a href="#"><span class="n">18</span> Tabs</a>
+      <a href="#"><span class="n">19</span> Tooltip</a>
+      <a href="#"><span class="n">20</span> Breadcrumbs</a>
+      <a href="#"><span class="n">21</span> Pagination</a>
+      <a href="#"><span class="n">22</span> Skeleton</a>
+      <a href="#"><span class="n">23</span> Empty state</a>
     </nav>
+  </section>
+
+  <!-- FORM FIELDS -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">12</span><h2>Form fields</h2>
+      <span class="count">.field · states · textarea · select</span>
+    </div>
+    <div class="stage" style="flex-direction: column; align-items: stretch; gap: 16px;">
+      <div class="field">
+        <label class="field-label" for="pv-name">Workspace name</label>
+        <input class="input" id="pv-name" type="text" value="Acme Editorial">
+        <span class="field-help">Shown to teammates and on shared links.</span>
+      </div>
+      <div class="field">
+        <label class="field-label" for="pv-slug">URL slug</label>
+        <input class="input is-error" id="pv-slug" type="text" value="acme editorial">
+        <span class="field-error">Slugs cannot contain spaces.</span>
+      </div>
+      <div class="field">
+        <label class="field-label" for="pv-region">Region</label>
+        <select class="select" id="pv-region">
+          <option>North America (us-east-1)</option>
+          <option>Europe (eu-west-1)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label" for="pv-bio">Description</label>
+        <textarea class="textarea" id="pv-bio" placeholder="Describe this workspace…"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label" for="pv-arch">Archived snapshot</label>
+        <input class="input" id="pv-arch" type="text" value="2025-04-12 weekly export" disabled>
+      </div>
+    </div>
+  </section>
+
+  <!-- RADIO & SWITCH -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">13</span><h2>Radio &amp; switch</h2>
+      <span class="count">.radio · .switch</span>
+    </div>
+    <div class="stage" style="flex-direction: column; align-items: stretch; gap: 14px;">
+      <div>
+        <label class="radio"><input type="radio" name="pv-theme" checked> Match system</label>
+        <label class="radio" style="margin-left: 14px;"><input type="radio" name="pv-theme"> Always light</label>
+        <label class="radio" style="margin-left: 14px;"><input type="radio" name="pv-theme"> Always dark</label>
+      </div>
+      <div>
+        <label class="switch"><input type="checkbox" checked> Two-factor required</label>
+        <label class="switch" style="margin-left: 14px;"><input type="checkbox"> Public profile</label>
+        <label class="switch" style="margin-left: 14px;"><input type="checkbox" checked> Quiet hours respect timezone</label>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEYBOARD CHIPS -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">14</span><h2>Keyboard chips</h2>
+      <span class="count">native &lt;kbd&gt;</span>
+    </div>
+    <div class="stage">
+      <span>Save with <kbd>⌘</kbd><kbd>S</kbd></span>
+      <span>Command palette <kbd>⌘</kbd><kbd>K</kbd></span>
+      <span>Toggle theme <kbd>⌥</kbd><kbd>T</kbd></span>
+      <span>Submit <kbd>Enter</kbd></span>
+    </div>
+  </section>
+
+  <!-- ALERTS -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">15</span><h2>Alerts</h2>
+      <span class="count">4 severities</span>
+    </div>
+    <div style="display: grid; gap: 12px;">
+      <div class="alert is-info"><div><p class="alert-title">Heads up</p><p class="alert-body">Your workspace will move to the new billing model on the first of next month.</p></div></div>
+      <div class="alert is-success"><div><p class="alert-title">Settings saved</p><p class="alert-body">Changes are live for everyone in this workspace.</p></div></div>
+      <div class="alert is-warning"><div><p class="alert-title">Approaching plan limit</p><p class="alert-body">You've used 87% of your monthly seat allocation.</p></div></div>
+      <div class="alert is-danger"><div><p class="alert-title">Sync failed</p><p class="alert-body">Last attempt at <code>14:02</code> returned a 502. Retrying in 5 minutes.</p></div></div>
+    </div>
+  </section>
+
+  <!-- CODE BLOCK -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">16</span><h2>Code block</h2>
+      <span class="count">multi-line &lt;pre&gt;&lt;code&gt;</span>
+    </div>
+    <div class="code-block">
+      <button class="copy" type="button" onclick="navigator.clipboard?.writeText(this.nextElementSibling.innerText)">Copy</button>
+      <pre><code>const dialog = document.querySelector('#confirm');
+document.querySelector('#open').addEventListener('click', () =&gt; {
+  dialog.showModal();
+});</code></pre>
+    </div>
+  </section>
+
+  <!-- DIALOG -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">17</span><h2>Dialog</h2>
+      <span class="count">native &lt;dialog&gt;</span>
+    </div>
+    <div class="stage">
+      <button class="btn btn-secondary" type="button" id="pv-open-dlg">Open dialog</button>
+      <span class="t-small" style="color: var(--gray-700);">Native focus trap, ESC-to-close, styled <code>::backdrop</code>.</span>
+    </div>
+    <dialog class="dialog" id="pv-dialog" aria-labelledby="pv-dlg-title">
+      <div class="dialog-head">
+        <h2 id="pv-dlg-title">Archive this workspace?</h2>
+        <button class="dialog-close" type="button" aria-label="Close" data-pv-close>×</button>
+      </div>
+      <div class="dialog-body">
+        <p style="margin: 0;">Members lose access immediately. The data is retained for 30 days, then permanently deleted.</p>
+      </div>
+      <div class="dialog-foot">
+        <button class="btn btn-secondary" type="button" data-pv-close>Cancel</button>
+        <button class="btn btn-danger" type="button" data-pv-close>Archive</button>
+      </div>
+    </dialog>
+  </section>
+
+  <!-- TABS -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">18</span><h2>Tabs</h2>
+      <span class="count">aria-selected · .is-active</span>
+    </div>
+    <div>
+      <div class="tabs" role="tablist" aria-label="Demo tabs">
+        <button class="tab" role="tab" aria-selected="true" type="button">Overview</button>
+        <button class="tab" role="tab" aria-selected="false" type="button">Members</button>
+        <button class="tab" role="tab" aria-selected="false" type="button">Billing</button>
+        <button class="tab" role="tab" aria-selected="false" type="button">Activity <span style="color: var(--gray-500); font: 11px var(--mono); margin-left: 6px;">12</span></button>
+      </div>
+      <div class="tab-panel">
+        <p class="t-small" style="margin: 0; color: var(--gray-700);">Tab panels are unstyled containers — show the panel matching the active tab and hide the rest with <code>[hidden]</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLTIP -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">19</span><h2>Tooltip</h2>
+      <span class="count">[data-tooltip]</span>
+    </div>
+    <div class="stage">
+      <button class="btn btn-secondary tooltip" data-tooltip="Toggles between auto / light / dark" type="button">Theme</button>
+      <button class="btn btn-ghost tooltip" data-tooltip="Save current draft" aria-label="Save" type="button">⌘S</button>
+      <span class="tooltip" data-tooltip="Status: stable">
+        <span class="chip-dot safe"><span class="dot"></span>auth/session.ts</span>
+      </span>
+    </div>
+    <p class="t-small" style="margin-top: 10px; color: var(--gray-500);">Hover or focus to reveal. Pair with <code>aria-label</code> for screen-reader users — the visual bubble is decorative.</p>
+  </section>
+
+  <!-- BREADCRUMBS -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">20</span><h2>Breadcrumbs</h2>
+      <span class="count">&lt;ol&gt; · aria-current</span>
+    </div>
+    <ol class="breadcrumbs">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Docs</a></li>
+      <li><a href="#">Components</a></li>
+      <li aria-current="page">Breadcrumbs</li>
+    </ol>
+  </section>
+
+  <!-- PAGINATION -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">21</span><h2>Pagination</h2>
+      <span class="count">aria-current="page"</span>
+    </div>
+    <ol class="pagination">
+      <li><a href="#" aria-label="Previous">←</a></li>
+      <li><a aria-current="page" href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><span class="ellipsis">…</span></li>
+      <li><a href="#">12</a></li>
+      <li><a href="#" aria-label="Next">→</a></li>
+    </ol>
+  </section>
+
+  <!-- SKELETON -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">22</span><h2>Skeleton</h2>
+      <span class="count">.is-text · .is-title · .is-block · .is-circle</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div class="card" aria-busy="true">
+        <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px;">
+          <span class="skeleton is-circle"></span>
+          <div style="flex: 1; display: grid; gap: 6px;">
+            <span class="skeleton is-title" style="width: 60%;"></span>
+            <span class="skeleton is-text" style="width: 35%;"></span>
+          </div>
+        </div>
+        <span class="skeleton is-text" style="width: 100%;"></span>
+        <span class="skeleton is-text" style="width: 92%;"></span>
+        <span class="skeleton is-text" style="width: 70%;"></span>
+      </div>
+      <div class="card" aria-busy="true">
+        <span class="skeleton is-block" style="margin-bottom: 12px;"></span>
+        <span class="skeleton is-title" style="width: 75%;"></span>
+        <span class="skeleton is-text" style="width: 60%;"></span>
+      </div>
+    </div>
+    <p class="t-small" style="margin-top: 10px; color: var(--gray-500);">Animation respects <code>prefers-reduced-motion</code>; the gradient lives between <code>--gray-100</code> and <code>--gray-200</code> so it stays warm in dark mode.</p>
+  </section>
+
+  <!-- EMPTY STATE -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">23</span><h2>Empty state</h2>
+      <span class="count">icon · headline · body · action</span>
+    </div>
+    <div class="card" style="padding: 0;">
+      <div class="empty-state">
+        <div class="empty-state-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M14.5 14.5L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>No results found</h3>
+        <p>Try a broader query, or remove a filter. Searches match component names, token names, documentation headings, and inline code.</p>
+        <button class="btn btn-secondary" type="button">Clear filters</button>
+      </div>
+    </div>
   </section>
 
 </div>
@@ -308,6 +559,10 @@
       localStorage.setItem(KEY, current);
       apply(current);
     });
+
+    const dlg = document.getElementById('pv-dialog');
+    document.getElementById('pv-open-dlg')?.addEventListener('click', () => dlg.showModal());
+    dlg?.querySelectorAll('[data-pv-close]').forEach(b => b.addEventListener('click', () => dlg.close()));
   })();
 </script>
 </body>

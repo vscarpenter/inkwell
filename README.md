@@ -6,7 +6,7 @@ Inkwell ships with the **Indigo & Cloud** palette — cool stone background, dee
 
 ## Live demo
 
-See it in use at **[vscarpenter.github.io/inkwell](https://vscarpenter.github.io/inkwell/)** — sample pages (dashboard, article, pricing, profile, settings, sign-in) built entirely with the design system. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`.
+See it in use at **[vscarpenter.github.io/inkwell](https://vscarpenter.github.io/inkwell/)** — fourteen sample pages built entirely with the design system, including a [getting-started guide](https://vscarpenter.github.io/inkwell/docs.html), a [marketing landing page](https://vscarpenter.github.io/inkwell/landing.html), a [search results layout](https://vscarpenter.github.io/inkwell/search.html), a [changelog](https://vscarpenter.github.io/inkwell/changelog.html), product pages (dashboard, settings, profile, pricing, sign-in), editorial layouts, and a 404. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`.
 
 ## Quick start
 
@@ -34,8 +34,11 @@ open variants/compare.html   # side-by-side of all four palettes
 
 - **`tokens.css`** — the canonical token layer plus all component CSS. Self-contained.
 - **`inkwell.css`** — brand-named alias that imports `tokens.css`.
+- **`tokens.json`** — machine-readable mirror of the token layer for Figma plugins, Tailwind configs, and Style Dictionary. Regenerate when `tokens.css` changes.
 - **`index.html`** — minimal starter (navbar, hero, theme toggle).
 - **`preview.html`** — every component, every state.
+- **`examples/`** — fourteen real-feeling pages (dashboard, docs, landing, search, changelog, forms, 404, etc.) built only from the design system. Also the deployed live demo.
+- **`CHANGELOG.md`** — release history following Keep-a-Changelog conventions.
 - **`variants/`** — legacy palette branch (clay base + burgundy / indigo / sage overrides). See note below.
 - **`DESIGN_SYSTEM.md`** — the canonical spec. Token tables, component list, dark-mode cascade, anti-patterns. Read this before extending the system.
 - **`CLAUDE.md`** — guidance for AI-assisted edits.
