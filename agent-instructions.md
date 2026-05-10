@@ -3,7 +3,7 @@
 You are an AI coding agent (Claude Code, Codex, Cursor, etc.) and the user has asked you to use the **Inkwell** design system in their project. This file is your single source of truth for installing it correctly and using it without breaking its visual identity.
 
 - **Repo:** https://github.com/vscarpenter/inkwell
-- **Live demo:** https://vscarpenter.github.io/inkwell/
+- **Live demo:** https://inkwell.vinny.dev/
 - **License:** MIT
 
 Read this file end-to-end before writing any HTML or CSS. The "Hard rules" and "Anti-patterns" sections are non-negotiable — Inkwell has a deliberate, opinionated look and breaking these rules will produce something that does not look like Inkwell.

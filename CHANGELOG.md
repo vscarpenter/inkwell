@@ -46,7 +46,7 @@ If you've forked stale documentation that hard-codes `--gray-500: #85858A`, repl
 ### Added
 - GitHub Actions workflow (`.github/workflows/pages.yml`) deploys `examples/` to GitHub Pages on push to `main`.
 - The workflow syncs canonical `tokens.css` and `inkwell.css` into `examples/` at deploy time so the live demo never drifts from source.
-- Live demo link in README pointing to [vscarpenter.github.io/inkwell](https://vscarpenter.github.io/inkwell/).
+- Live demo link in README pointing to [inkwell.vinny.dev](https://inkwell.vinny.dev/).
 
 ## [1.0.0] — 2026-05-09
 
