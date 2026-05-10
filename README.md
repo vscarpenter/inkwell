@@ -20,6 +20,16 @@ Copy `tokens.css` and `inkwell.css` into your project and link them from your `<
 
 To enable theme toggling (auto / light / dark), lift the `<head>` script block from `index.html` verbatim. It writes `data-theme` on `<html>` before paint to avoid a flash.
 
+## Using with an AI coding agent
+
+Point Claude Code, Codex, Cursor, or any other LLM coding tool at [`agent-instructions.md`](agent-instructions.md) — a self-contained brief that walks the agent through fetching the two CSS files, the hard rules (1.5px borders, one accent, tokens-not-literals), the two-universes warning, and the anti-patterns before it writes any markup.
+
+```
+https://raw.githubusercontent.com/vscarpenter/inkwell/main/agent-instructions.md
+```
+
+Suggested prompt: *"Read the file at the URL above and use the Inkwell design system in this project."*
+
 ## Preview
 
 Open any of the HTML files directly in a browser — there's nothing to compile:
@@ -41,7 +51,8 @@ open variants/compare.html   # side-by-side of all four palettes
 - **`CHANGELOG.md`** — release history following Keep-a-Changelog conventions.
 - **`variants/`** — legacy palette branch (clay base + burgundy / indigo / sage overrides). See note below.
 - **`DESIGN_SYSTEM.md`** — the canonical spec. Token tables, component list, dark-mode cascade, anti-patterns. Read this before extending the system.
-- **`CLAUDE.md`** — guidance for AI-assisted edits.
+- **`agent-instructions.md`** — self-contained brief for LLM coding agents (Claude Code, Codex, Cursor) to fetch via raw URL and apply the system without breaking its identity.
+- **`CLAUDE.md`** — guidance for AI-assisted edits to this repo itself.
 
 ## Design principles
 
