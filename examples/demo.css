@@ -296,6 +296,21 @@
   color: var(--gray-500);
 }
 
+.footer-links {
+  margin: var(--sp-3) 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  font-family: var(--mono);
+  font-size: var(--t-caption);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.footer-links .sep {
+  color: var(--gray-300);
+}
+
 @media (max-width: 860px) {
   .demo-nav,
   .hero,
