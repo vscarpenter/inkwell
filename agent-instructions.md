@@ -20,14 +20,18 @@ Inkwell ships with the **Indigo & Cloud** palette: cool stone background (`--ivo
 
 ## 2. Install — fetch these files
 
-Download the two canonical CSS files into the user's project. Use raw GitHub URLs:
+### Default path — pure CSS (no Tailwind)
+
+Download four canonical CSS files into the user's project. Use raw GitHub URLs:
 
 | File | Raw URL | Where to put it |
 |---|---|---|
 | `tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/tokens.css` | Project static/CSS folder |
 | `inkwell.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell.css` | Same folder as `tokens.css` |
+| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell-tokens.css` | Same folder |
+| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell-components.css` | Same folder |
 
-`inkwell.css` is a one-line `@import url('tokens.css')` — both files must live side-by-side. Link `inkwell.css` from your `<head>`:
+All four files must live side-by-side. `inkwell.css` `@import`s `tokens.css`, which `@import`s `inkwell-tokens.css` + `inkwell-components.css`. Link `inkwell.css` from your `<head>`:
 
 ```html
 <link rel="stylesheet" href="/path/to/inkwell.css">
@@ -35,25 +39,61 @@ Download the two canonical CSS files into the user's project. Use raw GitHub URL
 
 That is the entire install. Do not run `npm install`, do not add a bundler step, do not create a PostCSS config.
 
+### Tailwind v4 path — drop-in theme
+
+If the user's project uses **Tailwind v4 (October 2024 or later)**, fetch the Tailwind files and import the theme from the user's existing Tailwind entry CSS:
+
+| File | Raw URL |
+|---|---|
+| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell-tokens.css` |
+| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell-components.css` |
+| `inkwell-theme.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell-theme.css` |
+
+The Tailwind path uses three Inkwell files. Keep `inkwell-tokens.css`, `inkwell-components.css`, and `inkwell-theme.css` side by side, then add `@import "tailwindcss"; @import "./inkwell-theme.css";` to the user's Tailwind entry CSS. That gives you Inkwell tokens as Tailwind utilities (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-hair`), Inkwell components in `@layer components`, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle. You do not need `tokens.css` or `inkwell.css` unless you also want the pure-CSS shim for non-Tailwind consumers.
+
+Then add two lines to the user's Tailwind entry CSS (typically `app.css`, `globals.css`, or whatever their build points at), in this order:
+
+```css
+@import "tailwindcss";
+@import "./inkwell-theme.css";
+```
+
+That activates: every Inkwell token as a Tailwind utility (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-hair`), Inkwell component classes (`.btn`, `.card`, …) inside `@layer components` so utilities can override them, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle.
+
+**Tailwind v3 is not supported.** v3 requires a JS preset. If the user is on v3, recommend upgrading to v4 or installing Inkwell via the default path without Tailwind utility coverage.
+
+Full Tailwind setup guide and conventions: [`TAILWIND.md`](TAILWIND.md) in the repo. Read it before writing Tailwind+Inkwell markup.
+
 ### Optional companion files (fetch only if asked)
 
 | File | When to fetch |
 |---|---|
-| `tokens.json` | User wants tokens for Tailwind / Style Dictionary / Figma plugin |
+| `inkwell-tokens.css` | User is on **Tailwind v4** (see §2 above) |
+| `inkwell-components.css` | User is on **Tailwind v4** (see §2 above) |
+| `inkwell-theme.css` | User is on **Tailwind v4** (see §2 above) |
+| `tokens.json` | User wants tokens for Style Dictionary or a Figma plugin |
 | `index.html` | User wants a starter template with navbar + theme toggle |
 | `preview.html` | User wants the full component showcase page |
+| `examples/tailwind.html` | User wants a live Tailwind v4 + Inkwell integration demo |
 | `examples/*.html` | User wants a specific page pattern (dashboard, docs, landing, search, pricing, settings, profile, auth, 404, changelog, roadmap, article, forms) |
 | `DESIGN_SYSTEM.md` | You need the canonical spec (token tables, component list, anti-patterns) |
+| `TAILWIND.md` | User is integrating with Tailwind v4 — read this in full before writing markup |
 
 **Do not** copy files from `variants/` unless the user explicitly asks for the legacy clay/sage/burgundy palettes. See §6 for why.
 
 ### Suggested fetch commands
 
 ```bash
-# Two-file minimum install
+# Default install (pure CSS, no Tailwind) — four files
 mkdir -p public/css
-curl -sSLo public/css/tokens.css  https://raw.githubusercontent.com/vscarpenter/inkwell/main/tokens.css
-curl -sSLo public/css/inkwell.css https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell.css
+BASE=https://raw.githubusercontent.com/vscarpenter/inkwell/main
+curl -sSLo public/css/tokens.css            $BASE/tokens.css
+curl -sSLo public/css/inkwell.css           $BASE/inkwell.css
+curl -sSLo public/css/inkwell-tokens.css    $BASE/inkwell-tokens.css
+curl -sSLo public/css/inkwell-components.css $BASE/inkwell-components.css
+
+# Tailwind v4 install — add the theme entry on top of the four above
+curl -sSLo public/css/inkwell-theme.css     $BASE/inkwell-theme.css
 ```
 
 Adjust the destination path to match the user's project layout (e.g. `static/`, `assets/`, `app/styles/`, etc.). If unsure, ask once or pick the conventional location for the framework in use.
@@ -294,7 +334,8 @@ When applying Inkwell to an existing application, preserve the app's routing, da
 4. Replace local color, border, font, radius, shadow, and spacing literals with Inkwell tokens in app CSS.
 5. Keep app-specific layout CSS thin and token-driven. Use existing components and props; only change markup/classes where needed for styling.
 6. Remove or neutralize old global styles that fight Inkwell's body background, typography, focus rings, or component classes.
-7. If the app already uses Tailwind, CSS modules, CSS-in-JS, or a component library, integrate Inkwell at the edge: global tokens and classes first, then targeted component updates. Do not introduce a second styling architecture just for this migration.
+7. **If the app already uses Tailwind v4:** install via the Tailwind path in §2. Add `@import "tailwindcss"; @import "./inkwell-theme.css";` to the existing entry CSS. Inkwell components live in `@layer components` so existing Tailwind utilities still override component padding/margins. Read [`TAILWIND.md`](TAILWIND.md) for the components-vs-utilities rule and the `border-hair` convention. Do NOT also load `inkwell.css` or `tokens.css` in the Tailwind entry CSS — `inkwell-theme.css` already brings in the source split.
+8. If the app already uses Tailwind v3, CSS modules, CSS-in-JS, or another component library, integrate Inkwell at the edge: global tokens and classes first, then targeted component updates. Do not introduce a second styling architecture just for this migration.
 
 ---
 
@@ -326,8 +367,8 @@ Always available in the repo:
 ## 13. Things you should NOT do
 
 - Do not run `npm install inkwell` or any package-manager equivalent. There is no package.
-- Do not add a build step (Vite, Webpack, PostCSS, Tailwind) just to use Inkwell. Existing build tooling in the host app is fine; do not create new tooling for the two CSS files.
-- Do not modify `tokens.css` or `inkwell.css` in the user's project. If they need a custom token value, override it in their own stylesheet that loads *after* `inkwell.css`.
+- Do not add a build step (Vite, Webpack, PostCSS, Tailwind) just to use Inkwell. Existing build tooling in the host app is fine; do not create new tooling for the CSS files. The one exception: if the user is already on Tailwind v4, the Tailwind path in §2 is a first-class supported integration — install `inkwell-theme.css` into their existing build.
+- Do not modify `tokens.css`, `inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`, or `inkwell-theme.css` in the user's project. If they need a custom token value, override it in their own stylesheet that loads *after* Inkwell.
 - Do not invent new component classes that conflict with `tokens.css` (`.btn`, `.card`, etc.). Extend with modifier classes instead.
 - Do not introduce a CSS-in-JS layer, styled-components, or a UI framework on top. Inkwell is the framework.
 - Do not paste this file's content inline into the user's project. It is for *you* to read; reference it via URL if the user wants a copy.

@@ -1,313 +1,202 @@
-# TAILWIND.md — planning artifact
+# Inkwell × Tailwind v4
 
-**Status:** PLANNING. Nothing in this document has been implemented. No files have been added to the repo, no consumer-facing API has been committed to. This is a design brief intended to be read, edited, and converted into a real PR.
+Inkwell ships as **pure CSS first**. If you're not using Tailwind, ignore this file — link [`inkwell.css`](inkwell.css) from your `<head>` and you're done.
 
-**Author:** Drafted with Claude Code on 2026-05-09. Revisit before writing code.
+If you're on **Tailwind v4 (October 2024 or later)**, Inkwell drops in as a theme. Inkwell's tokens become Tailwind utilities (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `rounded-md`, `text-display`, `max-w-default`), the components keep working (`.btn`, `.card`, `.alert`, …), and the `dark:` variant honors Inkwell's `[data-theme]` toggle exactly the way the rest of Inkwell does. No `tailwind.config.js`. No JavaScript preset.
 
-**Decision needed:** Whether to ship a Tailwind integration for Inkwell, and if so, at what level of ambition (§3).
-
----
-
-## 1. The question
-
-Inkwell is a pure-CSS token system today. Tailwind is the dominant utility-first CSS framework. A non-trivial fraction of designers and developers default to Tailwind for any new project — without a Tailwind path, they will either port Inkwell's tokens manually (lossy, error-prone) or skip Inkwell entirely.
-
-This doc lays out **what a Tailwind-compliant Inkwell would look like, what it would cost, and what tradeoffs we'd be accepting.** It does not yet recommend shipping it — that's the open decision.
+> **Tailwind v3 is not supported.** v3 requires a JS preset, which breaks Inkwell's no-build pitch. v4 shipped CSS-first config; that's the supported integration. If you're on v3, either upgrade to v4 or skip the Tailwind layer and use Inkwell directly via `inkwell.css`.
 
 ---
 
-## 2. The core insight
+## Install
 
-Tailwind 4 (October 2024) shifted to a **CSS-first config model** — themes are defined via `@theme { --color-accent: ...; }` blocks in CSS, not via `tailwind.config.js`. This collapses ~80% of the conceptual gap between Inkwell and Tailwind.
+The Tailwind path uses three Inkwell files:
 
-> **Inkwell is already 95% of the way to being a Tailwind 4 theme.** The work is mostly aliasing variable names from Inkwell's namespace (`--accent`, `--ivory`, `--r-md`) into Tailwind's expected namespace (`--color-accent`, `--color-ivory`, `--radius-md`). We're not duplicating values; we're pointing Tailwind at Inkwell's CSS variables and letting them resolve at use time.
+| File | Purpose |
+|---|---|
+| [`inkwell-tokens.css`](inkwell-tokens.css) | `:root` custom properties + Pattern B dark cascade. The brand layer. |
+| [`inkwell-components.css`](inkwell-components.css) | `.btn`, `.card`, `.alert`, base reset, type styles, layout helpers, a11y. |
+| [`inkwell-theme.css`](inkwell-theme.css) | The Tailwind v4 entry: imports the two above, declares `@theme` aliases, and the dark variant. **This is the only Inkwell file you import from your Tailwind entry CSS.** |
 
-That last point is load-bearing. If we **alias** rather than **duplicate**, then the dark-mode cascade, palette swaps, and the two-universes rule (see `CLAUDE.md`) all extend automatically. Change `--accent` in `tokens.css`, and every Tailwind utility (`bg-accent`, `border-accent`, `ring-accent`) updates everywhere with no rebuild required.
+If you also want the pure-CSS shim for non-Tailwind consumers, keep [`tokens.css`](tokens.css) and [`inkwell.css`](inkwell.css) beside those three files. Tailwind itself does not need them.
 
-Tailwind 3, which is still widely deployed, requires a JS preset (`tailwind.preset.js`) — more verbose but the same idea: theme keys point at `var(--accent)` instead of literal hex.
-
----
-
-## 3. Three levels of "compliance" — pick one
-
-| Level | What a Tailwind user gets | Inkwell maintenance cost |
-|---|---|---|
-| **A. Tokens-only** | `bg-ivory`, `text-slate`, `border-accent`, `font-serif`, `rounded-md`. They build buttons and cards from utilities, the way Tailwind users naturally do. | One file (`inkwell-theme.css`). Lowest. |
-| **B. Tokens + components in `@layer components`** | Above, plus `.btn`, `.card`, `.tldr`, `.stat-card`, etc. work as-is. Utilities can override or extend component styles. | Two files; minor refactor of `tokens.css` to split tokens from components. Medium. |
-| **C. Full preset/plugin + npm package** | Above, plus Tailwind-flavored Inkwell utilities (`border-hair`, `shadow-letterpress`, `ring-accent-focus`), published as `tailwindcss-inkwell` on npm. | Real OSS surface — versioning, semver discipline, plugin code, breaking-change hygiene. High. |
-
-**Recommendation: B.** It's the sweet spot. Tailwind users keep their utility-first muscle memory for layout but get Inkwell's component identity (1.5px borders, lifted dark accents, serif headings) without having to recompose those signatures by hand. C is a follow-up if there's outside demand.
-
-A bare-tokens shipment (A) loses too much of Inkwell — the 1.5px border is encoded *in* the components, not as a standalone utility. A Tailwind user who only gets tokens will reach for `border` (1px) and the system's signature collapses on first use.
-
----
-
-## 4. The clean mapping — Tailwind 4
-
-What `inkwell-theme.css` would look like (sketch — not committed code):
-
-```css
-/* inkwell-theme.css — load AFTER @import "tailwindcss"; */
-@import "./tokens.css";   /* Inkwell tokens + components + dark cascade */
-
-@theme {
-  /* Surface & text */
-  --color-ivory: var(--ivory);
-  --color-paper: var(--paper);
-  --color-slate: var(--slate);
-
-  /* Grays */
-  --color-gray-100: var(--gray-100);
-  --color-gray-200: var(--gray-200);
-  --color-gray-300: var(--gray-300);
-  --color-gray-500: var(--gray-500);
-  --color-gray-700: var(--gray-700);
-
-  /* Accent family — alpha tints exposed as full tokens */
-  --color-accent:        var(--accent);
-  --color-accent-d:      var(--accent-d);
-  --color-accent-tint:   var(--accent-tint);
-  --color-accent-focus:  var(--accent-focus-ring);
-
-  /* Semantic */
-  --color-olive:      var(--olive);
-  --color-olive-tint: var(--olive-tint);
-  --color-rust:       var(--rust);
-  --color-sky:        var(--sky);
-
-  /* Type */
-  --font-serif: var(--serif);
-  --font-sans:  var(--sans);
-  --font-mono:  var(--mono);
-
-  --text-display: var(--t-display);
-  --text-h1:      var(--t-h1);
-  --text-h2:      var(--t-h2);
-  --text-h3:      var(--t-h3);
-  --text-body:    var(--t-body);
-  --text-small:   var(--t-small);
-  --text-caption: var(--t-caption);
-  --text-eyebrow: var(--t-eyebrow);
-
-  /* Radii */
-  --radius-xs:   var(--r-xs);
-  --radius-sm:   var(--r-sm);
-  --radius-md:   var(--r-md);
-  --radius-lg:   var(--r-lg);
-  --radius-xl:   var(--r-xl);
-  --radius-full: var(--r-pill);
-
-  /* The signature 1.5px border, exposed as a named width — see §5a */
-  --border-width-hair: 1.5px;
-
-  /* Container max-widths */
-  --container-narrow:  820px;
-  --container-default: 920px;
-  --container-wide:   1120px;
-}
-```
-
-**What we deliberately do NOT map:**
-
-- **Spacing scale.** Inkwell's `--sp-1..8` (4, 8, 12, 16, 24, 32, 48, 64) already aligns with Tailwind's default `1, 2, 3, 4, 6, 8, 12, 16` × 4px scale. Mapping would only create confusion.
-- **Z-index tiers.** Inkwell's `--z-base/raised/sticky/overlay/modal` exist for component authoring inside `tokens.css`. Tailwind's standard `z-*` utilities serve consumers fine.
-- **Transitions.** Tailwind's `duration-*` utilities are already token-flavored. Inkwell's `--t-fast/base/slow` stay as internal component values.
-
----
-
-## 5. The hard parts — where we have to make calls
-
-### 5a. The 1.5px signature border
-
-Tailwind's default `border` utility is 1px. Three options:
-
-1. **Override the default**: `--default-border-width: 1.5px`. Every `border` utility in the project becomes 1.5px. Risky — surprises Tailwind devs who reach for `border` expecting 1px on a non-Inkwell element.
-2. **Add a named width only**: `--border-width-hair: 1.5px` → users opt in with `border-hair`. Safe but requires education.
-3. **Both**: override default AND add `border-hair` for explicitness in code.
-
-**Recommendation: 2 (named only).** Don't redefine what `border` means globally — that's a footgun for any third-party Tailwind component that depends on a literal 1px. Document `border-hair` as the canonical Inkwell border class everywhere.
-
-### 5b. Dark mode — the dual `prefers-color-scheme` + `[data-theme]` cascade
-
-Inkwell does both automatic-via-media-query AND manual-override-via-attribute. Tailwind 3 historically supported `darkMode: 'class'` OR `'media'` but not both at once. Tailwind 4 fixes this with custom variants:
-
-```css
-@custom-variant dark {
-  /* Manual override wins */
-  &:where([data-theme="dark"], [data-theme="dark"] *) { @slot; }
-  /* Fall back to OS preference unless explicitly set to light */
-  @media (prefers-color-scheme: dark) {
-    &:where(:not([data-theme="light"], [data-theme="light"] *)) { @slot; }
-  }
-}
-```
-
-This is **the single most important detail to get right.** If we don't ship this custom variant, Tailwind users will reach for `dark:` and find it doesn't honor the manual toggle that lives at the bottom of `index.html`. They'll file it as an Inkwell bug.
-
-For Tailwind 3 the equivalent is uglier (a multi-selector `darkMode` array in the JS preset). Verify exact syntax against Tailwind 3.4+ docs before shipping.
-
-### 5c. Alpha-channel tokens
-
-Inkwell's specific alphas (0.14, 0.18, 0.5) don't sit on Tailwind's `/10`, `/20`, `/30` opacity scale. Don't try to fake them with `bg-accent/14` — the design intent is "this specific value, named", not "an arbitrary opacity of accent."
-
-**Decision: expose them as full color tokens.** `--color-accent-tint`, `--color-accent-focus`. Users get `bg-accent-tint`, `ring-accent-focus`. Cleaner, preserves intent, and avoids users guessing at percentages.
-
-### 5d. Components and `@layer components`
-
-Tailwind's cascade order is `base → components → utilities`. If Inkwell's component CSS ships in `@layer components`, then `<button class="btn px-8">` does the right thing — Inkwell's `.btn` base styles apply, but Tailwind's `px-8` utility overrides padding because utilities have higher cascade priority.
-
-This requires a small refactor of `tokens.css`:
-
-```
-tokens.css            → split into:
-inkwell-tokens.css      (variables + dark cascade only)
-inkwell-components.css  (.btn, .card, .alert, etc.)
-```
-
-The original `tokens.css` becomes a `@import` of both for backward compat — non-Tailwind consumers see no change.
-
-In the Tailwind entry CSS:
+Then, in your Tailwind entry CSS — typically `app.css`, `globals.css`, or whatever your build pipeline points at:
 
 ```css
 @import "tailwindcss";
-@import "./inkwell-tokens.css";
-@layer components { @import "./inkwell-components.css"; }
+@import "./inkwell-theme.css";
 ```
 
-### 5e. The two universes
+That's the install. **Order matters**: Tailwind must come first so the `@theme` aliases in `inkwell-theme.css` can extend it. That gives you Inkwell tokens as Tailwind utilities (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-hair`), Inkwell components in `@layer components`, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle.
 
-The Tailwind preset must explicitly target the **root `--accent` universe**. The legacy `variants/` palettes (clay/sage/burgundy) are NOT Tailwind-compatible — they use `--clay` instead of `--accent`, so `bg-accent` would resolve to nothing. Document this loudly. If someone wants a clay-flavored Tailwind+Inkwell, they should override Inkwell's variables in their own CSS, not import from `variants/`.
+### Live example
+
+Open [`examples/tailwind.html`](examples/tailwind.html) — it uses the in-browser Tailwind v4 compiler so it works without a toolchain, and demonstrates every integration point on one page. The file's footer documents the small inline-vs-imported difference between the demo and a real build.
 
 ---
 
-## 6. Tailwind 3 path
+## What you get
 
-Still widely deployed; cannot ignore. Ship a separate `inkwell.tailwind-preset.js`:
+Inkwell's tokens are aliased into Tailwind's namespace, so all of these utility classes are generated for you:
 
-```js
-module.exports = {
-  darkMode: ['variant', [
-    '&:is([data-theme="dark"] *)',
-    '@media (prefers-color-scheme: dark) { &:not([data-theme="light"] *) }',
-  ]],
-  theme: {
-    extend: {
-      colors: {
-        ivory: 'var(--ivory)',
-        paper: 'var(--paper)',
-        slate: 'var(--slate)',
-        accent: {
-          DEFAULT: 'var(--accent)',
-          dark:    'var(--accent-d)',
-          tint:    'var(--accent-tint)',
-          focus:   'var(--accent-focus-ring)',
-        },
-        olive: 'var(--olive)',
-        rust:  'var(--rust)',
-        sky:   'var(--sky)',
-        gray: {
-          100: 'var(--gray-100)',
-          200: 'var(--gray-200)',
-          300: 'var(--gray-300)',
-          500: 'var(--gray-500)',
-          700: 'var(--gray-700)',
-        },
-      },
-      fontFamily: {
-        serif: 'var(--serif)',
-        sans:  'var(--sans)',
-        mono:  'var(--mono)',
-      },
-      fontSize: {
-        display:  'var(--t-display)',
-        h1:       'var(--t-h1)',
-        h2:       'var(--t-h2)',
-        h3:       'var(--t-h3)',
-        body:     'var(--t-body)',
-        small:    'var(--t-small)',
-        caption:  'var(--t-caption)',
-        eyebrow:  'var(--t-eyebrow)',
-      },
-      borderRadius: {
-        xs:  'var(--r-xs)',
-        sm:  'var(--r-sm)',
-        md:  'var(--r-md)',
-        lg:  'var(--r-lg)',
-        xl:  'var(--r-xl)',
-      },
-      borderWidth: { hair: '1.5px' },
-      maxWidth: {
-        narrow:  '820px',
-        default: '920px',
-        wide:    '1120px',
-      },
-    },
-  },
-};
+**Surfaces & text** — `bg-ivory`, `bg-paper`, `bg-slate`, `bg-oat`, `text-slate`, `text-ivory`, `text-paper`
+
+**Neutrals** — `bg-gray-{100,200,300,500,700}`, `text-gray-*`, `border-gray-*`
+
+**Accent family** — `bg-accent`, `bg-accent-d` (hover), `bg-accent-tint`, `ring-accent-focus`, `border-accent-strong-border`, plus all the `text-*` and `border-*` variants. Alpha tints stay as named tokens, not Tailwind's `/N` opacity scale, so the specific 0.14 / 0.18 values used throughout Inkwell are preserved.
+
+**Semantic** — `bg-olive`, `bg-olive-tint`, `bg-rust`, `bg-rust-d`, `bg-rust-tint`, `bg-rust-tint-border`, `bg-warning`, `bg-warning-dark`, `bg-warning-tint`, `bg-info`, `bg-sky`
+
+**Type** — `font-serif`, `font-sans`, `font-mono`, plus `text-display`, `text-h1`, `text-h2`, `text-h3`, `text-body`, `text-small`, `text-caption`, `text-eyebrow`
+
+**Radii** — `rounded-xs`, `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl`, `rounded-full`
+
+**The 1.5px border signature** — `border-hair` (see the next section)
+
+**Containers** — `max-w-narrow` (820px), `max-w-default` (920px), `max-w-wide` (1120px)
+
+You also get every component class from `inkwell-components.css`: `.btn`, `.btn-primary`, `.card`, `.alert`, `.tldr`, `.stat-card`, `.tbl`, `.eyebrow`, and so on. They sit inside `@layer components`, so Tailwind utilities override them when they collide.
+
+---
+
+## The `border-hair` convention
+
+Inkwell's signature is a **1.5px border**. Tailwind's default `border` utility is **1px**. We deliberately keep Tailwind's default alone — overriding it globally would surprise any third-party Tailwind component you might pull in. Instead, Inkwell exposes a named utility:
+
+```html
+<!-- Inkwell-flavored panel -->
+<div class="border-hair border-solid border-gray-300 rounded-md bg-paper p-5">
+  …
+</div>
+
+<!-- Generic Tailwind panel (1px) -->
+<div class="border border-gray-300 rounded-md bg-paper p-5">
+  …
+</div>
 ```
 
-Users add `presets: [require('./inkwell.tailwind-preset.js')]` and import `tokens.css` separately for variable values + dark cascade.
-
-**Verify before shipping:** the multi-selector `darkMode: ['variant', [...]]` array form was added in Tailwind 3.4.x. Confirm the exact syntax against Tailwind's current docs — the pattern above is plausible but I have not tested it.
+Reach for `border-hair` whenever the element should feel like Inkwell. Reach for `border` when it shouldn't.
 
 ---
 
-## 7. Proposed minimum-viable shipment
+## Dark mode
 
-In order of effort/payoff. None of this is committed yet.
+Inkwell uses **Pattern B** dark mode — automatic via `prefers-color-scheme: dark`, with a manual override via `[data-theme="light"|"dark"]` on `<html>`. With Tailwind v4 in the mix, there are **two paths** to dark mode and they handle different cases:
 
-1. **Split `tokens.css`** into `inkwell-tokens.css` + `inkwell-components.css`. Keep `tokens.css` as a backward-compat `@import` shim. ~30 min.
-2. **Ship `inkwell-theme.css`** for Tailwind 4 — the alias file from §4. ~50 lines.
-3. **Ship `inkwell.tailwind-preset.js`** for Tailwind 3 — the preset from §6. ~80 lines.
-4. **Write user-facing docs** — convert this planning doc into a real `TAILWIND.md` with install steps, the dark-mode custom variant, the `border-hair` convention, the two-universes warning, and a "components vs utilities" guide. ~150 lines.
-5. **Add `examples/tailwind.html`** — a sample page demonstrating Tailwind+Inkwell side-by-side (utilities for layout, `.btn` / `.card` for components, `border-hair` for the signature). Proves the integration works in both light and dark modes.
-6. **Update `agent-instructions.md`** with a "If the user is on Tailwind…" section pointing at `TAILWIND.md` and `inkwell-theme.css`.
-7. **(Future, optional)** Publish `tailwindcss-inkwell` to npm. Adds a release/versioning burden — only worth it if there's outside demand.
+### Path 1 — token shifting (handles most things automatically)
 
-**Smallest defensible cut:** steps 1, 2, 4, 5. Half a day's work. v3 preset and npm package can wait.
+Inkwell's tokens themselves change values in dark mode. When you use a token-driven utility like `bg-paper` or `text-slate`, the *value* of `--paper` and `--slate` flips on dark — so the same utility produces the right color in both modes, with **no `dark:` prefix needed**:
 
----
+```html
+<!-- Same classes in both modes. --paper / --slate / --accent shift on dark. -->
+<div class="bg-paper text-slate border-hair border-gray-300 rounded-md p-5">
+  Adapts to OS dark and to the manual toggle automatically.
+</div>
+```
 
-## 8. Tradeoffs and risks
+This works under **both** `prefers-color-scheme: dark` *and* `[data-theme="dark"]`, because the token cascade in [`inkwell-tokens.css`](inkwell-tokens.css) handles both at the variable level. You get the right look without ever writing a `dark:` prefix.
 
-- **Second consumption mode forever.** Once Tailwind users adopt this, breaking changes to the alias surface become public-API breaks. Today Inkwell's API is "two CSS files." After this, it's "two CSS files + a Tailwind theme + a v3 preset." Versioning discipline gets harder.
-- **The "no build step" pitch becomes nuanced.** Inkwell still has no build step; the *Tailwind layer* introduces one inherited from Tailwind itself. README copy needs to thread this carefully — the simplicity story for non-Tailwind users must not be undermined.
-- **Component-vs-utility tension is unresolvable.** Some Tailwind purists will reach for utilities even where Inkwell components are more semantic. Some Inkwell purists will see `<button class="bg-accent text-paper rounded-md px-4 py-2">` and feel the system's identity has been diluted. The user-facing `TAILWIND.md` must set expectations: components for primitives, utilities for layout, never recompose the 1.5px-border signature manually.
-- **shadcn/ui-style adoption pressure.** If we ship this, expect at least one fork attempting to repackage Inkwell as a React + shadcn component library. That's flattering but pulls Inkwell toward becoming a JS framework thing — directly conflicts with the "pure CSS, no framework" positioning. Decide our response in advance.
-- **`@layer components` ordering bugs.** If a consumer's Tailwind setup imports things in the wrong order, Inkwell components could either lose to base styles (wrong) or beat utilities (also wrong). The integration docs need a "verify cascade order" sanity check.
+### Path 2 — Tailwind's `dark:` variant (when you need different utilities per mode)
 
----
+If you need a *different* utility per mode — e.g. swap `bg-paper` for `bg-accent` in dark — use Tailwind's `dark:` variant:
 
-## 9. Open questions to resolve before writing code
+```html
+<!-- Light: paper bg, slate text. Dark: accent bg, paper text. -->
+<div class="bg-paper text-slate dark:bg-accent dark:text-paper rounded-md p-5">
+  …
+</div>
+```
 
-- [ ] Do we publish to npm, or stay copy-files-only? (Affects discovery + versioning + maintenance burden.)
-- [ ] Is the `border-hair` name the right one? Alternatives: `border-1.5`, `border-rule`, `border-inkwell`. `border-hair` is pithy but obscure.
-- [ ] Do we ship a `darkMode: 'class'` fallback for Tailwind 3 users on <3.4 who can't use the variant array form? If so, what semantics?
-- [ ] Should `inkwell-theme.css` import `tokens.css` itself, or expect the consumer to import it separately? (The first is less to remember; the second is more honest about what's loading.)
-- [ ] What's the policy on the `variants/` palettes for Tailwind users? Hard "not supported," or a documented "here's how to swap the base palette" recipe?
-- [ ] Do we provide a `examples/tailwind.html` *and* an `examples/tailwind-no-components.html` to show both philosophies (B-with-components and A-tokens-only), or pick one and stick with it?
+The custom variant in `inkwell-theme.css` fires the `dark:` prefix when `[data-theme="dark"]` is set on `<html>`. **It does NOT fire on `prefers-color-scheme: dark` alone** — that's a deliberate scope limit (the multi-condition block form that would handle both isn't reliably compiled by every Tailwind v4 toolchain, including the in-browser CDN). If you want `dark:` utilities to react to OS preference too, mirror OS preference into the attribute via a small bootstrap script:
 
----
+```html
+<!-- In <head>, before paint -->
+<script>
+  (function () {
+    var s = localStorage.getItem('theme-preview') || 'auto';
+    if (s === 'light' || s === 'dark') {
+      document.documentElement.setAttribute('data-theme', s);
+    } else if (matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
+```
 
-## 10. Decision log
+With this script, "auto" mode follows OS preference *and* sets `data-theme="dark"` when appropriate — so `dark:` utilities fire correctly in all three modes.
 
-> Fill this in as decisions get made. Empty for now.
+### Toggle UI
 
-| Date | Decision | Made by | Rationale |
-|---|---|---|---|
-| | | | |
-
----
-
-## 11. References
-
-- Inkwell's existing token layer: [`tokens.css`](tokens.css)
-- Two-universes rule and edit invariants: [`CLAUDE.md`](CLAUDE.md)
-- Component list and design rationale: [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md)
-- Tailwind 4 theme docs: https://tailwindcss.com/docs/theme
-- Tailwind 4 custom variants: https://tailwindcss.com/docs/adding-custom-styles#using-custom-variants
-- Tailwind 3 `darkMode` variant array: https://tailwindcss.com/docs/dark-mode
+To wire a three-button toggle (auto / light / dark) that does both the mirror and OS-change-listening, lift the `<script>` block at the bottom of [`examples/tailwind.html`](examples/tailwind.html) verbatim. `localStorage` key is `theme-preview`, values are `auto` / `light` / `dark`.
 
 ---
 
-*Planning artifact — revise freely. Convert to user-facing docs only when the decision in §3 is made and the work in §7 is shipped.*
+## Components for primitives, utilities for layout
+
+This is the rule that keeps Inkwell looking like Inkwell when Tailwind is in the mix.
+
+| Use | For |
+|---|---|
+| **Components** (`.btn`, `.card`, `.alert`, `.tldr`, `.stat-card`, `.tbl`, …) | Primitives. The visual identity of "a button" or "a card" is the system. Compose them with utilities — don't recompose them from utilities. |
+| **Utilities** (`grid`, `gap-*`, `max-w-*`, `flex`, `p-*`, `space-y-*`) | Layout. Where things sit on the page, how they're spaced, how they wrap. Tailwind's strength. |
+| **`border-hair`, `bg-accent`, `text-slate`, `font-serif`** | Anywhere you need the brand token applied to non-component markup. |
+
+The footgun to avoid: rebuilding a button from utilities just because you can.
+
+```html
+<!-- Wrong — recreates "a button" out of utilities, loses the 1.5px feel, the
+     transition curve, the focus halo, and won't track changes to .btn -->
+<button class="bg-accent text-paper rounded-md px-4 py-2 hover:bg-accent-d">…</button>
+
+<!-- Right — let Inkwell own "what a button looks like"; let Tailwind own width -->
+<button class="btn btn-primary w-full">…</button>
+```
+
+---
+
+## The two universes
+
+Inkwell ships two parallel naming systems. **The Tailwind integration targets exactly one of them — the root `--accent` universe.**
+
+- ✅ **Supported:** `inkwell-tokens.css`, `inkwell-components.css`, `inkwell-theme.css`. Accent is `--accent` (semantic).
+- ❌ **Not supported with Tailwind:** anything inside [`variants/`](variants/) (clay / sage / burgundy palettes). Those files use `--clay` *regardless of hue* and are incompatible with the `@theme` aliases.
+
+If you want a clay-flavored Tailwind+Inkwell, override `--accent` and the surface tokens in your own CSS after the Inkwell imports — don't pull from `variants/`.
+
+---
+
+## Cascade order — verifying the integration works
+
+The component-vs-utility precedence is the integration's load-bearing detail. Sanity check it like this after wiring everything up:
+
+1. **Components render correctly on their own.** Drop a `<button class="btn btn-primary">Test</button>` into a page. It should look like Inkwell's button — 1.5px transparent border, 36px tall, `--accent` background, serif-free.
+2. **Utilities override components.** Add a utility: `<button class="btn btn-primary px-12">Test</button>`. The horizontal padding should jump. If it doesn't, `inkwell-components.css` is loading *unlayered* and beating Tailwind. Confirm your entry CSS does `@import "tailwindcss"` **before** `@import "./inkwell-theme.css"`.
+3. **`dark:` follows the toggle.** Add a toggle (see previous section). Pick `dark` manually. Both Inkwell components and any `dark:` utilities you've placed should flip together. If only one flips, you've imported only the component CSS without `inkwell-theme.css`, or vice versa — `inkwell-theme.css` is what wires the `@custom-variant dark` block into Tailwind.
+
+---
+
+## What we deliberately don't expose
+
+A few Inkwell tokens are intentionally NOT mapped to Tailwind utilities:
+
+- **Spacing scale.** Inkwell's `--sp-1..8` (4, 8, 12, 16, 24, 32, 48, 64) already lines up with Tailwind's `1, 2, 3, 4, 6, 8, 12, 16` × 4px. Exposing them under a second name would only create confusion.
+- **Z-index tiers.** `--z-base/raised/sticky/overlay/modal` exist for authoring inside `inkwell-components.css`. Tailwind's standard `z-*` utilities serve consumers fine.
+- **Transitions.** Tailwind's `duration-*` is already token-flavored. Inkwell's `--t-fast/base/slow` stay internal.
+- **Shadows.** Inkwell's shadows are tuned for specific component contexts (cards, dropdowns, the dialog `::backdrop`). They live in the components, not the utility surface.
+
+If you reach for one of these and find it missing, use the equivalent Tailwind utility — that's the intended path.
+
+---
+
+## File reference
+
+- [`inkwell-theme.css`](inkwell-theme.css) — the Tailwind v4 entry. Imports tokens and components, declares `@theme` aliases, defines `@custom-variant dark`.
+- [`inkwell-tokens.css`](inkwell-tokens.css) — `:root` custom properties + Pattern B dark cascade.
+- [`inkwell-components.css`](inkwell-components.css) — every Inkwell component class plus base reset, type styles, layout helpers, and a11y.
+- [`tokens.css`](tokens.css) — backward-compat aggregator for non-Tailwind consumers; just re-exports the two files above. Not needed for Tailwind setups.
+- [`examples/tailwind.html`](examples/tailwind.html) — live integration demo that opens in a browser without a build.
+- [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md) — the canonical spec for Inkwell itself. Read this for the *why* behind the 1.5px border, the lifted dark accent, the cool-putty neutrals.
+
+---
+
+*Inkwell stays zero-build. The Tailwind path inherits whatever build Tailwind already needs — no new tooling is introduced on Inkwell's side.*

@@ -10,19 +10,23 @@ See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — fourtee
 
 ## Quick start
 
-Copy `tokens.css` and `inkwell.css` into your project and link them from your `<head>`:
+Copy `tokens.css`, `inkwell.css`, `inkwell-tokens.css`, and `inkwell-components.css` into your project and link `inkwell.css` from your `<head>`:
 
 ```html
 <link rel="stylesheet" href="inkwell.css">
 ```
 
-`inkwell.css` is a one-line `@import` of `tokens.css` — keep both files together. That's the whole install.
+`inkwell.css` `@import`s `tokens.css`, which `@import`s the tokens and components files. Keep all four side-by-side. That's the whole install — no build step.
 
 To enable theme toggling (auto / light / dark), lift the `<head>` script block from `index.html` verbatim. It writes `data-theme` on `<html>` before paint to avoid a flash.
 
+### Using Tailwind v4?
+
+Inkwell drops in as a Tailwind v4 theme. Keep `inkwell-tokens.css`, `inkwell-components.css`, and `inkwell-theme.css` side by side, then in your Tailwind entry CSS write `@import "tailwindcss"; @import "./inkwell-theme.css";`. That gives you Inkwell tokens as Tailwind utilities (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-hair`), Inkwell components in `@layer components`, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle. You do not need `tokens.css` or `inkwell.css` unless you also want the pure-CSS shim. See [`TAILWIND.md`](TAILWIND.md) for the full guide and [`examples/tailwind.html`](examples/tailwind.html) for a live demo.
+
 ## Using with an AI coding agent
 
-Point Claude Code, Codex, Cursor, or any other LLM coding tool at [`agent-instructions.md`](agent-instructions.md) — a self-contained brief that walks the agent through fetching the two CSS files, the hard rules (1.5px borders, one accent, tokens-not-literals), the two-universes warning, and the anti-patterns before it writes any markup.
+Point Claude Code, Codex, Cursor, or any other LLM coding tool at [`agent-instructions.md`](agent-instructions.md) — a self-contained brief that walks the agent through fetching the right CSS files, the hard rules (1.5px borders, one accent, tokens-not-literals), the two-universes warning, and the anti-patterns before it writes any markup.
 
 ```
 https://raw.githubusercontent.com/vscarpenter/inkwell/main/agent-instructions.md
@@ -42,15 +46,19 @@ open variants/compare.html   # side-by-side of all four palettes
 
 ## What's in the box
 
-- **`tokens.css`** — the canonical token layer plus all component CSS. Self-contained.
+- **`inkwell-tokens.css`** — the canonical token layer: `:root` custom properties + Pattern B dark cascade. Brand-layer file.
+- **`inkwell-components.css`** — every Inkwell component class (`.btn`, `.card`, `.alert`, `.tldr`, …) plus base reset, type styles, layout helpers, and a11y rules.
+- **`tokens.css`** — backward-compat aggregator that `@import`s the two files above. Existing consumers that link `tokens.css` directly still work unchanged.
 - **`inkwell.css`** — brand-named alias that imports `tokens.css`.
-- **`tokens.json`** — machine-readable mirror of the token layer for Figma plugins, Tailwind configs, and Style Dictionary. Regenerate when `tokens.css` changes.
+- **`inkwell-theme.css`** — the Tailwind v4 entry. Aliases Inkwell tokens into `@theme`, wraps components in `@layer components`, and defines the dark variant. See [`TAILWIND.md`](TAILWIND.md). Tailwind consumers still keep this file alongside `inkwell-tokens.css` and `inkwell-components.css`.
+- **`tokens.json`** — machine-readable mirror of the token layer for Figma plugins and Style Dictionary. Regenerate when the tokens file changes.
 - **`index.html`** — minimal starter (navbar, hero, theme toggle).
 - **`preview.html`** — every component, every state.
-- **`examples/`** — fourteen real-feeling pages (dashboard, docs, landing, search, changelog, forms, 404, etc.) built only from the design system. Also the deployed live demo.
+- **`examples/`** — real-feeling pages (dashboard, docs, landing, search, changelog, forms, 404, plus a Tailwind v4 integration demo) built only from the design system. Also the deployed live demo.
 - **`CHANGELOG.md`** — release history following Keep-a-Changelog conventions.
 - **`variants/`** — legacy palette branch (clay base + burgundy / indigo / sage overrides). See note below.
 - **`DESIGN_SYSTEM.md`** — the canonical spec. Token tables, component list, dark-mode cascade, anti-patterns. Read this before extending the system.
+- **`TAILWIND.md`** — the Tailwind v4 install guide. Conventions, the `border-hair` rule, components-vs-utilities, cascade-order verification.
 - **`agent-instructions.md`** — self-contained brief for LLM coding agents (Claude Code, Codex, Cursor) to fetch via raw URL and apply the system without breaking its identity.
 - **`CLAUDE.md`** — guidance for AI-assisted edits to this repo itself.
 

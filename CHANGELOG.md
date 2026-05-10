@@ -4,6 +4,26 @@ All notable changes to Inkwell are documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Minor bumps add components or tokens; patches refine existing ones; majors break the public API.
 
+## [Unreleased]
+
+### Added
+- **Tailwind v4 support.** New [`inkwell-theme.css`](inkwell-theme.css) entry file makes Inkwell drop into any Tailwind v4 project when used alongside [`inkwell-tokens.css`](inkwell-tokens.css) and [`inkwell-components.css`](inkwell-components.css) — every token becomes a utility (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `rounded-md`, `text-display`, `max-w-default`), the 1.5px signature is exposed as `border-hair`, and a `@custom-variant dark` block teaches Tailwind to honor Inkwell's `[data-theme]` toggle. In Tailwind entry CSS, import only `@import "tailwindcss"; @import "./inkwell-theme.css";`. No `tailwind.config.js`, no JavaScript preset.
+- [`TAILWIND.md`](TAILWIND.md) — install guide, components-vs-utilities rule, `border-hair` convention, cascade-order verification, two-universes warning.
+- [`examples/tailwind.html`](examples/tailwind.html) — live integration demo that opens directly in a browser (uses the `@tailwindcss/browser` CDN for the demo; production builds use `inkwell-theme.css` directly).
+- Updates to [`agent-instructions.md`](agent-instructions.md) and [`README.md`](README.md) covering the new Tailwind path for AI coding agents and human developers.
+
+### Changed
+- **Split [`tokens.css`](tokens.css) into [`inkwell-tokens.css`](inkwell-tokens.css) + [`inkwell-components.css`](inkwell-components.css).** The original file is now a two-line aggregator (`@import` shim) so existing consumers see no behavior change — linking `tokens.css` or `inkwell.css` works exactly as before. The split exists to support `inkwell-theme.css`, which needs to wrap components in `@layer components` while keeping `:root` tokens unlayered.
+- GitHub Pages workflow now syncs all five canonical CSS files into `examples/` on deploy (previously two).
+
+### Migration
+**No migration needed** for existing consumers. `inkwell.css` and `tokens.css` continue to work unchanged. If you maintain a fork that copies only `tokens.css` into your project, switch to copying `tokens.css` + `inkwell-tokens.css` + `inkwell-components.css` together — the new `tokens.css` is a shim that `@import`s the other two.
+
+Tailwind v4 users: keep `inkwell-tokens.css`, `inkwell-components.css`, and `inkwell-theme.css` side by side, then drop `@import "tailwindcss"; @import "./inkwell-theme.css";` into your entry CSS. See [`TAILWIND.md`](TAILWIND.md).
+
+### Not supported
+Tailwind v3. v3 requires a JS preset that conflicts with Inkwell's no-build pitch. v4 (October 2024 or later) is the supported integration; v3 users should upgrade or use Inkwell via `inkwell.css` directly without Tailwind utility coverage.
+
 ## [1.2.0] — 2026-05-09
 
 ### Added

@@ -4,19 +4,49 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-Inkwell is a **pure CSS design system** — no build step, no package manager, no tests. The deliverable is two CSS files (`tokens.css` + `inkwell.css`) plus HTML reference pages. Treat it like a small library you ship by copying files, not like an application.
+Inkwell is a **pure CSS design system** — no build step, no package manager, no tests. The deliverable is five CSS files (`inkwell-tokens.css`, `inkwell-components.css`, `tokens.css`, `inkwell.css`, `inkwell-theme.css`) plus HTML reference pages. Treat it like a small library you ship by copying files, not like an application.
+
+## File structure — do not collapse the split
+
+```
+inkwell-tokens.css       Source of truth: :root custom properties + Pattern B dark cascade
+inkwell-components.css   Source of truth: .btn, .card, .alert, base reset, type, a11y
+tokens.css               @import-aggregates the two files above (backward-compat shim)
+inkwell.css              @import-aggregates tokens.css (brand-named alias)
+inkwell-theme.css        Tailwind v4 entry: imports inkwell-tokens.css + inkwell-components.css,
+                         declares @theme aliases + @custom-variant dark
+```
+
+The split exists for Tailwind v4 support: `inkwell-theme.css` needs to put components inside `@layer components` while keeping tokens unlayered. **Do not** merge `inkwell-tokens.css` and `inkwell-components.css` back together — `tokens.css` is the merged view and exists exactly so consumers who don't care about the split can pretend it's still one file.
+
+When editing tokens (variables, colors, dark cascade): edit `inkwell-tokens.css`.
+When editing components, base reset, type styles, layout helpers, or a11y rules: edit `inkwell-components.css`.
+**Do not edit `tokens.css` or `inkwell.css`** — they're aggregator shims. If you need to add a third source file, also update `tokens.css`'s `@import` list and `inkwell-theme.css` if the new file is component-shaped (so it gets layered correctly for Tailwind users).
+
+`TAILWIND.md` is user-facing docs for the Tailwind v4 integration. The Tailwind path is supported for v4 only — v3 is explicitly out of scope. For Tailwind entry CSS, import only `@import "tailwindcss"; @import "./inkwell-theme.css";`. Keep `inkwell-tokens.css`, `inkwell-components.css`, and `inkwell-theme.css` side by side; do not also load `tokens.css` or `inkwell.css` in that Tailwind entry file.
 
 ## Working with the files
 
 There are no commands. To preview changes, open the HTML files directly in a browser:
 
 ```
-open index.html       # starter template (navbar + light/dark/auto toggle)
-open preview.html     # comprehensive showcase of every component
-open variants/compare.html   # side-by-side of all four palettes
+open index.html               # starter template (navbar + light/dark/auto toggle)
+open preview.html             # comprehensive showcase of every component
+open variants/compare.html    # side-by-side of all four palettes
+open examples/tailwind.html   # Tailwind v4 + Inkwell integration demo
 ```
 
 Light/dark/auto state is wired in the `<head>` of `index.html` and `preview.html` — lift that block verbatim when consuming the system in a new project.
+
+### After editing the source CSS
+
+The GitHub Pages workflow (`.github/workflows/pages.yml`) syncs the source CSS into `examples/` on deploy. For local testing, mirror the files manually so `examples/*.html` reflects current source:
+
+```
+cp tokens.css inkwell.css inkwell-tokens.css inkwell-components.css inkwell-theme.css examples/
+```
+
+If you add a new source CSS file at the repo root, also add it to the workflow's `paths:` trigger and the `cp` step.
 
 ## Architecture: two parallel naming systems
 

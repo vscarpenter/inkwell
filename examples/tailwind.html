@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inkwell × Tailwind v4 — integration demo</title>
+  <meta name="description" content="Inkwell components and tokens used alongside Tailwind v4 utilities. The 1.5px border-hair signature, the dark: variant that honors Inkwell's [data-theme] toggle, and utility-override of component padding all in one page.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Inkwell">
+  <meta property="og:url" content="https://inkwell.vinny.dev/examples/tailwind.html">
+  <meta property="og:title" content="Inkwell × Tailwind v4 — integration demo">
+  <meta property="og:description" content="Inkwell components and tokens used alongside Tailwind v4 utilities. Drop-in, no JS preset, no build configuration beyond Tailwind itself.">
+  <meta property="og:image" content="https://inkwell.vinny.dev/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Anti-flash: apply data-theme before paint.
+       Tailwind-specific: in "auto" mode we MIRROR OS preference into
+       data-theme so Tailwind's `dark:` variant (which fires on
+       [data-theme="dark"]) responds to OS dark. Inkwell's token
+       cascade would handle bg-paper / text-slate fine on its own,
+       but utilities like `dark:bg-accent` need the attribute to be
+       present to fire. -->
+  <script>
+    (function () {
+      var s = localStorage.getItem('theme-preview') || 'auto';
+      if (s === 'light' || s === 'dark') {
+        document.documentElement.setAttribute('data-theme', s);
+      } else if (matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+
+  <!-- Inkwell tokens (custom properties + Pattern B dark cascade). -->
+  <link rel="stylesheet" href="inkwell-tokens.css">
+
+  <!-- =====================================================================
+   IMPORTANT: This is a special CDN demo with workarounds that do NOT
+   apply to production builds.
+
+   In production, use inkwell-theme.css instead:
+       @import "tailwindcss";
+       @import "./inkwell-theme.css";
+
+   This CDN demo loads components unlayered because @tailwindcss/browser
+   doesn't fetch external CSS imports from inside its compile block.
+   Consequence: Tailwind utilities lose to Inkwell components on collision
+   here (opposite of production behavior). We use `!` prefixes below as
+   a workaround for the demo only — drop them in production.
+   ===================================================================== -->
+
+<!-- Inkwell components (.btn, .card, .alert, etc.). Loaded unlayered
+       because @tailwindcss/browser doesn't fetch external CSS imports
+       from inside its compile block — so we can't wrap this in
+       @layer components the way inkwell-theme.css does for real builds.
+       In production builds, components are layered correctly. -->
+  <link rel="stylesheet" href="inkwell-components.css">
+
+  <!-- Tailwind v4 — in-browser compiler. In production, use a real build
+       (vite, esbuild, @tailwindcss/cli) and import inkwell-theme.css from
+       your entry CSS. This script is here so the demo opens directly
+       in a browser without a toolchain. -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- The Tailwind v4 compile target. The @theme block aliases Inkwell
+       tokens into Tailwind's namespace, @utility defines the 1.5px
+       border-hair signature, and @custom-variant dark wires the
+       [data-theme] toggle into Tailwind's `dark:` prefix. -->
+  <style type="text/tailwindcss">
+    @import "tailwindcss";
+
+    @theme {
+      --color-ivory: var(--ivory);
+      --color-paper: var(--paper);
+      --color-slate: var(--slate);
+      --color-oat:   var(--oat);
+
+      --color-gray-100: var(--gray-100);
+      --color-gray-200: var(--gray-200);
+      --color-gray-300: var(--gray-300);
+      --color-gray-500: var(--gray-500);
+      --color-gray-700: var(--gray-700);
+
+      --color-accent:               var(--accent);
+      --color-accent-d:             var(--accent-d);
+      --color-accent-tint:          var(--accent-tint);
+      --color-accent-focus:         var(--accent-focus-ring);
+      --color-accent-strong-border: var(--accent-strong-border);
+
+      --color-olive:           var(--olive);
+      --color-olive-tint:      var(--olive-tint);
+      --color-rust:            var(--rust);
+      --color-rust-d:          var(--rust-d);
+      --color-rust-tint:       var(--rust-tint);
+      --color-rust-tint-border: var(--rust-tint-border);
+      --color-warning:         var(--warning);
+      --color-warning-dark:    var(--warning-dark);
+      --color-warning-tint:    var(--warning-tint);
+      --color-info:            var(--info);
+      --color-sky:             var(--sky);
+
+      --font-serif: var(--serif);
+      --font-sans:  var(--sans);
+      --font-mono:  var(--mono);
+
+      --text-display: var(--t-display);
+      --text-h1:      var(--t-h1);
+      --text-h2:      var(--t-h2);
+      --text-h3:      var(--t-h3);
+      --text-body:    var(--t-body);
+      --text-small:   var(--t-small);
+      --text-caption: var(--t-caption);
+      --text-eyebrow: var(--t-eyebrow);
+
+      --radius-xs:   var(--r-xs);
+      --radius-sm:   var(--r-sm);
+      --radius-md:   var(--r-md);
+      --radius-lg:   var(--r-lg);
+      --radius-xl:   var(--r-xl);
+      --radius-full: var(--r-pill);
+
+      --container-narrow:  820px;
+      --container-default: 920px;
+      --container-wide:   1120px;
+    }
+
+    @utility border-hair {
+      border-width: 1.5px;
+    }
+
+    @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+  </style>
+
+  <!-- Page-local styles for the theme-toggle pill, nothing Inkwell-specific. -->
+  <style>
+    .theme-toggle { display: inline-flex; gap: 2px; border: var(--border); border-radius: var(--r-pill); padding: 3px; }
+    .theme-toggle button { padding: 4px 10px; font: 500 11px/1 var(--sans); border: 0; border-radius: var(--r-pill); background: transparent; color: var(--gray-700); cursor: pointer; }
+    .theme-toggle button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
+  </style>
+</head>
+<body class="bg-ivory text-slate">
+
+  <main class="max-w-default mx-auto px-6 py-12 space-y-12">
+
+    <!-- Header: layout via Tailwind utilities, components inline -->
+    <header class="flex items-center justify-between gap-6 flex-wrap">
+      <a href="index.html" class="flex items-center gap-3 no-underline text-slate">
+        <span aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 17 17" fill="none">
+            <path d="M5 2.5h7v12H5z" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M7.2 5.4h2.8M7.2 8.3h3.6M7.2 11.2h2.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="t-h3">Inkwell <span class="text-gray-500 font-mono text-eyebrow tracking-wider">× TAILWIND v4</span></span>
+      </a>
+      <div class="theme-toggle" aria-label="Theme">
+        <button type="button" data-theme-choice="auto" aria-pressed="true">Auto</button>
+        <button type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+        <button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+      </div>
+    </header>
+
+    <!-- Hero: serif heading via font-serif utility, body via Inkwell tokens -->
+    <section class="space-y-4">
+      <span class="eyebrow">Integration demo</span>
+      <h1 class="font-serif text-h1 leading-tight tracking-tight m-0">Tailwind v4 utilities. Inkwell tokens and components. One page.</h1>
+      <p class="max-w-prose text-body leading-relaxed text-gray-700 m-0">
+        Every color, type stack, radius, and the 1.5px <code class="code-inline">border-hair</code> signature
+        come from the same Inkwell tokens that drive the rest of this site. The components below
+        (<code class="code-inline">.btn</code>, <code class="code-inline">.card</code>,
+        <code class="code-inline">.alert</code>) are unchanged Inkwell. Layout (the grid, the gaps,
+        the max-width, the spacing scale) is plain Tailwind. The <code class="code-inline">dark:</code>
+        variant honors the same <code class="code-inline">[data-theme]</code> toggle Inkwell uses everywhere.
+      </p>
+    </section>
+
+    <!-- Section 1: Layout via Tailwind, primitives via Inkwell -->
+    <section class="space-y-4">
+      <div class="sec-head">
+        <span class="idx">01</span>
+        <h2 class="text-h2 font-serif m-0">Layout in utilities, primitives in components</h2>
+      </div>
+      <p class="text-small text-gray-700 m-0 max-w-prose">
+        The grid below uses <code class="code-inline">grid grid-cols-1 md:grid-cols-3 gap-5</code>.
+        Each tile is an unmodified <code class="code-inline">.stat-card</code>. Tailwind handles where things sit; Inkwell handles what they look like.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-label">CSS files</div>
+          <div class="stat-delta flat">tokens, components, theme</div>
+        </div>
+        <div class="stat-card warn">
+          <div class="stat-num">1.5</div>
+          <div class="stat-label">Border px (signature)</div>
+          <div class="stat-delta up">border-hair</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">0</div>
+          <div class="stat-label">JS presets required</div>
+          <div class="stat-delta up">CSS-first config</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: The 1.5px signature, via Tailwind's border-hair utility -->
+    <section class="space-y-4">
+      <div class="sec-head">
+        <span class="idx">02</span>
+        <h2 class="text-h2 font-serif m-0">The signature: <code class="code-inline">border-hair</code></h2>
+      </div>
+      <p class="text-small text-gray-700 m-0 max-w-prose">
+        Tailwind's default <code class="code-inline">border</code> is 1px. Inkwell's signature is 1.5px.
+        We deliberately do not redefine the default; instead, you reach for <code class="code-inline">border-hair</code>
+        wherever Inkwell character is intended.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="border border-gray-300 rounded-md p-5 bg-paper">
+          <div class="text-eyebrow font-mono tracking-wider uppercase text-gray-500 mb-2">Default — <code class="code-inline">border</code> (1px)</div>
+          <p class="m-0 text-small text-gray-700">Tailwind's stock 1px border. Used everywhere outside Inkwell-flavored markup.</p>
+        </div>
+        <div class="border-hair border-solid border-gray-300 rounded-md p-5 bg-paper">
+          <div class="text-eyebrow font-mono tracking-wider uppercase text-accent mb-2">Inkwell — <code class="code-inline">border-hair</code> (1.5px)</div>
+          <p class="m-0 text-small text-gray-700">The system's signature, on a retina display. On 1× displays Chrome rounds to 1px and reports 1px in <code class="code-inline">getComputedStyle</code> — that's browser behavior, not a bug.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: dark variant + token shifting -->
+    <section class="space-y-4">
+      <div class="sec-head">
+        <span class="idx">03</span>
+        <h2 class="text-h2 font-serif m-0">Dark mode — two paths, one cascade</h2>
+      </div>
+      <p class="text-small text-gray-700 m-0 max-w-prose">
+        Toggle Auto / Light / Dark in the header. Two of the three tiles below adapt
+        <em>via Inkwell's token shift</em> — same utility classes in both modes, because
+        <code class="code-inline">--paper</code> and <code class="code-inline">--slate</code> have different values per mode.
+        The third tile uses Tailwind's <code class="code-inline">dark:</code> variant to pick a
+        <em>different</em> utility per mode, which fires when Inkwell's
+        <code class="code-inline">[data-theme="dark"]</code> attribute is set on <code class="code-inline">&lt;html&gt;</code>.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="border-hair border-solid border-gray-300 rounded-md p-5 bg-paper text-slate">
+          <div class="text-eyebrow font-mono uppercase tracking-wider mb-2 text-accent">Token shift</div>
+          <p class="m-0 text-small">Uses <code class="code-inline">bg-paper text-slate</code>. No <code class="code-inline">dark:</code> needed — the values of <code class="code-inline">--paper</code> and <code class="code-inline">--slate</code> change in dark mode, so the same utility produces the right color in both.</p>
+        </div>
+        <div class="border-hair border-solid border-gray-300 rounded-md p-5 bg-accent-tint">
+          <div class="text-eyebrow font-mono uppercase tracking-wider mb-2 text-accent">Alpha-tint token</div>
+          <p class="m-0 text-small text-slate"><code class="code-inline">bg-accent-tint</code> maps to Inkwell's <code class="code-inline">--accent-tint</code>. Preserves the specific 0.14/0.18 alpha values instead of guessing at <code class="code-inline">/14</code>.</p>
+        </div>
+        <div class="rounded-md p-5 bg-paper dark:bg-accent text-slate dark:text-paper">
+          <div class="text-eyebrow font-mono uppercase tracking-wider mb-2 text-accent dark:text-paper">Variant flip</div>
+          <p class="m-0 text-small">Uses <code class="code-inline">bg-paper dark:bg-accent</code> and <code class="code-inline">text-slate dark:text-paper</code>. Toggle Dark to see the accent take over. Fires under the manual toggle (<code class="code-inline">[data-theme="dark"]</code>) — for OS-only dark, set the toggle to Auto and mirror OS preference into <code class="code-inline">data-theme</code> via JS, or rely on token-shift like the first tile.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="border-hair border-rust-tint-border rounded-md p-4 bg-rust-tint">
+          <div class="text-eyebrow font-mono uppercase tracking-wider mb-2 text-rust">Danger tint</div>
+          <p class="m-0 text-small text-rust">Uses <code class="code-inline">bg-rust-tint</code> and <code class="code-inline">border-rust-tint-border</code>.</p>
+        </div>
+        <div class="border-hair border-warning-tint rounded-md p-4 bg-warning-tint">
+          <div class="text-eyebrow font-mono uppercase tracking-wider mb-2 text-warning-dark">Warning text</div>
+          <p class="m-0 text-small text-warning-dark">Uses <code class="code-inline">bg-warning-tint</code> and <code class="code-inline">text-warning-dark</code>.</p>
+        </div>
+        <div class="border-hair border-olive-tint rounded-md p-4 bg-olive-tint">
+          <div class="text-eyebrow font-mono uppercase tracking-wider mb-2 text-olive">Success tint</div>
+          <p class="m-0 text-small text-olive">Uses <code class="code-inline">bg-olive-tint</code> and <code class="code-inline">border-olive-tint</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Components and utilities compose -->
+    <section class="space-y-4">
+      <div class="sec-head">
+        <span class="idx">04</span>
+        <h2 class="text-h2 font-serif m-0">Components and utilities compose</h2>
+      </div>
+      <p class="text-small text-gray-700 m-0 max-w-prose">
+        All four buttons below are <code class="code-inline">.btn</code> instances. The last two
+        add Tailwind utilities to widen and enlarge. In a real Tailwind v4 build via
+        <code class="code-inline">inkwell-theme.css</code>, components sit in
+        <code class="code-inline">@layer components</code> and utilities in
+        <code class="code-inline">@layer utilities</code>, so plain
+        <code class="code-inline">w-full</code> and <code class="code-inline">px-8 h-12</code>
+        win the collision. This CDN demo loads <code class="code-inline">inkwell-components.css</code>
+        unlayered (the browser compiler can't pull external <code class="code-inline">@import</code>s
+        into Tailwind's compile context), so the demo uses Tailwind's <code class="code-inline">!</code>
+        prefix to force precedence — drop the <code class="code-inline">!</code> in a real build.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+        <button class="btn btn-primary">Default <code class="code-inline ml-2 opacity-70">.btn-primary</code></button>
+        <button class="btn btn-secondary">Default <code class="code-inline ml-2 opacity-70">.btn-secondary</code></button>
+        <button class="btn btn-primary !w-full">Full width <code class="code-inline ml-2 opacity-70">.btn + !w-full</code></button>
+        <button class="btn btn-primary !px-8 !h-12 !text-base">Larger <code class="code-inline ml-2 opacity-70">.btn + !px-8 !h-12</code></button>
+      </div>
+    </section>
+
+    <!-- Section 5: Alerts, untouched Inkwell -->
+    <section class="space-y-4">
+      <div class="sec-head">
+        <span class="idx">05</span>
+        <h2 class="text-h2 font-serif m-0">Alerts — straight Inkwell, dark-mode-aware</h2>
+      </div>
+      <div class="space-y-3">
+        <div class="alert is-info">
+          <div>
+            <div class="alert-title">Pattern B dark cascade</div>
+            <div class="alert-body">Toggle to dark and watch the accent lift to periwinkle, the surfaces invert, and the alert tint follow.</div>
+          </div>
+        </div>
+        <div class="alert is-success">
+          <div>
+            <div class="alert-title">Integration verified</div>
+            <div class="alert-body">If this page renders correctly in both light and dark with the toggle, your Tailwind v4 + Inkwell setup is working.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer note -->
+    <footer class="border-t border-gray-300 pt-6 text-caption text-gray-500 space-y-2">
+      <p class="m-0"><strong class="text-slate">Production usage:</strong> install Tailwind v4, then in your entry CSS write <code class="code-inline">@import "tailwindcss"; @import "./inkwell-theme.css";</code>. See <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/TAILWIND.md">TAILWIND.md</a> for the full install guide.</p>
+      <p class="m-0"><strong class="text-slate">This demo</strong> uses the <code class="code-inline">@tailwindcss/browser</code> CDN so it opens directly in a browser without a build step. The <code class="code-inline">@theme</code> and <code class="code-inline">@custom-variant</code> blocks live inline in this HTML rather than in <code class="code-inline">inkwell-theme.css</code> because the browser compiler only reads inline <code class="code-inline">&lt;style type="text/tailwindcss"&gt;</code> blocks. Real builds use <code class="code-inline">inkwell-theme.css</code> directly and get correct <code class="code-inline">@layer components</code> precedence for free.</p>
+    </footer>
+  </main>
+
+  <!-- Theme toggle wiring. Three-button form (auto/light/dark).
+       In "auto" mode we mirror OS preference into data-theme so
+       Tailwind dark: utilities fire under OS dark. We also subscribe
+       to changes so OS toggles while we're sitting on "auto" update
+       the page live. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var KEY = 'theme-preview';
+      var buttons = document.querySelectorAll('[data-theme-choice]');
+      var mq = matchMedia('(prefers-color-scheme: dark)');
+      function applyAttr(choice) {
+        if (choice === 'auto') {
+          if (mq.matches) root.setAttribute('data-theme', 'dark');
+          else root.removeAttribute('data-theme');
+        } else {
+          root.setAttribute('data-theme', choice);
+        }
+      }
+      function apply(choice) {
+        applyAttr(choice);
+        buttons.forEach(function (b) {
+          b.setAttribute('aria-pressed', String(b.dataset.themeChoice === choice));
+        });
+      }
+      var current = localStorage.getItem(KEY) || 'auto';
+      if (current !== 'auto' && current !== 'light' && current !== 'dark') current = 'auto';
+      apply(current);
+      buttons.forEach(function (b) {
+        b.addEventListener('click', function () {
+          current = b.dataset.themeChoice;
+          localStorage.setItem(KEY, current);
+          apply(current);
+        });
+      });
+      mq.addEventListener('change', function () {
+        if (current === 'auto') applyAttr('auto');
+      });
+    })();
+  </script>
+</body>
+</html>
