@@ -58,6 +58,20 @@ curl -sSLo public/css/inkwell.css https://raw.githubusercontent.com/vscarpenter/
 
 Adjust the destination path to match the user's project layout (e.g. `static/`, `assets/`, `app/styles/`, etc.). If unsure, ask once or pick the conventional location for the framework in use.
 
+### Common integration points
+
+Use the host app's existing static asset and global stylesheet conventions. Do not add tooling just to install Inkwell.
+
+| Project type | Put files here | Load it here |
+|---|---|---|
+| Static HTML | `css/` or `public/css/` | `<link rel="stylesheet" href="/css/inkwell.css">` |
+| Next.js App Router | `public/css/` | `app/layout.tsx` with `<link rel="stylesheet" href="/css/inkwell.css" />` |
+| Next.js Pages Router | `public/css/` | `pages/_document.tsx` or `pages/_app.tsx` |
+| Vite / React | `public/css/` | `index.html`, or import from the app's existing global CSS |
+| Rails / Laravel / Django | Existing public/static CSS folder | Base layout template |
+
+For framework apps, prefer a global load path. Inkwell defines global tokens and component classes, so it should be available across routes rather than scoped to one component.
+
 ---
 
 ## 3. Hard rules — do not violate
@@ -264,7 +278,40 @@ From `DESIGN_SYSTEM.md` §4. If you catch yourself doing any of these, stop:
 
 ---
 
-## 10. When you need more detail
+## 10. Retrofitting an existing app — workflow
+
+When applying Inkwell to an existing application, preserve the app's routing, data flow, state management, and component boundaries. Do not rewrite a working app into static HTML just because the examples are static.
+
+1. Inspect the project structure first: framework, global CSS entrypoint, shared components, layout shell, and existing design tokens.
+2. Install `tokens.css` and `inkwell.css` in the app's static assets and load `inkwell.css` globally (§2).
+3. Map existing UI to Inkwell primitives before writing custom CSS:
+   - buttons → `.btn` plus the closest intent modifier
+   - inputs/selects/textareas → `.input`, `.select`, `.textarea`, wrapped in `.field` where labels/help text exist
+   - panels/cards → `.card`
+   - tables → `.tbl`
+   - status labels → `.badge`, `.pill`, or `.chip-dot`
+   - empty/loading states → `.empty-state` or `.skeleton`
+4. Replace local color, border, font, radius, shadow, and spacing literals with Inkwell tokens in app CSS.
+5. Keep app-specific layout CSS thin and token-driven. Use existing components and props; only change markup/classes where needed for styling.
+6. Remove or neutralize old global styles that fight Inkwell's body background, typography, focus rings, or component classes.
+7. If the app already uses Tailwind, CSS modules, CSS-in-JS, or a component library, integrate Inkwell at the edge: global tokens and classes first, then targeted component updates. Do not introduce a second styling architecture just for this migration.
+
+---
+
+## 11. Verification checklist
+
+Before declaring the integration done:
+
+- Run the app's existing lint, test, typecheck, and build commands when they exist. Do not invent new commands.
+- Open the changed page or app locally and check at least one desktop and one mobile viewport.
+- Verify light, dark, and auto theme behavior.
+- Check focus, hover, disabled, loading, empty, validation/error, dialog, tab, and navigation states that appear in the changed surface.
+- Confirm there are no new console errors, broken routes, missing CSS files, or layout shifts caused by loading `inkwell.css`.
+- Scan new CSS for hardcoded colors, `1px`/`2px` outer borders, webfonts, gradients on surfaces, and extra saturated accent colors.
+
+---
+
+## 12. When you need more detail
 
 Always available in the repo:
 
@@ -276,10 +323,10 @@ Always available in the repo:
 
 ---
 
-## 11. Things you should NOT do
+## 13. Things you should NOT do
 
 - Do not run `npm install inkwell` or any package-manager equivalent. There is no package.
-- Do not add a build step (Vite, Webpack, PostCSS, Tailwind) just to use Inkwell. The two CSS files are the deliverable.
+- Do not add a build step (Vite, Webpack, PostCSS, Tailwind) just to use Inkwell. Existing build tooling in the host app is fine; do not create new tooling for the two CSS files.
 - Do not modify `tokens.css` or `inkwell.css` in the user's project. If they need a custom token value, override it in their own stylesheet that loads *after* `inkwell.css`.
 - Do not invent new component classes that conflict with `tokens.css` (`.btn`, `.card`, etc.). Extend with modifier classes instead.
 - Do not introduce a CSS-in-JS layer, styled-components, or a UI framework on top. Inkwell is the framework.
