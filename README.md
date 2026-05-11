@@ -1,6 +1,6 @@
 # Inkwell
 
-A pure-CSS design system for product UI, dashboards, and technical interfaces. Drop-in tokens, ten core components, light + dark mode out of the box. No build step, no dependencies.
+A pure-CSS design system for product UI, dashboards, and technical interfaces. Drop-in tokens, ten core components, light + dark mode out of the box. No build step, no dependencies — and an optional **Tailwind v4** theme entry for projects already on Tailwind.
 
 Inkwell ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, and a signature 1.5px hairline border. Three alternate palettes (clay, sage, burgundy) live in `variants/` for reference.
 
@@ -22,7 +22,16 @@ To enable theme toggling (auto / light / dark), lift the `<head>` script block f
 
 ### Using Tailwind v4?
 
-Inkwell drops in as a Tailwind v4 theme. Keep `inkwell-tokens.css`, `inkwell-components.css`, and `inkwell-theme.css` side by side, then in your Tailwind entry CSS write `@import "tailwindcss"; @import "./inkwell-theme.css";`. That gives you Inkwell tokens as Tailwind utilities (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-hair`), Inkwell components in `@layer components`, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle. You do not need `tokens.css` or `inkwell.css` unless you also want the pure-CSS shim. See [`TAILWIND.md`](TAILWIND.md) for the full guide and [`examples/tailwind.html`](examples/tailwind.html) for a live demo.
+Inkwell drops in as a Tailwind v4 theme. Keep `inkwell-tokens.css`, `inkwell-components.css`, and `inkwell-theme.css` side by side, then in your Tailwind entry CSS:
+
+```css
+@import "tailwindcss";
+@import "./inkwell-theme.css";
+```
+
+That's the whole install — no `tailwind.config.js`, no JS preset. You get Inkwell tokens as Tailwind utilities (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-hair`), Inkwell components inside `@layer components`, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle. `tokens.css` and `inkwell.css` are not needed unless you also want the pure-CSS shim alongside.
+
+> Tailwind v3 is not supported — v3 requires a JS preset that conflicts with the no-build pitch. See [`TAILWIND.md`](TAILWIND.md) for the full guide (the `border-hair` convention, components-vs-utilities rule, cascade-order check) and [`examples/tailwind.html`](examples/tailwind.html) for a live demo that opens in a browser without a toolchain.
 
 ## Using with an AI coding agent
 
@@ -42,6 +51,7 @@ Open any of the HTML files directly in a browser — there's nothing to compile:
 open index.html              # starter template with theme toggle
 open preview.html            # full component showcase
 open variants/compare.html   # side-by-side of all four palettes
+open examples/tailwind.html  # Tailwind v4 integration demo (no toolchain needed)
 ```
 
 ## What's in the box
@@ -81,6 +91,8 @@ The repo contains two separately-evolved branches of the system. Don't mix them:
 - **`variants/`** (legacy) names its accent `--clay` regardless of actual hue — the indigo variant in that folder still uses `var(--clay)`. Components inside `variants/tokens-clay.css` reference that name, so it can't be renamed without breaking them.
 
 Don't reference `--clay` from anything built on root `tokens.css`, and don't introduce `--accent` inside `variants/`. They're two universes.
+
+The Tailwind v4 integration targets the root `--accent` universe only — `variants/` is not Tailwind-compatible. If you want a clay/sage/burgundy-flavored Tailwind build, override `--accent` and the surface tokens in your own CSS after `@import "./inkwell-theme.css"`.
 
 ## Contributing
 
