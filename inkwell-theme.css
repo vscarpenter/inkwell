@@ -86,15 +86,47 @@
   --font-sans:  var(--sans);
   --font-mono:  var(--mono);
 
-  /* Type scale — exposed as Tailwind text-* sizes */
+  /* Type scale — exposed as Tailwind text-* sizes with bundled
+     line-height, letter-spacing, and font-weight modifiers so a
+     single utility like `text-h1` matches the full `.t-h1` style.
+     The numeric values mirror the .t-* rules in inkwell-components.css;
+     if you adjust either, adjust both. */
   --text-display: var(--t-display);
-  --text-h1:      var(--t-h1);
-  --text-h2:      var(--t-h2);
-  --text-h3:      var(--t-h3);
-  --text-body:    var(--t-body);
-  --text-small:   var(--t-small);
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 500;
+
+  --text-h1: var(--t-h1);
+  --text-h1--line-height: 1.2;
+  --text-h1--letter-spacing: -0.01em;
+  --text-h1--font-weight: 500;
+
+  --text-h2: var(--t-h2);
+  --text-h2--line-height: 1.3;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h2--font-weight: 500;
+
+  --text-h3: var(--t-h3);
+  --text-h3--line-height: 1.22;
+  --text-h3--letter-spacing: -0.008em;
+  --text-h3--font-weight: 500;
+
+  --text-body: var(--t-body);
+  --text-body--line-height: 1.55;
+  --text-body--font-weight: 430;
+
+  --text-small: var(--t-small);
+  --text-small--line-height: 1.5;
+  --text-small--font-weight: 430;
+
   --text-caption: var(--t-caption);
+  --text-caption--line-height: 1.4;
+  --text-caption--font-weight: 500;
+
   --text-eyebrow: var(--t-eyebrow);
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.12em;
+  --text-eyebrow--font-weight: 500;
 
   /* Radii */
   --radius-xs:   var(--r-xs);

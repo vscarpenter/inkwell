@@ -37,13 +37,16 @@
   /* ---------- Semantic ---------- */
   --olive:        #788C5D;                         /* success, additions */
   --olive-tint:   rgba(120, 140, 93, 0.16);
+  --olive-strong-border: rgba(120, 140, 93, 0.45); /* tinted success border */
   --rust:         #B04A3F;                         /* danger, deletions */
   --rust-d:       #9A3F3F;                         /* rust hover/pressed */
   --rust-tint:    rgba(176, 74, 63, 0.10);        /* danger alert background */
   --rust-tint-border: rgba(176, 74, 63, 0.45);    /* danger alert border */
+  --rust-focus-ring:  rgba(176, 74, 63, 0.18);    /* danger input focus halo */
   --warning:      #C78E3F;
   --warning-dark: #A06A2A;                         /* warning text (darker for contrast) */
   --warning-tint: rgba(199, 142, 63, 0.16);
+  --warning-strong-border: rgba(199, 142, 63, 0.45); /* tinted warning border */
   --info:         #5C7CA3;                         /* informational */
   --sky:          #6A8CAF;                         /* alt info / data viz */
 
@@ -99,6 +102,9 @@
   --shadow-lg:         0 12px 28px rgba(20, 20, 19, 0.12);
   --shadow-card-hover: 0 10px 30px rgba(20, 20, 19, 0.10);
 
+  /* ---------- Backdrop (dialog::backdrop, modal scrims) ---------- */
+  --backdrop: rgba(15, 16, 24, 0.55);
+
   /* ---------- Motion ---------- */
   --t-fast:   120ms;
   --t-base:   150ms;
@@ -147,13 +153,16 @@
 
     --olive:        #9CB07A;                         /* lifted */
     --olive-tint:   rgba(156, 176, 122, 0.18);
+    --olive-strong-border: rgba(156, 176, 122, 0.6); /* lifted tinted success border */
     --rust:         #D27468;
     --rust-d:       #C96B5F;                         /* lifted rust hover/pressed */
     --rust-tint:    rgba(210, 116, 104, 0.18);       /* lifted danger alert background */
     --rust-tint-border: rgba(210, 116, 104, 0.6);    /* lifted danger alert border */
+    --rust-focus-ring:  rgba(210, 116, 104, 0.28);   /* lifted danger input focus halo */
     --warning:      #D9A55F;
     --warning-dark: #D9A55F;                         /* lifted warning text (same as warning for contrast) */
     --warning-tint: rgba(217, 165, 95, 0.18);
+    --warning-strong-border: rgba(217, 165, 95, 0.6); /* lifted tinted warning border */
     --info:         #7C9FD2;
     --sky:          #85A6CB;
 
@@ -167,6 +176,8 @@
     --shadow-md:         0 4px 14px rgba(0, 0, 0, 0.50);
     --shadow-lg:         0 12px 28px rgba(0, 0, 0, 0.55);
     --shadow-card-hover: 0 10px 30px rgba(0, 0, 0, 0.50);
+
+    --backdrop: rgba(0, 0, 0, 0.6);                  /* pure-black scrim for dark surfaces */
   }
   /* Select chevron dark-mode override: the base .select rule in inkwell-components.css
    uses a data URI SVG with a hardcoded stroke color. Since data URIs can't reference
@@ -194,13 +205,16 @@
 
   --olive:        #9CB07A;
   --olive-tint:   rgba(156, 176, 122, 0.18);
+  --olive-strong-border: rgba(156, 176, 122, 0.6); /* lifted tinted success border */
   --rust:         #D27468;
   --rust-d:       #C96B5F;                         /* lifted rust hover/pressed */
   --rust-tint:    rgba(210, 116, 104, 0.18);       /* lifted danger alert background */
   --rust-tint-border: rgba(210, 116, 104, 0.6);    /* lifted danger alert border */
+  --rust-focus-ring:  rgba(210, 116, 104, 0.28);   /* lifted danger input focus halo */
   --warning:      #D9A55F;
   --warning-dark: #D9A55F;                         /* lifted warning text (same as warning for contrast) */
   --warning-tint: rgba(217, 165, 95, 0.18);
+  --warning-strong-border: rgba(217, 165, 95, 0.6); /* lifted tinted warning border */
   --info:         #7C9FD2;
   --sky:          #85A6CB;
 
@@ -214,6 +228,8 @@
   --shadow-md:         0 4px 14px rgba(0, 0, 0, 0.50);
   --shadow-lg:         0 12px 28px rgba(0, 0, 0, 0.55);
   --shadow-card-hover: 0 10px 30px rgba(0, 0, 0, 0.50);
+
+  --backdrop: rgba(0, 0, 0, 0.6);                  /* pure-black scrim for dark surfaces */
 }
 /* Select chevron dark-mode override: see comment above in @media section for rationale */
 :root[data-theme="dark"] .select {

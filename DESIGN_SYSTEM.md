@@ -28,9 +28,13 @@ A small palette (12 hues) with one accent doing all the work. Neutrals are *cool
 | `--accent-focus-ring` | `rgba(59,74,140,0.18)` | `rgba(122,138,209,0.28)` | Input focus halo |
 | `--accent-strong-border` | `rgba(59,74,140,0.5)` | `rgba(122,138,209,0.6)` | Tinted chip border |
 | `--olive` | `#788C5D` | `#9CB07A` | Success, additions |
+| `--olive-strong-border` | `rgba(120,140,93,0.45)` | `rgba(156,176,122,0.6)` | Tinted success border |
 | `--rust` | `#B04A3F` | `#D27468` | Danger, deletions |
+| `--rust-focus-ring` | `rgba(176,74,63,0.18)` | `rgba(210,116,104,0.28)` | `.is-error` focus halo |
 | `--warning` | `#C78E3F` | `#D9A55F` | Amber warning |
+| `--warning-strong-border` | `rgba(199,142,63,0.45)` | `rgba(217,165,95,0.6)` | Tinted warning border |
 | `--info` / `--sky` | `#5C7CA3` / `#6A8CAF` | `#7C9FD2` / `#85A6CB` | Informational accents |
+| `--backdrop` | `rgba(15,16,24,0.55)` | `rgba(0,0,0,0.6)` | `dialog::backdrop` scrim |
 | `--gray-100` | `#EDEDEA` | `#1E1F29` | Subtle row stripe, code-chip bg |
 | `--gray-200` | `#E1E1DE` | `#262732` | Divider on white |
 | `--gray-300` | `#CFCFCC` | `#34363F` | **Default border** — the 1.5px hairline |
