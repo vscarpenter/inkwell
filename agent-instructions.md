@@ -307,8 +307,8 @@ From `DESIGN_SYSTEM.md` §4. If you catch yourself doing any of these, stop:
 ## 9. Building a new page — workflow
 
 1. Confirm the user wants Inkwell's Indigo & Cloud palette (default). If they want clay / sage / burgundy, see §6 — do not mix universes.
-2. Fetch `tokens.css` and `inkwell.css` (§2).
-3. Link `inkwell.css` from `<head>`.
+2. Fetch the four canonical CSS files per §2 (`tokens.css`, `inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`). Or if the user is already on Tailwind v4, fetch the three-file Tailwind path instead.
+3. Link `inkwell.css` from `<head>` (or, for the Tailwind path, add `@import "tailwindcss"; @import "./inkwell-theme.css";` to the user's Tailwind entry CSS).
 4. (Optional) Wire the theme toggle (§7).
 5. Set the page background to `--ivory` and body text to `--slate`. Use `var(--sans)` for the body, `var(--serif)` for headings.
 6. Compose with the component classes in §5. For unique layouts, write thin per-page CSS that *only references tokens*.
@@ -323,7 +323,7 @@ From `DESIGN_SYSTEM.md` §4. If you catch yourself doing any of these, stop:
 When applying Inkwell to an existing application, preserve the app's routing, data flow, state management, and component boundaries. Do not rewrite a working app into static HTML just because the examples are static.
 
 1. Inspect the project structure first: framework, global CSS entrypoint, shared components, layout shell, and existing design tokens.
-2. Install `tokens.css` and `inkwell.css` in the app's static assets and load `inkwell.css` globally (§2).
+2. Install the four canonical CSS files (`tokens.css`, `inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`) in the app's static assets and load `inkwell.css` globally (§2). If the app is already on Tailwind v4, use the Tailwind path from §2 instead — `inkwell-theme.css` plus the two source files in the app's existing build.
 3. Map existing UI to Inkwell primitives before writing custom CSS:
    - buttons → `.btn` plus the closest intent modifier
    - inputs/selects/textareas → `.input`, `.select`, `.textarea`, wrapped in `.field` where labels/help text exist

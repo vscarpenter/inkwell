@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-Inkwell is a pure-CSS design system with no package manager, framework, or build step. The canonical source is `tokens.css`, which contains the token layer and component styles. `inkwell.css` is the consumer-facing alias that imports `tokens.css`; keep both files side by side. `tokens.json` mirrors the CSS tokens for external tooling and should be updated when token values change. Manual review surfaces live in `index.html`, `preview.html`, and `examples/`. The `variants/` directory is a legacy palette branch and should not be mixed with the root token system.
+Inkwell is a pure-CSS design system with no package manager, framework, or build step. The canonical source files are `inkwell-tokens.css` (`:root` custom properties + Pattern B dark cascade) and `inkwell-components.css` (base reset, components, layout helpers, a11y). `tokens.css` is a two-line aggregator that `@import`s both; `inkwell.css` is a one-line alias for `tokens.css`. Consumers can link any of those three from `<head>` and the whole tree resolves. `inkwell-theme.css` is the Tailwind v4 entry — it imports the same two source files, wraps components in `@layer components`, and declares `@theme` aliases plus a `@custom-variant dark` block. See [`TAILWIND.md`](TAILWIND.md) for the Tailwind path. Keep all five CSS files side by side. `tokens.json` mirrors `inkwell-tokens.css` for external tooling and should be regenerated when token values change. Manual review surfaces live in `index.html`, `preview.html`, and `examples/`. The `variants/` directory is a legacy palette branch and should not be mixed with the root token system.
 
 ## Build, Test, and Development Commands
 
@@ -14,15 +14,15 @@ open preview.html            # full component showcase
 open variants/compare.html   # legacy palette comparison
 ```
 
-GitHub Pages deploys `examples/` on pushes to `main` when `examples/**`, `tokens.css`, `inkwell.css`, or `.github/workflows/pages.yml` changes.
+GitHub Pages deploys `examples/` on pushes to `main` when `examples/**`, any of the five canonical CSS files (`tokens.css`, `inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`, `inkwell-theme.css`), or `.github/workflows/pages.yml` changes. The workflow `cp`s the five files into `examples/` at deploy time so the live site never drifts from source.
 
 ## Coding Style & Naming Conventions
 
-Use two-space indentation in CSS and HTML. Route component styling through CSS custom properties instead of hard-coded literals. New work should use the root naming system: `--accent`, `--ivory`, `--paper`, `--slate`, and related tokens from `tokens.css`. Do not introduce `--clay` outside `variants/`, and do not introduce `--accent` inside `variants/`. Preserve the design invariants in `DESIGN_SYSTEM.md`: 1.5px borders via `--border`, one saturated accent, platform fonts only, and light/dark values for saturated tokens.
+Use two-space indentation in CSS and HTML. Route component styling through CSS custom properties instead of hard-coded literals. New work should use the root naming system: `--accent`, `--ivory`, `--paper`, `--slate`, and related tokens from `inkwell-tokens.css`. Do not introduce `--clay` outside `variants/`, and do not introduce `--accent` inside `variants/`. Preserve the design invariants in `DESIGN_SYSTEM.md`: 1.5px borders via `--border`, one saturated accent, platform fonts only, and light/dark values for saturated tokens. When editing source CSS, edit `inkwell-tokens.css` (for tokens / dark cascade) or `inkwell-components.css` (for component / type / layout / a11y rules); never edit `tokens.css` or `inkwell.css` (aggregators). For Tailwind-exposed tokens, also surface them in `inkwell-theme.css`.
 
 ## Testing Guidelines
 
-Verification is visual. After changing `tokens.css` or markup, review `preview.html` in light, dark, and auto theme modes. If color or palette behavior changed, also review `variants/compare.html`. Prefer checking on a 2x display because the 1.5px border is retina-first and may render as 1px on non-retina screens.
+Verification is visual. After changing CSS or markup, review `preview.html` in light, dark, and auto theme modes. If your change touches the Tailwind v4 path, also review `examples/tailwind.html` and the cascade-order check in [`TAILWIND.md`](TAILWIND.md). If color or palette behavior changed, also review `variants/compare.html`. Prefer checking on a 2x display because the 1.5px border is retina-first and may render as 1px on non-retina screens.
 
 ## Commit & Pull Request Guidelines
 
@@ -30,4 +30,4 @@ Recent commits use short imperative subjects, for example `Surface agent-instruc
 
 ## Agent-Specific Instructions
 
-Read `DESIGN_SYSTEM.md` before extending components and `agent-instructions.md` before using Inkwell in another project. Do not add build tooling, package metadata, framework wrappers, webfonts, or generated assets unless explicitly requested.
+Read `DESIGN_SYSTEM.md` before extending components, `TAILWIND.md` before touching the Tailwind v4 integration, and `agent-instructions.md` before using Inkwell in another project. Do not add build tooling, package metadata, framework wrappers, webfonts, or generated assets unless explicitly requested.

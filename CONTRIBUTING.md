@@ -11,10 +11,18 @@ Thanks for your interest. Inkwell is a small, opinionated design system — cont
 
 This is a pure-CSS repo. There is no build step, no package manager, no test suite. You edit CSS, you reload an HTML file, you look at it.
 
-- `tokens.css` — canonical token layer + all component CSS.
-- `inkwell.css` — one-line `@import` of `tokens.css`. The brand-named alias consumers link from.
-- `index.html`, `preview.html` — manual verification surfaces.
+- `inkwell-tokens.css` — source of truth for `:root` tokens + Pattern B dark cascade. Edit this when changing colors, type sizes, radii, shadows, motion, layout widths, or z-index.
+- `inkwell-components.css` — source of truth for component classes, base reset, type styles, layout helpers, and a11y rules. Edit this when changing `.btn`, `.card`, `.alert`, etc.
+- `tokens.css` — two-line aggregator that `@import`s the two source files. **Do not edit** — it's a backward-compat shim.
+- `inkwell.css` — one-line `@import` of `tokens.css`. The brand-named alias consumers link from. **Do not edit.**
+- `inkwell-theme.css` — Tailwind v4 entry. Imports the two source files, declares `@theme` aliases, defines `@custom-variant dark`. Edit this when adding tokens that need to surface as Tailwind utilities, or when the Tailwind integration itself changes.
+- `tokens.json` — machine-readable mirror of `inkwell-tokens.css`. Regenerate when token values change.
+- `index.html`, `preview.html`, `examples/` — manual verification surfaces.
 - `variants/` — legacy palette branch. See "The two universes" below.
+
+If you add a new source CSS file at the repo root, also add it to `tokens.css`'s `@import` list (if it's part of the default install) and to the `paths:` trigger plus `cp` step in `.github/workflows/pages.yml`. For Tailwind exposure, register it inside `inkwell-theme.css`.
+
+See [`TAILWIND.md`](TAILWIND.md) for the conventions that govern the Tailwind v4 path (`border-hair`, components-vs-utilities, cascade-order check).
 
 ## The two universes
 
@@ -46,9 +54,10 @@ These are non-negotiable. PRs that violate them will be asked to change before m
 There's no automated test suite. Verification is visual.
 
 1. Open `preview.html` and confirm your component (or the component you touched) still renders correctly in **both light and dark mode**. Toggle via the theme switcher in the header.
-2. If you touched anything color-related, also open `variants/compare.html` to confirm none of the four palettes regressed (only relevant if your change touched the `variants/` branch).
-3. **Do the visual check on a 2x (retina) display when possible.** The 1.5px border is the system's signature and is designed for retina. On 1x, Chrome rounds it to 1px — that's expected, not a bug.
-4. If you added a component that uses an accent in an `rgba()`, remember each `variants/` palette restates the rgba in its override file. You'll need to do the same in every variant.
+2. If your change touches the Tailwind v4 path, also open `examples/tailwind.html` and verify components + utilities + `dark:` still behave correctly. The cascade-order check in [`TAILWIND.md`](TAILWIND.md) is the canonical verification.
+3. If you touched anything color-related, also open `variants/compare.html` to confirm none of the four palettes regressed (only relevant if your change touched the `variants/` branch).
+4. **Do the visual check on a 2x (retina) display when possible.** The 1.5px border is the system's signature and is designed for retina. On 1x, Chrome rounds it to 1px — that's expected, not a bug.
+5. If you added a component that uses an accent in an `rgba()`, remember each `variants/` palette restates the rgba in its override file. You'll need to do the same in every variant.
 
 ## Commit & PR style
 

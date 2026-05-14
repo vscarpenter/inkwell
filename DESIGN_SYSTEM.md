@@ -35,6 +35,7 @@ A small palette (12 hues) with one accent doing all the work. Neutrals are *cool
 | `--warning-strong-border` | `rgba(199,142,63,0.45)` | `rgba(217,165,95,0.6)` | Tinted warning border |
 | `--info` / `--sky` | `#5C7CA3` / `#6A8CAF` | `#7C9FD2` / `#85A6CB` | Informational accents |
 | `--backdrop` | `rgba(15,16,24,0.55)` | `rgba(0,0,0,0.6)` | `dialog::backdrop` scrim |
+| `--tldr-code-tint` | `rgba(255,255,255,0.08)` | `rgba(0,0,0,0.08)` | `.tldr code` chip overlay — inverts with the `.tldr` surface |
 | `--gray-100` | `#EDEDEA` | `#1E1F29` | Subtle row stripe, code-chip bg |
 | `--gray-200` | `#E1E1DE` | `#262732` | Divider on white |
 | `--gray-300` | `#CFCFCC` | `#34363F` | **Default border** — the 1.5px hairline |
@@ -59,7 +60,7 @@ Three font families, each with a clear job. No custom fonts — platform stacks 
 | **Sans** (system-ui) | Body text, buttons, labels. The default. |
 | **Mono** | Eyebrows, file names, hex codes, code chips, table headers, table-numeric cells. Anything that signals "technical metadata." |
 
-Type scale (use the `.t-*` classes shipped in `tokens.css`):
+Type scale (use the `.t-*` classes shipped in `inkwell-components.css`):
 
 | Class | Family | Size | Line-height | Weight | Tracking |
 |---|---|---|---|---|---|
@@ -170,7 +171,7 @@ To wire a manual toggle, set/remove the attribute on `<html>` from JS and persis
 
 ## 3. Components
 
-`tokens.css` ships ten reusable component classes. Open `preview.html` for a live tour of all of them in both light and dark mode.
+`inkwell-components.css` ships ~26 reusable component classes (the table below). Open `preview.html` for a live tour of all of them in both light and dark mode.
 
 | Class | Purpose |
 |---|---|
@@ -238,7 +239,7 @@ If you extend the system, the rule is: any new colored token must clear 3:1 for 
 
 ## 6. Quick start
 
-Drop `inkwell.css` and `tokens.css` into your project and link `inkwell.css` from `<head>`. The body inherits ivory background, slate text, sans body, and the active light/dark scheme automatically.
+Copy `inkwell.css`, `tokens.css`, `inkwell-tokens.css`, and `inkwell-components.css` into your project — all four side-by-side — and link `inkwell.css` from `<head>`. `inkwell.css` `@import`s `tokens.css`, which `@import`s the two source files. The body inherits ivory background, slate text, sans body, and the active light/dark scheme automatically.
 
 ```html
 <!doctype html>
@@ -269,25 +270,33 @@ For a fuller starting point, copy `index.html` — it includes the navbar, layou
 ## 7. Project structure
 
 ```
-design-system/
-├── inkwell.css             ← link this in <head> (brand-named alias)
-├── tokens.css              ← the actual system tokens; inkwell.css re-exports it
-├── DESIGN_SYSTEM.md        ← this file
+inkwell/
+├── inkwell.css             ← brand-named alias — link this in <head>
+├── tokens.css              ← backward-compat aggregator (imports the two source files)
+├── inkwell-tokens.css      ← source: :root tokens + Pattern B dark cascade
+├── inkwell-components.css  ← source: base reset, components, layout helpers, a11y
+├── inkwell-theme.css       ← Tailwind v4 entry — imports the two source files,
+│                             declares @theme aliases + @custom-variant dark
+├── tokens.json             ← machine-readable mirror for Figma plugins / Style Dictionary
 ├── index.html              ← starter template (copy as seed of a new project)
 ├── preview.html            ← comprehensive component showcase
-└── variants/               ← archived alternative palettes (warm clay / sage / burgundy)
-    ├── tokens-clay.css     ← original warm-editorial palette
+├── examples/               ← real-feeling pages (deployed to inkwell.vinny.dev)
+├── DESIGN_SYSTEM.md        ← this file
+├── TAILWIND.md             ← Tailwind v4 install guide
+├── agent-instructions.md   ← self-contained brief for LLM coding agents
+├── CHANGELOG.md            ← release history
+└── variants/               ← legacy palette branch (clay / sage / burgundy)
+    ├── tokens-clay.css     ← base — original warm-editorial palette
     ├── tokens-sage.css     ← forest / knowledge-product palette
     ├── tokens-burgundy.css ← literary / magazine palette
     ├── tokens-indigo.css   ← variant-format version of this palette
-    ├── preview-clay.html
-    ├── preview-sage.html
-    ├── preview-burgundy.html
-    ├── preview-indigo.html
+    ├── preview-{clay,sage,burgundy,indigo}.html
     └── compare.html        ← side-by-side comparison of all four
 ```
 
-If you ever want to swap palettes, the variant files in `variants/` show the pattern: a ~30-line CSS file overriding only the brand-layer tokens. The structural layer (everything below the `:root` block in `tokens.css`) doesn't need to change.
+The split between `inkwell-tokens.css` and `inkwell-components.css` exists so `inkwell-theme.css` can wrap components inside `@layer components` while keeping `:root` tokens unlayered — without forcing pure-CSS consumers to care. Link `inkwell.css` and the whole tree resolves; link `inkwell-theme.css` from Tailwind v4 entry CSS and the same source files do double duty.
+
+If you ever want to swap palettes, the variant files in `variants/` show the pattern: a ~100-line CSS file overriding only the brand-layer tokens. The structural layer (everything below the `:root` block in `inkwell-tokens.css`) doesn't need to change. Note: the Tailwind v4 integration targets the root `--accent` universe only; the `variants/` palettes use `--clay` regardless of hue and are not Tailwind-compatible.
 
 ---
 

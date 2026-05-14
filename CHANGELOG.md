@@ -6,16 +6,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.3.1] — 2026-05-14
+
 ### Fixed
 - **`*:focus-visible` no longer overrides element corner radius.** Removed the stray `border-radius: var(--r-xs)` line in `inkwell-components.css` — focused buttons (8px → 4px) and focusable cards (14px → 4px) were visibly snapping to a tighter corner during focus. Modern browsers already round `outline` around the element's own `border-radius` when `outline-offset` is positive, so no replacement is needed.
 - **`.btn` height bumped 36px → 38px** to match `.input` / `.select`. Form rows with a button next to an input now align exactly.
 - **Six raw `rgba()` literals replaced with tokens in `inkwell-components.css`** (per the §4 anti-pattern: no hex literals in component CSS). Five of them were also a dark-mode correctness bug — the colors were locked to the *light-mode* hue. New tokens: `--olive-strong-border`, `--warning-strong-border`, `--rust-focus-ring`, `--backdrop`. Affects `.alert.is-success`, `.alert.is-warning`, `.chip-dot.safe`, `.input.is-error:focus`, `.dialog::backdrop` — borders and scrims now lift correctly in dark mode.
+- **`.tldr code` background no longer disappears in dark mode.** The chip used a hardcoded `rgba(255, 255, 255, 0.08)` — white at 8% — which was invisible in dark mode (where `.tldr` flips to a light surface). Replaced with the new `--tldr-code-tint` token, which carries paired light/dark values so the tint inverts with the surface. This was also the last `rgba()` literal in `inkwell-components.css`, closing out the §4 anti-pattern.
+- **Documentation drift from the 1.3.0 split swept up.** Updated `DESIGN_SYSTEM.md` §1.2 / §3 / §6 / §7, `README.md` component and example counts, `CONTRIBUTING.md` project layout, `AGENTS.md` canonical-source claim, and `agent-instructions.md` §9 / §10 file lists to reference the post-split structure. No behavior change — just docs catching up to the CSS.
 
 ### Added
 - **Tailwind `text-*` type-scale modifiers.** `inkwell-theme.css` now bundles `line-height`, `letter-spacing`, and `font-weight` into every `--text-{display,h1,h2,h3,body,small,caption,eyebrow}` via Tailwind v4's `--text-{name}--{modifier}` syntax. Result: `class="font-serif text-h1"` in a Tailwind template now produces the same rendered output as `class="t-h1"` in pure-CSS markup — the two consumption paths converge.
-- New tokens (light + dark) in `inkwell-tokens.css`: `--olive-strong-border`, `--warning-strong-border`, `--rust-focus-ring`, `--backdrop`. Mirrored in `tokens.json` and the §1.1 token table in `DESIGN_SYSTEM.md`. None of these change existing light-mode appearance — they fix dark-mode drift and bring the system back in line with its own "no literals in components" rule.
+- New tokens (light + dark) in `inkwell-tokens.css`: `--olive-strong-border`, `--warning-strong-border`, `--rust-focus-ring`, `--backdrop`, `--tldr-code-tint`. Mirrored in `tokens.json` and the §1.1 token table in `DESIGN_SYSTEM.md`. None of these change existing light-mode appearance — they fix dark-mode drift and bring the system back in line with its own "no literals in components" rule.
 - `tokens.json` `_meta.canonical_source` corrected from `tokens.css` to `inkwell-tokens.css` (the 1.3.0 split made the latter authoritative).
 
+## [1.3.0] — 2026-05-11
+
+### Added
 - **Tailwind v4 support.** New [`inkwell-theme.css`](inkwell-theme.css) entry file makes Inkwell drop into any Tailwind v4 project when used alongside [`inkwell-tokens.css`](inkwell-tokens.css) and [`inkwell-components.css`](inkwell-components.css) — every token becomes a utility (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `rounded-md`, `text-display`, `max-w-default`), the 1.5px signature is exposed as `border-hair`, and a `@custom-variant dark` block teaches Tailwind to honor Inkwell's `[data-theme]` toggle. In Tailwind entry CSS, import only `@import "tailwindcss"; @import "./inkwell-theme.css";`. No `tailwind.config.js`, no JavaScript preset.
 - [`TAILWIND.md`](TAILWIND.md) — install guide, components-vs-utilities rule, `border-hair` convention, cascade-order verification, two-universes warning.
 - [`examples/tailwind.html`](examples/tailwind.html) — live integration demo that opens directly in a browser (uses the `@tailwindcss/browser` CDN for the demo; production builds use `inkwell-theme.css` directly).

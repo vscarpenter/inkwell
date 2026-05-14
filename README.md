@@ -1,12 +1,12 @@
 # Inkwell
 
-A pure-CSS design system for product UI, dashboards, and technical interfaces. Drop-in tokens, ten core components, light + dark mode out of the box. No build step, no dependencies — and an optional **Tailwind v4** theme entry for projects already on Tailwind.
+A pure-CSS design system for product UI, dashboards, and technical interfaces. Drop-in tokens, two dozen components, light + dark mode out of the box. No build step, no dependencies — and an optional **Tailwind v4** theme entry for projects already on Tailwind.
 
 Inkwell ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, and a signature 1.5px hairline border. Three alternate palettes (clay, sage, burgundy) live in `variants/` for reference.
 
 ## Live demo
 
-See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — fourteen sample pages built entirely with the design system, including a [getting-started guide](https://inkwell.vinny.dev/docs.html), a [marketing landing page](https://inkwell.vinny.dev/landing.html), a [search results layout](https://inkwell.vinny.dev/search.html), a [changelog](https://inkwell.vinny.dev/changelog.html), product pages (dashboard, settings, profile, pricing, sign-in), editorial layouts, and a 404. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`.
+See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — fifteen sample pages built entirely with the design system, including a [getting-started guide](https://inkwell.vinny.dev/docs.html), a [marketing landing page](https://inkwell.vinny.dev/landing.html), a [search results layout](https://inkwell.vinny.dev/search.html), a [changelog](https://inkwell.vinny.dev/changelog.html), product pages (dashboard, settings, profile, pricing, sign-in), editorial layouts, a 404, and a [Tailwind v4 integration demo](https://inkwell.vinny.dev/tailwind.html). Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`.
 
 ## Quick start
 
