@@ -14,7 +14,7 @@ Read this file end-to-end before writing any HTML or CSS. The "Hard rules" and "
 
 A pure-CSS design system. **No build step. No package manager. No JS framework. No dependencies.** The deliverable is two CSS files plus reference HTML. You install it by downloading two files and linking one of them.
 
-Inkwell ships with the **Indigo & Cloud** palette: cool stone background (`--ivory`), deep indigo accent (`--accent`), serif headlines, monospace eyebrows/metadata, and a signature **1.5px hairline border** that is the system's most recognizable feature.
+Inkwell ships with the **Indigo & Cloud** palette: cool stone background (`--ivory`), deep indigo accent (`--accent`), serif headlines at weight 600, monospace eyebrows for product/dashboard contexts (italic-serif `.eyebrow-serif` for editorial), and a signature **1.5px hairline border** that is the system's most recognizable feature.
 
 ---
 
@@ -122,11 +122,11 @@ These are not stylistic preferences. They are the system. Breaking any of them p
 2. **One accent only.** `--accent` is the single saturated brand hue. If a chart or data viz needs a second color, use `--olive` or `--sky`. Never introduce a second saturated accent.
 3. **Tokens, never literal hex codes.** Component CSS must reference CSS custom properties. If you find yourself typing `#3B4A8C` in a stylesheet, stop and use `var(--accent)` instead. This rule is what makes palette swapping trivial.
 4. **Type families have jobs, not preferences:**
-   - `var(--serif)` → headings, stat numbers, italic emphasis
-   - `var(--mono)` → eyebrows, table headers, hex codes, "technical metadata"
+   - `var(--serif)` → headings, stat numbers, italic emphasis, editorial primitives (lede, pullquote, byline-author, figure caption, `.eyebrow-serif`)
+   - `var(--mono)` → file names, hex codes, byline metadata, table-numeric cells, `.eyebrow` for product/dashboard contexts. Signals "technical metadata."
    - `var(--sans)` → everything else
    Do not substitute one for another.
-5. **Platform fonts only.** No Google Fonts, no `@font-face`, no webfont loaders. The stacks (`ui-serif`, `system-ui`, `ui-monospace`) load instantly and produce zero FOUT.
+5. **Platform fonts only.** No Google Fonts, no `@font-face`, no webfont loaders. Stacks load instantly and produce zero FOUT. The serif stack leads with Iowan Old Style → Palatino → Source Serif Pro → Georgia (`ui-serif` was dropped in 1.4.0 — it resolves to wildly variable fonts per OS and couldn't be QA'd).
 6. **Page background is `--ivory`, not white.** Body text is `--slate`, not pure black. Pure white + pure black collapses the cool-putty atmosphere.
 7. **Every saturated color token must be defined in both light and dark.** If you add a new colored token, define a **lifted** (more luminous) value in the dark-mode block too. A color defined only at `:root` will look muddy on dark surfaces.
 8. **Do not introduce `--clay` references in new work.** That token belongs to the legacy `variants/` universe (see §6).
@@ -150,8 +150,8 @@ The most-used tokens. Full list lives in `tokens.css` (the file is well-commente
 - `--sky` — alternate info / second data-viz hue
 
 **Type**
-- `--serif`, `--sans`, `--mono` — font stacks
-- `--t-display`, `--t-h1`, `--t-h2`, `--t-h3`, `--t-body`, `--t-small`, `--t-caption`, `--t-eyebrow` — sizes
+- `--serif`, `--sans`, `--mono` — font stacks. Serif stack leads with Iowan Old Style → Palatino → Source Serif Pro → Georgia (1.4.0 dropped `ui-serif` because it resolved to wildly variable fonts per OS).
+- `--t-display`, `--t-h1`, `--t-h2`, `--t-h3`, `--t-lede`, `--t-body`, `--t-small`, `--t-caption`, `--t-eyebrow` — sizes
 
 **Borders & radius**
 - `--border` (1.5px solid `--gray-300`) — the signature outer frame
@@ -181,13 +181,14 @@ The most-used tokens. Full list lives in `tokens.css` (the file is well-commente
 | `kbd` / `.kbd` | Keyboard chip |
 | `.badge` (neutral / accent / success / warning / danger) | Status pill labels |
 | `.alert` (`.is-info`, `.is-success`, `.is-warning`, `.is-danger`) | Flat-tinted system messages |
-| `.card` (`.is-link`) | Generic card; `.is-link` adds the 3px hover-lift |
-| `.stat-card` (`.warn`) | Big-number metric tile |
-| `.tbl` | Table with mono headers and hairline rows |
+| `.card` (`.is-link`) | Generic card; `.is-link` shifts only the border on hover — no lift, no shadow swap |
+| `.stat-card` (`.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a 4px accent stripe |
+| `.tbl` | Table with sans headers and hairline rows |
 | `.tldr` | Inverted callout (dark in light mode, light in dark) |
 | `.code-block` | Multi-line `<pre><code>` panel |
 | `.dialog` | Native `<dialog>` styling |
 | `.tabs` (`.tab`, `.tab-panel`) | Underline tab nav |
+| `.segmented` (`aria-pressed` / `.is-active`) | Pill-shaped group of mutually-exclusive options (theme toggle, view modes, density) |
 | `.tooltip` (`[data-tooltip]`) | CSS-only hover/focus tooltip |
 | `.breadcrumbs` | `<ol>` with `/` separators |
 | `.pagination` | Numbered page list |
@@ -197,11 +198,12 @@ The most-used tokens. Full list lives in `tokens.css` (the file is well-commente
 | `.timeline` (`.tl-entry`) | Vertical event timeline |
 | `.chip-dot` (`.safe`, `.medium`, `.attention`) | Mono label with status dot |
 | `.avatar` | 36px monogram circle |
-| `.eyebrow` | Uppercase mono lead-in label |
+| `.eyebrow` / `.eyebrow-serif` | Lead-in kicker. Mono uppercase for product/dashboard, italic serif for editorial. |
 | `.sec-head` | Numbered section header |
 | `.toc` | Pill-shaped link list |
+| **Editorial:** `.dropcap` / `.pullquote` / `.byline` (+ `.author`) / `figure.figure` | Long-form/magazine primitives — use inside serif-body prose contexts |
 
-For typography in markup, also use the utility classes that are defined in `tokens.css`: `.t-display`, `.t-h1`, `.t-h2`, `.t-h3`, `.t-body`, `.t-small`, `.t-caption`.
+For typography in markup, also use the utility classes that are defined in `inkwell-components.css`: `.t-display`, `.t-h1`, `.t-h2`, `.t-h3`, `.t-lede`, `.t-body`, `.t-small`, `.t-caption`.
 
 When a component is missing, build it with tokens — never with hardcoded values. Inspect `preview.html` from the repo to see how the existing components compose.
 

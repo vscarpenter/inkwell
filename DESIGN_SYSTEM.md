@@ -49,29 +49,36 @@ A small palette (12 hues) with one accent doing all the work. Neutrals are *cool
 Three font families, each with a clear job. No custom fonts — platform stacks for instant load and zero FOUT.
 
 ```css
---serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+--serif: "Iowan Old Style", "Palatino", "Palatino Linotype",
+         "Source Serif Pro", Georgia, serif;
 --sans:  system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 --mono:  ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
 ```
 
+The serif stack drops `ui-serif` (which resolves to wildly different fonts across platforms — New York on Apple, Noto Serif on Android, DejaVu Serif on Linux) and leads with platform serifs we've QA'd at display sizes. Iowan Old Style covers iOS/macOS; Palatino covers Windows; Source Serif Pro picks up where it's installed; Georgia is the final fallback and renders consistently everywhere.
+
 | Family | Job |
 |---|---|
-| **Serif** | All headings, stat numbers, italic-emphasized phrases. Editorial gravitas. |
+| **Serif** | All headings, stat numbers, italic-emphasized phrases, editorial primitives (lede, pullquote, byline-author, figure caption). Editorial gravitas. |
 | **Sans** (system-ui) | Body text, buttons, labels. The default. |
-| **Mono** | Eyebrows, file names, hex codes, code chips, table headers, table-numeric cells. Anything that signals "technical metadata." |
+| **Mono** | File names, hex codes, code chips, byline metadata, table-numeric cells. Anything that signals "technical metadata." Also used by `.eyebrow` for product/dashboard contexts; editorial contexts get `.eyebrow-serif` instead. |
 
 Type scale (use the `.t-*` classes shipped in `inkwell-components.css`):
 
 | Class | Family | Size | Line-height | Weight | Tracking |
 |---|---|---|---|---|---|
-| `.t-display` | serif | 48px | 1.1 | 500 | -0.02em |
-| `.t-h1` | serif | 32px | 1.2 | 500 | -0.01em |
-| `.t-h2` | serif | 24px | 1.3 | 500 | — |
-| `.t-h3` | serif | 19px | 1.22 | 500 | -0.008em |
+| `.t-display` | serif | 48px | 1.05 | 600 | -0.025em |
+| `.t-h1` | serif | 32px | 1.2 | 600 | -0.018em |
+| `.t-h2` | serif | 24px | 1.3 | 600 | -0.012em |
+| `.t-h3` | serif | 19px | 1.22 | 600 | -0.01em |
+| `.t-lede` | serif italic | 20px | 1.5 | 400 | — |
 | `.t-body` | sans | 16px | 1.55 | 430 | — |
 | `.t-small` | sans | 14px | 1.5 | 430 | — |
 | `.t-caption` | sans | 12px | 1.4 | 500 | — |
-| `.eyebrow` | mono | 11–12px | 1 | 500 | 0.12em, UPPERCASE |
+| `.eyebrow` | mono | 11px | 1 | 500 | 0.12em, UPPERCASE |
+| `.eyebrow-serif` | serif italic | 13px | — | 400 | 0.02em |
+
+Headlines run weight 600 — anything lighter loses its serifs to anti-aliasing on screen and the system reads as "sans with bumps" rather than confident editorial. `.t-lede` is the deck/intro paragraph that sits between a headline and the body in long-form prose. `.eyebrow-serif` is the magazine-kicker alternative to the mono `.eyebrow`: use mono for product/dashboard contexts, serif for editorial.
 
 Heading hero pattern uses `clamp()` for fluid scaling:
 ```css
@@ -171,7 +178,7 @@ To wire a manual toggle, set/remove the attribute on `<html>` from JS and persis
 
 ## 3. Components
 
-`inkwell-components.css` ships ~26 reusable component classes (the table below). Open `preview.html` for a live tour of all of them in both light and dark mode.
+`inkwell-components.css` ships ~28 reusable component classes (the table below). Open `preview.html` for a live tour of all of them in both light and dark mode.
 
 | Class | Purpose |
 |---|---|
@@ -179,12 +186,13 @@ To wire a manual toggle, set/remove the attribute on `<html>` from JS and persis
 | `.input` / `.textarea` / `.select` (+ `.is-error` / `:disabled`) | Form controls with accent focus halo, rust error border, and muted disabled state |
 | `.field` (+ `.field-label` / `.field-help` / `.field-error`) | Vertical field group: label + control + helper or error text |
 | `.checkbox` / `.radio` / `.switch` | Selection controls with accent fill (checkbox/radio) and pill-track toggle (switch) |
+| `.segmented` (+ `aria-pressed` / `.is-active`) | Pill-shaped group of mutually-exclusive options sharing one outer border — use for 2–4 short labels (theme toggle, view modes, density) |
 | `kbd` / `.kbd` | Keyboard-shortcut chip in mono with bottom-edge shadow line |
 | `.badge` (+ neutral / accent / success / warning / danger) | Pill-shaped status labels |
-| `.alert` (+ `.is-info` / `.is-success` / `.is-warning` / `.is-danger`) | Flat-tinted system message with title + body slot |
-| `.card` (+ `.is-link`) | Generic card; the `.is-link` variant adds the 3px hover-lift gesture |
-| `.stat-card` (+ `.warn`) | Big-number metric tile |
-| `.tbl` | Table with mono header labels and hairline row dividers |
+| `.alert` (+ `.is-info` / `.is-success` / `.is-warning` / `.is-danger`) | Flat-tinted system message; title stays slate, tinted bg + border carry the semantic |
+| `.card` (+ `.is-link`) | Generic card; the `.is-link` variant adds a calm border-color hover shift — no lift, no shadow swap |
+| `.stat-card` (+ `.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a 4px accent stripe |
+| `.tbl` | Table with sans header labels and hairline row dividers |
 | `.tldr` | Inverted callout — dark in light mode, light in dark mode |
 | `.code-block` | Multi-line `<pre><code>` panel with optional `.copy` button slot |
 | `.dialog` | Styling for native `<dialog>` (open via `dialog.showModal()`) with backdrop blur |
@@ -198,9 +206,18 @@ To wire a manual toggle, set/remove the attribute on `<html>` from JS and persis
 | `.timeline` (+ `.tl-entry`) | Vertical event timeline |
 | `.chip-dot` (+ safe / medium / attention) | Mono label with colored status dot |
 | `.avatar` | 36px monogram circle |
-| `.eyebrow` | Uppercase mono lead-in label with accent rule |
+| `.eyebrow` / `.eyebrow-serif` | Lead-in kicker label with accent rule. Mono uppercase for product/dashboard; italic serif for editorial. |
 | `.sec-head` | Numbered section header (mono index + serif title + count pill) |
 | `.toc` | Pill-shaped link list with optional mono numerals |
+
+**Editorial primitives** (long-form/magazine contexts, expect serif body + 60–65ch line-length):
+
+| Class | Purpose |
+|---|---|
+| `.dropcap` | First-letter ornament — 4.2em serif, floated, accent-colored. Apply to a paragraph. |
+| `.pullquote` | Indented serif-italic block with a 1.5px accent left-rule — magazine-style pulled quote |
+| `.byline` (+ `.author`) | Dateline + author block — mono caps for the metadata, italic serif for the author's name |
+| `figure.figure` (+ `figcaption`) | Image/video wrapper with bordered media and italic-serif rule-anchored caption |
 
 ---
 

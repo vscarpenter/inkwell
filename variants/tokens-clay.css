@@ -33,15 +33,16 @@
   --gray-700: #3D3D3A; /* secondary body text */
 
   /* ---------- Typography ---------- */
-  --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+  --serif: "Iowan Old Style", "Palatino", "Palatino Linotype",
+           "Source Serif Pro", Georgia, serif;
   --sans:  system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --mono:  ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
 
   /* Type scale (font-size / line-height / weight) */
-  --t-display: 48px;   /* serif, lh 1.1, w 500, ls -0.02em */
-  --t-h1:      32px;   /* serif, lh 1.2, w 500, ls -0.01em */
-  --t-h2:      24px;   /* serif, lh 1.3, w 500 */
-  --t-h3:      19px;   /* serif, lh 1.22, w 500 */
+  --t-display: 48px;   /* serif, lh 1.05, w 600, ls -0.025em */
+  --t-h1:      32px;   /* serif, lh 1.2,  w 600, ls -0.018em */
+  --t-h2:      24px;   /* serif, lh 1.3,  w 600, ls -0.012em */
+  --t-h3:      19px;   /* serif, lh 1.22, w 600, ls -0.01em */
   --t-body:    16px;   /* sans,  lh 1.55, w 430 */
   --t-small:   14px;   /* sans,  lh 1.5,  w 430 */
   --t-caption: 12px;   /* sans/mono, lh 1.4, w 500, often UPPERCASE */
@@ -197,20 +198,20 @@ body {
    Type styles (drop classes onto any element)
    ===================================================================== */
 .t-display {
-  font-family: var(--serif); font-weight: 500;
-  font-size: var(--t-display); line-height: 1.1; letter-spacing: -0.02em;
+  font-family: var(--serif); font-weight: 600;
+  font-size: var(--t-display); line-height: 1.05; letter-spacing: -0.025em;
 }
 .t-h1 {
-  font-family: var(--serif); font-weight: 500;
-  font-size: var(--t-h1); line-height: 1.2; letter-spacing: -0.01em;
+  font-family: var(--serif); font-weight: 600;
+  font-size: var(--t-h1); line-height: 1.2; letter-spacing: -0.018em;
 }
 .t-h2 {
-  font-family: var(--serif); font-weight: 500;
-  font-size: var(--t-h2); line-height: 1.3; letter-spacing: -0.01em;
+  font-family: var(--serif); font-weight: 600;
+  font-size: var(--t-h2); line-height: 1.3; letter-spacing: -0.012em;
 }
 .t-h3 {
-  font-family: var(--serif); font-weight: 500;
-  font-size: var(--t-h3); line-height: 1.22; letter-spacing: -0.008em;
+  font-family: var(--serif); font-weight: 600;
+  font-size: var(--t-h3); line-height: 1.22; letter-spacing: -0.01em;
 }
 .t-body    { font: 430 var(--t-body)/1.55 var(--sans); }
 .t-small   { font: 430 var(--t-small)/1.5 var(--sans); color: var(--gray-700); }
@@ -339,16 +340,10 @@ code, .code-inline {
   border: var(--border);
   border-radius: var(--r-lg);
   padding: var(--sp-5);
-  transition: transform var(--t-base) ease,
-              box-shadow var(--t-base) ease,
-              border-color var(--t-base) ease;
+  transition: border-color var(--t-base) ease;
 }
 .card.is-link { display: flex; flex-direction: column; text-decoration: none; color: inherit; cursor: pointer; }
-.card.is-link:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card-hover);
-  border-color: var(--slate);
-}
+.card.is-link:hover { border-color: var(--gray-500); }
 
 /* ---------- Stat card ---------- */
 .stat-card {
@@ -357,8 +352,8 @@ code, .code-inline {
   border-radius: var(--r-md);
   padding: 20px 22px 18px;
 }
-.stat-card.warn { border-left: 4px solid var(--clay); padding-left: 19px; }
-.stat-num   { font: 500 44px/1 var(--serif); margin-bottom: 8px; }
+.stat-card.is-primary { border-left: 4px solid var(--clay); padding-left: 19px; }
+.stat-num   { font: 600 44px/1 var(--serif); margin-bottom: 8px; letter-spacing: -0.018em; }
 .stat-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-500); }
 .stat-delta { font-family: var(--mono); font-size: 11px; margin-top: 6px; }
 .stat-delta.up   { color: var(--olive); }
@@ -451,7 +446,7 @@ code, .code-inline {
   width: 34px;
   flex-shrink: 0;
 }
-.sec-head h2 { margin: 0; font-family: var(--serif); font-weight: 500; font-size: 27px; letter-spacing: -0.012em; }
+.sec-head h2 { margin: 0; font-family: var(--serif); font-weight: 600; font-size: 27px; letter-spacing: -0.012em; }
 .sec-head .count {
   font: 11px/1 var(--mono);
   color: var(--gray-500);
@@ -528,5 +523,4 @@ hr.rule       { border: none; border-top: var(--border-rule); margin: 0 0 22px; 
 *:focus-visible {
   outline: 2px solid var(--clay);
   outline-offset: 2px;
-  border-radius: var(--r-xs);
 }

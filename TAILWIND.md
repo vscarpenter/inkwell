@@ -47,7 +47,7 @@ Inkwell's tokens are aliased into Tailwind's namespace, so all of these utility 
 
 **Semantic** — `bg-olive`, `bg-olive-tint`, `bg-rust`, `bg-rust-d`, `bg-rust-tint`, `bg-rust-tint-border`, `bg-warning`, `bg-warning-dark`, `bg-warning-tint`, `bg-info`, `bg-sky`
 
-**Type** — `font-serif`, `font-sans`, `font-mono`, plus `text-display`, `text-h1`, `text-h2`, `text-h3`, `text-body`, `text-small`, `text-caption`, `text-eyebrow`
+**Type** — `font-serif`, `font-sans`, `font-mono`, plus `text-display`, `text-h1`, `text-h2`, `text-h3`, `text-lede`, `text-body`, `text-small`, `text-caption`, `text-eyebrow`. Each bundles line-height, letter-spacing, and font-weight, so a single utility like `text-h1` produces the same rendering as the `.t-h1` class. **Note:** Tailwind v4's `--text-*` modifier set doesn't include `font-style`, so `text-lede` ships size/line-height/weight only. The pure-CSS `.t-lede` class is italic; in Tailwind markup, pair the utility with `italic` — `class="font-serif text-lede italic text-gray-700"`.
 
 **Radii** — `rounded-xs`, `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl`, `rounded-full`
 
@@ -55,7 +55,7 @@ Inkwell's tokens are aliased into Tailwind's namespace, so all of these utility 
 
 **Containers** — `max-w-narrow` (820px), `max-w-default` (920px), `max-w-wide` (1120px)
 
-You also get every component class from `inkwell-components.css`: `.btn`, `.btn-primary`, `.card`, `.alert`, `.tldr`, `.stat-card`, `.tbl`, `.eyebrow`, and so on. They sit inside `@layer components`, so Tailwind utilities override them when they collide.
+You also get every component class from `inkwell-components.css`: `.btn`, `.btn-primary`, `.card`, `.alert`, `.tldr`, `.stat-card` (+ `.is-primary`), `.tbl`, `.eyebrow` / `.eyebrow-serif`, `.segmented`, the editorial primitives (`.dropcap`, `.pullquote`, `.byline`, `figure.figure`), and so on. They sit inside `@layer components`, so Tailwind utilities override them when they collide.
 
 ---
 

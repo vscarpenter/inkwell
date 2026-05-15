@@ -6,6 +6,30 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.4.0] — 2026-05-15
+
+### Added
+- **Editorial primitives.** New `.dropcap` (4.2em first-letter accent ornament), `.pullquote` (serif italic with 1.5px accent left-rule), `.byline` (+ `.byline .author` for the italic-serif author override), and `figure.figure` (+ caption with rule-anchored italic-serif `figcaption`). These are the smallest set that materially backs the system's "editorial interfaces" claim — see `preview.html` §24 for a working sample.
+- **`.t-lede` type style + `--t-lede: 20px` token.** Serif italic deck/intro paragraph that sits between a headline and the body in long-form prose. Closes the gap between `.t-h3` (19px) and `.t-body` (16px). Also exposed to Tailwind as `text-lede`.
+- **`.eyebrow-serif`** — italic-serif sibling to the existing mono `.eyebrow`. Mono stays the right call for product/dashboard contexts (eyebrow signals technical metadata); `.eyebrow-serif` is the magazine-kicker treatment for editorial contexts. Same accent rule, different voice.
+- **`.segmented`** segmented-control component. A pill-shaped group of mutually-exclusive options sharing one outer border — use for 2–4 short labels (theme toggle, view modes, density). Mark the active option with `aria-pressed="true"` or `.is-active`. The example pages had been hand-rolling this from three `.btn-ghost`s; now it's a first-class primitive.
+
+### Changed
+- **Headlines run weight 600.** `.t-display` / `.t-h1` / `.t-h2` / `.t-h3` bumped from 500 to 600, with tracking tightened a notch (display now -0.025em, h1 -0.018em, h2 -0.012em, h3 -0.01em; display line-height 1.05). Weight 500 in `ui-serif`-fallback territory was reading as "slightly seriffed grotesque" at display sizes — 600 lets the serifs carry. Tailwind aliases in `inkwell-theme.css` mirror the new values.
+- **`--serif` stack tightened.** Dropped `ui-serif` (which resolves to wildly variable fonts across platforms — New York on Apple, Noto Serif on Android, often DejaVu Serif on Linux — and can't be QA'd). New stack leads with Iowan Old Style (iOS/macOS), then Palatino (Windows), then Source Serif Pro (where installed), then Georgia (universal fallback). Every link in the chain is a serif we've verified at display sizes. No webfont — platform-stack rule preserved.
+- **`.alert-title` simplified.** Dropped the per-variant title color overrides (info/success/warning/danger titles previously rendered in the tinted hue, which made the info title indistinguishable from a link). Title now stays slate; the tinted background + 1.5px tinted border carry the semantic. Pair with an icon or `role="alert"` if a third signal is needed.
+- **`.card.is-link:hover` calmed.** Dropped the 3px translateY lift and the shadow swap; the hover now shifts only the border color (gray-300 → gray-500). The lift-and-glow gesture was a Material/Linear convention that fought the letterpress-quiet identity the 1.5px hairline establishes. Card transition list trimmed accordingly.
+- **`.stat-card.warn` renamed to `.stat-card.is-primary`.** The old name said "warning" while the color was `--accent` — the meaning was neither warning nor primary depending on which signal you read. The class now means what it always did visually: this is the headline metric in the row. Markup must update: `class="stat-card warn"` → `class="stat-card is-primary"`. Mirrored in `variants/tokens-clay.css` and the four `variants/preview-*.html` pages.
+
+### Migration
+- `class="stat-card warn"` → `class="stat-card is-primary"` everywhere consumer markup uses it. No CSS-side fallback shipped; rename your markup.
+- If you were relying on `.alert-title` taking the tint color, that's gone. The title is now `var(--slate)` in every variant. Consumers who want a colored title can target `.alert.is-X .alert-title` themselves.
+- If you depended on `.card.is-link:hover` lifting and casting a shadow, both are gone. Hover now changes only the border color. Re-add the lift in your own CSS if you specifically need it for a marketing surface — but consider whether the system's calmer default fits better.
+- The `--serif` token resolves to a different font on every OS now. If you previously eyeballed line-length around `ui-serif`'s OS-default rendering, re-check at display sizes — Iowan Old Style and Palatino set slightly tighter than New York / Noto Serif did.
+
+### Deferred
+- **`tokens.json` drift risk** (audit #20). The JSON has been updated by hand for `--t-lede` and the new serif stack to keep it in sync for this release, but the manual-mirror process remains. Tracked in [`BACKLOG.md`](BACKLOG.md).
+
 ## [1.3.1] — 2026-05-14
 
 ### Fixed

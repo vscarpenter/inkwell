@@ -77,8 +77,8 @@ open examples/tailwind.html  # Tailwind v4 integration demo (no toolchain needed
 - **One accent only.** A second hue for data viz reaches for `--olive` or `--sky`, never a second saturated brand color.
 - **1.5px borders.** The system's signature. Always paired with `--gray-300` via the `--border` token. Designed retina-first.
 - **Lifted dark accents.** Every saturated token is more luminous in dark mode (same hue, more light). Defining a token only in `:root` will look wrong on dark surfaces.
-- **Type families are jobs:** serif → headings & stat numbers, mono → eyebrows & technical metadata, sans → everything else.
-- **Platform fonts only.** `ui-serif`, `system-ui`, `ui-monospace` — instant load, zero FOUT.
+- **Type families are jobs:** serif → headings (weight 600), stat numbers, editorial primitives (lede, pullquote, byline-author, figure caption); mono → file names, hex codes, byline metadata, `.eyebrow` for product/dashboard contexts; sans → everything else. Editorial contexts get `.eyebrow-serif` instead of mono.
+- **Platform fonts only.** Iowan Old Style → Palatino → Source Serif Pro → Georgia for serif; `system-ui` for sans; `ui-monospace` for mono. Instant load, zero FOUT.
 - **Tokens, never literals.** Component CSS never hardcodes hex values; everything routes through tokens so palettes stay swappable.
 
 See `DESIGN_SYSTEM.md` for the full reasoning behind each rule.

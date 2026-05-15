@@ -80,17 +80,19 @@
   <section>
     <div class="sec-head">
       <span class="idx">02</span><h2>Typography</h2>
-      <span class="count">8 styles</span>
+      <span class="count">10 styles</span>
     </div>
     <div class="stage" style="flex-direction: column; align-items: stretch; gap: 18px;">
       <div class="t-display">Plan the week ahead</div>
       <div class="t-h1">Plan the week ahead</div>
       <div class="t-h2">Plan the week ahead</div>
       <div class="t-h3">Plan the week ahead</div>
+      <p class="t-lede">A deck paragraph sits between the headline and the body — serif italic, twenty pixels, comfortable line-length.</p>
       <div class="t-body">Body copy at 16/1.55, sans, weight 430. Long-form prose lives here — captions, descriptions, paragraphs of explanation.</div>
       <div class="t-small">Small at 14/1.5 — meta information, secondary copy.</div>
       <div class="t-caption" style="text-transform: uppercase; letter-spacing: 0.05em;">Caption · updated 2 hours ago</div>
       <div class="eyebrow">Eyebrow label</div>
+      <div class="eyebrow-serif">Editorial kicker</div>
     </div>
   </section>
 
@@ -153,7 +155,7 @@
         <div class="stat-label">Open PRs</div>
         <div class="stat-delta flat">— flat</div>
       </div>
-      <div class="stat-card warn">
+      <div class="stat-card is-primary">
         <div class="stat-num">2</div>
         <div class="stat-label">Slipped</div>
         <div class="stat-delta down">▼ needs attention</div>
@@ -532,6 +534,72 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
         <h3>No results found</h3>
         <p>Try a broader query, or remove a filter. Searches match component names, token names, documentation headings, and inline code.</p>
         <button class="btn btn-secondary" type="button">Clear filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDITORIAL PRIMITIVES -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">24</span><h2>Editorial primitives</h2>
+      <span class="count">dropcap · pullquote · byline · figure</span>
+    </div>
+
+    <div class="card" style="padding: 32px; max-width: 60ch; margin: 0 auto;">
+      <div class="eyebrow-serif" style="margin-bottom: 12px;">Volume IV · Issue 02</div>
+      <h3 class="t-h1" style="margin: 0 0 10px;">The case for hairlines</h3>
+      <p class="t-lede" style="margin: 0 0 18px;">Why a 1.5-pixel border is the most opinionated decision a design system can make — and the one that ages best.</p>
+      <div class="byline" style="margin-bottom: 22px;">
+        <span class="author">By the editors</span>
+        <span>·</span>
+        <span>14 May 2026</span>
+        <span>·</span>
+        <span>6 min read</span>
+      </div>
+
+      <p class="t-body dropcap" style="margin: 0 0 16px;">
+        Every design system makes a wager about borders. Most pick one pixel, because that is the default in every framework and the cheapest line the browser knows how to draw. Inkwell picks one-and-a-half. The half-pixel is a small concession to the era of retina screens, and a deliberate signal that this system was tuned for the era it ships in, not the one CSS was first specified for.
+      </p>
+
+      <blockquote class="pullquote">
+        The half-pixel is the system's most opinionated decision — and the easiest one to defend.
+      </blockquote>
+
+      <p class="t-body" style="margin: 0 0 16px;">
+        On a 2× display, a 1.5-pixel border renders as three device pixels. That is the smallest unit that reliably reads as <em>a drawn line</em> rather than <em>an artifact of antialiasing</em>. One-pixel borders, on the same screen, often disappear under shadows and tinted backgrounds. Two-pixel borders read as frames around posters — fine for art, wrong for product UI.
+      </p>
+
+      <figure class="figure">
+        <div style="height: 180px; background: linear-gradient(135deg, var(--accent-tint), var(--olive-tint)); border-radius: var(--r-md); border: var(--border);"></div>
+        <figcaption>The accent and olive tints, side by side under the same 1.5px frame. The border is what makes them feel like a pair instead of two unrelated swatches.</figcaption>
+      </figure>
+
+      <p class="t-body" style="margin: 0;">
+        Pair this with sparing color and the system stops shouting. That, more than any single token, is what Inkwell is for.
+      </p>
+    </div>
+  </section>
+
+  <!-- SEGMENTED CONTROL -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">25</span><h2>Segmented control</h2>
+      <span class="count">aria-pressed · .is-active</span>
+    </div>
+    <div class="stage">
+      <div class="segmented" role="group" aria-label="View mode">
+        <button type="button" aria-pressed="true">List</button>
+        <button type="button" aria-pressed="false">Board</button>
+        <button type="button" aria-pressed="false">Timeline</button>
+      </div>
+      <div class="segmented" role="group" aria-label="Theme">
+        <button type="button" aria-pressed="false">Auto</button>
+        <button type="button" aria-pressed="true">Light</button>
+        <button type="button" aria-pressed="false">Dark</button>
+      </div>
+      <div class="segmented" role="group" aria-label="Density">
+        <button type="button" aria-pressed="true">Compact</button>
+        <button type="button" aria-pressed="false">Cozy</button>
       </div>
     </div>
   </section>

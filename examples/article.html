@@ -49,9 +49,16 @@
       </nav>
 
       <header class="section">
-        <span class="eyebrow">Editorial sample</span>
-        <h1 class="t-display">Design notes for calm product interfaces.</h1>
-        <p class="hero-copy">This article layout uses Inkwell typography, link styling, compact navigation chips, and dark callouts for documentation or product essays.</p>
+        <span class="eyebrow-serif">Editorial sample</span>
+        <h1 class="t-display" style="margin: 14px 0 12px;">Design notes for calm product interfaces.</h1>
+        <p class="t-lede" style="margin: 0 0 18px;">A short guide to using Inkwell where it shines — long-form writing, technical essays, and interfaces that want to read like an edited page rather than a feed.</p>
+        <div class="byline">
+          <span class="author">By the editors</span>
+          <span>·</span>
+          <span>15 May 2026</span>
+          <span>·</span>
+          <span>4 min read</span>
+        </div>
       </header>
 
       <section class="section article-layout">
@@ -60,17 +67,30 @@
             <span class="idx">01</span>
             <h2>Principles</h2>
           </div>
-          <p>Inkwell keeps the system quiet so content and workflow state carry the page. It favors editorial headings, understated surfaces, and a single accent color.</p>
-          <p>Use <code>--paper</code> for panels, <code>--ivory</code> for the page, and <code>--accent</code> only where users need a strong interaction cue.</p>
+          <p class="dropcap">Inkwell keeps the system quiet so content and workflow state carry the page. It favors editorial headings, understated surfaces, and a single accent color. The rules are few, the consequences are visible everywhere — a typographic system that asks restraint of every page it builds.</p>
+          <p>Use <code>--paper</code> for panels, <code>--ivory</code> for the page, and <code>--accent</code> only where users need a strong interaction cue. Anywhere a second hue is needed, reach for <code>--olive</code> or <code>--sky</code> — never a second saturated brand color.</p>
+
+          <blockquote class="pullquote">
+            The system's restraint should live in color and border, not in headline weight.
+          </blockquote>
+
           <div class="tldr">
             <div class="tldr-label">Rule</div>
-            If a value exists in <code>tokens.css</code>, reference the token instead of hardcoding a matching color or spacing value.
+            If a value exists in <code>inkwell-tokens.css</code>, reference the token instead of hardcoding a matching color or spacing value.
           </div>
+
           <div class="sec-head">
             <span class="idx">02</span>
             <h2>Application</h2>
           </div>
-          <p>Long-form pages should use narrow reading widths, generous section spacing, and links with the built-in <a class="link" href="DESIGN_SYSTEM.md">Inkwell underline style</a>.</p>
+          <p>Long-form pages should use narrow reading widths, generous section spacing, and links with the built-in <a class="link" href="https://inkwell.vinny.dev/DESIGN_SYSTEM.md">Inkwell underline style</a>. The editorial primitives — drop caps, pull quotes, bylines, captioned figures — only land when the surrounding page gives them room to breathe.</p>
+
+          <figure class="figure">
+            <div style="height: 200px; background: linear-gradient(135deg, var(--accent-tint) 0%, var(--olive-tint) 100%); border-radius: var(--r-md); border: var(--border);"></div>
+            <figcaption>The accent and olive tints under the same 1.5-pixel frame. The border is what makes them feel like a pair instead of two unrelated swatches — a small example of why hairlines do more work than they look like they should.</figcaption>
+          </figure>
+
+          <p>Use this layout for technical essays, post-mortems, and design notes. Pair the editorial primitives with <code>.card</code>, <code>.tldr</code>, and the table-of-contents pill list on the right for navigation.</p>
         </article>
 
         <aside class="card">

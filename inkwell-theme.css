@@ -1,6 +1,6 @@
 /* =====================================================================
    Inkwell — Tailwind v4 entry.
-   Version: 1.3.1
+   Version: 1.4.0
 
    Drop this into a Tailwind v4 project AFTER `@import "tailwindcss"`:
 
@@ -92,24 +92,33 @@
      The numeric values mirror the .t-* rules in inkwell-components.css;
      if you adjust either, adjust both. */
   --text-display: var(--t-display);
-  --text-display--line-height: 1.1;
-  --text-display--letter-spacing: -0.02em;
-  --text-display--font-weight: 500;
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.025em;
+  --text-display--font-weight: 600;
 
   --text-h1: var(--t-h1);
   --text-h1--line-height: 1.2;
-  --text-h1--letter-spacing: -0.01em;
-  --text-h1--font-weight: 500;
+  --text-h1--letter-spacing: -0.018em;
+  --text-h1--font-weight: 600;
 
   --text-h2: var(--t-h2);
   --text-h2--line-height: 1.3;
-  --text-h2--letter-spacing: -0.01em;
-  --text-h2--font-weight: 500;
+  --text-h2--letter-spacing: -0.012em;
+  --text-h2--font-weight: 600;
 
   --text-h3: var(--t-h3);
   --text-h3--line-height: 1.22;
-  --text-h3--letter-spacing: -0.008em;
-  --text-h3--font-weight: 500;
+  --text-h3--letter-spacing: -0.01em;
+  --text-h3--font-weight: 600;
+
+  /* text-lede ships size + line-height + weight only. Tailwind v4's
+     --text-{name}--{modifier} bundle supports line-height, letter-spacing,
+     and font-weight — font-style is not in the modifier set. The pure-CSS
+     class `.t-lede` is italic; in Tailwind markup, pair the utility with
+     `italic` explicitly: `class="font-serif text-lede italic text-gray-700"`. */
+  --text-lede: var(--t-lede);
+  --text-lede--line-height: 1.5;
+  --text-lede--font-weight: 400;
 
   --text-body: var(--t-body);
   --text-body--line-height: 1.55;
