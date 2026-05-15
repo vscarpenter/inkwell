@@ -1,0 +1,27 @@
+name: tokens.json drift check
+
+on:
+  pull_request:
+    paths:
+      - 'inkwell-tokens.css'
+      - 'tokens.json'
+      - 'scripts/build-tokens-json.mjs'
+      - '.github/workflows/tokens-check.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'inkwell-tokens.css'
+      - 'tokens.json'
+      - 'scripts/build-tokens-json.mjs'
+      - '.github/workflows/tokens-check.yml'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+      - name: Verify tokens.json is up to date
+        run: node scripts/build-tokens-json.mjs --check

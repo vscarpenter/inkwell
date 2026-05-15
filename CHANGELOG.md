@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added
+- **`scripts/build-tokens-json.mjs`** — zero-dependency Node script that regenerates `tokens.json` from `inkwell-tokens.css`. Closes the audit-#20 drift risk: the JSON is no longer hand-maintained, and a new `tokens-check.yml` workflow runs `node scripts/build-tokens-json.mjs --check` on every PR and main push that touches `inkwell-tokens.css` or `tokens.json`, failing the build with a line-level diff if the JSON is stale. The script also asserts the two dark-mode blocks (`@media (prefers-color-scheme: dark)` and `[data-theme="dark"]`) declare identical values — a parity invariant the manual JSON couldn't enforce.
+
+### Changed
+- **`tokens.json` formatting normalized.** The generator emits a deterministic layout: 2-space indent, single-line objects up to 120 chars, multi-line otherwise; `rgba()` values now match the CSS source spacing (`rgba(59, 74, 140, 0.14)`) instead of the previous compact form. No token values changed — just the JSON formatting. Consumers parsing JSON structurally are unaffected; consumers diffing raw bytes will see a one-time noise commit.
+
 ## [1.4.0] — 2026-05-15
 
 ### Added

@@ -16,7 +16,7 @@ This is a pure-CSS repo. There is no build step, no package manager, no test sui
 - `tokens.css` — two-line aggregator that `@import`s the two source files. **Do not edit** — it's a backward-compat shim.
 - `inkwell.css` — one-line `@import` of `tokens.css`. The brand-named alias consumers link from. **Do not edit.**
 - `inkwell-theme.css` — Tailwind v4 entry. Imports the two source files, declares `@theme` aliases, defines `@custom-variant dark`. Edit this when adding tokens that need to surface as Tailwind utilities, or when the Tailwind integration itself changes.
-- `tokens.json` — machine-readable mirror of `inkwell-tokens.css`. Regenerate when token values change.
+- `tokens.json` — machine-readable mirror of `inkwell-tokens.css`. **Generated** by `scripts/build-tokens-json.mjs`; do not edit by hand. Re-run the script after touching `inkwell-tokens.css` and commit the regenerated JSON in the same change.
 - `index.html`, `preview.html`, `examples/` — manual verification surfaces.
 - `variants/` — legacy palette branch. See "The two universes" below.
 
@@ -48,6 +48,10 @@ These are non-negotiable. PRs that violate them will be asked to change before m
 5. **Shadows are warm/low-spread in light, deep-pure-black in dark.** Don't reuse light-mode rgba shadows under dark mode — warm shadows vanish on dark surfaces.
 6. **Type families are jobs, not preferences.** Serif → headings, stat numbers, italic emphasis. Mono → eyebrows, table headers, hex codes, technical metadata. Sans → everything else.
 7. **Platform fonts only.** `ui-serif`, `system-ui`, `ui-monospace`. No webfonts. If a task seems to require one, push back unless the reason is strong.
+
+## Regenerating `tokens.json`
+
+`tokens.json` is the only generated artifact in the repo. Re-run `node scripts/build-tokens-json.mjs` whenever `inkwell-tokens.css` changes and commit the regenerated JSON in the same change. CI runs `node scripts/build-tokens-json.mjs --check` on every PR — a stale `tokens.json` fails the check with a line-level diff. The script has no dependencies (Node 18+ built-ins only); this is **not** a build step on the CSS itself — the CSS files still ship as-is.
 
 ## How to verify a change
 

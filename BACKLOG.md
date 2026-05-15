@@ -27,10 +27,6 @@ Promote an item by deleting it from here and writing it up in the relevant doc +
 
 ## Audit follow-ups
 
-### `tokens.json` drift risk (Audit #20)
-
-The JSON is updated by hand whenever `inkwell-tokens.css` changes. The README, AGENTS.md, CONTRIBUTING.md, and DESIGN_SYSTEM.md all position it as part of the public API for Figma plugins and Style Dictionary consumers, so dropping it is a breaking change. The cleanest fix is a small no-dependency Node script that generates it from `inkwell-tokens.css`. Alternative: drop the JSON entirely and update the docs to tell consumers to parse the CSS directly.
-
 ### Editorial primitives in `variants/`
 
 `variants/tokens-clay.css` is missing `.t-lede`, `.eyebrow-serif`, `.dropcap`, `.pullquote`, `.byline`, and `figure.figure` — they're scoped to canonical Inkwell as of 1.4.0. Two callers would justify adding them:
