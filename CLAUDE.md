@@ -65,7 +65,7 @@ Indigo & Cloud is the default — no extra stylesheet needed. The variant CSS fi
 
 **Do not** restate component CSS in variant files. Component rules live in `inkwell-components.css` and reference `var(--accent)` etc. — overriding the token is enough.
 
-The 14 example pages and `preview.html` carry a runtime palette toggle (widget styled in `examples/demo.css`, wired in `examples/demo.js`). It reads `?palette=clay` from the URL on load, persists to `localStorage("inkwell-palette")`, and dynamically swaps a `<link>` element in `<head>`. `examples/index.html` deliberately skips the toggle to remain a minimal starter template.
+The 14 destination example pages and `preview.html` carry a runtime palette toggle (widget styled in `examples/demo.css`, wired in `examples/demo.js`). It reads `?palette=clay` from the URL on load, persists to `localStorage("inkwell-palette")`, and dynamically swaps a `<link>` element in `<head>`. `examples/index.html` deliberately skips the toggle because it is the gallery navigation hub rather than a destination with palette-specific content; the root `index.html` (the minimal starter template) also skips it for the same reason — to stay copy-paste minimal.
 
 ## Editing rules that aren't obvious from the CSS
 

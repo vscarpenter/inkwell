@@ -14,7 +14,7 @@ open preview.html            # full component showcase
 open variants/compare.html   # side-by-side palette comparison
 ```
 
-GitHub Pages deploys `examples/` on pushes to `main` when `examples/**`, any of the five canonical CSS files (`tokens.css`, `inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`, `inkwell-theme.css`), or `.github/workflows/pages.yml` changes. The workflow `cp`s the five files into `examples/` at deploy time so the live site never drifts from source.
+GitHub Pages deploys `examples/` on pushes to `main` when `examples/**`, any of the five canonical CSS files (`tokens.css`, `inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`, `inkwell-theme.css`), any of the three variant CSS files (`variants/clay.css`, `variants/sage.css`, `variants/burgundy.css`), or `.github/workflows/pages.yml` changes. The workflow `cp`s the five canonical files into `examples/` and the three variant files into `examples/variants/` at deploy time so the live site never drifts from source.
 
 ## Coding Style & Naming Conventions
 
