@@ -50,26 +50,22 @@ cp variants/clay.css variants/sage.css variants/burgundy.css examples/variants/
 
 If you add a new source CSS file at the repo root, also add it to the workflow's `paths:` trigger and the `cp` step.
 
-## Architecture: two parallel naming systems
+## Architecture: one token layer, four palettes
 
-This is the most important thing to internalize before editing tokens or component CSS. The repo contains **two separately-evolved branches of the system** that must not be mixed:
+Inkwell has one token layer (`inkwell-tokens.css`) and one component layer (`inkwell-components.css`). The four palettes — **Indigo & Cloud** (canonical), **Clay**, **Sage & Stone**, **Burgundy & Bone** — share both layers; variants are override-only stylesheets that redefine the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) for `:root` + the dark cascade.
 
-### Branch 1 — root `tokens.css` (canonical, current)
+Variant files (`variants/clay.css`, `variants/sage.css`, `variants/burgundy.css`) are ~70 lines each. Load them **after** `inkwell.css` to switch the brand layer:
 
-- Self-contained, no `@import`. Default palette baked in: **Indigo & Cloud**.
-- Accent is named **`--accent`** (semantic).
-- Dark mode is built into the same file (Pattern B: auto via `prefers-color-scheme`, manual override via `[data-theme="light"|"dark"]` on `<html>`).
-- `inkwell.css` is a one-line `@import url('tokens.css')` — the brand-named alias projects link from `<head>`.
-- **Use this for any new work.**
+```html
+<link rel="stylesheet" href="inkwell.css">
+<link rel="stylesheet" href="variants/clay.css">  <!-- optional override -->
+```
 
-### Branch 2 — `variants/` (legacy / reference)
+Indigo & Cloud is the default — no extra stylesheet needed. The variant CSS files have no `@import` directives; they rely on cascade order.
 
-- `tokens-clay.css` is the **base** (532 lines, full system; predates `tokens.css`).
-- `tokens-burgundy.css`, `tokens-indigo.css`, `tokens-sage.css` (~100 lines each) all `@import url('tokens-clay.css')` and override only the brand-layer tokens.
-- Accent is named **`--clay`** *regardless of actual hue* — the indigo variant still uses `var(--clay)`. Don't rename it; the components in `tokens-clay.css` reference it.
-- Some semantic-color rgba literals were hardcoded to clay's coral in `tokens-clay.css`, so each variant restates `.input:focus` and `.chip-dot.attention` with the new color. If you add a component that uses the accent in an rgba(), you must do the same in every variant.
+**Do not** restate component CSS in variant files. Component rules live in `inkwell-components.css` and reference `var(--accent)` etc. — overriding the token is enough.
 
-**Do not** introduce `--accent` references inside `variants/` files, and do not reference `--clay` from anywhere built on top of root `tokens.css`. They're two universes.
+The 14 example pages and `preview.html` carry a runtime palette toggle (widget styled in `examples/demo.css`, wired in `examples/demo.js`). It reads `?palette=clay` from the URL on load, persists to `localStorage("inkwell-palette")`, and dynamically swaps a `<link>` element in `<head>`. `examples/index.html` deliberately skips the toggle to remain a minimal starter template.
 
 ## Editing rules that aren't obvious from the CSS
 

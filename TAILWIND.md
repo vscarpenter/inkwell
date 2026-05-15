@@ -154,14 +154,18 @@ The footgun to avoid: rebuilding a button from utilities just because you can.
 
 ---
 
-## The two universes
+## Using a non-default palette with Tailwind
 
-Inkwell ships two parallel naming systems. **The Tailwind integration targets exactly one of them — the root `--accent` universe.**
+The variant CSS files (`variants/clay.css`, `variants/sage.css`, `variants/burgundy.css`) override `--accent` and a handful of other brand-layer tokens. Tailwind utilities that reference those tokens via `@theme` (e.g. `text-accent`, `bg-accent-tint`, `border-gray-300`) follow the variant automatically — no extra Tailwind config needed.
 
-- ✅ **Supported:** `inkwell-tokens.css`, `inkwell-components.css`, `inkwell-theme.css`. Accent is `--accent` (semantic).
-- ❌ **Not supported with Tailwind:** anything inside [`variants/`](variants/) (clay / sage / burgundy palettes). Those files use `--clay` *regardless of hue* and are incompatible with the `@theme` aliases.
+The only requirement: load the variant CSS **after** Tailwind's build output, so its `:root` overrides win the cascade. For example:
 
-If you want a clay-flavored Tailwind+Inkwell, override `--accent` and the surface tokens in your own CSS after the Inkwell imports — don't pull from `variants/`.
+```html
+<link rel="stylesheet" href="/dist/styles.css">    <!-- Tailwind build (imports inkwell-theme.css) -->
+<link rel="stylesheet" href="/variants/clay.css">  <!-- palette override, loads after -->
+```
+
+Reverse the order and Tailwind's `@theme`-derived rules win, leaving the default indigo accent active despite the variant being loaded.
 
 ---
 
