@@ -1,0 +1,77 @@
+/* =====================================================================
+   Sage & Stone — variant palette of Inkwell.
+   Override-only: load this AFTER inkwell.css to switch the brand layer.
+
+   Default canonical palette is Indigo & Cloud (see inkwell-tokens.css).
+   This file redefines surface + accent + neutral tokens only; all
+   structural rules (1.5px borders, type scale, spacing, motion,
+   components) come from inkwell-components.css unchanged.
+   ===================================================================== */
+
+:root {
+  /* ---------- Surfaces ---------- */
+  --ivory: #F6F4EE;
+  --slate: #181816;
+  --oat:   #DDD9CE;
+  /* --paper is unchanged from canonical (#FFFFFF) */
+
+  /* ---------- Accent (sage forest green) ---------- */
+  --accent:               #3F7C5C;
+  --accent-d:             #2D5E44;
+  --accent-tint:          rgba(63, 124, 92, 0.14);
+  --accent-focus-ring:    rgba(63, 124, 92, 0.18);
+  --accent-strong-border: rgba(63, 124, 92, 0.5);
+
+  /* ---------- Neutral scale (warm stone) ---------- */
+  --gray-100: #EBE9E1;
+  --gray-200: #DFDCD2;
+  --gray-300: #CDCAC0;
+  --gray-500: #84827B;
+  --gray-700: #3A3A36;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* ---------- Surfaces (dark) ---------- */
+    --ivory: #13140F;
+    --paper: #1B1D17;
+    --slate: #E8E8E0;
+    --oat:   #363932;
+
+    /* ---------- Accent (lifted sage) ---------- */
+    --accent:               #6FA585;
+    --accent-d:             #578D6E;
+    --accent-tint:          rgba(111, 165, 133, 0.18);
+    --accent-focus-ring:    rgba(111, 165, 133, 0.28);
+    --accent-strong-border: rgba(111, 165, 133, 0.6);
+
+    /* ---------- Neutral scale (dark) ---------- */
+    --gray-100: #22241E;
+    --gray-200: #2A2C26;
+    --gray-300: #373A33;
+    --gray-500: #9A9A91;
+    --gray-700: #BFBFB6;
+  }
+}
+
+:root[data-theme="dark"] {
+  /* ---------- Surfaces (dark) ---------- */
+  --ivory: #13140F;
+  --paper: #1B1D17;
+  --slate: #E8E8E0;
+  --oat:   #363932;
+
+  /* ---------- Accent (lifted sage) ---------- */
+  --accent:               #6FA585;
+  --accent-d:             #578D6E;
+  --accent-tint:          rgba(111, 165, 133, 0.18);
+  --accent-focus-ring:    rgba(111, 165, 133, 0.28);
+  --accent-strong-border: rgba(111, 165, 133, 0.6);
+
+  /* ---------- Neutral scale (dark) ---------- */
+  --gray-100: #22241E;
+  --gray-200: #2A2C26;
+  --gray-300: #373A33;
+  --gray-500: #9A9A91;
+  --gray-700: #BFBFB6;
+}
