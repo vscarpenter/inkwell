@@ -10,6 +10,9 @@ on:
       - 'inkwell-tokens.css'
       - 'inkwell-components.css'
       - 'inkwell-theme.css'
+      - 'variants/clay.css'
+      - 'variants/sage.css'
+      - 'variants/burgundy.css'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -36,7 +39,10 @@ jobs:
         uses: actions/configure-pages@v6
 
       - name: Sync canonical CSS into examples/
-        run: cp tokens.css inkwell.css inkwell-tokens.css inkwell-components.css inkwell-theme.css examples/
+        run: |
+          cp tokens.css inkwell.css inkwell-tokens.css inkwell-components.css inkwell-theme.css examples/
+          mkdir -p examples/variants
+          cp variants/clay.css variants/sage.css variants/burgundy.css examples/variants/
 
       - name: Upload examples/ as Pages artifact
         uses: actions/upload-pages-artifact@v5
