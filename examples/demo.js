@@ -28,6 +28,7 @@
 })();
 
 (function () {
+  // KEEP IN SYNC with the palette IIFE in preview.html — preview.html cannot load this bundle.
   var PALETTES = {
     indigo:   null,                        // default — no extra stylesheet
     clay:     "variants/clay.css",
