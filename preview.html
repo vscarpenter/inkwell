@@ -669,6 +669,16 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
       apply(current);
     });
 
+    // Listen for parent postMessage (variants/compare.html broadcasts theme
+    // changes to all iframes). Apply but do NOT persist — the parent's
+    // override is transient and per-session.
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'set-theme' && order.includes(e.data.value)) {
+        current = e.data.value;
+        apply(current);
+      }
+    });
+
     const dlg = document.getElementById('pv-dialog');
     document.getElementById('pv-open-dlg')?.addEventListener('click', () => dlg.showModal());
     dlg?.querySelectorAll('[data-pv-close]').forEach(b => b.addEventListener('click', () => dlg.close()));
