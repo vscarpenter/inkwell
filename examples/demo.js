@@ -26,3 +26,48 @@
 
   applyTheme(saved);
 })();
+
+(function () {
+  // KEEP IN SYNC with the palette IIFE in preview.html — preview.html cannot load this bundle.
+  var PALETTES = {
+    indigo:   null,                        // default — no extra stylesheet
+    clay:     "variants/clay.css",
+    sage:     "variants/sage.css",
+    burgundy: "variants/burgundy.css",
+  };
+
+  var paletteLink = null;
+
+  function loadSheet(href) {
+    if (paletteLink) { paletteLink.remove(); paletteLink = null; }
+    if (!href) return;
+    paletteLink = document.createElement("link");
+    paletteLink.rel = "stylesheet";
+    paletteLink.id = "inkwell-palette-css";
+    paletteLink.href = href;
+    document.head.appendChild(paletteLink);
+  }
+
+  function applyPalette(name) {
+    if (!PALETTES.hasOwnProperty(name)) name = "indigo";
+    loadSheet(PALETTES[name]);
+    localStorage.setItem("inkwell-palette", name);
+    var url = new URL(location.href);
+    if (name === "indigo") url.searchParams.delete("palette");
+    else url.searchParams.set("palette", name);
+    history.replaceState(null, "", url.toString());
+    document.querySelectorAll("[data-palette-choice]").forEach(function (btn) {
+      var active = btn.getAttribute("data-palette-choice") === name;
+      btn.classList.toggle("is-active", active);
+      btn.setAttribute("aria-pressed", String(active));
+    });
+  }
+
+  document.querySelectorAll("[data-palette-choice]").forEach(function (btn) {
+    btn.addEventListener("click", function () { applyPalette(btn.getAttribute("data-palette-choice")); });
+  });
+
+  var fromUrl = new URLSearchParams(location.search).get("palette");
+  var fromStorage = localStorage.getItem("inkwell-palette");
+  applyPalette(fromUrl || fromStorage || "indigo");
+})();

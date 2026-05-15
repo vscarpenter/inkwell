@@ -4,7 +4,7 @@ A reusable design system for product UI, dashboards, and technical interfaces. D
 
 **Inkwell** ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, hairline 1.5px borders. Reads as Linear/Stripe/Notion-adjacent without being a clone of any of them.
 
-The system separates *structure* (borders, type scale, spacing, motion, components) from *brand* (colors). Three alternate palettes — warm clay, forest sage, literary burgundy — are preserved in `variants/` for reference. The structural layer is identical across all four; only the brand-layer tokens differ.
+The system separates *structure* (borders, type scale, spacing, motion, components) from *brand* (colors). Four palettes share one token layer and one component layer; only the brand-layer tokens differ. The default is **Indigo & Cloud**; three alternate palettes (Clay, Sage & Stone, Burgundy & Bone) are available as override-only CSS files in `variants/`.
 
 > **Why "Inkwell"?** Print metaphor for editorial discipline; an inkwell is also a dark vessel, which signals dark mode is a first-class concern. Color-agnostic — the name still fits if you ever swap palettes.
 
@@ -302,18 +302,25 @@ inkwell/
 ├── TAILWIND.md             ← Tailwind v4 install guide
 ├── agent-instructions.md   ← self-contained brief for LLM coding agents
 ├── CHANGELOG.md            ← release history
-└── variants/               ← legacy palette branch (clay / sage / burgundy)
-    ├── tokens-clay.css     ← base — original warm-editorial palette
-    ├── tokens-sage.css     ← forest / knowledge-product palette
-    ├── tokens-burgundy.css ← literary / magazine palette
-    ├── tokens-indigo.css   ← variant-format version of this palette
-    ├── preview-{clay,sage,burgundy,indigo}.html
-    └── compare.html        ← side-by-side comparison of all four
+└── variants/               ← palette override files (load after inkwell.css)
+    ├── clay.css            ← warm cream + clay coral
+    ├── sage.css            ← sage green + warm stone
+    ├── burgundy.css        ← deep burgundy + bone paper
+    └── compare.html        ← side-by-side comparison of all four palettes
 ```
 
 The split between `inkwell-tokens.css` and `inkwell-components.css` exists so `inkwell-theme.css` can wrap components inside `@layer components` while keeping `:root` tokens unlayered — without forcing pure-CSS consumers to care. Link `inkwell.css` and the whole tree resolves; link `inkwell-theme.css` from Tailwind v4 entry CSS and the same source files do double duty.
 
-If you ever want to swap palettes, the variant files in `variants/` show the pattern: a ~100-line CSS file overriding only the brand-layer tokens. The structural layer (everything below the `:root` block in `inkwell-tokens.css`) doesn't need to change. Note: the Tailwind v4 integration targets the root `--accent` universe only; the `variants/` palettes use `--clay` regardless of hue and are not Tailwind-compatible.
+To switch palettes, load the relevant `variants/*.css` file after `inkwell.css`. Each variant overrides only the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) — the structural layer stays untouched. Tailwind v4 users load the variant after the Tailwind build output so the `:root` overrides win the cascade; see [`TAILWIND.md`](TAILWIND.md) for cascade-order guidance.
+
+### Palettes
+
+| Palette | File | Vibe |
+|---|---|---|
+| Indigo & Cloud (default) | `inkwell-tokens.css` | Cool stone + deep indigo. No extra file needed. |
+| Clay | `variants/clay.css` | Warm cream + Anthropic clay coral. Editorial. |
+| Sage & Stone | `variants/sage.css` | Sage green + warm stone. Quiet, considered. |
+| Burgundy & Bone | `variants/burgundy.css` | Deep burgundy + bone paper. Literary journal. |
 
 ---
 

@@ -69,6 +69,26 @@
   color: var(--paper);
 }
 
+.palette-toggle {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: var(--border);
+  border-radius: var(--r-md);
+  background: var(--paper);
+}
+
+.palette-toggle .btn {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+.palette-toggle .is-active {
+  background: var(--accent);
+  color: var(--paper);
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);

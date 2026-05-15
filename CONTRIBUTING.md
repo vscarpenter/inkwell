@@ -18,24 +18,26 @@ This is a pure-CSS repo. There is no build step, no package manager, no test sui
 - `inkwell-theme.css` — Tailwind v4 entry. Imports the two source files, declares `@theme` aliases, defines `@custom-variant dark`. Edit this when adding tokens that need to surface as Tailwind utilities, or when the Tailwind integration itself changes.
 - `tokens.json` — machine-readable mirror of `inkwell-tokens.css`. **Generated** by `scripts/build-tokens-json.mjs`; do not edit by hand. Re-run the script after touching `inkwell-tokens.css` and commit the regenerated JSON in the same change.
 - `index.html`, `preview.html`, `examples/` — manual verification surfaces.
-- `variants/` — legacy palette branch. See "The two universes" below.
+- `variants/` — palette override files (clay, sage, burgundy). See "Palettes" below.
 
 If you add a new source CSS file at the repo root, also add it to `tokens.css`'s `@import` list (if it's part of the default install) and to the `paths:` trigger plus `cp` step in `.github/workflows/pages.yml`. For Tailwind exposure, register it inside `inkwell-theme.css`.
 
 See [`TAILWIND.md`](TAILWIND.md) for the conventions that govern the Tailwind v4 path (`border-hair`, components-vs-utilities, cascade-order check).
 
-## The two universes
+## Palettes
 
-The repo has two parallel naming systems that must not be mixed:
+Inkwell ships with four palettes that share one token layer:
 
-| | Root (`tokens.css`) | `variants/` |
+| Palette | File | Vibe |
 |---|---|---|
-| Status | Canonical, current | Legacy / reference |
-| Accent token name | `--accent` | `--clay` (regardless of actual hue) |
-| Dark mode | Built in | Not present |
-| Use for new work? | **Yes** | No |
+| Indigo & Cloud (default) | `inkwell-tokens.css` | Cool stone + deep indigo. Linear/Stripe/Notion-adjacent. |
+| Clay | `variants/clay.css` | Warm cream + Anthropic clay coral. Editorial. |
+| Sage & Stone | `variants/sage.css` | Sage green + warm stone. Quiet, considered. |
+| Burgundy & Bone | `variants/burgundy.css` | Deep burgundy + bone paper. Literary journal. |
 
-Don't reference `--clay` from anything built on root `tokens.css`. Don't introduce `--accent` inside `variants/`. If you're adding a new component, add it to `tokens.css`. If you're fixing a palette-specific bug in `variants/`, stay inside that branch.
+Variant files contain only brand-layer token overrides (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) for `:root` and the dark cascade. They never restate component CSS — components live once, in `inkwell-components.css`.
+
+To use a non-default palette, load its file after `inkwell.css`. The example pages ship with a runtime toggle (`?palette=clay`); for static use, link the variant directly.
 
 ## Design invariants
 
@@ -59,9 +61,9 @@ There's no automated test suite. Verification is visual.
 
 1. Open `preview.html` and confirm your component (or the component you touched) still renders correctly in **both light and dark mode**. Toggle via the theme switcher in the header.
 2. If your change touches the Tailwind v4 path, also open `examples/tailwind.html` and verify components + utilities + `dark:` still behave correctly. The cascade-order check in [`TAILWIND.md`](TAILWIND.md) is the canonical verification.
-3. If you touched anything color-related, also open `variants/compare.html` to confirm none of the four palettes regressed (only relevant if your change touched the `variants/` branch).
+3. If you touched anything color-related, also open `variants/compare.html` (or use `preview.html?palette=clay` / `?palette=sage` / `?palette=burgundy`) to confirm none of the four palettes regressed.
 4. **Do the visual check on a 2x (retina) display when possible.** The 1.5px border is the system's signature and is designed for retina. On 1x, Chrome rounds it to 1px — that's expected, not a bug.
-5. If you added a component that uses an accent in an `rgba()`, remember each `variants/` palette restates the rgba in its override file. You'll need to do the same in every variant.
+5. If you added a component that uses an accent in an `rgba()`, make sure the rgba references `var(--accent)` (or a derived token) rather than a hardcoded color value, so palette overrides work automatically.
 
 ## Commit & PR style
 

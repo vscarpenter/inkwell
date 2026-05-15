@@ -33,6 +33,27 @@
     border-radius: var(--r-md); padding: 24px;
     display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
   }
+  .palette-toggle {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border: var(--border);
+    border-radius: var(--r-md);
+    background: var(--paper);
+    position: fixed;
+    top: 14px;
+    right: 76px;  /* sits left of #theme-toggle (which is at right: 14px) */
+    z-index: 50;
+  }
+  .palette-toggle .btn {
+    height: 28px;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+  .palette-toggle .is-active {
+    background: var(--accent);
+    color: var(--paper);
+  }
 </style>
 </head>
 <body>
@@ -606,6 +627,12 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
 
 </div>
 
+<div class="palette-toggle" aria-label="Palette">
+  <button class="btn btn-ghost" type="button" data-palette-choice="indigo"   title="Indigo &amp; Cloud">Indigo</button>
+  <button class="btn btn-ghost" type="button" data-palette-choice="clay"     title="Clay">Clay</button>
+  <button class="btn btn-ghost" type="button" data-palette-choice="sage"     title="Sage &amp; Stone">Sage</button>
+  <button class="btn btn-ghost" type="button" data-palette-choice="burgundy" title="Burgundy &amp; Bone">Burgundy</button>
+</div>
 <!-- Light/Dark/Auto toggle -->
 <button id="theme-toggle" type="button"
   aria-label="Cycle theme: auto, light, dark"
@@ -642,9 +669,64 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
       apply(current);
     });
 
+    // Listen for parent postMessage (variants/compare.html broadcasts theme
+    // changes to all iframes). Apply but do NOT persist — the parent's
+    // override is transient and per-session.
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'set-theme' && order.includes(e.data.value)) {
+        current = e.data.value;
+        apply(current);
+      }
+    });
+
     const dlg = document.getElementById('pv-dialog');
     document.getElementById('pv-open-dlg')?.addEventListener('click', () => dlg.showModal());
     dlg?.querySelectorAll('[data-pv-close]').forEach(b => b.addEventListener('click', () => dlg.close()));
+  })();
+
+  (function () {
+    // KEEP IN SYNC with the palette IIFE in examples/demo.js — this file cannot share that bundle.
+    var PALETTES = {
+      indigo:   null,
+      clay:     "variants/clay.css",
+      sage:     "variants/sage.css",
+      burgundy: "variants/burgundy.css",
+    };
+
+    var paletteLink = null;
+
+    function loadSheet(href) {
+      if (paletteLink) { paletteLink.remove(); paletteLink = null; }
+      if (!href) return;
+      paletteLink = document.createElement("link");
+      paletteLink.rel = "stylesheet";
+      paletteLink.id = "inkwell-palette-css";
+      paletteLink.href = href;
+      document.head.appendChild(paletteLink);
+    }
+
+    function applyPalette(name) {
+      if (!PALETTES.hasOwnProperty(name)) name = "indigo";
+      loadSheet(PALETTES[name]);
+      localStorage.setItem("inkwell-palette", name);
+      var url = new URL(location.href);
+      if (name === "indigo") url.searchParams.delete("palette");
+      else url.searchParams.set("palette", name);
+      history.replaceState(null, "", url.toString());
+      document.querySelectorAll("[data-palette-choice]").forEach(function (btn) {
+        var active = btn.getAttribute("data-palette-choice") === name;
+        btn.classList.toggle("is-active", active);
+        btn.setAttribute("aria-pressed", String(active));
+      });
+    }
+
+    document.querySelectorAll("[data-palette-choice]").forEach(function (btn) {
+      btn.addEventListener("click", function () { applyPalette(btn.getAttribute("data-palette-choice")); });
+    });
+
+    var fromUrl = new URLSearchParams(location.search).get("palette");
+    var fromStorage = localStorage.getItem("inkwell-palette");
+    applyPalette(fromUrl || fromStorage || "indigo");
   })();
 </script>
       <p class="t-caption" style="text-align: center; margin: 16px 0 24px; font-style: italic; letter-spacing: 0.02em;">

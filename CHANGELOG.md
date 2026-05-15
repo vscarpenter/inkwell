@@ -6,11 +6,37 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.0.0] — 2026-05-15
+
 ### Added
+- **Palette toggle on every example page.** A `?palette=` query string selects one of four palettes — `indigo` (default), `clay`, `sage`, `burgundy` — on every page in `examples/` and on `preview.html`. The widget sits next to the existing theme toggle: localStorage persistence under `inkwell-palette`, `?palette=` URL state via `history.replaceState`, click-through cycling. Resolution order on load is URL → localStorage → `indigo`. `examples/index.html` and the root `index.html` are intentionally left without the toggle (gallery hub + starter template, respectively).
 - **`scripts/build-tokens-json.mjs`** — zero-dependency Node script that regenerates `tokens.json` from `inkwell-tokens.css`. Closes the audit-#20 drift risk: the JSON is no longer hand-maintained, and a new `tokens-check.yml` workflow runs `node scripts/build-tokens-json.mjs --check` on every PR and main push that touches `inkwell-tokens.css` or `tokens.json`, failing the build with a line-level diff if the JSON is stale. The script also asserts the two dark-mode blocks (`@media (prefers-color-scheme: dark)` and `[data-theme="dark"]`) declare identical values — a parity invariant the manual JSON couldn't enforce.
 
-### Changed
+### Changed (breaking)
+- **Variants are now override-only consumers of canonical.** `variants/tokens-clay.css`, `tokens-sage.css`, `tokens-burgundy.css`, `tokens-indigo.css` are **removed**. Three new files — `variants/clay.css`, `variants/sage.css`, `variants/burgundy.css` — replace them. Each is ~70 lines, contains only brand-layer token overrides for `:root` + the dark cascade, and is meant to load **after** `inkwell.css`. The "two universes" naming rule (canonical uses `--accent`, variants use `--clay`, never mix) is retired.
+- **`--clay` token namespace removed.** Variants now use `--accent`, `--accent-d`, `--accent-tint`, `--accent-focus-ring`, `--accent-strong-border` — the same names canonical uses. Component CSS is no longer duplicated in `variants/tokens-clay.css`; components live once, in `inkwell-components.css`.
+- **`variants/preview-clay.html`, `preview-sage.html`, `preview-burgundy.html`, `preview-indigo.html` removed.** `preview.html?palette=clay` (etc.) replaces them. `variants/compare.html` now embeds the canonical `preview.html` with `?palette=X` instead of the per-palette pages — one source of truth for the comparison view.
 - **`tokens.json` formatting normalized.** The generator emits a deterministic layout: 2-space indent, single-line objects up to 120 chars, multi-line otherwise; `rgba()` values now match the CSS source spacing (`rgba(59, 74, 140, 0.14)`) instead of the previous compact form. No token values changed — just the JSON formatting. Consumers parsing JSON structurally are unaffected; consumers diffing raw bytes will see a one-time noise commit.
+
+### Fixed
+- **preview.html now listens for the parent-iframe `set-theme` postMessage.** `variants/compare.html` broadcasts theme changes to its iframes so the maintainer can flip light/dark across all palettes at once. The legacy per-palette `preview-*.html` pages (now removed) presumably listened for this; canonical preview.html did not. A small `addEventListener("message")` inside preview.html's theme IIFE restores the broadcast — transient (no localStorage write), per-session.
+
+### Migration
+
+For consumers of Inkwell 1.x:
+
+| Old | New |
+|---|---|
+| `<link href="variants/tokens-clay.css">` | `<link href="variants/clay.css">` |
+| `<link href="variants/tokens-sage.css">` | `<link href="variants/sage.css">` |
+| `<link href="variants/tokens-burgundy.css">` | `<link href="variants/burgundy.css">` |
+| `<link href="variants/tokens-indigo.css">` | _(none — canonical `inkwell.css` is the indigo palette)_ |
+| `var(--clay)` | `var(--accent)` |
+| `var(--clay-d)` | `var(--accent-d)` |
+| `var(--clay-tint)` | `var(--accent-tint)` |
+| `variants/preview-clay.html` (or any other preview-*.html) | `preview.html?palette=clay` |
+
+Variant CSS files no longer `@import` canonical. If you currently link only `variants/tokens-clay.css`, you must now link both `inkwell.css` and `variants/clay.css` (in that order). For Tailwind v4 consumers: load the variant CSS **after** the Tailwind build output so the cascade order works — see the new "Using a non-default palette with Tailwind" section in TAILWIND.md.
 
 ## [1.4.0] — 2026-05-15
 

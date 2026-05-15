@@ -79,7 +79,7 @@ Full Tailwind setup guide and conventions: [`TAILWIND.md`](TAILWIND.md) in the r
 | `DESIGN_SYSTEM.md` | You need the canonical spec (token tables, component list, anti-patterns) |
 | `TAILWIND.md` | User is integrating with Tailwind v4 — read this in full before writing markup |
 
-**Do not** copy files from `variants/` unless the user explicitly asks for the legacy clay/sage/burgundy palettes. See §6 for why.
+If the user wants a non-default palette, also fetch the relevant variant file from `variants/` (see §6) and load it after `inkwell.css`.
 
 ### Suggested fetch commands
 
@@ -129,7 +129,7 @@ These are not stylistic preferences. They are the system. Breaking any of them p
 5. **Platform fonts only.** No Google Fonts, no `@font-face`, no webfont loaders. Stacks load instantly and produce zero FOUT. The serif stack leads with Iowan Old Style → Palatino → Source Serif Pro → Georgia (`ui-serif` was dropped in 1.4.0 — it resolves to wildly variable fonts per OS and couldn't be QA'd).
 6. **Page background is `--ivory`, not white.** Body text is `--slate`, not pure black. Pure white + pure black collapses the cool-putty atmosphere.
 7. **Every saturated color token must be defined in both light and dark.** If you add a new colored token, define a **lifted** (more luminous) value in the dark-mode block too. A color defined only at `:root` will look muddy on dark surfaces.
-8. **Do not introduce `--clay` references in new work.** That token belongs to the legacy `variants/` universe (see §6).
+8. **Do not invent new accent token names.** Use `--accent` (and its derived tokens `--accent-d`, `--accent-tint`, etc.) everywhere. Palette switching works by overriding `--accent`; parallel token names break that mechanism.
 
 ---
 
@@ -209,25 +209,27 @@ When a component is missing, build it with tokens — never with hardcoded value
 
 ---
 
-## 6. The two universes — critical
+## 6. Palettes
 
-The repo contains **two separately evolved branches** of the system that must never be mixed:
+Inkwell has one token layer and one component layer. All four palettes share them; switching palettes is a one-line CSS load after `inkwell.css`.
 
-### Universe A — root `tokens.css` (canonical, current)
-- Self-contained. Default palette baked in: **Indigo & Cloud**.
-- Accent is named **`--accent`**.
-- Dark mode is built into the same file.
-- **This is what you use for new work.**
+| Palette | File | Vibe |
+|---|---|---|
+| **Indigo & Cloud** (default) | *(none — built in)* | Cool stone + deep indigo. No extra file. |
+| Clay | `variants/clay.css` | Warm cream + Anthropic clay coral. Editorial. |
+| Sage & Stone | `variants/sage.css` | Sage green + warm stone. Quiet, considered. |
+| Burgundy & Bone | `variants/burgundy.css` | Deep burgundy + bone paper. Literary journal. |
 
-### Universe B — `variants/` (legacy, reference only)
-- `tokens-clay.css` is the base; `tokens-burgundy.css`, `tokens-indigo.css`, `tokens-sage.css` `@import` it and override only brand-layer tokens.
-- Accent is named **`--clay`** *regardless of actual hue* — the `variants/` indigo file still uses `var(--clay)`. Renaming it would break the components defined inside `tokens-clay.css`.
-- Some `rgba()` literals are hardcoded to clay's coral inside `tokens-clay.css`; each variant restates the affected component rules with the new color.
+To activate a non-default palette:
 
-**Rules:**
-- Do not reference `--clay` from anything built on root `tokens.css`.
-- Do not introduce `--accent` inside `variants/` files.
-- Default to root `tokens.css`. Only touch `variants/` if the user explicitly asks for the legacy palettes (clay, sage, burgundy).
+```html
+<link rel="stylesheet" href="inkwell.css">
+<link rel="stylesheet" href="variants/clay.css">
+```
+
+The variant files are ~70 lines each and override only the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale). They do not restate component CSS. All components reference `var(--accent)` and related tokens, so overriding the tokens is all that's needed.
+
+For Tailwind v4, load the variant after the Tailwind build output so the token overrides win the cascade (see §2 and [`TAILWIND.md`](TAILWIND.md)).
 
 ---
 
@@ -308,7 +310,7 @@ From `DESIGN_SYSTEM.md` §4. If you catch yourself doing any of these, stop:
 
 ## 9. Building a new page — workflow
 
-1. Confirm the user wants Inkwell's Indigo & Cloud palette (default). If they want clay / sage / burgundy, see §6 — do not mix universes.
+1. Confirm which palette the user wants. Indigo & Cloud is the default (no extra file). For Clay, Sage & Stone, or Burgundy & Bone, fetch the corresponding variant file and load it after `inkwell.css` (see §6).
 2. Fetch the four canonical CSS files per §2 (`tokens.css`, `inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`). Or if the user is already on Tailwind v4, fetch the three-file Tailwind path instead.
 3. Link `inkwell.css` from `<head>` (or, for the Tailwind path, add `@import "tailwindcss"; @import "./inkwell-theme.css";` to the user's Tailwind entry CSS).
 4. (Optional) Wire the theme toggle (§7).
