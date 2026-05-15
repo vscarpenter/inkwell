@@ -44,8 +44,9 @@ The GitHub Pages workflow (`.github/workflows/pages.yml`) syncs the source CSS i
 
 ```
 cp tokens.css inkwell.css inkwell-tokens.css inkwell-components.css inkwell-theme.css examples/
+cp preview.html examples/
 mkdir -p examples/variants
-cp variants/clay.css variants/sage.css variants/burgundy.css examples/variants/
+cp variants/clay.css variants/sage.css variants/burgundy.css variants/compare.html examples/variants/
 ```
 
 If you add a new source CSS file at the repo root, also add it to the workflow's `paths:` trigger and the `cp` step.
