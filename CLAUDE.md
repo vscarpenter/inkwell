@@ -55,7 +55,7 @@ If you add a new source CSS file at the repo root, also add it to the workflow's
 
 ### After editing CHANGELOG.md
 
-The releases section of `examples/changelog.html` is generated from `CHANGELOG.md`. Re-run `node scripts/build-changelog-html.mjs` and commit the regenerated page in the same change — CI runs `--check` and fails on drift. Edit the page only outside its BEGIN/END markers.
+The releases section of `examples/changelog.html` AND the `Inkwell vX.Y.Z` footer stamp on every example page (the `data-inkwell-version` anchor) are generated from `CHANGELOG.md`. Re-run `node scripts/build-changelog-html.mjs` and commit the regenerated pages in the same change — CI runs `--check` and fails on drift. Edit the changelog page only outside its BEGIN/END markers; never hand-edit the version stamp text.
 
 ## Architecture: one token layer, four palettes
 

@@ -17,7 +17,7 @@ This is a pure-CSS repo. There is no build step, no package manager, no test sui
 - `tokens.css` — deprecated one-line alias of `inkwell.css` (removal slated for 4.0). **Do not edit.**
 - `inkwell-theme.css` — Tailwind v4 entry. Imports the two source files, declares `@theme` aliases, defines `@custom-variant dark`. Edit this when adding tokens that need to surface as Tailwind utilities, or when the Tailwind integration itself changes.
 - `tokens.json` — machine-readable mirror of `inkwell-tokens.css`. **Generated** by `scripts/build-tokens-json.mjs`; do not edit by hand. Re-run the script after touching `inkwell-tokens.css` and commit the regenerated JSON in the same change.
-- `examples/changelog.html` — the releases section is **generated** from `CHANGELOG.md` by `scripts/build-changelog-html.mjs`; edit only outside the BEGIN/END markers. After editing `CHANGELOG.md`, re-run the script and commit the regenerated page in the same change. CI fails on drift for both generated files.
+- `examples/changelog.html` — the releases section is **generated** from `CHANGELOG.md` by `scripts/build-changelog-html.mjs`; edit only outside the BEGIN/END markers. The same script stamps the latest released version into every example-page footer (`data-inkwell-version`). After editing `CHANGELOG.md`, re-run the script and commit the regenerated pages in the same change. CI fails on drift for all generated content.
 - `index.html`, `preview.html`, `examples/` — manual verification surfaces.
 - `variants/` — palette override files (clay, sage, burgundy). See "Palettes" below.
 

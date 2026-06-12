@@ -9,7 +9,7 @@
 // and shared with the other example pages; this script owns ONLY the region
 // between the BEGIN/END markers below. Zero dependencies — Node 18+ built-ins.
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
@@ -150,35 +150,70 @@ function renderRelease(rel, isLatest) {
   return out.join("\n");
 }
 
-function generate() {
-  const releases = parseChangelog(readFileSync(CHANGELOG, "utf8"))
-    .filter((r) => r.intro.length || r.sections.length); // drop an empty [Unreleased]
-  if (!releases.length) throw new Error("no releases parsed from CHANGELOG.md");
-  return releases.map((r, i) => renderRelease(r, i === 0)).join("\n\n");
+// ---------------------------------------------------------------------------
+// 4. Footer version stamps. Every example-page footer carries
+//    `<a … data-inkwell-version>Inkwell vX.Y.Z</a>`; this keeps the text in
+//    sync with the latest released version in CHANGELOG.md.
+// ---------------------------------------------------------------------------
+
+const STAMP_RE = /(<a [^>]*data-inkwell-version[^>]*>)[^<]*(<\/a>)/;
+
+function stampVersion(html, version) {
+  return html.replace(STAMP_RE, `$1Inkwell v${version}$2`);
+}
+
+function latestVersion(releases) {
+  const released = releases.find((r) => r.version !== "Unreleased");
+  if (!released) throw new Error("no released version found in CHANGELOG.md");
+  return released.version;
 }
 
 // ---------------------------------------------------------------------------
-// 4. Splice into the page between the markers. --check diffs instead of writing.
+// 5. Splice the releases between the markers and stamp footers.
+//    --check diffs instead of writing.
 // ---------------------------------------------------------------------------
 
 function main() {
   const check = process.argv.includes("--check");
+  const releases = parseChangelog(readFileSync(CHANGELOG, "utf8"))
+    .filter((r) => r.intro.length || r.sections.length); // drop an empty [Unreleased]
+  const version = latestVersion(releases);
+
+  const stale = [];
+  const writes = [];
+
+  // The changelog page gets the releases region + its own footer stamp.
   const page = readFileSync(PAGE, "utf8");
   const begin = page.indexOf(BEGIN);
   const end = page.indexOf(END);
   if (begin === -1 || end === -1 || end < begin) {
     throw new Error(`marker comments not found in examples/changelog.html — expected "${BEGIN}" … "${END}"`);
   }
-  const next = page.slice(0, begin + BEGIN.length) + "\n" + generate() + "\n      " + page.slice(end);
+  const releasesHtml = releases.map((r, i) => renderRelease(r, i === 0)).join("\n\n");
+  const nextPage = stampVersion(
+    page.slice(0, begin + BEGIN.length) + "\n" + releasesHtml + "\n      " + page.slice(end),
+    version);
+  if (nextPage !== page) (check ? stale : writes).push([PAGE, nextPage]);
+
+  // Every other example page only gets the footer stamp.
+  for (const name of readdirSync(resolve(ROOT, "examples")).filter((f) => f.endsWith(".html")).sort()) {
+    const file = resolve(ROOT, "examples", name);
+    if (file === PAGE) continue;
+    const html = readFileSync(file, "utf8");
+    if (!STAMP_RE.test(html)) continue;
+    const next = stampVersion(html, version);
+    if (next !== html) (check ? stale : writes).push([file, next]);
+  }
 
   if (check) {
-    if (next === page) { console.log("examples/changelog.html is up to date"); return; }
-    console.error("examples/changelog.html is stale — run `node scripts/build-changelog-html.mjs` and commit the result.");
+    if (!stale.length) { console.log(`examples changelog + version stamps are up to date (v${version})`); return; }
+    console.error("stale generated content — run `node scripts/build-changelog-html.mjs` and commit the result:");
+    for (const [file] of stale) console.error(`  ${file}`);
     process.exit(1);
   }
-  writeFileSync(PAGE, next);
-  const count = (next.match(/<article class="release">/g) || []).length;
-  console.log(`wrote examples/changelog.html (${count} releases)`);
+  for (const [file, content] of writes) writeFileSync(file, content);
+  const count = (nextPage.match(/<article class="release">/g) || []).length;
+  console.log(`wrote ${writes.length} file(s) — ${count} releases, version stamp v${version}`);
 }
 
 main();
