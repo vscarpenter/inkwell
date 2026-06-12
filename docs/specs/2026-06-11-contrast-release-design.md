@@ -19,7 +19,7 @@ The review found one structural flaw and a cluster of measured WCAG AA failures:
 - Canonical light mode: `.badge-success` 3.10:1, `.stat-delta.up` 3.68:1, `.pill.resolved` 3.68:1, `.badge-warning` 3.95:1, `.tbl thead th` 4.26:1.
 - Form-control boundaries (checkbox border, off-state switch track) measure 1.56:1. The documented hairline exception covers decorative panel borders, not functional state indicators.
 - Variant `--gray-500` values fail AA (BACKLOG item; clay 3.65:1 on paper).
-- Dark mode passes everywhere in all four palettes — no dark-mode changes except defining the new tokens' dark values.
+- Dark mode passes everywhere in all four palettes — no dark-mode changes except defining the new tokens' dark values. *(Implementation addendum: writing the check table disproved this for hover/badge states — the shipped release also lifts dark `--accent-d` in canonical/sage/burgundy, cuts dark `--accent-tint` to 0.10 in canonical/burgundy, sets burgundy dark `--accent-ink: #D07878`, and screen-gates the manual dark theme for print. CHANGELOG 2.1.0 records each.)*
 
 Plus DX gaps (no button disabled/active/loading states, no `.sr-only`, every consumer rebuilds the navbar) and consistency drift (version headers 2.0.0/1.3.1/1.4.0; localStorage keys `theme-preview` vs `inkwell-theme`; README's "before paint" claim untrue).
 
