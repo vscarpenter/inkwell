@@ -65,32 +65,35 @@
   }
 }
 
-:root[data-theme="dark"] {
-  /* ---------- Surfaces (dark) ---------- */
-  --ivory: #14130E;
-  --paper: #1F1D17;
-  --slate: #F4F2EA;
-  --oat:   #3F3A2D;
+/* @media screen: keep the manual dark theme out of print (print is always light) */
+@media screen {
+  :root[data-theme="dark"] {
+    /* ---------- Surfaces (dark) ---------- */
+    --ivory: #14130E;
+    --paper: #1F1D17;
+    --slate: #F4F2EA;
+    --oat:   #3F3A2D;
 
-  /* ---------- Accent (lifted clay) ---------- */
-  --accent:               #E08B6E;
-  --accent-d:             #C97557;
-  --accent-tint:          rgba(224, 139, 110, 0.18);
-  --accent-focus-ring:    rgba(224, 139, 110, 0.28);
-  --accent-strong-border: rgba(224, 139, 110, 0.6);
-  --accent-ink:           var(--accent);
-  --on-accent:            var(--paper);
+    /* ---------- Accent (lifted clay) ---------- */
+    --accent:               #E08B6E;
+    --accent-d:             #C97557;
+    --accent-tint:          rgba(224, 139, 110, 0.18);
+    --accent-focus-ring:    rgba(224, 139, 110, 0.28);
+    --accent-strong-border: rgba(224, 139, 110, 0.6);
+    --accent-ink:           var(--accent);
+    --on-accent:            var(--paper);
 
-  /* ---------- Neutral scale (dark) ---------- */
-  --gray-100: #26241D;
-  --gray-200: #2E2C24;
-  --gray-300: #3A3730;
-  --gray-400: #716D60;
-  --gray-500: #9C988D;
-  --gray-700: #C4BFB2;
-}
-/* Select chevron dark-mode override: see canonical inkwell-tokens.css for rationale.
-   Stroke uses clay's dark --gray-500 (#9C988D) so the chevron matches the neutral scale. */
-:root[data-theme="dark"] .select {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%239C988D' stroke-width='1.5' stroke-linecap='round'/></svg>");
+    /* ---------- Neutral scale (dark) ---------- */
+    --gray-100: #26241D;
+    --gray-200: #2E2C24;
+    --gray-300: #3A3730;
+    --gray-400: #716D60;
+    --gray-500: #9C988D;
+    --gray-700: #C4BFB2;
+  }
+  /* Select chevron dark-mode override: see canonical inkwell-tokens.css for rationale.
+     Stroke uses clay's dark --gray-500 (#9C988D) so the chevron matches the neutral scale. */
+  :root[data-theme="dark"] .select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%239C988D' stroke-width='1.5' stroke-linecap='round'/></svg>");
+  }
 }

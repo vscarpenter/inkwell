@@ -64,31 +64,34 @@
   }
 }
 
-:root[data-theme="dark"] {
-  /* ---------- Surfaces (dark) ---------- */
-  --ivory: #13140F;
-  --paper: #1B1D17;
-  --slate: #E8E8E0;
-  --oat:   #363932;
+/* @media screen: keep the manual dark theme out of print (print is always light) */
+@media screen {
+  :root[data-theme="dark"] {
+    /* ---------- Surfaces (dark) ---------- */
+    --ivory: #13140F;
+    --paper: #1B1D17;
+    --slate: #E8E8E0;
+    --oat:   #363932;
 
-  /* ---------- Accent (lifted sage) ---------- */
-  --accent:               #6FA585;
-  --accent-d:             #7FB294;                 /* hover LIGHTENS in dark — paper label on old #578D6E read 4.41:1; lifted value reads 7.04:1 */
-  --accent-tint:          rgba(111, 165, 133, 0.18);
-  --accent-focus-ring:    rgba(111, 165, 133, 0.28);
-  --accent-strong-border: rgba(111, 165, 133, 0.6);
-  --accent-ink:           var(--accent);
+    /* ---------- Accent (lifted sage) ---------- */
+    --accent:               #6FA585;
+    --accent-d:             #7FB294;                 /* hover LIGHTENS in dark — paper label on old #578D6E read 4.41:1; lifted value reads 7.04:1 */
+    --accent-tint:          rgba(111, 165, 133, 0.18);
+    --accent-focus-ring:    rgba(111, 165, 133, 0.28);
+    --accent-strong-border: rgba(111, 165, 133, 0.6);
+    --accent-ink:           var(--accent);
 
-  /* ---------- Neutral scale (dark) ---------- */
-  --gray-100: #22241E;
-  --gray-200: #2A2C26;
-  --gray-300: #373A33;
-  --gray-400: #6E6F63;
-  --gray-500: #9A9A91;
-  --gray-700: #BFBFB6;
-}
-/* Select chevron dark-mode override: see canonical inkwell-tokens.css for rationale.
-   Stroke uses sage's dark --gray-500 (#9A9A91) so the chevron matches the neutral scale. */
-:root[data-theme="dark"] .select {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%239A9A91' stroke-width='1.5' stroke-linecap='round'/></svg>");
+    /* ---------- Neutral scale (dark) ---------- */
+    --gray-100: #22241E;
+    --gray-200: #2A2C26;
+    --gray-300: #373A33;
+    --gray-400: #6E6F63;
+    --gray-500: #9A9A91;
+    --gray-700: #BFBFB6;
+  }
+  /* Select chevron dark-mode override: see canonical inkwell-tokens.css for rationale.
+     Stroke uses sage's dark --gray-500 (#9A9A91) so the chevron matches the neutral scale. */
+  :root[data-theme="dark"] .select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%239A9A91' stroke-width='1.5' stroke-linecap='round'/></svg>");
+  }
 }

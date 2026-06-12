@@ -219,57 +219,60 @@
   }
 }
 
-:root[data-theme="dark"] {
-  color-scheme: dark;
+/* @media screen: keep the manual dark theme out of print (print is always light) */
+@media screen {
+  :root[data-theme="dark"] {
+    color-scheme: dark;
 
-  --ivory: #0F1018;
-  --paper: #181A24;
-  --slate: #E8E8EE;
-  --oat:   #2B2D38;
+    --ivory: #0F1018;
+    --paper: #181A24;
+    --slate: #E8E8EE;
+    --oat:   #2B2D38;
 
-  --accent:               #7A8AD1;
-  --accent-d:             #8B9ADB;                 /* hover LIGHTENS in dark — paper label on old #6273C0 read 3.90:1; lifted value reads 6.39:1 */
-  --accent-tint:          rgba(122, 138, 209, 0.10); /* was 0.18 — dark badge-accent text read 4.07:1 on the heavier tint; 0.10 reads 4.61:1 */
-  --accent-focus-ring:    rgba(122, 138, 209, 0.28);
-  --accent-strong-border: rgba(122, 138, 209, 0.6);
-  --accent-ink:           var(--accent);
-  --on-accent:            var(--paper);
+    --accent:               #7A8AD1;
+    --accent-d:             #8B9ADB;                 /* hover LIGHTENS in dark — paper label on old #6273C0 read 3.90:1; lifted value reads 6.39:1 */
+    --accent-tint:          rgba(122, 138, 209, 0.10); /* was 0.18 — dark badge-accent text read 4.07:1 on the heavier tint; 0.10 reads 4.61:1 */
+    --accent-focus-ring:    rgba(122, 138, 209, 0.28);
+    --accent-strong-border: rgba(122, 138, 209, 0.6);
+    --accent-ink:           var(--accent);
+    --on-accent:            var(--paper);
 
-  --olive:        #9CB07A;
-  --olive-tint:   rgba(156, 176, 122, 0.18);
-  --olive-strong-border: rgba(156, 176, 122, 0.6); /* lifted tinted success border */
-  --olive-dark:   #9CB07A;                        /* lifted — same as dark --olive */
-  --rust:         #D27468;
-  --rust-d:       #C96B5F;                         /* lifted rust hover/pressed */
-  --rust-tint:    rgba(210, 116, 104, 0.18);       /* lifted danger alert background */
-  --rust-tint-border: rgba(210, 116, 104, 0.6);    /* lifted danger alert border */
-  --rust-focus-ring:  rgba(210, 116, 104, 0.28);   /* lifted danger input focus halo */
-  --warning:      #D9A55F;
-  --warning-dark: #D9A55F;                         /* lifted warning text (same as warning for contrast) */
-  --warning-tint: rgba(217, 165, 95, 0.18);
-  --warning-strong-border: rgba(217, 165, 95, 0.6); /* lifted tinted warning border */
-  --info:         #7C9FD2;
-  --sky:          #85A6CB;
-  --info-tint:          rgba(124, 159, 210, 0.18);
-  --info-strong-border: rgba(124, 159, 210, 0.6);
+    --olive:        #9CB07A;
+    --olive-tint:   rgba(156, 176, 122, 0.18);
+    --olive-strong-border: rgba(156, 176, 122, 0.6); /* lifted tinted success border */
+    --olive-dark:   #9CB07A;                        /* lifted — same as dark --olive */
+    --rust:         #D27468;
+    --rust-d:       #C96B5F;                         /* lifted rust hover/pressed */
+    --rust-tint:    rgba(210, 116, 104, 0.18);       /* lifted danger alert background */
+    --rust-tint-border: rgba(210, 116, 104, 0.6);    /* lifted danger alert border */
+    --rust-focus-ring:  rgba(210, 116, 104, 0.28);   /* lifted danger input focus halo */
+    --warning:      #D9A55F;
+    --warning-dark: #D9A55F;                         /* lifted warning text (same as warning for contrast) */
+    --warning-tint: rgba(217, 165, 95, 0.18);
+    --warning-strong-border: rgba(217, 165, 95, 0.6); /* lifted tinted warning border */
+    --info:         #7C9FD2;
+    --sky:          #85A6CB;
+    --info-tint:          rgba(124, 159, 210, 0.18);
+    --info-strong-border: rgba(124, 159, 210, 0.6);
 
-  --gray-100: #1E1F29;
-  --gray-200: #262732;
-  --gray-300: #34363F;
-  --gray-400: #666874;  /* 3.1:1 on dark paper */
-  --gray-500: #9A9AA0;
-  --gray-700: #C0C0C7;
+    --gray-100: #1E1F29;
+    --gray-200: #262732;
+    --gray-300: #34363F;
+    --gray-400: #666874;  /* 3.1:1 on dark paper */
+    --gray-500: #9A9AA0;
+    --gray-700: #C0C0C7;
 
-  --shadow-sm:         0 1px 2px  rgba(0, 0, 0, 0.45);
-  --shadow-md:         0 4px 14px rgba(0, 0, 0, 0.50);
-  --shadow-lg:         0 12px 28px rgba(0, 0, 0, 0.55);
-  --shadow-card-hover: 0 10px 30px rgba(0, 0, 0, 0.50);
+    --shadow-sm:         0 1px 2px  rgba(0, 0, 0, 0.45);
+    --shadow-md:         0 4px 14px rgba(0, 0, 0, 0.50);
+    --shadow-lg:         0 12px 28px rgba(0, 0, 0, 0.55);
+    --shadow-card-hover: 0 10px 30px rgba(0, 0, 0, 0.50);
 
-  --backdrop: rgba(0, 0, 0, 0.6);                  /* pure-black scrim for dark surfaces */
+    --backdrop: rgba(0, 0, 0, 0.6);                  /* pure-black scrim for dark surfaces */
 
-  --tldr-code-tint: rgba(0, 0, 0, 0.08);           /* .tldr surface is light in dark mode */
-}
-/* Select chevron dark-mode override: see comment above in @media section for rationale */
-:root[data-theme="dark"] .select {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%239A9AA0' stroke-width='1.5' stroke-linecap='round'/></svg>");
+    --tldr-code-tint: rgba(0, 0, 0, 0.08);           /* .tldr surface is light in dark mode */
+  }
+  /* Select chevron dark-mode override: see comment above in @media section for rationale */
+  :root[data-theme="dark"] .select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%239A9AA0' stroke-width='1.5' stroke-linecap='round'/></svg>");
+  }
 }
