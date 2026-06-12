@@ -46,6 +46,7 @@ function lightAndDark(file) {
 // ---------- color math ----------
 function lin(c) { c /= 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; }
 function srgb(hex) {
+  if (!/^#[0-9a-fA-F]{6}$/.test(hex)) throw new Error(`bad hex: ${hex}`);
   const h = hex.replace("#", "");
   return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
 }
@@ -78,16 +79,16 @@ function resolveColor(name, vars, depth = 0) {
 }
 
 // Build the effective var map for palette+mode: canonical light, overlaid by
-// canonical dark (if dark), overlaid by variant light, overlaid by variant dark.
+// variant light (if any), overlaid by canonical dark (if dark), overlaid by variant dark.
 const canonical = lightAndDark("inkwell-tokens.css");
 const variantFiles = { clay: "variants/clay.css", sage: "variants/sage.css", burgundy: "variants/burgundy.css" };
 function varsFor(palette, mode) {
   const out = new Map(canonical.light);
-  if (mode === "dark") for (const [k, v] of canonical.dark) out.set(k, v);
-  if (palette !== "indigo") {
-    const v = lightAndDark(variantFiles[palette]);
-    for (const [k, val] of v.light) out.set(k, val);
-    if (mode === "dark") for (const [k, val] of v.dark) out.set(k, val);
+  const variant = palette === "indigo" ? null : lightAndDark(variantFiles[palette]);
+  if (variant) for (const [k, v] of variant.light) out.set(k, v);
+  if (mode === "dark") {
+    for (const [k, v] of canonical.dark) out.set(k, v);
+    if (variant) for (const [k, v] of variant.dark) out.set(k, v);
   }
   return out;
 }
