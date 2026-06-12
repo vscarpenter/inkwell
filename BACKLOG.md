@@ -8,22 +8,9 @@ Promote an item by deleting it from here and writing it up in the relevant doc +
 
 ## Audit follow-ups
 
-### Variant `--gray-500` contrast under WCAG AA
+### 3.0: collapse the dark cascade with `light-dark()` + derive tints with `color-mix()`
 
-The clay (`#87867F`), sage (`#84827B`), and burgundy (`#8A8478`) palettes preserve the original warm-gray `--gray-500` values from the legacy `tokens-X.css` files. Each fails WCAG AA on the variant's paper/ivory surfaces:
-
-| Variant | `--gray-500` | vs paper | vs ivory |
-|---|---|---|---|
-| Clay     | `#87867F` | 3.65:1 | 3.47:1 |
-| Sage     | `#84827B` | 3.85:1 | 3.50:1 |
-| Burgundy | `#8A8478` | 3.72:1 | 3.41:1 |
-| Indigo (canonical) | `#6F6F75` | 4.99:1 | 4.53:1 ✓ |
-
-Canonical's `#6F6F75` was deliberately tuned for AA (annotated in `inkwell-tokens.css`). The variants surfaced this regression more visibly in 2.0 by isolating the values in ~70-line override files. Options when picking this up: (a) bump each variant's gray-500 to clear AA (e.g., clay → `#7A796F`), (b) annotate the deliberate warm-gray tradeoff in each variant file, (c) do both. Decision needed before shipping a dashboard-heavy template in a non-default palette.
-
-### `.select` chevron stroke leaks canonical's dark `--gray-500` into variants
-
-`inkwell-tokens.css` overrides `.select`'s `background-image` in dark mode with a data URI SVG whose stroke color is hardcoded to `#9A9AA0` (canonical's dark `--gray-500`). Data URIs can't reference CSS custom properties, so when a variant is active in dark mode, the chevron stays canonical-grey while the rest of the page lifts. Mismatch is subtle (~5 units per channel) but visible to anyone QAing palette parity. Real fix probably involves replacing the data URI with an inline `<svg>` in a pseudo-element or shifting to a `mask-image` strategy.
+Deferred from the 2.1.0 contrast release (2026-06-11 review). Every token's dark value is declared twice (media query + `[data-theme]` block) and four times across a variant pair; CSS `light-dark()` plus `color-scheme` flipping on `[data-theme]` collapses each token to a single declaration and makes the build-script parity check unnecessary. `color-mix(in srgb, var(--accent) 14%, transparent)` would likewise derive every `*-tint`/`*-ring`/`*-border`, shrinking variant files to ~8 lines. Breaking (drops pre-mid-2024 browsers; rewrites `scripts/build-tokens-json.mjs` and `tokens-check.yml`): needs its own design pass and a major version.
 
 ### Audit Tier-2 items left for a 2.1+
 
@@ -31,3 +18,12 @@ From [`Audit.md`](Audit.md) — flagged in the 1.4.0 review as "discuss," not "d
 - **#1 (option A) Replace mono `.eyebrow` entirely** — we shipped option B (added `.eyebrow-serif` as a sibling). Revisit if any consumer survey says the mono eyebrow still reads as developer-tools.
 - **#5 `*-strong` dashboard semantic colors** — add saturated variants of olive/rust/warning so dashboards can use unambiguous signal colors while editorial contexts keep the muted ones.
 - **#9 Promote `--sky` to secondary interactive** — split the seventeen jobs `--accent` does today (badges, eyebrow rule, secondary tabs, timeline dots, etc.).
+
+---
+
+## Post-2.1 follow-ups
+
+- **Light-mode `.select` chevron still uses canonical cool gray (`#6F6F75`) in all variants.** The dark-mode parity fix (2.1.0) applies only to dark; barely visible at 12px, but the same argument applies. The `mask-image` strategy becomes worth it if a 4th palette lands.
+- **Clay dark-mode hover darkens toward the label** (passes 4.95:1) while every other palette/mode hover now moves *away* from the label color — coherence, not compliance; revisit if hover styling gets reworked.
+- **`examples/tailwind.html` renders four `data-palette-choice` buttons that no script wires** (pre-existing; the page doesn't load `demo.js`).
+- **`variants/compare.html` side effects.** Each iframe's palette IIFE persists to `localStorage("inkwell-palette")`, so visiting compare can silently rewrite the saved palette; its theme toggle also initializes to Auto regardless of stored theme.

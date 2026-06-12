@@ -23,23 +23,29 @@ A small palette (12 hues) with one accent doing all the work. Neutrals are *cool
 | `--slate` | `#13141B` | `#E8E8EE` | Primary text |
 | `--oat` | `#DDDCDF` | `#2B2D38` | Tertiary surface, hover thumbnails |
 | `--accent` | `#3B4A8C` | `#7A8AD1` | **Primary accent** — links, focus, active state |
-| `--accent-d` | `#2A3768` | `#6273C0` | Hover/pressed accent |
-| `--accent-tint` | `rgba(59,74,140,0.14)` | `rgba(122,138,209,0.18)` | Badge background |
+| `--accent-d` | `#2A3768` | `#8B9ADB` | Hover/pressed accent — dark mode *lifts* (the old `#6273C0` left button labels at 3.90:1) |
+| `--accent-tint` | `rgba(59,74,140,0.14)` | `rgba(122,138,209,0.10)` | Badge background |
 | `--accent-focus-ring` | `rgba(59,74,140,0.18)` | `rgba(122,138,209,0.28)` | Input focus halo |
 | `--accent-strong-border` | `rgba(59,74,140,0.5)` | `rgba(122,138,209,0.6)` | Tinted chip border |
+| `--accent-ink` | `var(--accent)` | `var(--accent)` | Accent as **text**: links, tabs, badge text, focus ring. Variants override when their accent is too light to read |
+| `--on-accent` | `var(--paper)` | `var(--paper)` | Label color on accent fills (clay light overrides to slate) |
 | `--olive` | `#788C5D` | `#9CB07A` | Success, additions |
 | `--olive-strong-border` | `rgba(120,140,93,0.45)` | `rgba(156,176,122,0.6)` | Tinted success border |
+| `--olive-dark` | `#566740` | `#9CB07A` | Olive as text/solid fill — badge-success, stat-delta.up, pill.resolved |
 | `--rust` | `#B04A3F` | `#D27468` | Danger, deletions |
 | `--rust-focus-ring` | `rgba(176,74,63,0.18)` | `rgba(210,116,104,0.28)` | `.is-error` focus halo |
 | `--warning` | `#C78E3F` | `#D9A55F` | Amber warning |
 | `--warning-strong-border` | `rgba(199,142,63,0.45)` | `rgba(217,165,95,0.6)` | Tinted warning border |
+| `--warning-dark` | `#85561E` | `#D9A55F` | Warning as text — 5.41:1 on its tint (was `#A06A2A` at 3.95:1) |
 | `--info` / `--sky` | `#5C7CA3` / `#6A8CAF` | `#7C9FD2` / `#85A6CB` | Informational accents |
+| `--info-tint` | `rgba(92,124,163,0.16)` | `rgba(124,159,210,0.18)` | `.alert.is-info` background |
 | `--backdrop` | `rgba(15,16,24,0.55)` | `rgba(0,0,0,0.6)` | `dialog::backdrop` scrim |
 | `--tldr-code-tint` | `rgba(255,255,255,0.08)` | `rgba(0,0,0,0.08)` | `.tldr code` chip overlay — inverts with the `.tldr` surface |
 | `--gray-100` | `#EDEDEA` | `#1E1F29` | Subtle row stripe, code-chip bg |
 | `--gray-200` | `#E1E1DE` | `#262732` | Divider on white |
 | `--gray-300` | `#CFCFCC` | `#34363F` | **Default border** — the 1.5px hairline |
-| `--gray-500` | `#85858A` | `#9A9AA0` | Muted text, captions |
+| `--gray-400` | `#88888E` | `#666874` | Control boundaries via `--control-border` (WCAG 1.4.11) |
+| `--gray-500` | `#6F6F75` | `#9A9AA0` | Muted text, captions |
 | `--gray-700` | `#3A3B41` | `#C0C0C7` | Secondary body text |
 
 **Why the dark accent is *lifted***: `#3B4A8C` against a near-black background reads as a hole punched in the page rather than an accent. The dark variant `#7A8AD1` (periwinkle) restores the sense of a "highlighted element" by retaining hue while gaining luminance. This pattern — saturated in light, lifted in dark — applies to all colored tokens.
@@ -114,6 +120,8 @@ Every panel uses **1.5px** borders, not 1px. This is the system's most distincti
 
 Hairline dividers inside panels drop to 1px (`--gray-100`) so the outer frame stays dominant.
 
+Functional control boundaries are the exception: `--control-border` (1.5px `--gray-400`) carries checkbox, radio, and switch — state boundaries must clear WCAG 1.4.11's 3:1, unlike decorative panel hairlines.
+
 ### 1.6 Shadows
 
 Warm low-spread in light mode (slight orange undertone via `rgba(20,20,19, …)`); deep-pure-black in dark mode (warm shadows would vanish on dark surfaces).
@@ -178,11 +186,11 @@ To wire a manual toggle, set/remove the attribute on `<html>` from JS and persis
 
 ## 3. Components
 
-`inkwell-components.css` ships ~28 reusable component classes (the table below). Open `preview.html` for a live tour of all of them in both light and dark mode.
+`inkwell-components.css` ships ~34 reusable component classes (the table below). Open `preview.html` for a live tour of all of them in both light and dark mode.
 
 | Class | Purpose |
 |---|---|
-| `.btn` (+ `-primary` / `-secondary` / `-ghost` / `-danger`) | Buttons across all intents |
+| `.btn` (+ `-primary` / `-secondary` / `-ghost` / `-danger`; `:disabled` / `:active` / `.btn-sm` / `aria-busy`) | Buttons across all intents, with disabled, pressed, small, and loading-spinner states. Pair `aria-busy="true"` with `disabled` from JS — CSS only blocks pointer events, not keyboard activation. |
 | `.input` / `.textarea` / `.select` (+ `.is-error` / `:disabled`) | Form controls with accent focus halo, rust error border, and muted disabled state |
 | `.field` (+ `.field-label` / `.field-help` / `.field-error`) | Vertical field group: label + control + helper or error text |
 | `.checkbox` / `.radio` / `.switch` | Selection controls with accent fill (checkbox/radio) and pill-track toggle (switch) |
@@ -191,8 +199,9 @@ To wire a manual toggle, set/remove the attribute on `<html>` from JS and persis
 | `.badge` (+ neutral / accent / success / warning / danger) | Pill-shaped status labels |
 | `.alert` (+ `.is-info` / `.is-success` / `.is-warning` / `.is-danger`) | Flat-tinted system message; title stays slate, tinted bg + border carry the semantic |
 | `.card` (+ `.is-link`) | Generic card; the `.is-link` variant adds a calm border-color hover shift — no lift, no shadow swap |
-| `.stat-card` (+ `.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a 4px accent stripe |
+| `.stat-card` (+ `.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a full 1.5px accent border |
 | `.tbl` | Table with sans header labels and hairline row dividers |
+| `.tbl-scroll` | Overflow wrapper for `.tbl` — horizontal scroll on narrow viewports |
 | `.tldr` | Inverted callout — dark in light mode, light in dark mode |
 | `.code-block` | Multi-line `<pre><code>` panel with optional `.copy` button slot |
 | `.dialog` | Styling for native `<dialog>` (open via `dialog.showModal()`) with backdrop blur |
@@ -207,8 +216,13 @@ To wire a manual toggle, set/remove the attribute on `<html>` from JS and persis
 | `.chip-dot` (+ safe / medium / attention) | Mono label with colored status dot |
 | `.avatar` | 36px monogram circle |
 | `.eyebrow` / `.eyebrow-serif` | Lead-in kicker label with accent rule. Mono uppercase for product/dashboard; italic serif for editorial. |
-| `.sec-head` | Numbered section header (mono index + serif title + count pill) |
+| `.sec-head` | Numbered section header (mono index + serif title + count pill). Use the numbered index only when the sequence carries meaning (steps, ordered specs); as default scaffolding on every section it reads as generated filler. |
 | `.toc` | Pill-shaped link list with optional mono numerals |
+| `.navbar` (+ `.navbar-inner` / `.brand`) | Sticky top navigation shell — promoted from `index.html` in 2.1.0 |
+| `.field-row` | Inline form row — wrapping flex of controls with centered alignment |
+| `.card-grid` | Responsive card grid — `auto-fill` columns at a 280px minimum |
+| `.sr-only` | Visually hidden, screen-reader-available text |
+| `.skip-link` | Off-screen "skip to content" link that appears on `:focus-visible` |
 
 **Editorial primitives** (long-form/magazine contexts, expect serif body + 60–65ch line-length):
 
@@ -244,11 +258,16 @@ These will break the look — avoid them:
 Inkwell ships with WCAG-conscious defaults. The notable choices:
 
 - **Body text contrast.** `--gray-700` (`#3A3B41`) on `--paper` reads at ~10.9:1 — well past AA. `--gray-500` (`#6F6F75`) on `--paper` reads at 5.05:1, on `--ivory` at 4.64:1 — both clear AA's 4.5:1 for normal text. (An earlier `#85858A` value sat at 3.44:1 on paper; if you fork an older snapshot, bump `--gray-500` to clear AA.)
-- **Focus rings are accent.** `*:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }` is global. The accent reads at 7.9:1 (light) and 5.2:1 (dark) on its respective surface — well past WCAG 1.4.11's 3:1 for non-text UI.
+- **Focus rings are accent ink.** `*:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }` is global. Canonical indigo reads at 7.9:1 (light) and 5.2:1 (dark) on its respective surface — well past WCAG 1.4.11's 3:1 for non-text UI — and because the ring follows `--accent-ink`, variants whose accent is too light (clay, sage) get an AA-passing ring automatically.
+- **Functional control boundaries clear 3:1.** Checkbox, radio, and the switch off-track were 1.56:1 on `--paper` — below WCAG 1.4.11's 3:1 for boundaries that communicate state. They now use `--control-border` (1.5px `--gray-400`, 3.2:1+ on both surfaces). Decorative panel hairlines deliberately stay below 3:1 — see the next bullet.
 - **The 1.5px hairline border is *deliberately* below WCAG 3:1.** `--gray-300` on `--paper` is ~1.57:1 in light mode and ~1.45:1 in dark. This is the system's letterpress-quiet signature — a stronger border would read as wireframe or Material. Visual separation is achieved through the *combination* of border, surface tone shift (`--paper` vs `--ivory`), and shadow. Use `--border-strong` (1.5px solid `--slate`) when a panel genuinely needs to stand off the page.
 - **Reduced motion is honored.** `@media (prefers-reduced-motion: reduce)` shortens all animations and transitions to ~0ms. The card hover lift, dialog pop, and switch knob slide all degrade gracefully.
 - **Color is never the only signal.** Status chips pair color with an explicit dot or label; alerts pair color with a serif title; form errors pair the `--rust` border with an explicit `.field-error` text node. Don't introduce a "danger" state that only changes a hue.
 - **Native semantics first.** `<dialog>` for modals (focus trap, ESC, `::backdrop` for free), real `<input type="checkbox">` and `<input type="radio">` for selection (preserving keyboard interaction), `<kbd>` for keyboard chips. The components style native elements rather than rebuilding them.
+- **`::selection` is slate-on-oat.** Selected text gets `--oat` behind `--slate` — the accent tint was too faint to register as a selection highlight.
+- **Print always renders light.** The manual dark theme (`[data-theme="dark"]` blocks) is wrapped in `@media screen`, so a dark-toggled page still prints on the light palette.
+
+All four palettes pass `scripts/check-contrast.mjs` — a zero-dependency WCAG gate asserting 192 token-pair ratios (text at 4.5:1, non-text at 3:1) across both modes — and CI runs it alongside the tokens.json drift check.
 
 If you extend the system, the rule is: any new colored token must clear 3:1 for non-text and 4.5:1 for normal text against the surface it ships on, *unless* it's pairing with another signal.
 

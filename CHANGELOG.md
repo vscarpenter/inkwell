@@ -6,6 +6,35 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.1.0] — 2026-06-12
+
+### Added
+- **`--accent-ink` / `--on-accent` tokens.** The accent now has two jobs with two tokens: ink (links, selected tabs, badge text, the global focus outline, the `.dropcap` first letter) and fill (button backgrounds, with `--on-accent` as the label color — the checkbox checkmark now draws in `--on-accent` too). Canonical indigo is dark enough for both, so it defaults `--accent-ink: var(--accent)` and `--on-accent: var(--paper)` — zero visual change. Variants whose accent is too light to read now override the ink: clay `#A04E2C`, sage `#3A7456`. Clay's light mode also flips `--on-accent` to slate and its hover to a *lighter* coral (`--accent-d: #E08B6E`) — white-on-coral measured 3.12:1.
+- **`--olive-dark`** (`#566740` light / `#9CB07A` dark) — olive as text, mirroring the existing `--warning-dark` pattern. `.badge-success` (was 3.10:1), `.stat-delta.up` (3.68:1) and `.pill.resolved` (3.68:1) now clear WCAG AA.
+- **`--gray-400` + `--control-border`.** Checkbox/radio borders and the switch off-track were 1.56:1 — below WCAG 1.4.11's 3:1 for functional boundaries. `--control-border` is a 1.5px border on the new `--gray-400` neutral step (3.2:1+ on both surfaces); decorative panel hairlines stay `--gray-300`.
+- **`--info-tint` / `--info-strong-border`.** `.alert.is-info` no longer borrows the accent tint; `--info` finally has a job.
+- **Button states**: `:disabled`, `:active`, `.btn-sm`, and an `aria-busy="true"` spinner (reduced-motion-safe). Pair `aria-busy="true"` with `disabled` from JS — the CSS only blocks pointer events, not keyboard activation.
+- **`.sr-only` and `.skip-link`** accessibility utilities.
+- **`.navbar` / `.navbar-inner` / `.field-row` / `.card-grid` / `.tbl-scroll`** promoted into the component layer (every consumer was rebuilding the navbar from `index.html`).
+- **`scripts/check-contrast.mjs`** — zero-dependency WCAG gate asserting 192 token-pair ratios across 4 palettes x 2 modes; wired into CI next to the tokens.json drift check.
+- Print stylesheet, `::selection` styling (slate-on-oat — the accent tint was too faint to register as a selection), `text-wrap: balance/pretty` on headings and ledes.
+
+### Changed
+- **`.stat-card.is-primary`** drops the 4px accent left stripe for a 1.5px full accent border.
+- **`--warning-dark`** light value `#A06A2A` → `#85561E` (3.95:1 → 5.41:1 on its tint).
+- **`.tbl thead th`** text `--gray-500` → `--gray-700` (was 4.26:1 on the header fill).
+- **Dark-mode hover now lifts.** Dark `--accent-d` `#6273C0` → `#8B9ADB` (button labels on the old hover read 3.90:1) and dark `--accent-tint` alpha 0.18 → 0.10 (badge-accent text read 4.07:1). Same treatment in the variants: sage dark `--accent-d` → `#7FB294`, burgundy dark `--accent-d` → `#D57E7E` with `--accent-tint` alpha → 0.10. Burgundy dark also sets an explicit `--accent-ink: #D07878` — the raw lifted accent can't clear 4.5:1 on the badge tint.
+- **Variant grays**: clay/sage/burgundy `--gray-500` darkened to clear 4.5:1 on their surfaces (the BACKLOG "variant gray-500" item, option a).
+- **Dark `.select` chevron** now matches each variant's own gray (was canonical-only — BACKLOG item).
+- **The manual dark theme is screen-only.** Both `[data-theme="dark"]` blocks are wrapped in `@media screen`, so print always renders the light palette.
+- **Theme toggle storage key** unified on `inkwell-theme` (was `theme-preview` on `index.html`/`preview.html`); pages still read the legacy `theme-preview` key as a fallback, and `examples/demo.js` validates the stored value and migrates it to the new key on first interaction. Saved theme and palette now apply via a `<head>` pre-paint snippet — no flash. The snippet is hand-copied per page and marked KEEP IN SYNC; the gallery (`examples/index.html`) gets the palette pre-paint too, but deliberately still no toggle widget.
+- `html { scroll-behavior: smooth }` now respects `prefers-reduced-motion`.
+
+### Migration
+- If you styled against `.stat-card.is-primary`'s left stripe, the marker is now `border-color: var(--accent)` on the full frame.
+- `.alert.is-info` is now steel-blue (`--info`), not indigo. If you wanted the accent look, use `.alert` with a custom tint.
+- The global focus outline follows `--accent-ink`; in clay/sage it is now a darker, AA-passing shade.
+
 ## [2.0.0] — 2026-05-15
 
 ### Added

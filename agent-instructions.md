@@ -130,6 +130,7 @@ These are not stylistic preferences. They are the system. Breaking any of them p
 6. **Page background is `--ivory`, not white.** Body text is `--slate`, not pure black. Pure white + pure black collapses the cool-putty atmosphere.
 7. **Every saturated color token must be defined in both light and dark.** If you add a new colored token, define a **lifted** (more luminous) value in the dark-mode block too. A color defined only at `:root` will look muddy on dark surfaces.
 8. **Do not invent new accent token names.** Use `--accent` (and its derived tokens `--accent-d`, `--accent-tint`, etc.) everywhere. Palette switching works by overriding `--accent`; parallel token names break that mechanism.
+9. **Accent as text → `--accent-ink`; accent as fill → `--accent` + `--on-accent` label.** Never put raw `--accent` text on a tinted surface in a variant palette — clay's coral and sage's green are too light to read, and `--accent-ink` is the token the variants darken to keep text AA.
 
 ---
 
@@ -144,8 +145,11 @@ The most-used tokens. Full list lives in `tokens.css` (the file is well-commente
 - `--gray-100..700` — neutrals (cool putty, not warm beige)
 
 **Accent & semantic**
-- `--accent` / `--accent-d` / `--accent-tint` / `--accent-focus-ring` — indigo accent family
+- `--accent` / `--accent-d` / `--accent-tint` / `--accent-focus-ring` — indigo accent family (fills, tints, rings)
+- `--accent-ink` — use for accent-colored TEXT (links, tabs, badge text); `--accent` is for fills. Variants darken the ink to stay readable.
+- `--on-accent` — label color on accent fills (button labels, severity pills)
 - `--olive` — success / additions / second data-viz hue
+- `--olive-dark` — olive as text or solid fill (badge-success, stat deltas)
 - `--rust` — danger / deletions
 - `--sky` — alternate info / second data-viz hue
 
@@ -158,6 +162,7 @@ The most-used tokens. Full list lives in `tokens.css` (the file is well-commente
 - `--border-strong` (1.5px solid `--slate`)
 - `--border-hair` (1px solid `--gray-100`) — internal dividers inside a `--border` panel
 - `--border-rule` (1px solid `--gray-300`) — horizontal section rules
+- `--control-border` (1.5px solid `--gray-400`) — checkbox/radio/switch boundaries; functional state edges must clear 3:1, unlike decorative hairlines
 - `--r-xs`, `--r-sm`, `--r-md`, `--r-lg`, `--r-xl`, `--r-pill` — radii
 
 **Layout**
@@ -174,7 +179,7 @@ The most-used tokens. Full list lives in `tokens.css` (the file is well-commente
 
 | Class | Purpose |
 |---|---|
-| `.btn` (`-primary`, `-secondary`, `-ghost`, `-danger`) | Buttons |
+| `.btn` (`-primary`, `-secondary`, `-ghost`, `-danger`; `:disabled` / `:active` / `.btn-sm` / `aria-busy="true"`) | Buttons, with disabled, pressed, small, and loading-spinner states. Pair `aria-busy="true"` with `disabled` from JS — CSS only blocks pointer events, not keyboard activation. |
 | `.input`, `.textarea`, `.select` (`.is-error`, `:disabled`) | Form controls |
 | `.field` (`.field-label`, `.field-help`, `.field-error`) | Vertical field group |
 | `.checkbox`, `.radio`, `.switch` | Selection controls |
@@ -182,8 +187,9 @@ The most-used tokens. Full list lives in `tokens.css` (the file is well-commente
 | `.badge` (neutral / accent / success / warning / danger) | Status pill labels |
 | `.alert` (`.is-info`, `.is-success`, `.is-warning`, `.is-danger`) | Flat-tinted system messages |
 | `.card` (`.is-link`) | Generic card; `.is-link` shifts only the border on hover — no lift, no shadow swap |
-| `.stat-card` (`.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a 4px accent stripe |
+| `.stat-card` (`.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a full 1.5px accent border |
 | `.tbl` | Table with sans headers and hairline rows |
+| `.tbl-scroll` | Overflow wrapper for `.tbl` — horizontal scroll on narrow viewports |
 | `.tldr` | Inverted callout (dark in light mode, light in dark) |
 | `.code-block` | Multi-line `<pre><code>` panel |
 | `.dialog` | Native `<dialog>` styling |
@@ -199,8 +205,13 @@ The most-used tokens. Full list lives in `tokens.css` (the file is well-commente
 | `.chip-dot` (`.safe`, `.medium`, `.attention`) | Mono label with status dot |
 | `.avatar` | 36px monogram circle |
 | `.eyebrow` / `.eyebrow-serif` | Lead-in kicker. Mono uppercase for product/dashboard, italic serif for editorial. |
-| `.sec-head` | Numbered section header |
+| `.sec-head` | Numbered section header — use the index only when the sequence carries meaning |
 | `.toc` | Pill-shaped link list |
+| `.navbar` (`.navbar-inner`, `.brand`) | Sticky top navigation shell |
+| `.field-row` | Inline form row — wrapping flex of controls |
+| `.card-grid` | Responsive card grid (`auto-fill`, 280px minimum) |
+| `.sr-only` | Visually hidden, screen-reader-available text |
+| `.skip-link` | Off-screen "skip to content" link, visible on `:focus-visible` |
 | **Editorial:** `.dropcap` / `.pullquote` / `.byline` (+ `.author`) / `figure.figure` | Long-form/magazine primitives — use inside serif-body prose contexts |
 
 For typography in markup, also use the utility classes that are defined in `inkwell-components.css`: `.t-display`, `.t-h1`, `.t-h2`, `.t-h3`, `.t-lede`, `.t-body`, `.t-small`, `.t-caption`.
@@ -258,7 +269,7 @@ And this script before `</body>` (or earlier — the toggle reads `localStorage`
     const root = document.documentElement;
     const btn = document.getElementById('theme-toggle');
     const label = document.getElementById('theme-label');
-    const KEY = 'theme-preview';
+    const KEY = 'inkwell-theme';
     const order = ['auto', 'light', 'dark'];
     function apply(s) {
       if (s === 'auto') root.removeAttribute('data-theme');
@@ -282,7 +293,7 @@ And this script before `</body>` (or earlier — the toggle reads `localStorage`
 ```html
 <script>
   (function () {
-    var s = localStorage.getItem('theme-preview') || 'auto';
+    var s = localStorage.getItem('inkwell-theme') || 'auto';
     if (s === 'light' || s === 'dark') document.documentElement.setAttribute('data-theme', s);
   })();
 </script>
