@@ -1,4 +1,4 @@
-name: tokens.json drift + contrast check
+name: generated-file drift + contrast check
 
 on:
   pull_request:
@@ -6,8 +6,11 @@ on:
       - 'inkwell-tokens.css'
       - 'tokens.json'
       - 'variants/*.css'
+      - 'CHANGELOG.md'
+      - 'examples/changelog.html'
       - 'scripts/build-tokens-json.mjs'
       - 'scripts/check-contrast.mjs'
+      - 'scripts/build-changelog-html.mjs'
       - '.github/workflows/tokens-check.yml'
   push:
     branches: [main]
@@ -15,8 +18,11 @@ on:
       - 'inkwell-tokens.css'
       - 'tokens.json'
       - 'variants/*.css'
+      - 'CHANGELOG.md'
+      - 'examples/changelog.html'
       - 'scripts/build-tokens-json.mjs'
       - 'scripts/check-contrast.mjs'
+      - 'scripts/build-changelog-html.mjs'
       - '.github/workflows/tokens-check.yml'
 
 jobs:
@@ -31,3 +37,5 @@ jobs:
         run: node scripts/build-tokens-json.mjs --check
       - name: Verify WCAG contrast across palettes
         run: node scripts/check-contrast.mjs
+      - name: Verify examples/changelog.html is up to date
+        run: node scripts/build-changelog-html.mjs --check

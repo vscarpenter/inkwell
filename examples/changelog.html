@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Changelog · Inkwell</title>
-  <meta name="description" content="Changelog layout built with the Inkwell pure-CSS design system — release notes, version pills, and timeline styling.">
+  <meta name="description" content="Inkwell release notes — every version of the pure-CSS design system, generated from CHANGELOG.md.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Inkwell">
   <meta property="og:url" content="https://inkwell.vinny.dev/examples/changelog.html">
   <meta property="og:title" content="Changelog · Inkwell">
-  <meta property="og:description" content="Changelog layout built with the Inkwell pure-CSS design system — release notes, version pills, and timeline styling.">
+  <meta property="og:description" content="Inkwell release notes — every version of the pure-CSS design system, generated from CHANGELOG.md.">
   <meta property="og:image" content="https://inkwell.vinny.dev/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Inkwell — a pure-CSS design system">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Changelog · Inkwell">
-  <meta name="twitter:description" content="Changelog layout built with the Inkwell pure-CSS design system — release notes, version pills, and timeline styling.">
+  <meta name="twitter:description" content="Inkwell release notes — every version of the pure-CSS design system, generated from CHANGELOG.md.">
   <meta name="twitter:image" content="https://inkwell.vinny.dev/og-image.png">
   <link rel="icon" type="image/png" href="favicon-512.png">
   <link rel="apple-touch-icon" href="favicon-512.png">
@@ -41,7 +41,8 @@
     .release-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
     .ver { font: 500 14px/1 var(--mono); color: var(--accent); background: var(--accent-tint); padding: 5px 10px; border-radius: var(--r-sm); }
     .release-date { font: 12px/1 var(--mono); color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; }
-    .release h2 { margin: 8px 0 14px; font: 500 22px/1.3 var(--serif); }
+    .change-note { margin: 0 0 10px; color: var(--gray-700); max-width: 70ch; }
+    .change-block .tbl-scroll { margin: 10px 0; }
     .change-block { margin-top: 14px; }
     .change-label { font: 600 11px/1 var(--mono); color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
     .change-list { margin: 0; padding-left: 20px; line-height: 1.7; }
@@ -91,30 +92,269 @@
         </p>
       </header>
 
+      <!-- BEGIN GENERATED: releases — edit CHANGELOG.md and run scripts/build-changelog-html.mjs -->
+      <article class="release">
+        <div class="release-head">
+          <span class="ver">v3.0.0</span>
+          <span class="release-date">2026-06-12</span>
+          <span class="badge badge-accent">Latest</span>
+        </div>
+        <p class="change-note">The architecture release. Zero visual change — every resolved color in every palette and mode is identical to 2.1.0 (verified by a 288-entry resolved-value parity diff, the 192-pair contrast gate, and a real-engine smoke test) — but the cascade, the entry files, and the browser floor all change shape. Spec: <code>docs/specs/2026-06-12-v3-architecture-design.md</code>.</p>
+        <div class="change-block">
+          <div class="change-label">Added</div>
+          <ul class="change-list">
+            <li><strong>Cascade layering for the pure-CSS path.</strong> <code>inkwell.css</code> now imports <code>inkwell-components.css</code> into <code>@layer inkwell</code>, so unlayered consumer CSS always overrides Inkwell components without specificity fights — the same ergonomics the Tailwind path has had since 2.0.</li>
+            <li><strong>Derived tints.</strong> Every <code>*-tint</code> / <code>*-focus-ring</code> / <code>*-strong-border</code> / <code>*-tint-border</code> token now derives from its base via <code>color-mix(in srgb, var(--base) P%, transparent)</code>. A palette that overrides <code>--accent</code> gets correct tints for free; tokens are still declared explicitly wherever the contrast gate forced a hand-tuned value (the derive-vs-declare rule, now documented in <code>DESIGN_SYSTEM.md</code>).</li>
+            <li><strong>Release tags resumed</strong>: <code>v2.1.0</code> marks the last 2.x for raw-URL pinning; <code>v3.0.0</code> tags this release.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Changed</div>
+          <ul class="change-list">
+            <li><strong>The Pattern B dark cascade is now <code>light-dark()</code>.</strong> Every color token is a single <code>:root</code> declaration; mode switching is <code>color-scheme</code> flipping (<code>light dark</code> auto, <code>[data-theme]</code> overrides, print forced light). The two byte-identical dark blocks in <code>inkwell-tokens.css</code> and the duplicated dark blocks in every variant are gone — a brand token's dark value now lives in exactly one place instead of four across a canonical+variant pair. The dark <code>.select</code> chevron override is the one surviving Pattern B residue (<code>light-dark()</code> only accepts colors; the chevron is a <code>background-image</code> data URI).</li>
+            <li><strong>Variant files shrank ~45%</strong> (97 → ~50 lines): single-declaration overrides; burgundy inherits every derived tint from canonical.</li>
+            <li><strong><code>inkwell.css</code> is the canonical entry</strong> and imports the two source files directly. Install is three files (<code>inkwell.css</code>, <code>inkwell-tokens.css</code>, <code>inkwell-components.css</code>).</li>
+            <li><strong>Scripts</strong> (<code>build-tokens-json.mjs</code>, <code>check-contrast.mjs</code>) resolve <code>light-dark()</code>/<code>color-mix()</code> to concrete per-mode values. The dark-block parity assertion is gone — the failure mode it guarded no longer exists. <code>tokens.json</code> schema and values are unchanged (two alphas normalize: <code>0.10</code> → <code>0.1</code>).</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Deprecated</div>
+          <ul class="change-list">
+            <li><strong><code>tokens.css</code></strong> is now a one-line alias of <code>inkwell.css</code>, kept so pre-3.0 consumers keep working. Removal slated for 4.0.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Migration</div>
+          <ul class="change-list">
+            <li><strong>Browser floor: Chrome/Edge 123, Firefox 120, Safari 17.5</strong> (all mid-2024) — <code>light-dark()</code> is the gating feature. If you must support older browsers, pin 2.1.0: <code>https://raw.githubusercontent.com/vscarpenter/inkwell/v2.1.0/…</code>.</li>
+            <li><strong>If you load a second reset (normalize.css etc.) alongside Inkwell</strong>, it now wins over Inkwell's base/type rules — unlayered CSS beats <code>@layer inkwell</code>. Drop the second reset (Inkwell ships its own) or import it into a lower layer: <code>@import url('normalize.css') layer(reset);</code>. Your intentional overrides need no change — they now <em>always</em> win, which is the point.</li>
+            <li><strong>If you link <code>tokens.css</code></strong>, switch to <code>inkwell.css</code> at your convenience; the alias keeps working until 4.0.</li>
+            <li><strong>If you parse <code>inkwell-tokens.css</code> yourself</strong>, per-mode values now live inside <code>light-dark(light, dark)</code> functions in <code>:root</code> instead of separate dark blocks; <code>tokens.json</code> is unchanged and remains the stable machine interface.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="ver">v2.1.0</span>
+          <span class="release-date">2026-06-12</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Added</div>
+          <ul class="change-list">
+            <li><strong><code>--accent-ink</code> / <code>--on-accent</code> tokens.</strong> The accent now has two jobs with two tokens: ink (links, selected tabs, badge text, the global focus outline, the <code>.dropcap</code> first letter) and fill (button backgrounds, with <code>--on-accent</code> as the label color — the checkbox checkmark now draws in <code>--on-accent</code> too). Canonical indigo is dark enough for both, so it defaults <code>--accent-ink: var(--accent)</code> and <code>--on-accent: var(--paper)</code> — zero visual change. Variants whose accent is too light to read now override the ink: clay <code>#A04E2C</code>, sage <code>#3A7456</code>. Clay's light mode also flips <code>--on-accent</code> to slate and its hover to a <em>lighter</em> coral (<code>--accent-d: #E08B6E</code>) — white-on-coral measured 3.12:1.</li>
+            <li><strong><code>--olive-dark</code></strong> (<code>#566740</code> light / <code>#9CB07A</code> dark) — olive as text, mirroring the existing <code>--warning-dark</code> pattern. <code>.badge-success</code> (was 3.10:1), <code>.stat-delta.up</code> (3.68:1) and <code>.pill.resolved</code> (3.68:1) now clear WCAG AA.</li>
+            <li><strong><code>--gray-400</code> + <code>--control-border</code>.</strong> Checkbox/radio borders and the switch off-track were 1.56:1 — below WCAG 1.4.11's 3:1 for functional boundaries. <code>--control-border</code> is a 1.5px border on the new <code>--gray-400</code> neutral step (3.2:1+ on both surfaces); decorative panel hairlines stay <code>--gray-300</code>.</li>
+            <li><strong><code>--info-tint</code> / <code>--info-strong-border</code>.</strong> <code>.alert.is-info</code> no longer borrows the accent tint; <code>--info</code> finally has a job.</li>
+            <li><strong>Button states</strong>: <code>:disabled</code>, <code>:active</code>, <code>.btn-sm</code>, and an <code>aria-busy="true"</code> spinner (reduced-motion-safe). Pair <code>aria-busy="true"</code> with <code>disabled</code> from JS — the CSS only blocks pointer events, not keyboard activation.</li>
+            <li><strong><code>.sr-only</code> and <code>.skip-link</code></strong> accessibility utilities.</li>
+            <li><strong><code>.navbar</code> / <code>.navbar-inner</code> / <code>.field-row</code> / <code>.card-grid</code> / <code>.tbl-scroll</code></strong> promoted into the component layer (every consumer was rebuilding the navbar from <code>index.html</code>).</li>
+            <li><strong><code>scripts/check-contrast.mjs</code></strong> — zero-dependency WCAG gate asserting 192 token-pair ratios across 4 palettes x 2 modes; wired into CI next to the tokens.json drift check.</li>
+            <li>Print stylesheet, <code>::selection</code> styling (slate-on-oat — the accent tint was too faint to register as a selection), <code>text-wrap: balance/pretty</code> on headings and ledes.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Changed</div>
+          <ul class="change-list">
+            <li><strong><code>.stat-card.is-primary</code></strong> drops the 4px accent left stripe for a 1.5px full accent border.</li>
+            <li><strong><code>--warning-dark</code></strong> light value <code>#A06A2A</code> → <code>#85561E</code> (3.95:1 → 5.41:1 on its tint).</li>
+            <li><strong><code>.tbl thead th</code></strong> text <code>--gray-500</code> → <code>--gray-700</code> (was 4.26:1 on the header fill).</li>
+            <li><strong>Dark-mode hover now lifts.</strong> Dark <code>--accent-d</code> <code>#6273C0</code> → <code>#8B9ADB</code> (button labels on the old hover read 3.90:1) and dark <code>--accent-tint</code> alpha 0.18 → 0.10 (badge-accent text read 4.07:1). Same treatment in the variants: sage dark <code>--accent-d</code> → <code>#7FB294</code>, burgundy dark <code>--accent-d</code> → <code>#D57E7E</code> with <code>--accent-tint</code> alpha → 0.10. Burgundy dark also sets an explicit <code>--accent-ink: #D07878</code> — the raw lifted accent can't clear 4.5:1 on the badge tint.</li>
+            <li><strong>Variant grays</strong>: clay/sage/burgundy <code>--gray-500</code> darkened to clear 4.5:1 on their surfaces (the BACKLOG "variant gray-500" item, option a).</li>
+            <li><strong>The manual dark theme is screen-only.</strong> Both <code>[data-theme="dark"]</code> blocks are wrapped in <code>@media screen</code>, so print always renders the light palette.</li>
+            <li><strong>Theme toggle storage key</strong> unified on <code>inkwell-theme</code> (was <code>theme-preview</code> on <code>index.html</code>/<code>preview.html</code>); pages still read the legacy <code>theme-preview</code> key as a fallback, and <code>examples/demo.js</code> validates the stored value and migrates it to the new key on first load. The snippet is hand-copied per page and marked KEEP IN SYNC; the gallery (<code>examples/index.html</code>) gets the palette pre-paint too, but deliberately still no toggle widget.</li>
+            <li><code>html { scroll-behavior: smooth }</code> now respects <code>prefers-reduced-motion</code>.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Fixed</div>
+          <ul class="change-list">
+            <li><strong>Dark <code>.select</code> chevron</strong> now matches each variant's own gray (was canonical-only — BACKLOG item).</li>
+            <li><strong>Pre-paint snippet eliminates flash.</strong> Saved theme and palette now apply via a <code>&lt;head&gt;</code> pre-paint snippet — no flash of incorrect theme or palette on load.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Migration</div>
+          <ul class="change-list">
+            <li>If you styled against <code>.stat-card.is-primary</code>'s left stripe, the marker is now <code>border-color: var(--accent)</code> on the full frame.</li>
+            <li><code>.alert.is-info</code> is now steel-blue (<code>--info</code>), not indigo. If you wanted the accent look, use <code>.alert</code> with a custom tint.</li>
+            <li>The global focus outline follows <code>--accent-ink</code>; in clay/sage it is now a darker, AA-passing shade.</li>
+            <li>Re-copy <code>variants/*.css</code> alongside the core files — 2.0 variant files define no <code>--accent-ink</code>/<code>--gray-400</code>, so against a 2.1 core they fall back to canonical values (failing raw-accent text in clay/sage, cool-gray control borders on warm palettes).</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="ver">v2.0.0</span>
+          <span class="release-date">2026-05-15</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Added</div>
+          <ul class="change-list">
+            <li><strong>Palette toggle on every example page.</strong> A <code>?palette=</code> query string selects one of four palettes — <code>indigo</code> (default), <code>clay</code>, <code>sage</code>, <code>burgundy</code> — on every page in <code>examples/</code> and on <code>preview.html</code>. The widget sits next to the existing theme toggle: localStorage persistence under <code>inkwell-palette</code>, <code>?palette=</code> URL state via <code>history.replaceState</code>, click-through cycling. Resolution order on load is URL → localStorage → <code>indigo</code>. <code>examples/index.html</code> and the root <code>index.html</code> are intentionally left without the toggle (gallery hub + starter template, respectively).</li>
+            <li><strong><code>scripts/build-tokens-json.mjs</code></strong> — zero-dependency Node script that regenerates <code>tokens.json</code> from <code>inkwell-tokens.css</code>. Closes the audit-#20 drift risk: the JSON is no longer hand-maintained, and a new <code>tokens-check.yml</code> workflow runs <code>node scripts/build-tokens-json.mjs --check</code> on every PR and main push that touches <code>inkwell-tokens.css</code> or <code>tokens.json</code>, failing the build with a line-level diff if the JSON is stale. The script also asserts the two dark-mode blocks (<code>@media (prefers-color-scheme: dark)</code> and <code>[data-theme="dark"]</code>) declare identical values — a parity invariant the manual JSON couldn't enforce.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Changed (breaking)</div>
+          <ul class="change-list">
+            <li><strong>Variants are now override-only consumers of canonical.</strong> <code>variants/tokens-clay.css</code>, <code>tokens-sage.css</code>, <code>tokens-burgundy.css</code>, <code>tokens-indigo.css</code> are <strong>removed</strong>. Three new files — <code>variants/clay.css</code>, <code>variants/sage.css</code>, <code>variants/burgundy.css</code> — replace them. Each is ~70 lines, contains only brand-layer token overrides for <code>:root</code> + the dark cascade, and is meant to load <strong>after</strong> <code>inkwell.css</code>. The "two universes" naming rule (canonical uses <code>--accent</code>, variants use <code>--clay</code>, never mix) is retired.</li>
+            <li><strong><code>--clay</code> token namespace removed.</strong> Variants now use <code>--accent</code>, <code>--accent-d</code>, <code>--accent-tint</code>, <code>--accent-focus-ring</code>, <code>--accent-strong-border</code> — the same names canonical uses. Component CSS is no longer duplicated in <code>variants/tokens-clay.css</code>; components live once, in <code>inkwell-components.css</code>.</li>
+            <li><strong><code>variants/preview-clay.html</code>, <code>preview-sage.html</code>, <code>preview-burgundy.html</code>, <code>preview-indigo.html</code> removed.</strong> <code>preview.html?palette=clay</code> (etc.) replaces them. <code>variants/compare.html</code> now embeds the canonical <code>preview.html</code> with <code>?palette=X</code> instead of the per-palette pages — one source of truth for the comparison view.</li>
+            <li><strong><code>tokens.json</code> formatting normalized.</strong> The generator emits a deterministic layout: 2-space indent, single-line objects up to 120 chars, multi-line otherwise; <code>rgba()</code> values now match the CSS source spacing (<code>rgba(59, 74, 140, 0.14)</code>) instead of the previous compact form. No token values changed — just the JSON formatting. Consumers parsing JSON structurally are unaffected; consumers diffing raw bytes will see a one-time noise commit.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Fixed</div>
+          <ul class="change-list">
+            <li><strong>preview.html now listens for the parent-iframe <code>set-theme</code> postMessage.</strong> <code>variants/compare.html</code> broadcasts theme changes to its iframes so the maintainer can flip light/dark across all palettes at once. The legacy per-palette <code>preview-*.html</code> pages (now removed) presumably listened for this; canonical preview.html did not. A small <code>addEventListener("message")</code> inside preview.html's theme IIFE restores the broadcast — transient (no localStorage write), per-session.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Migration</div>
+          <p class="change-note">For consumers of Inkwell 1.x:</p>
+          <div class="tbl-scroll">
+            <table class="tbl">
+              <thead><tr><th>Old</th><th>New</th></tr></thead>
+              <tbody>
+                <tr><td><code>&lt;link href="variants/tokens-clay.css"&gt;</code></td><td><code>&lt;link href="variants/clay.css"&gt;</code></td></tr>
+                <tr><td><code>&lt;link href="variants/tokens-sage.css"&gt;</code></td><td><code>&lt;link href="variants/sage.css"&gt;</code></td></tr>
+                <tr><td><code>&lt;link href="variants/tokens-burgundy.css"&gt;</code></td><td><code>&lt;link href="variants/burgundy.css"&gt;</code></td></tr>
+                <tr><td><code>&lt;link href="variants/tokens-indigo.css"&gt;</code></td><td><em>(none — canonical <code>inkwell.css</code> is the indigo palette)</em></td></tr>
+                <tr><td><code>var(--clay)</code></td><td><code>var(--accent)</code></td></tr>
+                <tr><td><code>var(--clay-d)</code></td><td><code>var(--accent-d)</code></td></tr>
+                <tr><td><code>var(--clay-tint)</code></td><td><code>var(--accent-tint)</code></td></tr>
+                <tr><td><code>variants/preview-clay.html</code> (or any other preview-*.html)</td><td><code>preview.html?palette=clay</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="change-note">Variant CSS files no longer <code>@import</code> canonical. If you currently link only <code>variants/tokens-clay.css</code>, you must now link both <code>inkwell.css</code> and <code>variants/clay.css</code> (in that order). For Tailwind v4 consumers: load the variant CSS <strong>after</strong> the Tailwind build output so the cascade order works — see the new "Using a non-default palette with Tailwind" section in TAILWIND.md.</p>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="ver">v1.4.0</span>
+          <span class="release-date">2026-05-15</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Added</div>
+          <ul class="change-list">
+            <li><strong>Editorial primitives.</strong> New <code>.dropcap</code> (4.2em first-letter accent ornament), <code>.pullquote</code> (serif italic with 1.5px accent left-rule), <code>.byline</code> (+ <code>.byline .author</code> for the italic-serif author override), and <code>figure.figure</code> (+ caption with rule-anchored italic-serif <code>figcaption</code>). These are the smallest set that materially backs the system's "editorial interfaces" claim — see <code>preview.html</code> §24 for a working sample.</li>
+            <li><strong><code>.t-lede</code> type style + <code>--t-lede: 20px</code> token.</strong> Serif italic deck/intro paragraph that sits between a headline and the body in long-form prose. Closes the gap between <code>.t-h3</code> (19px) and <code>.t-body</code> (16px). Also exposed to Tailwind as <code>text-lede</code>.</li>
+            <li><strong><code>.eyebrow-serif</code></strong> — italic-serif sibling to the existing mono <code>.eyebrow</code>. Mono stays the right call for product/dashboard contexts (eyebrow signals technical metadata); <code>.eyebrow-serif</code> is the magazine-kicker treatment for editorial contexts. Same accent rule, different voice.</li>
+            <li><strong><code>.segmented</code></strong> segmented-control component. A pill-shaped group of mutually-exclusive options sharing one outer border — use for 2–4 short labels (theme toggle, view modes, density). Mark the active option with <code>aria-pressed="true"</code> or <code>.is-active</code>. The example pages had been hand-rolling this from three <code>.btn-ghost</code>s; now it's a first-class primitive.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Changed</div>
+          <ul class="change-list">
+            <li><strong>Headlines run weight 600.</strong> <code>.t-display</code> / <code>.t-h1</code> / <code>.t-h2</code> / <code>.t-h3</code> bumped from 500 to 600, with tracking tightened a notch (display now -0.025em, h1 -0.018em, h2 -0.012em, h3 -0.01em; display line-height 1.05). Weight 500 in <code>ui-serif</code>-fallback territory was reading as "slightly seriffed grotesque" at display sizes — 600 lets the serifs carry. Tailwind aliases in <code>inkwell-theme.css</code> mirror the new values.</li>
+            <li><strong><code>--serif</code> stack tightened.</strong> Dropped <code>ui-serif</code> (which resolves to wildly variable fonts across platforms — New York on Apple, Noto Serif on Android, often DejaVu Serif on Linux — and can't be QA'd). New stack leads with Iowan Old Style (iOS/macOS), then Palatino (Windows), then Source Serif Pro (where installed), then Georgia (universal fallback). Every link in the chain is a serif we've verified at display sizes. No webfont — platform-stack rule preserved.</li>
+            <li><strong><code>.alert-title</code> simplified.</strong> Dropped the per-variant title color overrides (info/success/warning/danger titles previously rendered in the tinted hue, which made the info title indistinguishable from a link). Title now stays slate; the tinted background + 1.5px tinted border carry the semantic. Pair with an icon or <code>role="alert"</code> if a third signal is needed.</li>
+            <li><strong><code>.card.is-link:hover</code> calmed.</strong> Dropped the 3px translateY lift and the shadow swap; the hover now shifts only the border color (gray-300 → gray-500). The lift-and-glow gesture was a Material/Linear convention that fought the letterpress-quiet identity the 1.5px hairline establishes. Card transition list trimmed accordingly.</li>
+            <li><strong><code>.stat-card.warn</code> renamed to <code>.stat-card.is-primary</code>.</strong> The old name said "warning" while the color was <code>--accent</code> — the meaning was neither warning nor primary depending on which signal you read. The class now means what it always did visually: this is the headline metric in the row. Markup must update: <code>class="stat-card warn"</code> → <code>class="stat-card is-primary"</code>. Mirrored in <code>variants/tokens-clay.css</code> and the four <code>variants/preview-*.html</code> pages.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Migration</div>
+          <ul class="change-list">
+            <li><code>class="stat-card warn"</code> → <code>class="stat-card is-primary"</code> everywhere consumer markup uses it. No CSS-side fallback shipped; rename your markup.</li>
+            <li>If you were relying on <code>.alert-title</code> taking the tint color, that's gone. The title is now <code>var(--slate)</code> in every variant. Consumers who want a colored title can target <code>.alert.is-X .alert-title</code> themselves.</li>
+            <li>If you depended on <code>.card.is-link:hover</code> lifting and casting a shadow, both are gone. Hover now changes only the border color. Re-add the lift in your own CSS if you specifically need it for a marketing surface — but consider whether the system's calmer default fits better.</li>
+            <li>The <code>--serif</code> token resolves to a different font on every OS now. If you previously eyeballed line-length around <code>ui-serif</code>'s OS-default rendering, re-check at display sizes — Iowan Old Style and Palatino set slightly tighter than New York / Noto Serif did.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Deferred</div>
+          <ul class="change-list">
+            <li><strong><code>tokens.json</code> drift risk</strong> (audit #20). The JSON has been updated by hand for <code>--t-lede</code> and the new serif stack to keep it in sync for this release, but the manual-mirror process remains. Tracked in <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/BACKLOG.md"><code>BACKLOG.md</code></a>.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="ver">v1.3.1</span>
+          <span class="release-date">2026-05-14</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Fixed</div>
+          <ul class="change-list">
+            <li><strong><code>*:focus-visible</code> no longer overrides element corner radius.</strong> Removed the stray <code>border-radius: var(--r-xs)</code> line in <code>inkwell-components.css</code> — focused buttons (8px → 4px) and focusable cards (14px → 4px) were visibly snapping to a tighter corner during focus. Modern browsers already round <code>outline</code> around the element's own <code>border-radius</code> when <code>outline-offset</code> is positive, so no replacement is needed.</li>
+            <li><strong><code>.btn</code> height bumped 36px → 38px</strong> to match <code>.input</code> / <code>.select</code>. Form rows with a button next to an input now align exactly.</li>
+            <li><strong>Six raw <code>rgba()</code> literals replaced with tokens in <code>inkwell-components.css</code></strong> (per the §4 anti-pattern: no hex literals in component CSS). Five of them were also a dark-mode correctness bug — the colors were locked to the <em>light-mode</em> hue. New tokens: <code>--olive-strong-border</code>, <code>--warning-strong-border</code>, <code>--rust-focus-ring</code>, <code>--backdrop</code>. Affects <code>.alert.is-success</code>, <code>.alert.is-warning</code>, <code>.chip-dot.safe</code>, <code>.input.is-error:focus</code>, <code>.dialog::backdrop</code> — borders and scrims now lift correctly in dark mode.</li>
+            <li><strong><code>.tldr code</code> background no longer disappears in dark mode.</strong> The chip used a hardcoded <code>rgba(255, 255, 255, 0.08)</code> — white at 8% — which was invisible in dark mode (where <code>.tldr</code> flips to a light surface). Replaced with the new <code>--tldr-code-tint</code> token, which carries paired light/dark values so the tint inverts with the surface. This was also the last <code>rgba()</code> literal in <code>inkwell-components.css</code>, closing out the §4 anti-pattern.</li>
+            <li><strong>Documentation drift from the 1.3.0 split swept up.</strong> Updated <code>DESIGN_SYSTEM.md</code> §1.2 / §3 / §6 / §7, <code>README.md</code> component and example counts, <code>CONTRIBUTING.md</code> project layout, <code>AGENTS.md</code> canonical-source claim, and <code>agent-instructions.md</code> §9 / §10 file lists to reference the post-split structure. No behavior change — just docs catching up to the CSS.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Added</div>
+          <ul class="change-list">
+            <li><strong>Tailwind <code>text-*</code> type-scale modifiers.</strong> <code>inkwell-theme.css</code> now bundles <code>line-height</code>, <code>letter-spacing</code>, and <code>font-weight</code> into every <code>--text-{display,h1,h2,h3,body,small,caption,eyebrow}</code> via Tailwind v4's <code>--text-{name}--{modifier}</code> syntax. Result: <code>class="font-serif text-h1"</code> in a Tailwind template now produces the same rendered output as <code>class="t-h1"</code> in pure-CSS markup — the two consumption paths converge.</li>
+            <li>New tokens (light + dark) in <code>inkwell-tokens.css</code>: <code>--olive-strong-border</code>, <code>--warning-strong-border</code>, <code>--rust-focus-ring</code>, <code>--backdrop</code>, <code>--tldr-code-tint</code>. Mirrored in <code>tokens.json</code> and the §1.1 token table in <code>DESIGN_SYSTEM.md</code>. None of these change existing light-mode appearance — they fix dark-mode drift and bring the system back in line with its own "no literals in components" rule.</li>
+            <li><code>tokens.json</code> <code>_meta.canonical_source</code> corrected from <code>tokens.css</code> to <code>inkwell-tokens.css</code> (the 1.3.0 split made the latter authoritative).</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="ver">v1.3.0</span>
+          <span class="release-date">2026-05-11</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Added</div>
+          <ul class="change-list">
+            <li><strong>Tailwind v4 support.</strong> New <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/inkwell-theme.css"><code>inkwell-theme.css</code></a> entry file makes Inkwell drop into any Tailwind v4 project when used alongside <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/inkwell-tokens.css"><code>inkwell-tokens.css</code></a> and <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/inkwell-components.css"><code>inkwell-components.css</code></a> — every token becomes a utility (<code>bg-accent</code>, <code>text-slate</code>, <code>border-accent</code>, <code>font-serif</code>, <code>rounded-md</code>, <code>text-display</code>, <code>max-w-default</code>), the 1.5px signature is exposed as <code>border-hair</code>, and a <code>@custom-variant dark</code> block teaches Tailwind to honor Inkwell's <code>[data-theme]</code> toggle. In Tailwind entry CSS, import only <code>@import "tailwindcss"; @import "./inkwell-theme.css";</code>. No <code>tailwind.config.js</code>, no JavaScript preset.</li>
+            <li><a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/TAILWIND.md"><code>TAILWIND.md</code></a> — install guide, components-vs-utilities rule, <code>border-hair</code> convention, cascade-order verification, two-universes warning.</li>
+            <li><a class="link" href="tailwind.html"><code>examples/tailwind.html</code></a> — live integration demo that opens directly in a browser (uses the <code>@tailwindcss/browser</code> CDN for the demo; production builds use <code>inkwell-theme.css</code> directly).</li>
+            <li>Updates to <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/agent-instructions.md"><code>agent-instructions.md</code></a> and <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/README.md"><code>README.md</code></a> covering the new Tailwind path for AI coding agents and human developers.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Changed</div>
+          <ul class="change-list">
+            <li><strong>Split <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/tokens.css"><code>tokens.css</code></a> into <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/inkwell-tokens.css"><code>inkwell-tokens.css</code></a> + <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/inkwell-components.css"><code>inkwell-components.css</code></a>.</strong> The original file is now a two-line aggregator (<code>@import</code> shim) so existing consumers see no behavior change — linking <code>tokens.css</code> or <code>inkwell.css</code> works exactly as before. The split exists to support <code>inkwell-theme.css</code>, which needs to wrap components in <code>@layer components</code> while keeping <code>:root</code> tokens unlayered.</li>
+            <li>GitHub Pages workflow now syncs all five canonical CSS files into <code>examples/</code> on deploy (previously two).</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Migration</div>
+          <p class="change-note"><strong>No migration needed</strong> for existing consumers. <code>inkwell.css</code> and <code>tokens.css</code> continue to work unchanged. If you maintain a fork that copies only <code>tokens.css</code> into your project, switch to copying <code>tokens.css</code> + <code>inkwell-tokens.css</code> + <code>inkwell-components.css</code> together — the new <code>tokens.css</code> is a shim that <code>@import</code>s the other two.</p>
+          <p class="change-note">Tailwind v4 users: keep <code>inkwell-tokens.css</code>, <code>inkwell-components.css</code>, and <code>inkwell-theme.css</code> side by side, then drop <code>@import "tailwindcss"; @import "./inkwell-theme.css";</code> into your entry CSS. See <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/TAILWIND.md"><code>TAILWIND.md</code></a>.</p>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Not supported</div>
+          <p class="change-note">Tailwind v3. v3 requires a JS preset that conflicts with Inkwell's no-build pitch. v4 (October 2024 or later) is the supported integration; v3 users should upgrade or use Inkwell via <code>inkwell.css</code> directly without Tailwind utility coverage.</p>
+        </div>
+      </article>
+
       <article class="release">
         <div class="release-head">
           <span class="ver">v1.2.0</span>
           <span class="release-date">2026-05-09</span>
-          <span class="badge badge-accent">Latest</span>
         </div>
-        <h2>Round out the missing components</h2>
-        <p style="margin: 0; color: var(--gray-700); max-width: 64ch;">Adds the second wave of Tier-1 components plus a tokens.json export for downstream tooling.</p>
         <div class="change-block">
           <div class="change-label">Added</div>
           <ul class="change-list">
-            <li><code>.tabs</code>, <code>.tab</code>, <code>.tab-panel</code> — underline-style tab nav</li>
-            <li><code>.tooltip</code> with <code>[data-tooltip]</code> — CSS-only bubble on hover/focus</li>
-            <li><code>.breadcrumbs</code> — <code>&lt;ol&gt;</code> with <code>/</code> separators and <code>aria-current</code></li>
-            <li><code>.pagination</code> — numbered list with prev/next + active state</li>
-            <li><code>.skeleton</code> — shimmer placeholder with <code>.is-text</code> / <code>.is-title</code> / <code>.is-block</code> / <code>.is-circle</code></li>
-            <li><code>.empty-state</code> — centered no-data panel with icon slot</li>
-            <li><code>tokens.json</code> — machine-readable mirror for Figma / Tailwind / Style Dictionary</li>
+            <li><code>.tabs</code>, <code>.tab</code>, <code>.tab-panel</code> — underline-style tab navigation. Both <code>aria-selected="true"</code> and <code>.is-active</code> are styled, so consumers can use either pattern.</li>
+            <li><code>.tooltip</code> with <code>[data-tooltip]</code> — CSS-only bubble that reveals on <code>:hover</code> and <code>:focus-visible</code>. Pair with <code>aria-label</code> for screen readers.</li>
+            <li><code>.breadcrumbs</code> — <code>&lt;ol&gt;</code>-based list with <code>/</code> separators rendered via <code>::before</code>, and <code>aria-current="page"</code> styling for the leaf.</li>
+            <li><code>.pagination</code> — numbered list with prev/next, <code>aria-current="page"</code> for the active page, and a <code>.ellipsis</code> span for compressed ranges.</li>
+            <li><code>.skeleton</code> (+ <code>.is-text</code> / <code>.is-title</code> / <code>.is-block</code> / <code>.is-circle</code>) — shimmer placeholder using the gray-100/200 gradient so it stays warm in dark mode. Honors <code>prefers-reduced-motion</code> by collapsing to a flat gray.</li>
+            <li><code>.empty-state</code> (+ <code>.empty-state-icon</code>) — centered no-data panel with icon slot, headline (serif), body, and action.</li>
+            <li><code>tokens.json</code> — machine-readable mirror of <code>tokens.css</code> for Figma plugins, Tailwind configs, and Style Dictionary. <code>tokens.css</code> remains canonical; the JSON header documents this and notes it must be regenerated when CSS tokens change.</li>
+            <li>New example pages: <a class="link" href="landing.html"><code>landing.html</code></a>, <a class="link" href="search.html"><code>search.html</code></a>, <a class="link" href="changelog.html"><code>changelog.html</code></a>, <a class="link" href="not-found.html"><code>not-found.html</code></a>.</li>
+            <li><code>CHANGELOG.md</code> (this file).</li>
           </ul>
         </div>
         <div class="change-block">
-          <div class="change-label">Examples</div>
+          <div class="change-label">Changed</div>
           <ul class="change-list">
-            <li><a class="link" href="landing.html">Marketing landing</a> · <a class="link" href="search.html">Search results</a> · <a class="link" href="not-found.html">404</a></li>
+            <li><code>examples/index.html</code> — bumped to 14 example cards.</li>
+            <li><code>DESIGN_SYSTEM.md</code> — component table updated with the new entries.</li>
           </ul>
         </div>
       </article>
@@ -124,36 +364,30 @@
           <span class="ver">v1.1.0</span>
           <span class="release-date">2026-05-09</span>
         </div>
-        <h2>Form patterns + accessibility fixes</h2>
-        <p style="margin: 0; color: var(--gray-700); max-width: 64ch;">First wave of missing components plus a contrast bump for muted body text.</p>
         <div class="change-block">
           <div class="change-label">Added</div>
           <ul class="change-list">
-            <li><code>.field</code>, <code>.field-label</code>, <code>.field-help</code>, <code>.field-error</code> — vertical field-group wrapper</li>
-            <li><code>.input.is-error</code>, <code>:disabled</code> states on form controls</li>
-            <li><code>.textarea</code>, <code>.select</code> with theme-aware chevron</li>
-            <li><code>.radio</code>, <code>.switch</code> matching the existing <code>.checkbox</code> pattern</li>
-            <li><code>.alert</code> with <code>.is-info</code> / <code>.is-success</code> / <code>.is-warning</code> / <code>.is-danger</code></li>
-            <li><code>.code-block</code> for multi-line <code>&lt;pre&gt;&lt;code&gt;</code> with optional copy slot</li>
-            <li><code>.dialog</code> styling for native <code>&lt;dialog&gt;</code> with <code>::backdrop</code></li>
-            <li><code>kbd</code> chip for keyboard shortcuts</li>
-            <li><code>examples/forms.html</code> · <code>examples/docs.html</code> — new showcase pages</li>
+            <li><code>.field</code>, <code>.field-label</code>, <code>.field-help</code>, <code>.field-error</code> — vertical field-group wrapper for labelled form controls with helper or error text.</li>
+            <li><code>.input.is-error</code> and <code>:disabled</code> states on form controls.</li>
+            <li><code>.textarea</code> and <code>.select</code> — minimal styling matching <code>.input</code>, with a theme-aware SVG chevron on <code>.select</code>.</li>
+            <li><code>.radio</code> and <code>.switch</code> — selection controls following the <code>.checkbox</code> pattern; switch is a pill-shaped track with a sliding knob.</li>
+            <li><code>.alert</code> with <code>.is-info</code> / <code>.is-success</code> / <code>.is-warning</code> / <code>.is-danger</code> — flat-tinted system message component, distinct from the inverted <code>.tldr</code> callout.</li>
+            <li><code>.code-block</code> — multi-line <code>&lt;pre&gt;&lt;code&gt;</code> panel with optional <code>.copy</code> button slot in the top-right.</li>
+            <li><code>.dialog</code> — styling for native HTML <code>&lt;dialog&gt;</code>. Open via <code>dialog.showModal()</code> for free focus trap, <code>Esc</code>-to-close, scroll lock, and <code>::backdrop</code> blur.</li>
+            <li><code>kbd</code> / <code>.kbd</code> — keyboard-shortcut chip in mono with a 2px bottom border line.</li>
+            <li>New example pages: <a class="link" href="forms.html"><code>forms.html</code></a>, <a class="link" href="docs.html"><code>docs.html</code></a>.</li>
+            <li>New §5 Accessibility section in <code>DESIGN_SYSTEM.md</code> documenting the deliberate sub-3:1 hairline border choice and the contrast guarantees for new tokens.</li>
           </ul>
         </div>
         <div class="change-block">
           <div class="change-label">Changed</div>
           <ul class="change-list">
-            <li><code>--gray-500</code>: <code>#85858A</code> → <code>#6F6F75</code> in light mode (5.05:1 on <code>--paper</code>, clears WCAG AA 4.5:1 for body text). Dark mode unchanged at 6.4:1.</li>
-            <li><code>DESIGN_SYSTEM.md</code> — new Accessibility section documenting the deliberate sub-3:1 hairline border choice and contrast guarantees for new tokens.</li>
+            <li><code>--gray-500</code>: <code>#85858A</code> → <code>#6F6F75</code> in light mode (5.05:1 on <code>--paper</code>, 4.64:1 on <code>--ivory</code>) — clears WCAG AA 4.5:1 for body text. Affects <code>.t-caption</code>, <code>.stat-label</code>, <code>.eyebrow</code> color, <code>.toc .n</code>, <code>.sec-head .count</code>, and <code>--input::placeholder</code>. Dark mode unchanged at 6.4:1.</li>
           </ul>
         </div>
         <div class="change-block">
           <div class="change-label">Migration</div>
-          <p style="color: var(--gray-700); margin-bottom: 8px;">Replace stale documentation hex literals if you've forked an older copy:</p>
-          <div class="code-block">
-            <pre><code>- &lt;span class="hex"&gt;#85858A&lt;/span&gt;&lt;span class="tok"&gt;--gray-500&lt;/span&gt;
-+ &lt;span class="hex"&gt;#6F6F75&lt;/span&gt;&lt;span class="tok"&gt;--gray-500&lt;/span&gt;</code></pre>
-          </div>
+          <p class="change-note">If you've forked stale documentation that hard-codes <code>--gray-500: #85858A</code>, replace with <code>#6F6F75</code> to clear AA. No component classes were renamed.</p>
         </div>
       </article>
 
@@ -162,13 +396,12 @@
           <span class="ver">v1.0.1</span>
           <span class="release-date">2026-05-09</span>
         </div>
-        <h2>GitHub Pages deploy</h2>
         <div class="change-block">
           <div class="change-label">Added</div>
           <ul class="change-list">
-            <li>GitHub Actions workflow (<code>.github/workflows/pages.yml</code>) deploys <code>examples/</code> on push to <code>main</code></li>
-            <li>Workflow syncs canonical <code>tokens.css</code> + <code>inkwell.css</code> into <code>examples/</code> at deploy time so the live demo never drifts from source</li>
-            <li>Live demo link in README pointing to <a class="link" href="https://inkwell.vinny.dev/">inkwell.vinny.dev</a></li>
+            <li>GitHub Actions workflow (<code>.github/workflows/pages.yml</code>) deploys <code>examples/</code> to GitHub Pages on push to <code>main</code>.</li>
+            <li>The workflow syncs canonical <code>tokens.css</code> and <code>inkwell.css</code> into <code>examples/</code> at deploy time so the live demo never drifts from source.</li>
+            <li>Live demo link in README pointing to <a class="link" href="https://inkwell.vinny.dev/">inkwell.vinny.dev</a>.</li>
           </ul>
         </div>
       </article>
@@ -179,34 +412,25 @@
           <span class="release-date">2026-05-09</span>
           <span class="pill resolved">Initial release</span>
         </div>
-        <h2>The first cut</h2>
-        <p style="margin: 0; color: var(--gray-700); max-width: 64ch;">The structural layer, the Indigo &amp; Cloud palette, ten core components, dark mode out of the box, and an opinionated design spec.</p>
         <div class="change-block">
-          <div class="change-label">Includes</div>
+          <div class="change-label">Added</div>
           <ul class="change-list">
-            <li><code>tokens.css</code> — color, typography, spacing, radius, border, shadow, motion, layout</li>
-            <li><code>inkwell.css</code> — brand-named alias re-exporting <code>tokens.css</code></li>
-            <li>Components: <code>.btn</code>, <code>.input</code>, <code>.checkbox</code>, <code>.badge</code>, <code>.card</code>, <code>.stat-card</code>, <code>.tbl</code>, <code>.tldr</code>, <code>.pill</code>, <code>.timeline</code>, <code>.chip-dot</code>, <code>.avatar</code>, <code>.toc</code>, <code>.sec-head</code>, <code>.eyebrow</code></li>
-            <li>Pattern B dark mode (auto + manual override on <code>&lt;html data-theme&gt;</code>)</li>
-            <li><code>DESIGN_SYSTEM.md</code> spec, <code>preview.html</code> showcase, <code>variants/</code> with three alternate palettes</li>
+            <li>Initial release with the <strong>Indigo &amp; Cloud</strong> palette.</li>
+            <li><code>tokens.css</code> — the canonical token layer plus all component CSS.</li>
+            <li><code>inkwell.css</code> — brand-named alias that re-exports <code>tokens.css</code>.</li>
+            <li>Pattern B dark mode (auto via <code>prefers-color-scheme: dark</code>, manual override via <code>[data-theme="light"|"dark"]</code> on <code>&lt;html&gt;</code>).</li>
+            <li>Components: <code>.btn</code>, <code>.input</code>, <code>.checkbox</code>, <code>.badge</code>, <code>.card</code>, <code>.stat-card</code>, <code>.tbl</code>, <code>.tldr</code>, <code>.pill</code>, <code>.timeline</code>, <code>.chip-dot</code>, <code>.avatar</code>, <code>.toc</code>, <code>.sec-head</code>, <code>.eyebrow</code>.</li>
+            <li><code>DESIGN_SYSTEM.md</code> — the canonical spec. Token tables, component list, dark-mode cascade, anti-patterns.</li>
+            <li><code>preview.html</code> — comprehensive component showcase.</li>
+            <li><code>index.html</code> — starter template with navbar, hero, and three-state theme toggle.</li>
+            <li><code>variants/</code> — three alternate palettes (clay, sage, burgundy) preserved for reference.</li>
           </ul>
         </div>
       </article>
-
-      <nav aria-label="Pagination" style="margin-top: 32px; display: flex; justify-content: center;">
-        <ol class="pagination">
-          <li><a aria-disabled="true" style="opacity: 0.5; pointer-events: none;">←</a></li>
-          <li><a aria-current="page" href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><span class="ellipsis">…</span></li>
-          <li><a href="#">12</a></li>
-          <li><a href="#">→</a></li>
-        </ol>
-      </nav>
+      <!-- END GENERATED: releases -->
 
       <footer class="page-footer t-small" style="margin-top: 56px;">
-        Demonstrates: <code>.breadcrumbs</code>, <code>.pagination</code>, version pills, <code>.code-block</code> for migration diffs, native <code>&lt;article&gt;</code> + <code>&lt;ol&gt;</code> semantics throughout.
+        The real release history — generated from <code>CHANGELOG.md</code> by <code>scripts/build-changelog-html.mjs</code>. Demonstrates: <code>.breadcrumbs</code>, version pills, <code>.tbl</code> for migration tables, native <code>&lt;article&gt;</code> semantics throughout.
         <p class="footer-links">
           <a class="link" href="https://github.com/vscarpenter/inkwell">GitHub</a>
           <span class="sep" aria-hidden="true">·</span>

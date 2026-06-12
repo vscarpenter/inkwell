@@ -53,6 +53,10 @@ cp variants/clay.css variants/sage.css variants/burgundy.css variants/compare.ht
 
 If you add a new source CSS file at the repo root, also add it to the workflow's `paths:` trigger and the `cp` step.
 
+### After editing CHANGELOG.md
+
+The releases section of `examples/changelog.html` is generated from `CHANGELOG.md`. Re-run `node scripts/build-changelog-html.mjs` and commit the regenerated page in the same change — CI runs `--check` and fails on drift. Edit the page only outside its BEGIN/END markers.
+
 ## Architecture: one token layer, four palettes
 
 Inkwell has one token layer (`inkwell-tokens.css`) and one component layer (`inkwell-components.css`). The four palettes — **Indigo & Cloud** (canonical), **Clay**, **Sage & Stone**, **Burgundy & Bone** — share both layers; variants are override-only stylesheets that redefine the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) as single `light-dark()` declarations in `:root`; they inherit canonical's `color-mix()` derived tints unless the contrast gate forced a different alpha.
