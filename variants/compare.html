@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
   // Apply saved theme before first paint (README: "writes data-theme before paint").
+  // KEEP IN SYNC: this snippet is hand-copied across examples/*.html + preview.html.
   (function () {
     var t = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
     if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);

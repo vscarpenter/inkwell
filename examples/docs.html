@@ -24,12 +24,13 @@
   <link rel="stylesheet" href="demo.css">
   <script>
     // Apply saved theme and palette before first paint (README: "writes data-theme before paint").
+    // KEEP IN SYNC: this snippet is hand-copied across examples/*.html + preview.html.
     (function () {
       var t = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
       if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
       var PALETTES = { clay: 1, sage: 1, burgundy: 1 };
       var p = new URLSearchParams(location.search).get("palette") || localStorage.getItem("inkwell-palette");
-      if (p && PALETTES[p]) {
+      if (p && Object.prototype.hasOwnProperty.call(PALETTES, p)) {
         document.write('<link rel="stylesheet" id="inkwell-palette-prepaint" href="variants/' + p + '.css">');
       }
     })();

@@ -1,6 +1,7 @@
 (function () {
   var root = document.documentElement;
-  var saved = localStorage.getItem("inkwell-theme") || "auto";
+  var saved = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview") || "auto";
+  if (saved !== "light" && saved !== "dark") saved = "auto";
   var controls = Array.prototype.slice.call(document.querySelectorAll("[data-theme-choice]"));
 
   function applyTheme(choice) {
