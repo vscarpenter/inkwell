@@ -14,11 +14,11 @@ The Tailwind path uses three Inkwell files:
 
 | File | Purpose |
 |---|---|
-| [`inkwell-tokens.css`](inkwell-tokens.css) | `:root` custom properties + Pattern B dark cascade. The brand layer. |
+| [`inkwell-tokens.css`](inkwell-tokens.css) | Single-declaration `:root` custom properties (`light-dark()` per mode) + `color-scheme` machinery. The brand layer. |
 | [`inkwell-components.css`](inkwell-components.css) | `.btn`, `.card`, `.alert`, base reset, type styles, layout helpers, a11y. |
 | [`inkwell-theme.css`](inkwell-theme.css) | The Tailwind v4 entry: imports the two above, declares `@theme` aliases, and the dark variant. **This is the only Inkwell file you import from your Tailwind entry CSS.** |
 
-If you also want the pure-CSS shim for non-Tailwind consumers, keep [`tokens.css`](tokens.css) and [`inkwell.css`](inkwell.css) beside those three files. Tailwind itself does not need them.
+If you also want the pure-CSS entry for non-Tailwind consumers, keep [`inkwell.css`](inkwell.css) beside those three files (and optionally the deprecated `tokens.css` alias). Tailwind itself does not need them.
 
 Then, in your Tailwind entry CSS — typically `app.css`, `globals.css`, or whatever your build pipeline points at:
 
@@ -81,7 +81,7 @@ Reach for `border-hair` whenever the element should feel like Inkwell. Reach for
 
 ## Dark mode
 
-Inkwell uses **Pattern B** dark mode — automatic via `prefers-color-scheme: dark`, with a manual override via `[data-theme="light"|"dark"]` on `<html>`. With Tailwind v4 in the mix, there are **two paths** to dark mode and they handle different cases:
+Inkwell's dark mode is automatic via `prefers-color-scheme: dark`, with a manual override via `[data-theme="light"|"dark"]` on `<html>` (since 3.0 this is implemented as `color-scheme` flipping + `light-dark()` tokens rather than dark-block redeclarations — same behavior, one declaration per token). With Tailwind v4 in the mix, there are **two paths** to dark mode and they handle different cases:
 
 ### Path 1 — token shifting (handles most things automatically)
 
@@ -197,9 +197,9 @@ If you reach for one of these and find it missing, use the equivalent Tailwind u
 ## File reference
 
 - [`inkwell-theme.css`](inkwell-theme.css) — the Tailwind v4 entry. Imports tokens and components, declares `@theme` aliases, defines `@custom-variant dark`.
-- [`inkwell-tokens.css`](inkwell-tokens.css) — `:root` custom properties + Pattern B dark cascade.
+- [`inkwell-tokens.css`](inkwell-tokens.css) — single-declaration `:root` custom properties (`light-dark()` per mode, `color-mix()` derived tints) + `color-scheme` mode machinery.
 - [`inkwell-components.css`](inkwell-components.css) — every Inkwell component class plus base reset, type styles, layout helpers, and a11y.
-- [`tokens.css`](tokens.css) — backward-compat aggregator for non-Tailwind consumers; just re-exports the two files above. Not needed for Tailwind setups.
+- [`inkwell.css`](inkwell.css) — pure-CSS entry for non-Tailwind consumers (components in `@layer inkwell`). Not needed for Tailwind setups; `tokens.css` is its deprecated alias.
 - [`examples/tailwind.html`](examples/tailwind.html) — live integration demo that opens in a browser without a build.
 - [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md) — the canonical spec for Inkwell itself. Read this for the *why* behind the 1.5px border, the lifted dark accent, the cool-putty neutrals.
 

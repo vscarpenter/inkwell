@@ -6,6 +6,30 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [3.0.0] — 2026-06-12
+
+The architecture release. Zero visual change — every resolved color in every palette and mode is identical to 2.1.0 (verified by a 288-entry resolved-value parity diff, the 192-pair contrast gate, and a real-engine smoke test) — but the cascade, the entry files, and the browser floor all change shape. Spec: `docs/specs/2026-06-12-v3-architecture-design.md`.
+
+### Added
+- **Cascade layering for the pure-CSS path.** `inkwell.css` now imports `inkwell-components.css` into `@layer inkwell`, so unlayered consumer CSS always overrides Inkwell components without specificity fights — the same ergonomics the Tailwind path has had since 2.0.
+- **Derived tints.** Every `*-tint` / `*-focus-ring` / `*-strong-border` / `*-tint-border` token now derives from its base via `color-mix(in srgb, var(--base) P%, transparent)`. A palette that overrides `--accent` gets correct tints for free; tokens are still declared explicitly wherever the contrast gate forced a hand-tuned value (the derive-vs-declare rule, now documented in `DESIGN_SYSTEM.md`).
+- **Release tags resumed**: `v2.1.0` marks the last 2.x for raw-URL pinning; `v3.0.0` tags this release.
+
+### Changed
+- **The Pattern B dark cascade is now `light-dark()`.** Every color token is a single `:root` declaration; mode switching is `color-scheme` flipping (`light dark` auto, `[data-theme]` overrides, print forced light). The two byte-identical dark blocks in `inkwell-tokens.css` and the duplicated dark blocks in every variant are gone — a brand token's dark value now lives in exactly one place instead of four across a canonical+variant pair. The dark `.select` chevron override is the one surviving Pattern B residue (`light-dark()` only accepts colors; the chevron is a `background-image` data URI).
+- **Variant files shrank ~45%** (97 → ~50 lines): single-declaration overrides; burgundy inherits every derived tint from canonical.
+- **`inkwell.css` is the canonical entry** and imports the two source files directly. Install is three files (`inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`).
+- **Scripts** (`build-tokens-json.mjs`, `check-contrast.mjs`) resolve `light-dark()`/`color-mix()` to concrete per-mode values. The dark-block parity assertion is gone — the failure mode it guarded no longer exists. `tokens.json` schema and values are unchanged (two alphas normalize: `0.10` → `0.1`).
+
+### Deprecated
+- **`tokens.css`** is now a one-line alias of `inkwell.css`, kept so pre-3.0 consumers keep working. Removal slated for 4.0.
+
+### Migration
+- **Browser floor: Chrome/Edge 123, Firefox 120, Safari 17.5** (all mid-2024) — `light-dark()` is the gating feature. If you must support older browsers, pin 2.1.0: `https://raw.githubusercontent.com/vscarpenter/inkwell/v2.1.0/…`.
+- **If you load a second reset (normalize.css etc.) alongside Inkwell**, it now wins over Inkwell's base/type rules — unlayered CSS beats `@layer inkwell`. Drop the second reset (Inkwell ships its own) or import it into a lower layer: `@import url('normalize.css') layer(reset);`. Your intentional overrides need no change — they now *always* win, which is the point.
+- **If you link `tokens.css`**, switch to `inkwell.css` at your convenience; the alias keeps working until 4.0.
+- **If you parse `inkwell-tokens.css` yourself**, per-mode values now live inside `light-dark(light, dark)` functions in `:root` instead of separate dark blocks; `tokens.json` is unchanged and remains the stable machine interface.
+
 ## [2.1.0] — 2026-06-12
 
 ### Added

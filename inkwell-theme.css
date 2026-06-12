@@ -1,14 +1,15 @@
 /* =====================================================================
    Inkwell — Tailwind v4 entry.
-   Version: 2.1.0
+   Version: 3.0.0
 
    Drop this into a Tailwind v4 project AFTER `@import "tailwindcss"`:
 
        @import "tailwindcss";
        @import "./inkwell-theme.css";
 
-   It is self-contained: pulls in Inkwell tokens (with the Pattern B
-   dark cascade), wraps Inkwell components in @layer components so
+   It is self-contained: pulls in Inkwell tokens (single light-dark()
+   declarations with color-scheme switching since 3.0), wraps Inkwell
+   components in @layer components so
    Tailwind utilities can override them, and aliases Inkwell tokens
    into Tailwind v4's @theme namespace so you get utilities like
    bg-accent, text-slate, border-accent, font-serif, rounded-md,
@@ -19,9 +20,8 @@
    beyond what Tailwind already needs.
 
    See TAILWIND.md for the install guide, the border-hair convention,
-   the components-vs-utilities rule, and the two-universes caveat
-   (Tailwind support targets the --accent universe only; the legacy
-   variants/ palettes are not Tailwind-compatible).
+   the components-vs-utilities rule, and cascade-order guidance for
+   loading a variants/ palette on top.
    ===================================================================== */
 
 /* Inkwell tokens stay unlayered so :root custom properties resolve

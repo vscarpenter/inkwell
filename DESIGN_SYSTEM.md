@@ -160,7 +160,7 @@ Wrappers ship as classes: `.wrap`, `.wrap-narrow`, `.wrap-wide`. Page padding is
 
 ## 2. Dark mode
 
-Pattern B is built in: dark mode applies automatically, with an opt-out for users who want to override.
+Pattern B behavior is built in: dark mode applies automatically, with an opt-out for users who want to override. (Same behavior since 1.0; the implementation became `color-scheme` + `light-dark()` in 3.0.)
 
 ```html
 <!-- Auto: respects OS preference -->
@@ -173,15 +173,20 @@ Pattern B is built in: dark mode applies automatically, with an opt-out for user
 <html data-theme="dark">
 ```
 
-Cascade:
+Since 3.0 the cascade is `color-scheme` + `light-dark()`: every color token is a single `:root` declaration carrying both mode values, and the mode machinery is four small rules —
 
-1. `prefers-color-scheme: dark` activates dark tokens — UNLESS `[data-theme="light"]` is set
-2. `[data-theme="dark"]` always activates dark tokens
-3. `[data-theme="light"]` always keeps light tokens
+1. `:root { color-scheme: light dark }` — auto, `light-dark()` follows the OS preference
+2. `[data-theme="light"] { color-scheme: light }` — always light
+3. `@media screen { [data-theme="dark"] { color-scheme: dark } }` — always dark, screen-only
+4. `@media print { :root { color-scheme: light } }` — print always renders the light palette
 
 To wire a manual toggle, set/remove the attribute on `<html>` from JS and persist to `localStorage`. The `preview.html` and `index.html` files include a working three-state toggle (Auto / Light / Dark) you can lift directly.
 
-`color-scheme: light dark` is declared on `:root`, so native UI (scrollbars, form controls) follows the active scheme automatically.
+Because `color-scheme` is declared on `:root`, native UI (scrollbars, form controls) follows the active scheme automatically.
+
+**Derive vs. declare (the 3.0 tint rule):** alpha tints (`*-tint`, `*-focus-ring`, `*-strong-border`) derive from their base token via `color-mix(in srgb, var(--base) P%, transparent)`, so a palette that overrides `--accent` gets correct tints for free. A token is declared explicitly wherever the contrast gate (`scripts/check-contrast.mjs`) forced a hand-tuned value — e.g. clay and sage redeclare `--accent-tint` because their dark alpha (18%) differs from canonical's tuned 10%. Derive by default; declare where the gate demands. When adding a new colored token, put both mode values in one `light-dark()` declaration — a dark block redeclaration is now an anti-pattern.
+
+The one surviving piece of the old Pattern B duplication is the dark `.select` chevron override: `light-dark()` only accepts colors, and the chevron is a `background-image` data URI, so it keeps explicit dark-active selectors in canonical and each variant.
 
 ---
 
@@ -308,9 +313,12 @@ For a fuller starting point, copy `index.html` — it includes the navbar, layou
 
 ```
 inkwell/
-├── inkwell.css             ← brand-named alias — link this in <head>
-├── tokens.css              ← backward-compat aggregator (imports the two source files)
-├── inkwell-tokens.css      ← source: :root tokens + Pattern B dark cascade
+├── inkwell.css             ← canonical entry — link this in <head>
+│                             (components import into @layer inkwell)
+├── tokens.css              ← DEPRECATED one-line alias of inkwell.css (removal: 4.0)
+├── inkwell-tokens.css      ← source: single-declaration :root tokens (light-dark()
+│                             per mode, color-mix() derived tints) + color-scheme
+│                             mode machinery
 ├── inkwell-components.css  ← source: base reset, components, layout helpers, a11y
 ├── inkwell-theme.css       ← Tailwind v4 entry — imports the two source files,
 │                             declares @theme aliases + @custom-variant dark
@@ -329,7 +337,7 @@ inkwell/
     └── compare.html        ← side-by-side comparison of all four palettes
 ```
 
-The split between `inkwell-tokens.css` and `inkwell-components.css` exists so `inkwell-theme.css` can wrap components inside `@layer components` while keeping `:root` tokens unlayered — without forcing pure-CSS consumers to care. Link `inkwell.css` and the whole tree resolves; link `inkwell-theme.css` from Tailwind v4 entry CSS and the same source files do double duty.
+The split between `inkwell-tokens.css` and `inkwell-components.css` exists so both entries can wrap components inside a cascade layer while keeping `:root` tokens unlayered — `inkwell.css` uses `@layer inkwell` (your unlayered CSS always overrides Inkwell components), `inkwell-theme.css` uses `@layer components` (Tailwind utilities override them). Link `inkwell.css` and the whole tree resolves; link `inkwell-theme.css` from Tailwind v4 entry CSS and the same source files do double duty.
 
 To switch palettes, load the relevant `variants/*.css` file after `inkwell.css`. Each variant overrides only the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) — the structural layer stays untouched. Tailwind v4 users load the variant after the Tailwind build output so the `:root` overrides win the cascade; see [`TAILWIND.md`](TAILWIND.md) for cascade-order guidance.
 
