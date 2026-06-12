@@ -107,7 +107,7 @@ body {
   font: 600 4.2em/0.85 var(--serif);
   float: left;
   padding: 6px 10px 0 0;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 .pullquote {
   font: 500 clamp(22px, 3vw, 32px)/1.35 var(--serif);
@@ -275,7 +275,7 @@ code, .code-inline {
   position: absolute;
   left: 5px; top: 1px;
   width: 5px; height: 10px;
-  border: solid var(--paper);
+  border: solid var(--on-accent);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }

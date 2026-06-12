@@ -349,7 +349,7 @@ All edits are exact old → new replacements. Header: change `Version: 1.3.1` to
 | `.breadcrumbs a:hover` | `color: var(--accent);` | `color: var(--accent-ink);` |
 | `*:focus-visible` | `outline: 2px solid var(--accent);` | `outline: 2px solid var(--accent-ink);` |
 
-Decorative accent stays `--accent` (do NOT touch): `.eyebrow::before`, `.eyebrow-serif::before`, `.dropcap::first-letter`, `.pullquote` border, `.tl-entry::before`, `.tab` border-bottom-color, `.stat-card.is-primary` border (Step 4).
+Decorative accent stays `--accent` (do NOT touch): `.eyebrow::before`, `.eyebrow-serif::before`, `.pullquote` border, `.tl-entry::before`, `.tab` border-bottom-color, `.stat-card.is-primary` border (Step 4). (.dropcap::first-letter and the .checkbox checkmark were moved to --accent-ink / --on-accent during review — dropcaps are text; the checkmark sits on an accent fill.)
 
 - [ ] **Step 2: Re-point accent-fill labels to `--on-accent`**
 
