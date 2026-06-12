@@ -3,6 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  // Apply saved theme before first paint (README: "writes data-theme before paint").
+  (function () {
+    var t = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
 <title>Compare · Original / Sage / Burgundy / Indigo</title>
 <meta name="description" content="Side-by-side comparison of the four Inkwell palette variants — Clay, Sage, Burgundy, and Indigo — rendered in isolated iframes.">
 <meta property="og:type" content="website">

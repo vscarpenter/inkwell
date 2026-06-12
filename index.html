@@ -3,6 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  // Apply saved theme before first paint (README: "writes data-theme before paint").
+  (function () {
+    var t = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
 <title>My Project · starter</title>
 <meta name="description" content="Starter template for the Inkwell pure-CSS design system — navbar, light/dark/auto toggle, and the core token layer.">
 <meta property="og:type" content="website">
@@ -208,14 +215,14 @@
     const root = document.documentElement;
     const btn = document.getElementById('theme-toggle');
     const label = document.getElementById('theme-label');
-    const KEY = 'theme-preview';
+    const KEY = 'inkwell-theme';
     const order = ['auto', 'light', 'dark'];
     function apply(s) {
       if (s === 'auto') root.removeAttribute('data-theme');
       else root.setAttribute('data-theme', s);
       label.textContent = s;
     }
-    let current = localStorage.getItem(KEY) || 'auto';
+    let current = localStorage.getItem(KEY) || localStorage.getItem('theme-preview') || 'auto';
     if (!order.includes(current)) current = 'auto';
     apply(current);
     btn.addEventListener('click', () => {

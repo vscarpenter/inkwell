@@ -19,6 +19,18 @@
 <meta name="twitter:description" content="Comprehensive showcase of every Inkwell component, token, and layout pattern in the Indigo &amp; Cloud palette.">
 <meta name="twitter:image" content="https://inkwell.vinny.dev/og-image.png">
 <link rel="stylesheet" href="inkwell.css">
+<script>
+  // Apply saved theme before first paint (README: "writes data-theme before paint").
+  (function () {
+    var t = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    var PALETTES = { clay: 1, sage: 1, burgundy: 1 };
+    var p = new URLSearchParams(location.search).get("palette") || localStorage.getItem("inkwell-palette");
+    if (p && PALETTES[p]) {
+      document.write('<link rel="stylesheet" id="inkwell-palette-prepaint" href="variants/' + p + '.css">');
+    }
+  })();
+</script>
 <style>
   /* preview-only layout */
   .wrap-wide { padding-top: 64px; padding-bottom: 120px; }
@@ -653,14 +665,14 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
     const root = document.documentElement;
     const btn = document.getElementById('theme-toggle');
     const label = document.getElementById('theme-label');
-    const KEY = 'theme-preview';
+    const KEY = 'inkwell-theme';
     const order = ['auto', 'light', 'dark'];
     function apply(s) {
       if (s === 'auto') root.removeAttribute('data-theme');
       else root.setAttribute('data-theme', s);
       label.textContent = s;
     }
-    let current = localStorage.getItem(KEY) || 'auto';
+    let current = localStorage.getItem(KEY) || localStorage.getItem('theme-preview') || 'auto';
     if (!order.includes(current)) current = 'auto';
     apply(current);
     btn.addEventListener('click', () => {
@@ -696,6 +708,8 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
     var paletteLink = null;
 
     function loadSheet(href) {
+      var pre = document.getElementById("inkwell-palette-prepaint");
+      if (pre) { pre.remove(); }
       if (paletteLink) { paletteLink.remove(); paletteLink = null; }
       if (!href) return;
       paletteLink = document.createElement("link");

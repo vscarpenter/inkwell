@@ -3,6 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    // Apply saved theme before first paint (README: "writes data-theme before paint").
+    (function () {
+      var t = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
   <title>Inkwell Sample Pages</title>
   <meta name="description" content="A gallery of sample pages — dashboard, landing, docs, pricing, settings, and more — built with the Inkwell pure-CSS design system.">
   <meta property="og:type" content="website">
