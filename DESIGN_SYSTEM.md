@@ -22,8 +22,8 @@ A small palette (12 hues) with one accent doing all the work. Neutrals are *cool
 | `--paper` | `#FFFFFF` | `#181A24` | Cards, panels, inputs |
 | `--slate` | `#13141B` | `#E8E8EE` | Primary text |
 | `--oat` | `#DDDCDF` | `#2B2D38` | Tertiary surface, hover thumbnails |
-| `--accent` | `#3B4A8C` | `#7A8AD1` | **Primary accent** — links, focus, active state |
-| `--accent-d` | `#2A3768` | `#8B9ADB` | Hover/pressed accent — dark mode *lifts* (the old `#6273C0` left button labels at 3.90:1) |
+| `--accent` | `#3B4A8C` | `#7A8AD1` | **Primary accent** — fills, tints, the hue variants override (text/focus jobs live on `--accent-ink`) |
+| `--accent-d` | `#2A3768` | `#8B9ADB` | Hover/pressed accent — dark mode *lifts* |
 | `--accent-tint` | `rgba(59,74,140,0.14)` | `rgba(122,138,209,0.10)` | Badge background |
 | `--accent-focus-ring` | `rgba(59,74,140,0.18)` | `rgba(122,138,209,0.28)` | Input focus halo |
 | `--accent-strong-border` | `rgba(59,74,140,0.5)` | `rgba(122,138,209,0.6)` | Tinted chip border |
@@ -36,9 +36,10 @@ A small palette (12 hues) with one accent doing all the work. Neutrals are *cool
 | `--rust-focus-ring` | `rgba(176,74,63,0.18)` | `rgba(210,116,104,0.28)` | `.is-error` focus halo |
 | `--warning` | `#C78E3F` | `#D9A55F` | Amber warning |
 | `--warning-strong-border` | `rgba(199,142,63,0.45)` | `rgba(217,165,95,0.6)` | Tinted warning border |
-| `--warning-dark` | `#85561E` | `#D9A55F` | Warning as text — 5.41:1 on its tint (was `#A06A2A` at 3.95:1) |
+| `--warning-dark` | `#85561E` | `#D9A55F` | Warning as text — 5.41:1 on its tint |
 | `--info` / `--sky` | `#5C7CA3` / `#6A8CAF` | `#7C9FD2` / `#85A6CB` | Informational accents |
 | `--info-tint` | `rgba(92,124,163,0.16)` | `rgba(124,159,210,0.18)` | `.alert.is-info` background |
+| `--info-strong-border` | `rgba(92, 124, 163, 0.45)` | `rgba(124, 159, 210, 0.6)` | `.alert.is-info` border |
 | `--backdrop` | `rgba(15,16,24,0.55)` | `rgba(0,0,0,0.6)` | `dialog::backdrop` scrim |
 | `--tldr-code-tint` | `rgba(255,255,255,0.08)` | `rgba(0,0,0,0.08)` | `.tldr code` chip overlay — inverts with the `.tldr` surface |
 | `--gray-100` | `#EDEDEA` | `#1E1F29` | Subtle row stripe, code-chip bg |
@@ -193,6 +194,7 @@ To wire a manual toggle, set/remove the attribute on `<html>` from JS and persis
 | `.btn` (+ `-primary` / `-secondary` / `-ghost` / `-danger`; `:disabled` / `:active` / `.btn-sm` / `aria-busy`) | Buttons across all intents, with disabled, pressed, small, and loading-spinner states. Pair `aria-busy="true"` with `disabled` from JS — CSS only blocks pointer events, not keyboard activation. |
 | `.input` / `.textarea` / `.select` (+ `.is-error` / `:disabled`) | Form controls with accent focus halo, rust error border, and muted disabled state |
 | `.field` (+ `.field-label` / `.field-help` / `.field-error`) | Vertical field group: label + control + helper or error text |
+| `.field-row` | Inline form row — wrapping flex of controls with centered alignment |
 | `.checkbox` / `.radio` / `.switch` | Selection controls with accent fill (checkbox/radio) and pill-track toggle (switch) |
 | `.segmented` (+ `aria-pressed` / `.is-active`) | Pill-shaped group of mutually-exclusive options sharing one outer border — use for 2–4 short labels (theme toggle, view modes, density) |
 | `kbd` / `.kbd` | Keyboard-shortcut chip in mono with bottom-edge shadow line |
@@ -218,8 +220,7 @@ To wire a manual toggle, set/remove the attribute on `<html>` from JS and persis
 | `.eyebrow` / `.eyebrow-serif` | Lead-in kicker label with accent rule. Mono uppercase for product/dashboard; italic serif for editorial. |
 | `.sec-head` | Numbered section header (mono index + serif title + count pill). Use the numbered index only when the sequence carries meaning (steps, ordered specs); as default scaffolding on every section it reads as generated filler. |
 | `.toc` | Pill-shaped link list with optional mono numerals |
-| `.navbar` (+ `.navbar-inner` / `.brand`) | Sticky top navigation shell — promoted from `index.html` in 2.1.0 |
-| `.field-row` | Inline form row — wrapping flex of controls with centered alignment |
+| `.navbar` (+ `.navbar-inner` / `.brand`) | Sticky top bar: brand mark + nav links on the ivory surface |
 | `.card-grid` | Responsive card grid — `auto-fill` columns at a 280px minimum |
 | `.sr-only` | Visually hidden, screen-reader-available text |
 | `.skip-link` | Off-screen "skip to content" link that appears on `:focus-visible` |

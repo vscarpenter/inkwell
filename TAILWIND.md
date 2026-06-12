@@ -101,8 +101,8 @@ This works under **both** `prefers-color-scheme: dark` *and* `[data-theme="dark"
 If you need a *different* utility per mode — e.g. swap `bg-paper` for `bg-accent` in dark — use Tailwind's `dark:` variant:
 
 ```html
-<!-- Light: paper bg, slate text. Dark: accent bg, paper text. -->
-<div class="bg-paper text-slate dark:bg-accent dark:text-paper rounded-md p-5">
+<!-- Light: paper bg, slate text. Dark: accent bg, on-accent label. -->
+<div class="bg-paper text-slate dark:bg-accent dark:text-on-accent rounded-md p-5">
   …
 </div>
 ```
@@ -156,7 +156,7 @@ The footgun to avoid: rebuilding a button from utilities just because you can.
 
 ## Using a non-default palette with Tailwind
 
-The variant CSS files (`variants/clay.css`, `variants/sage.css`, `variants/burgundy.css`) override `--accent` and a handful of other brand-layer tokens. Tailwind utilities that reference those tokens via `@theme` (e.g. `text-accent`, `bg-accent-tint`, `border-gray-300`) follow the variant automatically — no extra Tailwind config needed.
+The variant CSS files (`variants/clay.css`, `variants/sage.css`, `variants/burgundy.css`) override `--accent` and a handful of other brand-layer tokens. Tailwind utilities that reference those tokens via `@theme` (e.g. `bg-accent`, `bg-accent-tint`, `border-gray-300`) follow the variant automatically — no extra Tailwind config needed.
 
 Variants also override `--accent-ink`/`--on-accent` where needed — clay's coral and sage's green are too light to read as text, so they ship darker ink values. Utilities like `text-accent-ink` stay AA in every palette; that's the token to reach for when you want accent-colored text rather than an accent fill.
 

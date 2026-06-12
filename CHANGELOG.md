@@ -25,15 +25,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - **`.tbl thead th`** text `--gray-500` → `--gray-700` (was 4.26:1 on the header fill).
 - **Dark-mode hover now lifts.** Dark `--accent-d` `#6273C0` → `#8B9ADB` (button labels on the old hover read 3.90:1) and dark `--accent-tint` alpha 0.18 → 0.10 (badge-accent text read 4.07:1). Same treatment in the variants: sage dark `--accent-d` → `#7FB294`, burgundy dark `--accent-d` → `#D57E7E` with `--accent-tint` alpha → 0.10. Burgundy dark also sets an explicit `--accent-ink: #D07878` — the raw lifted accent can't clear 4.5:1 on the badge tint.
 - **Variant grays**: clay/sage/burgundy `--gray-500` darkened to clear 4.5:1 on their surfaces (the BACKLOG "variant gray-500" item, option a).
-- **Dark `.select` chevron** now matches each variant's own gray (was canonical-only — BACKLOG item).
 - **The manual dark theme is screen-only.** Both `[data-theme="dark"]` blocks are wrapped in `@media screen`, so print always renders the light palette.
-- **Theme toggle storage key** unified on `inkwell-theme` (was `theme-preview` on `index.html`/`preview.html`); pages still read the legacy `theme-preview` key as a fallback, and `examples/demo.js` validates the stored value and migrates it to the new key on first interaction. Saved theme and palette now apply via a `<head>` pre-paint snippet — no flash. The snippet is hand-copied per page and marked KEEP IN SYNC; the gallery (`examples/index.html`) gets the palette pre-paint too, but deliberately still no toggle widget.
+- **Theme toggle storage key** unified on `inkwell-theme` (was `theme-preview` on `index.html`/`preview.html`); pages still read the legacy `theme-preview` key as a fallback, and `examples/demo.js` validates the stored value and migrates it to the new key on first load. The snippet is hand-copied per page and marked KEEP IN SYNC; the gallery (`examples/index.html`) gets the palette pre-paint too, but deliberately still no toggle widget.
 - `html { scroll-behavior: smooth }` now respects `prefers-reduced-motion`.
+
+### Fixed
+- **Dark `.select` chevron** now matches each variant's own gray (was canonical-only — BACKLOG item).
+- **Pre-paint snippet eliminates flash.** Saved theme and palette now apply via a `<head>` pre-paint snippet — no flash of incorrect theme or palette on load.
 
 ### Migration
 - If you styled against `.stat-card.is-primary`'s left stripe, the marker is now `border-color: var(--accent)` on the full frame.
 - `.alert.is-info` is now steel-blue (`--info`), not indigo. If you wanted the accent look, use `.alert` with a custom tint.
 - The global focus outline follows `--accent-ink`; in clay/sage it is now a darker, AA-passing shade.
+- Re-copy `variants/*.css` alongside the core files — 2.0 variant files define no `--accent-ink`/`--gray-400`, so against a 2.1 core they fall back to canonical values (failing raw-accent text in clay/sage, cool-gray control borders on warm palettes).
 
 ## [2.0.0] — 2026-05-15
 

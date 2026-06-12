@@ -130,7 +130,7 @@ These are not stylistic preferences. They are the system. Breaking any of them p
 6. **Page background is `--ivory`, not white.** Body text is `--slate`, not pure black. Pure white + pure black collapses the cool-putty atmosphere.
 7. **Every saturated color token must be defined in both light and dark.** If you add a new colored token, define a **lifted** (more luminous) value in the dark-mode block too. A color defined only at `:root` will look muddy on dark surfaces.
 8. **Do not invent new accent token names.** Use `--accent` (and its derived tokens `--accent-d`, `--accent-tint`, etc.) everywhere. Palette switching works by overriding `--accent`; parallel token names break that mechanism.
-9. **Accent as text → `--accent-ink`; accent as fill → `--accent` + `--on-accent` label.** Never put raw `--accent` text on a tinted surface in a variant palette — clay's coral and sage's green are too light to read, and `--accent-ink` is the token the variants darken to keep text AA.
+9. **Accent as text → `--accent-ink`; accent as fill → `--accent` + `--on-accent` label.** Never put raw `--accent` text on any surface in a variant palette — use `--accent-ink`. Clay's coral and sage's green are too light to read, and `--accent-ink` is the token the variants darken to keep text AA.
 
 ---
 
