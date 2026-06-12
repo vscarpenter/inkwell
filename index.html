@@ -25,47 +25,6 @@
 
   body { padding-bottom: 120px; }
 
-  /* Sticky compact navbar */
-  .navbar {
-    position: sticky; top: 0; z-index: var(--z-sticky);
-    background: var(--ivory);
-    border-bottom: var(--border-rule);
-  }
-  .navbar-inner {
-    max-width: var(--content-default);
-    margin: 0 auto;
-    padding: 14px var(--page-pad-x);
-    display: flex;
-    align-items: center;
-    gap: 18px;
-  }
-  .brand {
-    font: 600 14px/1 var(--serif);
-    letter-spacing: -0.01em;
-    color: var(--slate);
-    text-decoration: none;
-  }
-  .brand .dot {
-    display: inline-block;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--accent);
-    margin-right: 8px;
-    vertical-align: middle;
-  }
-  .navbar nav {
-    display: flex;
-    gap: 22px;
-    margin-left: auto;
-    font: 500 13px/1 var(--sans);
-  }
-  .navbar nav a {
-    color: var(--gray-700);
-    text-decoration: none;
-    transition: color var(--t-fast);
-  }
-  .navbar nav a:hover { color: var(--accent); }
-
   /* Hero */
   .hero { padding: 72px 0 48px; }
   .hero h1 {
@@ -96,13 +55,6 @@
     margin-top: 18px;
   }
 
-  /* Card grid */
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 18px;
-    margin-top: 18px;
-  }
   .card-foot {
     font: 11px var(--mono);
     color: var(--gray-500);
