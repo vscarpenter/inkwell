@@ -6,89 +6,43 @@
    This file redefines surface + accent + neutral tokens only; all
    structural rules (1.5px borders, type scale, spacing, motion,
    components) come from inkwell-components.css unchanged.
+
+   3.0: single light-dark() declarations. ALL derived tints (accent
+   tint, focus ring, strong border) are inherited from the canonical
+   color-mix() rules — burgundy's alphas match canonical's exactly
+   (including the hand-tuned 10% dark tint), so they track this file's
+   --accent with no redeclaration.
    ===================================================================== */
 
 :root {
   /* ---------- Surfaces ---------- */
-  --ivory: #F8F5EF;
-  --slate: #1B1614;
-  --oat:   #E5DBC9;
-  /* --paper is unchanged from canonical (#FFFFFF) */
+  --ivory: light-dark(#F8F5EF, #171312);
+  --paper: light-dark(#FFFFFF, #221C1B);
+  --slate: light-dark(#1B1614, #F0E8E2);
+  --oat:   light-dark(#E5DBC9, #3D332B);
 
-  /* ---------- Accent (deep burgundy) ---------- */
-  --accent:               #8B3A3A;
-  --accent-d:             #6F2C2C;
-  --accent-tint:          rgba(139, 58, 58, 0.14);
-  --accent-focus-ring:    rgba(139, 58, 58, 0.18);
-  --accent-strong-border: rgba(139, 58, 58, 0.5);
+  /* ---------- Accent (deep burgundy, lifted to near-rosé in dark) ---------- */
+  --accent:   light-dark(#8B3A3A, #C56A6A);
+  --accent-d: light-dark(#6F2C2C, #D57E7E); /* dark hover LIGHTENS — paper label on old #A75353 read 3.20:1; lifted value reads 5.69:1 */
+  --accent-ink: light-dark(var(--accent), #D07878); /* dark needs an explicit lift: #C56A6A reads 4.52 raw but fails on tint bg; #D07878 reads 4.70:1 on badge */
 
   /* ---------- Neutral scale (warm bone) ---------- */
-  --gray-100: #EFEAE0;
-  --gray-200: #E2DBCE;
-  --gray-300: #D2C9BA;
-  --gray-400: #8E8779;
-  --gray-500: #6F6A5F;                             /* was #8A8478 (3.7:1 on paper) — AA on ivory+paper */
-  --gray-700: #403B33;
+  --gray-100: light-dark(#EFEAE0, #2A2421);
+  --gray-200: light-dark(#E2DBCE, #322B27);
+  --gray-300: light-dark(#D2C9BA, #403733);
+  --gray-400: light-dark(#8E8779, #746A62);
+  --gray-500: light-dark(#6F6A5F, #9C928A); /* light was #8A8478 (3.7:1 on paper) — AA on ivory+paper */
+  --gray-700: light-dark(#403B33, #C5BAB1);
 }
 
+/* Select chevron dark-mode override: see canonical inkwell-tokens.css for rationale.
+   Stroke uses burgundy's dark --gray-500 (#9C928A) so the chevron matches the neutral scale. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    /* ---------- Surfaces (dark) ---------- */
-    --ivory: #171312;
-    --paper: #221C1B;
-    --slate: #F0E8E2;
-    --oat:   #3D332B;
-
-    /* ---------- Accent (lifted burgundy → near-rosé) ---------- */
-    --accent:               #C56A6A;
-    --accent-d:             #D57E7E;                 /* hover LIGHTENS in dark — paper label on old #A75353 read 3.20:1; lifted value reads 5.69:1 */
-    --accent-tint:          rgba(197, 106, 106, 0.10); /* was 0.18 — badge-accent text read 3.58:1 on heavier tint; 0.10 reads 4.70:1 */
-    --accent-focus-ring:    rgba(197, 106, 106, 0.28);
-    --accent-strong-border: rgba(197, 106, 106, 0.6);
-    --accent-ink:           #D07878;                 /* explicit lift: #C56A6A reads 4.52 raw but fails on tint bg; #D07878 reads 4.70:1 on badge */
-
-    /* ---------- Neutral scale (dark) ---------- */
-    --gray-100: #2A2421;
-    --gray-200: #322B27;
-    --gray-300: #403733;
-    --gray-400: #746A62;
-    --gray-500: #9C928A;
-    --gray-700: #C5BAB1;
-  }
-  /* Select chevron dark-mode override: see canonical inkwell-tokens.css for rationale.
-     Stroke uses burgundy's dark --gray-500 (#9C928A) so the chevron matches the neutral scale. */
   :root:not([data-theme="light"]) .select {
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%239C928A' stroke-width='1.5' stroke-linecap='round'/></svg>");
   }
 }
-
-/* @media screen: keep the manual dark theme out of print (print is always light) */
 @media screen {
-  :root[data-theme="dark"] {
-    /* ---------- Surfaces (dark) ---------- */
-    --ivory: #171312;
-    --paper: #221C1B;
-    --slate: #F0E8E2;
-    --oat:   #3D332B;
-
-    /* ---------- Accent (lifted burgundy → near-rosé) ---------- */
-    --accent:               #C56A6A;
-    --accent-d:             #D57E7E;                 /* hover LIGHTENS in dark — paper label on old #A75353 read 3.20:1; lifted value reads 5.69:1 */
-    --accent-tint:          rgba(197, 106, 106, 0.10); /* was 0.18 — badge-accent text read 3.58:1 on heavier tint; 0.10 reads 4.70:1 */
-    --accent-focus-ring:    rgba(197, 106, 106, 0.28);
-    --accent-strong-border: rgba(197, 106, 106, 0.6);
-    --accent-ink:           #D07878;                 /* explicit lift: #C56A6A reads 4.52 raw but fails on tint bg; #D07878 reads 4.70:1 on badge */
-
-    /* ---------- Neutral scale (dark) ---------- */
-    --gray-100: #2A2421;
-    --gray-200: #322B27;
-    --gray-300: #403733;
-    --gray-400: #746A62;
-    --gray-500: #9C928A;
-    --gray-700: #C5BAB1;
-  }
-  /* Select chevron dark-mode override: see canonical inkwell-tokens.css for rationale.
-     Stroke uses burgundy's dark --gray-500 (#9C928A) so the chevron matches the neutral scale. */
   :root[data-theme="dark"] .select {
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%239C928A' stroke-width='1.5' stroke-linecap='round'/></svg>");
   }
