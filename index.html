@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  // Apply saved theme before first paint (README: "writes data-theme before paint").
+  // KEEP IN SYNC: this snippet is hand-copied across examples/*.html + preview.html.
+  (function () {
+    var t = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
 <title>My Project · starter</title>
 <meta name="description" content="Starter template for the Inkwell pure-CSS design system — navbar, light/dark/auto toggle, and the core token layer.">
 <meta property="og:type" content="website">
@@ -24,47 +32,6 @@
      adjustments here. Most projects only need ~30 lines of custom CSS. */
 
   body { padding-bottom: 120px; }
-
-  /* Sticky compact navbar */
-  .navbar {
-    position: sticky; top: 0; z-index: var(--z-sticky);
-    background: var(--ivory);
-    border-bottom: var(--border-rule);
-  }
-  .navbar-inner {
-    max-width: var(--content-default);
-    margin: 0 auto;
-    padding: 14px var(--page-pad-x);
-    display: flex;
-    align-items: center;
-    gap: 18px;
-  }
-  .brand {
-    font: 600 14px/1 var(--serif);
-    letter-spacing: -0.01em;
-    color: var(--slate);
-    text-decoration: none;
-  }
-  .brand .dot {
-    display: inline-block;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--accent);
-    margin-right: 8px;
-    vertical-align: middle;
-  }
-  .navbar nav {
-    display: flex;
-    gap: 22px;
-    margin-left: auto;
-    font: 500 13px/1 var(--sans);
-  }
-  .navbar nav a {
-    color: var(--gray-700);
-    text-decoration: none;
-    transition: color var(--t-fast);
-  }
-  .navbar nav a:hover { color: var(--accent); }
 
   /* Hero */
   .hero { padding: 72px 0 48px; }
@@ -96,13 +63,8 @@
     margin-top: 18px;
   }
 
-  /* Card grid */
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 18px;
-    margin-top: 18px;
-  }
+  .card-grid { margin-top: 18px; }
+
   .card-foot {
     font: 11px var(--mono);
     color: var(--gray-500);
@@ -254,14 +216,14 @@
     const root = document.documentElement;
     const btn = document.getElementById('theme-toggle');
     const label = document.getElementById('theme-label');
-    const KEY = 'theme-preview';
+    const KEY = 'inkwell-theme';
     const order = ['auto', 'light', 'dark'];
     function apply(s) {
       if (s === 'auto') root.removeAttribute('data-theme');
       else root.setAttribute('data-theme', s);
       label.textContent = s;
     }
-    let current = localStorage.getItem(KEY) || 'auto';
+    let current = localStorage.getItem(KEY) || localStorage.getItem('theme-preview') || 'auto';
     if (!order.includes(current)) current = 'auto';
     apply(current);
     btn.addEventListener('click', () => {

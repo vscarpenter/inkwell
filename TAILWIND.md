@@ -27,7 +27,7 @@ Then, in your Tailwind entry CSS — typically `app.css`, `globals.css`, or what
 @import "./inkwell-theme.css";
 ```
 
-That's the install. **Order matters**: Tailwind must come first so the `@theme` aliases in `inkwell-theme.css` can extend it. That gives you Inkwell tokens as Tailwind utilities (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-hair`), Inkwell components in `@layer components`, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle.
+That's the install. **Order matters**: Tailwind must come first so the `@theme` aliases in `inkwell-theme.css` can extend it. That gives you Inkwell tokens as Tailwind utilities (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-hair`, `text-accent-ink`, `bg-olive-dark`, `border-gray-400`, `bg-info-tint`), Inkwell components in `@layer components`, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle.
 
 ### Live example
 
@@ -41,11 +41,11 @@ Inkwell's tokens are aliased into Tailwind's namespace, so all of these utility 
 
 **Surfaces & text** — `bg-ivory`, `bg-paper`, `bg-slate`, `bg-oat`, `text-slate`, `text-ivory`, `text-paper`
 
-**Neutrals** — `bg-gray-{100,200,300,500,700}`, `text-gray-*`, `border-gray-*`
+**Neutrals** — `bg-gray-{100,200,300,400,500,700}`, `text-gray-*`, `border-gray-*` (`border-gray-400` is the functional control-boundary step)
 
-**Accent family** — `bg-accent`, `bg-accent-d` (hover), `bg-accent-tint`, `ring-accent-focus`, `border-accent-strong-border`, plus all the `text-*` and `border-*` variants. Alpha tints stay as named tokens, not Tailwind's `/N` opacity scale, so the specific 0.14 / 0.18 values used throughout Inkwell are preserved.
+**Accent family** — `bg-accent`, `bg-accent-d` (hover), `bg-accent-tint`, `ring-accent-focus`, `border-accent-strong-border`, `text-accent-ink` (accent as text), `text-on-accent` (labels on accent fills), plus all the `text-*` and `border-*` variants. Alpha tints stay as named tokens, not Tailwind's `/N` opacity scale, so the specific alpha values used throughout Inkwell — e.g. the accent tint's 0.14 light / 0.10 dark — are preserved.
 
-**Semantic** — `bg-olive`, `bg-olive-tint`, `bg-rust`, `bg-rust-d`, `bg-rust-tint`, `bg-rust-tint-border`, `bg-warning`, `bg-warning-dark`, `bg-warning-tint`, `bg-info`, `bg-sky`
+**Semantic** — `bg-olive`, `bg-olive-tint`, `bg-olive-dark`, `bg-rust`, `bg-rust-d`, `bg-rust-tint`, `bg-rust-tint-border`, `bg-warning`, `bg-warning-dark`, `bg-warning-tint`, `bg-info`, `bg-info-tint`, `bg-sky`
 
 **Type** — `font-serif`, `font-sans`, `font-mono`, plus `text-display`, `text-h1`, `text-h2`, `text-h3`, `text-lede`, `text-body`, `text-small`, `text-caption`, `text-eyebrow`. Each bundles line-height, letter-spacing, and font-weight, so a single utility like `text-h1` produces the same rendering as the `.t-h1` class. **Note:** Tailwind v4's `--text-*` modifier set doesn't include `font-style`, so `text-lede` ships size/line-height/weight only. The pure-CSS `.t-lede` class is italic; in Tailwind markup, pair the utility with `italic` — `class="font-serif text-lede italic text-gray-700"`.
 
@@ -101,8 +101,8 @@ This works under **both** `prefers-color-scheme: dark` *and* `[data-theme="dark"
 If you need a *different* utility per mode — e.g. swap `bg-paper` for `bg-accent` in dark — use Tailwind's `dark:` variant:
 
 ```html
-<!-- Light: paper bg, slate text. Dark: accent bg, paper text. -->
-<div class="bg-paper text-slate dark:bg-accent dark:text-paper rounded-md p-5">
+<!-- Light: paper bg, slate text. Dark: accent bg, on-accent label. -->
+<div class="bg-paper text-slate dark:bg-accent dark:text-on-accent rounded-md p-5">
   …
 </div>
 ```
@@ -113,7 +113,7 @@ The custom variant in `inkwell-theme.css` fires the `dark:` prefix when `[data-t
 <!-- In <head>, before paint -->
 <script>
   (function () {
-    var s = localStorage.getItem('theme-preview') || 'auto';
+    var s = localStorage.getItem('inkwell-theme') || localStorage.getItem('theme-preview') || 'auto';
     if (s === 'light' || s === 'dark') {
       document.documentElement.setAttribute('data-theme', s);
     } else if (matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -127,7 +127,7 @@ With this script, "auto" mode follows OS preference *and* sets `data-theme="dark
 
 ### Toggle UI
 
-To wire a three-button toggle (auto / light / dark) that does both the mirror and OS-change-listening, lift the `<script>` block at the bottom of [`examples/tailwind.html`](examples/tailwind.html) verbatim. `localStorage` key is `theme-preview`, values are `auto` / `light` / `dark`.
+To wire a three-button toggle (auto / light / dark) that does both the mirror and OS-change-listening, lift the `<script>` block at the bottom of [`examples/tailwind.html`](examples/tailwind.html) verbatim. `localStorage` key is `inkwell-theme` (the legacy `theme-preview` key is read as a fallback), values are `auto` / `light` / `dark`.
 
 ---
 
@@ -156,7 +156,9 @@ The footgun to avoid: rebuilding a button from utilities just because you can.
 
 ## Using a non-default palette with Tailwind
 
-The variant CSS files (`variants/clay.css`, `variants/sage.css`, `variants/burgundy.css`) override `--accent` and a handful of other brand-layer tokens. Tailwind utilities that reference those tokens via `@theme` (e.g. `text-accent`, `bg-accent-tint`, `border-gray-300`) follow the variant automatically — no extra Tailwind config needed.
+The variant CSS files (`variants/clay.css`, `variants/sage.css`, `variants/burgundy.css`) override `--accent` and a handful of other brand-layer tokens. Tailwind utilities that reference those tokens via `@theme` (e.g. `bg-accent`, `bg-accent-tint`, `border-gray-300`) follow the variant automatically — no extra Tailwind config needed.
+
+Variants also override `--accent-ink`/`--on-accent` where needed — clay's coral and sage's green are too light to read as text, so they ship darker ink values. Utilities like `text-accent-ink` stay AA in every palette; that's the token to reach for when you want accent-colored text rather than an accent fill.
 
 The only requirement: load the variant CSS **after** Tailwind's build output, so its `:root` overrides win the cascade. For example:
 

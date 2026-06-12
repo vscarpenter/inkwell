@@ -22,6 +22,19 @@
   <link rel="apple-touch-icon" href="favicon-512.png">
   <link rel="stylesheet" href="inkwell.css">
   <link rel="stylesheet" href="demo.css">
+  <script>
+    // Apply saved theme and palette before first paint (README: "writes data-theme before paint").
+    // KEEP IN SYNC: this snippet is hand-copied across examples/*.html + preview.html.
+    (function () {
+      var t = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      var PALETTES = { clay: 1, sage: 1, burgundy: 1 };
+      var p = new URLSearchParams(location.search).get("palette") || localStorage.getItem("inkwell-palette");
+      if (p && Object.prototype.hasOwnProperty.call(PALETTES, p)) {
+        document.write('<link rel="stylesheet" id="inkwell-palette-prepaint" href="variants/' + p + '.css">');
+      }
+    })();
+  </script>
 </head>
 <body>
   <main class="demo-shell">
@@ -225,7 +238,7 @@ function setTheme(choice) {
           <pre><code>.notice {
   background: var(--paper);
   border: var(--border);
-  border-left: 4px solid var(--accent);
+  border-color: var(--accent);
   border-radius: var(--r-md);
   padding: var(--sp-4) var(--sp-5);
   box-shadow: var(--shadow-sm);

@@ -1,18 +1,22 @@
-name: tokens.json drift check
+name: tokens.json drift + contrast check
 
 on:
   pull_request:
     paths:
       - 'inkwell-tokens.css'
       - 'tokens.json'
+      - 'variants/*.css'
       - 'scripts/build-tokens-json.mjs'
+      - 'scripts/check-contrast.mjs'
       - '.github/workflows/tokens-check.yml'
   push:
     branches: [main]
     paths:
       - 'inkwell-tokens.css'
       - 'tokens.json'
+      - 'variants/*.css'
       - 'scripts/build-tokens-json.mjs'
+      - 'scripts/check-contrast.mjs'
       - '.github/workflows/tokens-check.yml'
 
 jobs:
@@ -25,3 +29,5 @@ jobs:
           node-version: '20'
       - name: Verify tokens.json is up to date
         run: node scripts/build-tokens-json.mjs --check
+      - name: Verify WCAG contrast across palettes
+        run: node scripts/check-contrast.mjs
