@@ -35,12 +35,28 @@ function extractBlock(css, opener) {
   }
   return css.slice(openBrace + 1, i - 1);
 }
-function lightAndDark(file) {
+function rootVars(file) {
   const css = stripComments(readFileSync(resolve(ROOT, file), "utf8"));
-  const light = parseDeclarations(extractBlock(css, ":root") ?? "");
-  const darkBody = extractBlock(css, ':root[data-theme="dark"]');
-  const dark = parseDeclarations(darkBody ?? "");
-  return { light, dark };
+  return parseDeclarations(extractBlock(css, ":root") ?? "");
+}
+
+// Replace every light-dark(A, B) in a value with the branch for `mode`.
+// Balanced-paren aware: A/B may contain color-mix(...) with nested commas.
+function pickMode(value, mode) {
+  let out = value;
+  for (;;) {
+    const idx = out.indexOf("light-dark(");
+    if (idx === -1) return out;
+    let depth = 1, i = idx + 11, comma = -1;
+    for (; i < out.length && depth > 0; i++) {
+      const ch = out[i];
+      if (ch === "(") depth++;
+      else if (ch === ")") depth--;
+      else if (ch === "," && depth === 1 && comma === -1) comma = i;
+    }
+    const branch = mode === "dark" ? out.slice(comma + 1, i - 1) : out.slice(idx + 11, comma);
+    out = out.slice(0, idx) + branch.trim() + out.slice(i);
+  }
 }
 
 // ---------- color math ----------
@@ -65,31 +81,38 @@ function composite(rgba, bg) {
 
 // ---------- token resolution ----------
 // Resolve a token to an opaque RGB triple in a given palette+mode.
-// `vars` maps token -> raw value; var() refs resolve recursively;
-// rgba() values composite over the resolved --paper of that context.
-function resolveColor(name, vars, depth = 0) {
+// `vars` maps token -> raw value (single light-dark() declarations);
+// pickMode() selects the branch for `mode`, var() refs resolve
+// recursively, color-mix(... var(--x) P%, transparent) applies alpha P
+// to its base, and translucent values composite over the resolved
+// --paper of that context.
+function resolveColor(name, vars, mode, depth = 0) {
   if (depth > 8) throw new Error(`var() loop at ${name}`);
-  const raw = vars.get(name);
+  let raw = vars.get(name);
   if (raw === undefined) throw new Error(`undefined token: ${name}`);
+  raw = pickMode(raw, mode);
   const ref = raw.match(/^var\((--[a-z0-9-]+)\)$/i);
-  if (ref) return resolveColor(ref[1], vars, depth + 1);
+  if (ref) return resolveColor(ref[1], vars, mode, depth + 1);
   if (raw.startsWith("#")) return srgb(raw);
-  if (raw.startsWith("rgba(")) return composite(raw, resolveColor("--paper", vars, depth + 1));
+  if (raw.startsWith("rgba(")) return composite(raw, resolveColor("--paper", vars, mode, depth + 1));
+  const mix = raw.match(/^color-mix\(in srgb,\s*var\((--[a-z0-9-]+)\)\s+([\d.]+)%\s*,\s*transparent\)$/i);
+  if (mix) {
+    const base = resolveColor(mix[1], vars, mode, depth + 1);
+    const a = Number(mix[2]) / 100;
+    const bg = resolveColor("--paper", vars, mode, depth + 1);
+    return [0, 1, 2].map((i) => Math.round(base[i] * a + bg[i] * (1 - a)));
+  }
   throw new Error(`unparseable color for ${name}: ${raw}`);
 }
 
-// Build the effective var map for palette+mode: canonical light, overlaid by
-// variant light (if any), overlaid by canonical dark (if dark), overlaid by variant dark.
-const canonical = lightAndDark("inkwell-tokens.css");
+// Build the effective var map for a palette: canonical :root overlaid by
+// the variant's :root (if any). Mode is resolved per-token via pickMode().
+const canonical = rootVars("inkwell-tokens.css");
 const variantFiles = { clay: "variants/clay.css", sage: "variants/sage.css", burgundy: "variants/burgundy.css" };
-function varsFor(palette, mode) {
-  const out = new Map(canonical.light);
-  const variant = palette === "indigo" ? null : lightAndDark(variantFiles[palette]);
-  if (variant) for (const [k, v] of variant.light) out.set(k, v);
-  if (mode === "dark") {
-    for (const [k, v] of canonical.dark) out.set(k, v);
-    if (variant) for (const [k, v] of variant.dark) out.set(k, v);
-  }
+function varsFor(palette) {
+  const out = new Map(canonical);
+  if (palette !== "indigo")
+    for (const [k, v] of rootVars(variantFiles[palette])) out.set(k, v);
   return out;
 }
 
@@ -126,13 +149,13 @@ const palettes = ["indigo", "clay", "sage", "burgundy"];
 const failures = [];
 let count = 0;
 for (const palette of palettes) {
+  const vars = varsFor(palette);
   for (const mode of ["light", "dark"]) {
-    const vars = varsFor(palette, mode);
     for (const [label, fg, bg, need] of CHECKS) {
       count++;
       let r;
       try {
-        r = ratio(resolveColor(fg, vars), resolveColor(bg, vars));
+        r = ratio(resolveColor(fg, vars, mode), resolveColor(bg, vars, mode));
       } catch (e) {
         failures.push({ palette, mode, label, ratio: `error: ${e.message}`, need });
         continue;

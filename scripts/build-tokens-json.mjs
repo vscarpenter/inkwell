@@ -18,11 +18,9 @@ const SOURCE_CSS = resolve(ROOT, "inkwell-tokens.css");
 const TARGET_JSON = resolve(ROOT, "tokens.json");
 
 // ---------------------------------------------------------------------------
-// 1. Parse inkwell-tokens.css into three maps:
-//      lightVars   — :root { ... }
-//      darkVarsA   — @media (prefers-color-scheme: dark) :root:not([data-theme="light"]) { ... }
-//      darkVarsB   — :root[data-theme="dark"] { ... }
-//    Then assert darkVarsA == darkVarsB (they're byte-identical by design).
+// 1. Parse inkwell-tokens.css. Since 3.0 every token is a single
+//    declaration in :root; per-mode values live inside light-dark()
+//    and alpha tints derive from their base via color-mix().
 // ---------------------------------------------------------------------------
 
 function stripComments(css) {
@@ -63,41 +61,51 @@ function extractBlock(css, opener) {
 function parseSource() {
   const raw = readFileSync(SOURCE_CSS, "utf8");
   const css = stripComments(raw);
-
-  const lightBody = extractBlock(css, ":root");
-  const lightVars = parseDeclarations(lightBody);
-
-  // Both dark blocks live deeper in the file. extractBlock returns the FIRST
-  // match, so slice past the light block before searching for each dark block.
-  const afterLight = css.slice(css.indexOf(lightBody) + lightBody.length);
-  const mediaBody = extractBlock(afterLight, "@media (prefers-color-scheme: dark)");
-  const darkABody = extractBlock(mediaBody, ":root:not([data-theme=\"light\"])");
-  const darkVarsA = parseDeclarations(darkABody);
-
-  const afterMedia = afterLight.slice(afterLight.indexOf(mediaBody) + mediaBody.length);
-  const darkBBody = extractBlock(afterMedia, ":root[data-theme=\"dark\"]");
-  const darkVarsB = parseDeclarations(darkBBody);
-
-  // Parity check: the two dark blocks must declare the exact same variables
-  // with the exact same values. They're byte-identical by design; a divergence
-  // here is a maintenance bug we want to catch loudly.
-  assertMapsEqual(darkVarsA, darkVarsB,
-    "dark blocks diverged: @media (prefers-color-scheme: dark) vs [data-theme=\"dark\"]");
+  const vars = parseDeclarations(extractBlock(css, ":root"));
 
   // Version is embedded in the file header as `Version: X.Y.Z`.
   const versionMatch = raw.match(/Version:\s*([\d.]+)/);
   if (!versionMatch) throw new Error("could not find `Version: X.Y.Z` in inkwell-tokens.css header");
 
-  return { lightVars, darkVars: darkVarsA, version: versionMatch[1] };
+  return { vars, version: versionMatch[1] };
 }
 
-function assertMapsEqual(a, b, label) {
-  const keys = new Set([...a.keys(), ...b.keys()]);
-  const diffs = [];
-  for (const k of keys) {
-    if (a.get(k) !== b.get(k)) diffs.push(`  ${k}: ${a.get(k) ?? "<missing>"} vs ${b.get(k) ?? "<missing>"}`);
+// Replace every light-dark(A, B) in a value with the branch for `mode`.
+// Balanced-paren aware: A/B may contain color-mix(...) with nested commas.
+function pickMode(value, mode) {
+  let out = value;
+  for (;;) {
+    const idx = out.indexOf("light-dark(");
+    if (idx === -1) return out;
+    let depth = 1, i = idx + 11, comma = -1;
+    for (; i < out.length && depth > 0; i++) {
+      const ch = out[i];
+      if (ch === "(") depth++;
+      else if (ch === ")") depth--;
+      else if (ch === "," && depth === 1 && comma === -1) comma = i;
+    }
+    const branch = mode === "dark" ? out.slice(comma + 1, i - 1) : out.slice(idx + 11, comma);
+    out = out.slice(0, idx) + branch.trim() + out.slice(i);
   }
-  if (diffs.length) throw new Error(`${label}\n${diffs.join("\n")}`);
+}
+
+// Resolve color-mix(in srgb, var(--x) P%, transparent) to an rgba() string
+// so external tooling (Style Dictionary, Figma) gets concrete values.
+function resolveMixes(value, vars, mode) {
+  return value.replace(
+    /color-mix\(in srgb,\s*var\((--[a-z0-9-]+)\)\s+([\d.]+)%\s*,\s*transparent\)/gi,
+    (_, name, pct) => {
+      const base = pickMode(vars.get(name) ?? "", mode).trim();
+      const m = base.match(/^#([0-9a-fA-F]{6})$/);
+      if (!m) throw new Error(`color-mix base ${name} did not resolve to hex: ${base}`);
+      const [r, g, b] = [0, 2, 4].map((i) => parseInt(m[1].slice(i, i + 2), 16));
+      return `rgba(${r}, ${g}, ${b}, ${Number(pct) / 100})`;
+    });
+}
+
+function valueFor(vars, cssVar, mode) {
+  if (!vars.has(cssVar)) throw new Error(`missing in :root: ${cssVar}`);
+  return resolveMixes(pickMode(vars.get(cssVar), mode), vars, mode);
 }
 
 // ---------------------------------------------------------------------------
@@ -108,21 +116,18 @@ function assertMapsEqual(a, b, label) {
 //    fails the build, not silently emits null.
 // ---------------------------------------------------------------------------
 
-function buildJson({ lightVars, darkVars, version }) {
+function buildJson({ vars, version }) {
   // Track which vars the schema consumed so we can warn about orphans
   // (CSS vars defined but not surfaced in tokens.json).
-  const consumedLight = new Set();
-  const consumedDark = new Set();
+  const consumed = new Set();
 
   const light = (cssVar) => {
-    if (!lightVars.has(cssVar)) throw new Error(`missing in :root: ${cssVar}`);
-    consumedLight.add(cssVar);
-    return lightVars.get(cssVar);
+    consumed.add(cssVar);
+    return valueFor(vars, cssVar, "light");
   };
   const dark = (cssVar) => {
-    if (!darkVars.has(cssVar)) throw new Error(`missing in dark cascade: ${cssVar}`);
-    consumedDark.add(cssVar);
-    return darkVars.get(cssVar);
+    consumed.add(cssVar);
+    return valueFor(vars, cssVar, "dark");
   };
   const lightDark = (cssVar, role) => {
     const entry = { light: light(cssVar), dark: dark(cssVar) };
@@ -137,7 +142,7 @@ function buildJson({ lightVars, darkVars, version }) {
       palette: "Indigo & Cloud",
       version,
       canonical_source: "inkwell-tokens.css",
-      note: "Generated by scripts/build-tokens-json.mjs from inkwell-tokens.css. Do not edit by hand — re-run the script when CSS tokens change. Hex values mirror :root and :root[data-theme=\"dark\"] blocks.",
+      note: "Generated by scripts/build-tokens-json.mjs from inkwell-tokens.css. Do not edit by hand — re-run the script when CSS tokens change. Values are resolved from the single-declaration light-dark()/color-mix() cascade.",
     },
     color: {
       surface: {
@@ -264,14 +269,9 @@ function buildJson({ lightVars, darkVars, version }) {
 
   // Orphan check: every CSS var that exists in :root should appear in the JSON.
   // If not, either the schema needs a new entry or the CSS has dead tokens.
-  const allLightKeys = [...lightVars.keys()];
-  const orphans = allLightKeys.filter((k) => !consumedLight.has(k));
+  const orphans = [...vars.keys()].filter((k) => !consumed.has(k));
   if (orphans.length) {
     console.warn(`warning: CSS vars defined in :root but not surfaced in tokens.json:\n  ${orphans.join("\n  ")}`);
-  }
-  const darkOnly = [...darkVars.keys()].filter((k) => !lightVars.has(k));
-  if (darkOnly.length) {
-    throw new Error(`dark cascade defines vars not in :root (likely typo): ${darkOnly.join(", ")}`);
   }
 
   return json;
