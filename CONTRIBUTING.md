@@ -11,16 +11,16 @@ Thanks for your interest. Inkwell is a small, opinionated design system — cont
 
 This is a pure-CSS repo. There is no build step, no package manager, no test suite. You edit CSS, you reload an HTML file, you look at it.
 
-- `inkwell-tokens.css` — source of truth for `:root` tokens + Pattern B dark cascade. Edit this when changing colors, type sizes, radii, shadows, motion, layout widths, or z-index.
+- `inkwell-tokens.css` — source of truth for `:root` tokens. Edit this when changing colors, type sizes, radii, shadows, motion, layout widths, or z-index. Since 3.0 every color token is a single declaration: both mode values live in `light-dark(light, dark)`, and alpha tints derive from their base via `color-mix()` (declare explicitly only where the contrast gate forces a hand-tuned value).
 - `inkwell-components.css` — source of truth for component classes, base reset, type styles, layout helpers, and a11y rules. Edit this when changing `.btn`, `.card`, `.alert`, etc.
-- `tokens.css` — two-line aggregator that `@import`s the two source files. **Do not edit** — it's a backward-compat shim.
-- `inkwell.css` — one-line `@import` of `tokens.css`. The brand-named alias consumers link from. **Do not edit.**
+- `inkwell.css` — the canonical entry consumers link from: imports `inkwell-tokens.css` unlayered and `inkwell-components.css` into `@layer inkwell`. **Do not edit** beyond the import list.
+- `tokens.css` — deprecated one-line alias of `inkwell.css` (removal slated for 4.0). **Do not edit.**
 - `inkwell-theme.css` — Tailwind v4 entry. Imports the two source files, declares `@theme` aliases, defines `@custom-variant dark`. Edit this when adding tokens that need to surface as Tailwind utilities, or when the Tailwind integration itself changes.
 - `tokens.json` — machine-readable mirror of `inkwell-tokens.css`. **Generated** by `scripts/build-tokens-json.mjs`; do not edit by hand. Re-run the script after touching `inkwell-tokens.css` and commit the regenerated JSON in the same change.
 - `index.html`, `preview.html`, `examples/` — manual verification surfaces.
 - `variants/` — palette override files (clay, sage, burgundy). See "Palettes" below.
 
-If you add a new source CSS file at the repo root, also add it to `tokens.css`'s `@import` list (if it's part of the default install) and to the `paths:` trigger plus `cp` step in `.github/workflows/pages.yml`. For Tailwind exposure, register it inside `inkwell-theme.css`.
+If you add a new source CSS file at the repo root, also add it to `inkwell.css`'s `@import` list (if it's part of the default install; choose layered vs. unlayered deliberately) and to the `paths:` trigger plus `cp` step in `.github/workflows/pages.yml`. For Tailwind exposure, register it inside `inkwell-theme.css`.
 
 See [`TAILWIND.md`](TAILWIND.md) for the conventions that govern the Tailwind v4 path (`border-hair`, components-vs-utilities, cascade-order check).
 
@@ -35,7 +35,7 @@ Inkwell ships with four palettes that share one token layer:
 | Sage & Stone | `variants/sage.css` | Sage green + warm stone. Quiet, considered. |
 | Burgundy & Bone | `variants/burgundy.css` | Deep burgundy + bone paper. Literary journal. |
 
-Variant files contain only brand-layer token overrides (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) for `:root` and the dark cascade. They never restate component CSS — components live once, in `inkwell-components.css`.
+Variant files contain only brand-layer token overrides (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) as single `light-dark()` declarations in `:root`, plus the dark `.select` chevron override. They never restate component CSS — components live once, in `inkwell-components.css` — and they inherit canonical's `color-mix()` derived tints unless the contrast gate forced a different alpha (clay and sage redeclare `--accent-tint`; burgundy inherits everything).
 
 To use a non-default palette, load its file after `inkwell.css`. The example pages ship with a runtime toggle (`?palette=clay`); for static use, link the variant directly.
 

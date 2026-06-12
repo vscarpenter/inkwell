@@ -5,7 +5,7 @@ You are an AI coding agent (Claude Code, Codex, Cursor, etc.) and the user has a
 - **Repo:** https://github.com/vscarpenter/inkwell
 - **Live demo:** https://inkwell.vinny.dev/
 - **License:** MIT
-- **Targets:** Inkwell 2.1.0 — if the repo's `CHANGELOG.md` shows a newer release, re-fetch this file before proceeding
+- **Targets:** Inkwell 3.0.0 — if the repo's `CHANGELOG.md` shows a newer release, re-fetch this file before proceeding. 3.0 requires Chrome/Edge 123+, Firefox 120+, Safari 17.5+ (mid-2024); pin the `v2.1.0` tag in raw URLs if the project must support older browsers.
 
 Read this file end-to-end before writing any HTML or CSS. The "Hard rules" and "Anti-patterns" sections are non-negotiable — Inkwell has a deliberate, opinionated look and breaking these rules will produce something that does not look like Inkwell.
 
@@ -13,7 +13,7 @@ Read this file end-to-end before writing any HTML or CSS. The "Hard rules" and "
 
 ## 1. What Inkwell is
 
-A pure-CSS design system. **No build step. No package manager. No JS framework. No dependencies.** The deliverable is a small set of CSS files plus reference HTML. You install it by downloading four CSS files and linking one of them (§2).
+A pure-CSS design system. **No build step. No package manager. No JS framework. No dependencies.** The deliverable is a small set of CSS files plus reference HTML. You install it by downloading three CSS files and linking one of them (§2).
 
 Inkwell ships with the **Indigo & Cloud** palette: cool stone background (`--ivory`), deep indigo accent (`--accent`), serif headlines at weight 600, monospace eyebrows for product/dashboard contexts (italic-serif `.eyebrow-serif` for editorial), and a signature **1.5px hairline border** that is the system's most recognizable feature.
 
@@ -23,16 +23,15 @@ Inkwell ships with the **Indigo & Cloud** palette: cool stone background (`--ivo
 
 ### Default path — pure CSS (no Tailwind)
 
-Download four canonical CSS files into the user's project. Use raw GitHub URLs:
+Download three canonical CSS files into the user's project. Use raw GitHub URLs:
 
 | File | Raw URL | Where to put it |
 |---|---|---|
-| `tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/tokens.css` | Project static/CSS folder |
-| `inkwell.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell.css` | Same folder as `tokens.css` |
-| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell-tokens.css` | Same folder |
+| `inkwell.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell.css` | Project static/CSS folder |
+| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell-tokens.css` | Same folder as `inkwell.css` |
 | `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell-components.css` | Same folder |
 
-All four files must live side-by-side. `inkwell.css` `@import`s `tokens.css`, which `@import`s `inkwell-tokens.css` + `inkwell-components.css`. Link `inkwell.css` from your `<head>`:
+All three files must live side-by-side. `inkwell.css` `@import`s `inkwell-tokens.css` (unlayered) and `inkwell-components.css` (into `@layer inkwell`, so the user's own CSS always overrides Inkwell components). `tokens.css` is a deprecated alias of `inkwell.css` — only fetch it if the project already links that filename. Link `inkwell.css` from your `<head>`:
 
 ```html
 <link rel="stylesheet" href="/path/to/inkwell.css">
@@ -57,7 +56,7 @@ Keep the three files side by side, then add two lines to the user's Tailwind ent
 @import "./inkwell-theme.css";
 ```
 
-That activates: every Inkwell token as a Tailwind utility (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-hair`), Inkwell component classes (`.btn`, `.card`, …) inside `@layer components` so utilities can override them, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle. You do not need `tokens.css` or `inkwell.css` unless you also want the pure-CSS shim for non-Tailwind consumers.
+That activates: every Inkwell token as a Tailwind utility (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-hair`), Inkwell component classes (`.btn`, `.card`, …) inside `@layer components` so utilities can override them, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle. You do not need `inkwell.css` (or the deprecated `tokens.css` alias) unless you also want the pure-CSS entry for non-Tailwind consumers.
 
 **Tailwind v3 is not supported.** v3 requires a JS preset. If the user is on v3, recommend upgrading to v4 or installing Inkwell via the default path without Tailwind utility coverage.
 
@@ -82,16 +81,15 @@ If the user wants a non-default palette, also fetch the relevant variant file fr
 ### Suggested fetch commands
 
 ```bash
-# Default install (pure CSS, no Tailwind) — four files
+# Default install (pure CSS, no Tailwind) — three files
 mkdir -p public/css
 BASE=https://raw.githubusercontent.com/vscarpenter/inkwell/main
-curl -sSLo public/css/tokens.css            $BASE/tokens.css
 curl -sSLo public/css/inkwell.css           $BASE/inkwell.css
 curl -sSLo public/css/inkwell-tokens.css    $BASE/inkwell-tokens.css
 curl -sSLo public/css/inkwell-components.css $BASE/inkwell-components.css
 
 # Tailwind v4 install — inkwell-tokens.css + inkwell-components.css from above,
-# plus the theme entry (the tokens.css / inkwell.css shims are optional here)
+# plus the theme entry (inkwell.css is optional on this path)
 curl -sSLo public/css/inkwell-theme.css     $BASE/inkwell-theme.css
 ```
 
@@ -135,7 +133,7 @@ These are not stylistic preferences. They are the system. Breaking any of them p
 
 ## 4. Token cheat sheet
 
-The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-commented — read it; `tokens.css` is just a two-line aggregator shim).
+The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-commented — read it; `tokens.css` is a deprecated one-line alias of `inkwell.css`). Every color token is a single `light-dark(light, dark)` declaration; alpha tints derive from their base via `color-mix()`.
 
 **Surfaces & text**
 - `--ivory` — page background
@@ -237,7 +235,7 @@ To activate a non-default palette:
 <link rel="stylesheet" href="variants/clay.css">
 ```
 
-The variant files are ~70 lines each and override only the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale). They do not restate component CSS. All components reference `var(--accent)` and related tokens, so overriding the tokens is all that's needed.
+The variant files are ~50 lines each and override only the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) as single `light-dark()` declarations. They do not restate component CSS. All components reference `var(--accent)` and related tokens, so overriding the tokens is all that's needed — derived tints (focus ring, strong border) follow the variant's accent automatically.
 
 For Tailwind v4, load the variant after the Tailwind build output so the token overrides win the cascade (see §2 and [`TAILWIND.md`](TAILWIND.md)).
 
@@ -245,7 +243,7 @@ For Tailwind v4, load the variant after the Tailwind build output so the token o
 
 ## 7. Dark mode
 
-Dark mode ships in `inkwell-tokens.css` (the Pattern B dark cascade). It activates two ways:
+Dark mode ships in `inkwell-tokens.css` (single `light-dark()` token declarations + `color-scheme` switching; print always renders light). It activates two ways:
 
 1. **Automatic** via `prefers-color-scheme: dark`.
 2. **Manual override** via `data-theme="light"` or `data-theme="dark"` on `<html>`.
@@ -321,7 +319,7 @@ From `DESIGN_SYSTEM.md` §4. If you catch yourself doing any of these, stop:
 ## 9. Building a new page — workflow
 
 1. Confirm which palette the user wants. Indigo & Cloud is the default (no extra file). For Clay, Sage & Stone, or Burgundy & Bone, fetch the corresponding variant file and load it after `inkwell.css` (see §6).
-2. Fetch the four canonical CSS files per §2 (`tokens.css`, `inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`). Or if the user is already on Tailwind v4, fetch the three-file Tailwind path instead.
+2. Fetch the three canonical CSS files per §2 (`inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`). Or if the user is already on Tailwind v4, fetch the three-file Tailwind path instead.
 3. Link `inkwell.css` from `<head>` (or, for the Tailwind path, add `@import "tailwindcss"; @import "./inkwell-theme.css";` to the user's Tailwind entry CSS).
 4. (Optional) Wire the theme toggle (§7).
 5. Set the page background to `--ivory` and body text to `--slate`. Use `var(--sans)` for the body, `var(--serif)` for headings.
@@ -337,7 +335,7 @@ From `DESIGN_SYSTEM.md` §4. If you catch yourself doing any of these, stop:
 When applying Inkwell to an existing application, preserve the app's routing, data flow, state management, and component boundaries. Do not rewrite a working app into static HTML just because the examples are static.
 
 1. Inspect the project structure first: framework, global CSS entrypoint, shared components, layout shell, and existing design tokens.
-2. Install the four canonical CSS files (`tokens.css`, `inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`) in the app's static assets and load `inkwell.css` globally (§2). If the app is already on Tailwind v4, use the Tailwind path from §2 instead — `inkwell-theme.css` plus the two source files in the app's existing build.
+2. Install the three canonical CSS files (`inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`) in the app's static assets and load `inkwell.css` globally (§2). If the app is already on Tailwind v4, use the Tailwind path from §2 instead — `inkwell-theme.css` plus the two source files in the app's existing build.
 3. Map existing UI to Inkwell primitives before writing custom CSS:
    - buttons → `.btn` plus the closest intent modifier
    - inputs/selects/textareas → `.input`, `.select`, `.textarea`, wrapped in `.field` where labels/help text exist

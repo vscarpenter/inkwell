@@ -9,19 +9,21 @@ Inkwell is a **pure CSS design system** — no build step, no package manager, n
 ## File structure — do not collapse the split
 
 ```
-inkwell-tokens.css       Source of truth: :root custom properties + Pattern B dark cascade
+inkwell-tokens.css       Source of truth: single-declaration :root tokens (light-dark()
+                         per mode, color-mix() derived tints) + color-scheme machinery
 inkwell-components.css   Source of truth: .btn, .card, .alert, base reset, type, a11y
-tokens.css               @import-aggregates the two files above (backward-compat shim)
-inkwell.css              @import-aggregates tokens.css (brand-named alias)
+inkwell.css              Canonical entry: imports tokens unlayered + components
+                         into @layer inkwell — link this from <head>
+tokens.css               DEPRECATED one-line alias of inkwell.css (removal: 4.0)
 inkwell-theme.css        Tailwind v4 entry: imports inkwell-tokens.css + inkwell-components.css,
                          declares @theme aliases + @custom-variant dark
 ```
 
-The split exists for Tailwind v4 support: `inkwell-theme.css` needs to put components inside `@layer components` while keeping tokens unlayered. **Do not** merge `inkwell-tokens.css` and `inkwell-components.css` back together — `tokens.css` is the merged view and exists exactly so consumers who don't care about the split can pretend it's still one file.
+The split exists for layering: both entries (`inkwell.css` and `inkwell-theme.css`) put components inside a cascade layer while keeping tokens unlayered. **Do not** merge `inkwell-tokens.css` and `inkwell-components.css` back together.
 
-When editing tokens (variables, colors, dark cascade): edit `inkwell-tokens.css`.
+When editing tokens (variables, colors): edit `inkwell-tokens.css`. Every color token is ONE declaration — both mode values inside `light-dark(light, dark)`; alpha tints derive from their base via `color-mix()` and are declared explicitly only where the contrast gate forces a hand-tuned alpha. Never add a separate dark block for token values — the only dark-selector rules in that file are the `color-scheme` machinery and the `.select` chevron override (a background-image, which `light-dark()` can't carry).
 When editing components, base reset, type styles, layout helpers, or a11y rules: edit `inkwell-components.css`.
-**Do not edit `tokens.css` or `inkwell.css`** — they're aggregator shims. If you need to add a third source file, also update `tokens.css`'s `@import` list and `inkwell-theme.css` if the new file is component-shaped (so it gets layered correctly for Tailwind users).
+**Do not edit `tokens.css` or `inkwell.css`** beyond `inkwell.css`'s import list. If you need to add a third source file, add it to `inkwell.css`'s `@import` list (decide layered vs. unlayered) and to `inkwell-theme.css` if it's component-shaped (so it gets layered correctly for Tailwind users).
 
 `TAILWIND.md` is user-facing docs for the Tailwind v4 integration. The Tailwind path is supported for v4 only — v3 is explicitly out of scope. For Tailwind entry CSS, import only `@import "tailwindcss"; @import "./inkwell-theme.css";`. Keep `inkwell-tokens.css`, `inkwell-components.css`, and `inkwell-theme.css` side by side; do not also load `tokens.css` or `inkwell.css` in that Tailwind entry file.
 
@@ -53,9 +55,9 @@ If you add a new source CSS file at the repo root, also add it to the workflow's
 
 ## Architecture: one token layer, four palettes
 
-Inkwell has one token layer (`inkwell-tokens.css`) and one component layer (`inkwell-components.css`). The four palettes — **Indigo & Cloud** (canonical), **Clay**, **Sage & Stone**, **Burgundy & Bone** — share both layers; variants are override-only stylesheets that redefine the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) for `:root` + the dark cascade.
+Inkwell has one token layer (`inkwell-tokens.css`) and one component layer (`inkwell-components.css`). The four palettes — **Indigo & Cloud** (canonical), **Clay**, **Sage & Stone**, **Burgundy & Bone** — share both layers; variants are override-only stylesheets that redefine the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) as single `light-dark()` declarations in `:root`; they inherit canonical's `color-mix()` derived tints unless the contrast gate forced a different alpha.
 
-Variant files (`variants/clay.css`, `variants/sage.css`, `variants/burgundy.css`) are ~70 lines each. Load them **after** `inkwell.css` to switch the brand layer:
+Variant files (`variants/clay.css`, `variants/sage.css`, `variants/burgundy.css`) are ~50 lines each. Load them **after** `inkwell.css` to switch the brand layer:
 
 ```html
 <link rel="stylesheet" href="inkwell.css">
@@ -74,7 +76,7 @@ The 14 destination example pages and `preview.html` carry a runtime palette togg
 - **Borders are 1.5px, not 1px or 2px.** This is the system's signature. Always pair with `--gray-300` via the `--border` token. Hairline dividers *inside* panels drop to 1px (`--gray-100`) so the outer frame stays dominant.
 - **The 1.5px border is retina-first by design.** On non-retina displays (`devicePixelRatio: 1`), Chrome rounds `border-width: 1.5px` to 1px both in rendering *and* in `getComputedStyle()` reporting — so a `.card` will report `borderTopWidth: "1px"` even though the source token resolves to `1.5px solid #CFCFCC`. This is browser behavior, not a bug. Don't replace `1.5px` with box-shadow workarounds to "fix" the non-retina rendering — the workaround would break the look on retina, which is the system's primary target. If you ever need to verify the signature visually, do it on a 2x display.
 - **One accent only.** If a component needs a second color for data viz, reach for `--olive` or `--sky` — never introduce a second saturated brand hue.
-- **Dark-mode color rule:** every saturated token is *lifted* in dark mode (more luminance, same hue). When adding a new colored token, define both light and dark values in the same shape: saturated in light, lifted in dark. A token that's only defined in `:root` will look wrong on dark surfaces.
+- **Dark-mode color rule:** every saturated token is *lifted* in dark mode (more luminance, same hue). When adding a new colored token, put both values in one declaration — `light-dark(saturated, lifted)`. A token declared with a single color value renders that value in both modes and will look wrong on dark surfaces.
 - **Shadows are warm/low-spread in light, deep-pure-black in dark.** Don't reuse light-mode rgba shadows under dark mode — warm shadows vanish on dark surfaces, which is why each shadow token has a separate dark definition.
 - **Type families are jobs, not preferences:** serif → headings, stat numbers, italic emphasis. Mono → eyebrows, table headers, hex codes, anything signaling "technical metadata." Sans → everything else. Don't substitute.
 - **No custom fonts.** Platform stacks only (`ui-serif`, `system-ui`, `ui-monospace`) — instant load, zero FOUT. If a task asks for a webfont, push back unless there's a strong reason.
