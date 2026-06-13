@@ -95,9 +95,22 @@
       <!-- BEGIN GENERATED: releases — edit CHANGELOG.md and run scripts/build-changelog-html.mjs -->
       <article class="release">
         <div class="release-head">
-          <span class="ver">v3.0.0</span>
+          <span class="ver">v3.0.1</span>
           <span class="release-date">2026-06-12</span>
           <span class="badge badge-accent">Latest</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Fixed</div>
+          <ul class="change-list">
+            <li><strong>Tailwind v4 builds silently dropped the entire design system.</strong> <code>inkwell-theme.css</code> pulled its two dependencies with <code>@import url(...)</code>, a form Tailwind v4's import resolver passes through instead of inlining. The unresolved imports landed below the generated rules — a spec-invalid position for <code>@import</code> — so Lightning CSS (Next.js/Turbopack) warned and dropped them: utilities like <code>bg-accent</code> compiled but pointed at undefined variables, and <code>.btn</code>/<code>.card</code>/<code>light-dark()</code> never reached the output. All three entry files (<code>inkwell-theme.css</code>, <code>inkwell.css</code>, <code>tokens.css</code>) now use the quoted form (<code>@import './file.css'</code>), which v4 toolchains inline correctly and browsers treat identically — zero change for <code>&lt;link&gt;</code> consumers.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="ver">v3.0.0</span>
+          <span class="release-date">2026-06-12</span>
         </div>
         <p class="change-note">The architecture release. Zero visual change — every resolved color in every palette and mode is identical to 2.1.0 (verified by a 288-entry resolved-value parity diff, the 192-pair contrast gate, and a real-engine smoke test) — but the cascade, the entry files, and the browser floor all change shape. Spec: <code>docs/specs/2026-06-12-v3-architecture-design.md</code>.</p>
         <div class="change-block">
@@ -432,7 +445,7 @@
       <footer class="page-footer t-small" style="margin-top: 56px;">
         The real release history — generated from <code>CHANGELOG.md</code> by <code>scripts/build-changelog-html.mjs</code>. Demonstrates: <code>.breadcrumbs</code>, version pills, <code>.tbl</code> for migration tables, native <code>&lt;article&gt;</code> semantics throughout.
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.0</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
           <span class="sep" aria-hidden="true">·</span>
           <a class="link" href="https://github.com/vscarpenter/inkwell">GitHub</a>
           <span class="sep" aria-hidden="true">·</span>

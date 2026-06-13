@@ -1,6 +1,6 @@
 /* =====================================================================
    Inkwell — Tailwind v4 entry.
-   Version: 3.0.0
+   Version: 3.0.1
 
    Drop this into a Tailwind v4 project AFTER `@import "tailwindcss"`:
 
@@ -25,8 +25,15 @@
    ===================================================================== */
 
 /* Inkwell tokens stay unlayered so :root custom properties resolve
-   without surprises across every layer. */
-@import url('inkwell-tokens.css');
+   without surprises across every layer.
+
+   Quoted-string @import syntax, NOT url() — browsers treat both forms
+   identically, but Tailwind v4's import resolver only inlines the
+   quoted form. A url() import passes through to the compiled output,
+   lands below the generated rules (a spec-invalid position for
+   @import), and gets dropped — taking every token and component
+   with it. */
+@import './inkwell-tokens.css';
 
 /* Components go inside @layer components so Tailwind utilities
    (which live in @layer utilities) override them by default.
@@ -35,7 +42,7 @@
    parameter on @import is the standard CSS form for assigning an
    imported stylesheet to a cascade layer — @import inside a
    `@layer name { ... }` block is non-standard and would be ignored. */
-@import url('inkwell-components.css') layer(components);
+@import './inkwell-components.css' layer(components);
 
 /* =====================================================================
    @theme — alias Inkwell tokens into the Tailwind v4 namespace.

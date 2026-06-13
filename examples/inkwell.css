@@ -1,6 +1,6 @@
 /* =====================================================================
    Inkwell — design system entry.
-   Version: 3.0.0
+   Version: 3.0.1
    Default palette: Indigo & Cloud (cool stone + deep indigo).
 
    Link this file from <head>:
@@ -17,5 +17,5 @@
    deprecated alias of this one (removal slated for 4.0).
    ===================================================================== */
 
-@import url('inkwell-tokens.css');
-@import url('inkwell-components.css') layer(inkwell);
+@import './inkwell-tokens.css';
+@import './inkwell-components.css' layer(inkwell);

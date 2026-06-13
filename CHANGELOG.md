@@ -6,6 +6,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [3.0.1] — 2026-06-12
+
+### Fixed
+- **Tailwind v4 builds silently dropped the entire design system.** `inkwell-theme.css` pulled its two dependencies with `@import url(...)`, a form Tailwind v4's import resolver passes through instead of inlining. The unresolved imports landed below the generated rules — a spec-invalid position for `@import` — so Lightning CSS (Next.js/Turbopack) warned and dropped them: utilities like `bg-accent` compiled but pointed at undefined variables, and `.btn`/`.card`/`light-dark()` never reached the output. All three entry files (`inkwell-theme.css`, `inkwell.css`, `tokens.css`) now use the quoted form (`@import './file.css'`), which v4 toolchains inline correctly and browsers treat identically — zero change for `<link>` consumers.
+
 ## [3.0.0] — 2026-06-12
 
 The architecture release. Zero visual change — every resolved color in every palette and mode is identical to 2.1.0 (verified by a 288-entry resolved-value parity diff, the 192-pair contrast gate, and a real-engine smoke test) — but the cascade, the entry files, and the browser floor all change shape. Spec: `docs/specs/2026-06-12-v3-architecture-design.md`.
