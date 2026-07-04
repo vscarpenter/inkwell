@@ -1,12 +1,12 @@
 # Inkwell
 
-A pure-CSS design system for product UI, dashboards, and technical interfaces. Drop-in tokens, two dozen components, light + dark mode out of the box. No build step, no dependencies — and an optional **Tailwind v4** theme entry for projects already on Tailwind.
+A pure-CSS design system for product UI, dashboards, and technical interfaces. Drop-in tokens, ~30 component classes, light + dark mode out of the box. No build step, no dependencies — and an optional **Tailwind v4** theme entry for projects already on Tailwind.
 
 Inkwell ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, and a signature 1.5px hairline border. Three alternate palettes (Clay, Sage & Stone, Burgundy & Bone) are available as override-only CSS files in `variants/`.
 
 ## Live demo
 
-See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — fifteen sample pages built entirely with the design system, including a [getting-started guide](https://inkwell.vinny.dev/docs.html), a [marketing landing page](https://inkwell.vinny.dev/landing.html), a [search results layout](https://inkwell.vinny.dev/search.html), a [changelog](https://inkwell.vinny.dev/changelog.html), product pages (dashboard, settings, profile, pricing, sign-in), editorial layouts, a 404, and a [Tailwind v4 integration demo](https://inkwell.vinny.dev/tailwind.html). Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`.
+See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — 15 example pages plus a Tailwind integration demo, all built entirely with the design system, including a [getting-started guide](https://inkwell.vinny.dev/docs.html), a [marketing landing page](https://inkwell.vinny.dev/landing.html), a [search results layout](https://inkwell.vinny.dev/search.html), a [changelog](https://inkwell.vinny.dev/changelog.html), product pages (dashboard, app shell, settings, profile, pricing, sign-in), editorial layouts, a 404, and a [Tailwind v4 integration demo](https://inkwell.vinny.dev/tailwind.html). Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`.
 
 ## Quick start
 
@@ -68,7 +68,7 @@ open examples/tailwind.html  # Tailwind v4 integration demo (no toolchain needed
 - **`scripts/build-changelog-html.mjs`** — generates the release notes on [inkwell.vinny.dev/changelog.html](https://inkwell.vinny.dev/changelog.html) from `CHANGELOG.md`, so the live what's-new page can't drift from the written record. CI fails the build if it's stale.
 - **`index.html`** — minimal starter (navbar, hero, theme toggle).
 - **`preview.html`** — every component, every state.
-- **`examples/`** — real-feeling pages (dashboard, docs, landing, search, changelog, forms, 404, plus a Tailwind v4 integration demo) built only from the design system. Also the deployed live demo.
+- **`examples/`** — real-feeling pages (dashboard, app shell, docs, landing, search, changelog, forms, 404, plus a Tailwind v4 integration demo) built only from the design system. Also the deployed live demo.
 - **`CHANGELOG.md`** — release history following Keep-a-Changelog conventions.
 - **`variants/`** — alternate palette overrides (clay, sage, burgundy). Load after `inkwell.css` to switch the brand layer. The example pages support a runtime toggle via `?palette=X`.
 - **`DESIGN_SYSTEM.md`** — the canonical spec. Token tables, component list, dark-mode cascade, anti-patterns. Read this before extending the system.

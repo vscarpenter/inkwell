@@ -31,3 +31,10 @@ Recent commits use short imperative subjects, for example `Surface agent-instruc
 ## Agent-Specific Instructions
 
 Read `DESIGN_SYSTEM.md` before extending components, `TAILWIND.md` before touching the Tailwind v4 integration, and `agent-instructions.md` before using Inkwell in another project. Do not add build tooling, package metadata, framework wrappers, webfonts, or generated assets unless explicitly requested.
+
+When changing hard rules, anti-patterns, install steps, or component lists, update in the same PR:
+
+- `agent-instructions.md`
+- `DESIGN_SYSTEM.md` (§4 anti-patterns, §6 quick start as applicable)
+- `README.md` quick start (if install changes)
+- `CLAUDE.md` (if repo-editing rules change)

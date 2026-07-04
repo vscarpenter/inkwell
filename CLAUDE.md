@@ -83,7 +83,7 @@ The 14 destination example pages and `preview.html` carry a runtime palette togg
 - **Dark-mode color rule:** every saturated token is *lifted* in dark mode (more luminance, same hue). When adding a new colored token, put both values in one declaration — `light-dark(saturated, lifted)`. A token declared with a single color value renders that value in both modes and will look wrong on dark surfaces.
 - **Shadows are warm/low-spread in light, deep-pure-black in dark.** Don't reuse light-mode rgba shadows under dark mode — warm shadows vanish on dark surfaces, which is why each shadow token has a separate dark definition.
 - **Type families are jobs, not preferences:** serif → headings, stat numbers, italic emphasis. Mono → eyebrows, table headers, hex codes, anything signaling "technical metadata." Sans → everything else. Don't substitute.
-- **No custom fonts.** Platform stacks only (`ui-serif`, `system-ui`, `ui-monospace`) — instant load, zero FOUT. If a task asks for a webfont, push back unless there's a strong reason.
+- **No custom fonts.** Platform stacks only — serif: Iowan Old Style / Palatino / Source Serif Pro / Georgia; sans: `system-ui`; mono: `ui-monospace`. Instant load, zero FOUT. If a task asks for a webfont, push back unless there's a strong reason.
 
 ## Where to read more
 

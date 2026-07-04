@@ -50,7 +50,7 @@ These are non-negotiable. PRs that violate them will be asked to change before m
 4. **Every saturated token gets both light and dark values.** Saturated in light, lifted (more luminance, same hue) in dark. A token defined only in `:root` will look wrong on dark surfaces.
 5. **Shadows are warm/low-spread in light, deep-pure-black in dark.** Don't reuse light-mode rgba shadows under dark mode — warm shadows vanish on dark surfaces.
 6. **Type families are jobs, not preferences.** Serif → headings, stat numbers, italic emphasis. Mono → eyebrows, table headers, hex codes, technical metadata. Sans → everything else.
-7. **Platform fonts only.** `ui-serif`, `system-ui`, `ui-monospace`. No webfonts. If a task seems to require one, push back unless the reason is strong.
+7. **Platform fonts only.** Serif: Iowan Old Style / Palatino / Source Serif Pro / Georgia. Sans: `system-ui`. Mono: `ui-monospace`. No webfonts. If a task seems to require one, push back unless the reason is strong.
 
 ## Regenerating `tokens.json`
 

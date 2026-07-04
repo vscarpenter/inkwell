@@ -1,6 +1,6 @@
 # Inkwell
 
-A reusable design system for product UI, dashboards, and technical interfaces. Drop-in CSS tokens, ten core components, light + dark mode out of the box.
+A reusable design system for product UI, dashboards, and technical interfaces. Drop-in CSS tokens, ~30 component classes, light + dark mode out of the box.
 
 **Inkwell** ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, hairline 1.5px borders. Reads as Linear/Stripe/Notion-adjacent without being a clone of any of them.
 
@@ -281,7 +281,7 @@ If you extend the system, the rule is: any new colored token must clear 3:1 for 
 
 ## 6. Quick start
 
-Copy `inkwell.css`, `tokens.css`, `inkwell-tokens.css`, and `inkwell-components.css` into your project — all four side-by-side — and link `inkwell.css` from `<head>`. `inkwell.css` `@import`s `tokens.css`, which `@import`s the two source files. The body inherits ivory background, slate text, sans body, and the active light/dark scheme automatically.
+Copy three files — `inkwell.css`, `inkwell-tokens.css`, and `inkwell-components.css` — into your project side-by-side and link `inkwell.css` from `<head>`. `inkwell.css` `@import`s the two source files directly (tokens unlayered, components into `@layer inkwell`). `tokens.css` is a deprecated one-line alias of `inkwell.css` — only needed for legacy consumers that already link that filename; new installs do not need it. The body inherits ivory background, slate text, sans body, and the active light/dark scheme automatically.
 
 ```html
 <!doctype html>

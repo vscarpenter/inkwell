@@ -5,9 +5,19 @@ You are an AI coding agent (Claude Code, Codex, Cursor, etc.) and the user has a
 - **Repo:** https://github.com/vscarpenter/inkwell
 - **Live demo:** https://inkwell.vinny.dev/
 - **License:** MIT
-- **Targets:** Inkwell 3.0.0 — if the repo's `CHANGELOG.md` shows a newer release, re-fetch this file before proceeding. 3.0 requires Chrome/Edge 123+, Firefox 120+, Safari 17.5+ (mid-2024); pin the `v2.1.0` tag in raw URLs if the project must support older browsers.
+- **Targets:** Inkwell 3.0.1 — if the repo's `CHANGELOG.md` shows a newer release, re-fetch this file before proceeding. 3.0 requires Chrome/Edge 123+, Firefox 120+, Safari 17.5+ (mid-2024); pin the `v2.1.0` tag in raw URLs if the project must support older browsers.
 
 Read this file end-to-end before writing any HTML or CSS. The "Hard rules" and "Anti-patterns" sections are non-negotiable — Inkwell has a deliberate, opinionated look and breaking these rules will produce something that does not look like Inkwell.
+
+## Which file should you read?
+
+| Your task | Read this |
+|---|---|
+| Use Inkwell in the user's project | **This file** (`agent-instructions.md`) |
+| Edit Inkwell's source CSS in the Inkwell repo | `CLAUDE.md` + `DESIGN_SYSTEM.md` |
+| Open a PR against the Inkwell repo | `AGENTS.md` + `CONTRIBUTING.md` |
+
+Do not apply `CLAUDE.md` editing rules when consuming Inkwell in another project.
 
 ---
 
@@ -27,9 +37,9 @@ Download three canonical CSS files into the user's project. Use raw GitHub URLs:
 
 | File | Raw URL | Where to put it |
 |---|---|---|
-| `inkwell.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell.css` | Project static/CSS folder |
-| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell-tokens.css` | Same folder as `inkwell.css` |
-| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell-components.css` | Same folder |
+| `inkwell.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1/inkwell.css` | Project static/CSS folder |
+| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1/inkwell-tokens.css` | Same folder as `inkwell.css` |
+| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1/inkwell-components.css` | Same folder |
 
 All three files must live side-by-side. `inkwell.css` `@import`s `inkwell-tokens.css` (unlayered) and `inkwell-components.css` (into `@layer inkwell`, so the user's own CSS always overrides Inkwell components). `tokens.css` is a deprecated alias of `inkwell.css` — only fetch it if the project already links that filename. Link `inkwell.css` from your `<head>`:
 
@@ -45,9 +55,9 @@ If the user's project uses **Tailwind v4 (October 2024 or later)**, fetch the Ta
 
 | File | Raw URL |
 |---|---|
-| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell-tokens.css` |
-| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell-components.css` |
-| `inkwell-theme.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/main/inkwell-theme.css` |
+| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1/inkwell-tokens.css` |
+| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1/inkwell-components.css` |
+| `inkwell-theme.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1/inkwell-theme.css` |
 
 Keep the three files side by side, then add two lines to the user's Tailwind entry CSS (typically `app.css`, `globals.css`, or whatever their build points at), in this order:
 
@@ -70,7 +80,7 @@ Full Tailwind setup guide and conventions: [`TAILWIND.md`](TAILWIND.md) in the r
 | `index.html` | User wants a starter template with navbar + theme toggle |
 | `preview.html` | User wants the full component showcase page |
 | `examples/tailwind.html` | User wants a live Tailwind v4 + Inkwell integration demo |
-| `examples/*.html` | User wants a specific page pattern. Exact filenames: `dashboard`, `docs`, `landing`, `search`, `pricing`, `settings`, `profile`, `auth-pattern`, `not-found`, `changelog`, `roadmap`, `article`, `forms` (all `.html`) |
+| `examples/*.html` | User wants a specific page pattern. Exact filenames: `index`, `dashboard`, `app-shell`, `docs`, `landing`, `search`, `pricing`, `settings`, `profile`, `auth-pattern`, `not-found`, `changelog`, `roadmap`, `article`, `forms` (all `.html`; 15 destination pages — excludes `preview.html` and `tailwind.html`, which are integration/showcase demos) |
 | `DESIGN_SYSTEM.md` | You need the canonical spec (token tables, component list, anti-patterns) |
 | `TAILWIND.md` | User is integrating with Tailwind v4 — read this in full before writing markup |
 
@@ -83,7 +93,7 @@ If the user wants a non-default palette, also fetch the relevant variant file fr
 ```bash
 # Default install (pure CSS, no Tailwind) — three files
 mkdir -p public/css
-BASE=https://raw.githubusercontent.com/vscarpenter/inkwell/main
+BASE=https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1
 curl -sSLo public/css/inkwell.css           $BASE/inkwell.css
 curl -sSLo public/css/inkwell-tokens.css    $BASE/inkwell-tokens.css
 curl -sSLo public/css/inkwell-components.css $BASE/inkwell-components.css
@@ -125,9 +135,22 @@ These are not stylistic preferences. They are the system. Breaking any of them p
    Do not substitute one for another.
 5. **Platform fonts only.** No Google Fonts, no `@font-face`, no webfont loaders. Stacks load instantly and produce zero FOUT. The serif stack leads with Iowan Old Style → Palatino → Source Serif Pro → Georgia (`ui-serif` was dropped in 1.4.0 — it resolves to wildly variable fonts per OS and couldn't be QA'd).
 6. **Page background is `--ivory`, not white.** Body text is `--slate`, not pure black. Pure white + pure black collapses the cool-putty atmosphere.
-7. **Every saturated color token must be defined in both light and dark.** If you add a new colored token, define a **lifted** (more luminous) value in the dark-mode block too. A color defined only at `:root` will look muddy on dark surfaces.
+7. **Every saturated color token must be defined in both light and dark.** If you add a new colored token, put both mode values in one `light-dark(light, dark)` declaration. Dark values should be **lifted** (more luminous, same hue). Never add a separate `@media (prefers-color-scheme: dark)` token block for color values — that pattern was removed in 3.0.
 8. **Do not invent new accent token names.** Use `--accent` (and its derived tokens `--accent-d`, `--accent-tint`, etc.) everywhere. Palette switching works by overriding `--accent`; parallel token names break that mechanism.
 9. **Accent as text → `--accent-ink`; accent as fill → `--accent` + `--on-accent` label.** Never put raw `--accent` text on any surface in a variant palette — use `--accent-ink`. Clay's coral and sage's green are too light to read, and `--accent-ink` is the token the variants darken to keep text AA.
+
+---
+
+## 3.5. Common agent mistakes
+
+These show up often when agents integrate Inkwell without reading the full file:
+
+- **Loading `inkwell.css` and `inkwell-theme.css` in the same Tailwind entry.** On the Tailwind v4 path, import only `@import "tailwindcss"; @import "./inkwell-theme.css";` — `inkwell-theme.css` already pulls in the source split. Do not also link `inkwell.css` or `tokens.css`.
+- **Using `--accent` for link/tab text.** Use `--accent-ink` for accent-colored text (links, tabs, badge labels). Clay and sage palettes need the ink token — their accent fills are too light to read as text.
+- **Skipping the `<head>` pre-paint theme script.** Without the inline script from §7, the page flashes the wrong mode before `localStorage` applies. Lift `apply()` into `<head>` before first paint.
+- **Renaming Inkwell classes instead of using modifiers.** Keep `.btn`, `.card`, etc. verbatim; extend with modifier classes (`.btn-sm`, `.is-link`) or thin token-driven page CSS.
+- **Adding webfonts "for polish".** Platform stacks only — no Google Fonts, no `@font-face`. Webfonts break the zero-FOUT install story.
+- **Using separate dark-mode token blocks instead of `light-dark()`.** Every color token is one declaration with both mode values. Alpha tints derive via `color-mix()` from their base — do not hand-roll `@media (prefers-color-scheme: dark)` color overrides.
 
 ---
 
@@ -205,6 +228,7 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 | `.sec-head` | Numbered section header — use the index only when the sequence carries meaning |
 | `.toc` | Pill-shaped link list |
 | `.navbar` (`.navbar-inner`, `.brand`) | Sticky top navigation shell |
+| `.wrap` / `.wrap-narrow` / `.wrap-wide` | Centered page shell with `--content-*` max-width and `--page-pad-x` padding |
 | `.field-row` | Inline form row — wrapping flex of controls |
 | `.card-grid` | Responsive card grid (`auto-fill`, 280px minimum) |
 | `.sr-only` | Visually hidden, screen-reader-available text |
@@ -326,7 +350,7 @@ From `DESIGN_SYSTEM.md` §4. If you catch yourself doing any of these, stop:
 6. Compose with the component classes in §5. For unique layouts, write thin per-page CSS that *only references tokens*.
 7. Use `--content-default` (920px) as the default max-width; reach for `--content-narrow` for prose, `--content-wide` for dashboards.
 8. Verify in both light and dark mode before declaring done. (Toggle via the script in §7, or via OS-level dark mode preference.)
-9. If any component you wrote uses an `rgba()` of a brand color, double-check it has a dark-mode definition too.
+9. If you add custom colored tokens or tints, put both mode values in one `light-dark(light, dark)` declaration with a lifted dark value. Prefer `color-mix()` from an existing base token for alpha tints — do not hand-write separate `rgba()` values per mode or add `@media (prefers-color-scheme: dark)` color blocks.
 
 ---
 
@@ -361,6 +385,7 @@ Before declaring the integration done:
 - Check focus, hover, disabled, loading, empty, validation/error, dialog, tab, and navigation states that appear in the changed surface.
 - Confirm there are no new console errors, broken routes, missing CSS files, or layout shifts caused by loading `inkwell.css`.
 - Scan new CSS for hardcoded colors, `1px`/`2px` outer borders, webfonts, gradients on surfaces, and extra saturated accent colors.
+- If you are extending tokens in the Inkwell repo itself, run `scripts/check-contrast.mjs` — CI asserts WCAG ratios for every token pair across all four palettes.
 
 ---
 
@@ -369,9 +394,9 @@ Before declaring the integration done:
 Always available in the repo:
 
 - `DESIGN_SYSTEM.md` — canonical spec: token tables, full component list, dark-mode cascade, accessibility notes, the *why* behind every rule. Read this before designing new components or extending tokens.
-- `CLAUDE.md` — repo-author notes for AI-assisted edits to Inkwell itself (most consumers won't need this).
+- `CLAUDE.md` — repo maintainer notes for editing Inkwell's source in this repo. Do not fetch or apply when integrating Inkwell into another project.
 - `preview.html` — every component, every state, both modes. The reference rendering.
-- `examples/` — fourteen real-feeling pages built only from the design system. The best place to learn composition.
+- `examples/` — fifteen destination pages (`index` plus fourteen patterns) built only from the design system; `tailwind.html` is a separate Tailwind v4 integration demo. The best place to learn composition.
 - `CHANGELOG.md` — what changed in each release.
 
 ---
