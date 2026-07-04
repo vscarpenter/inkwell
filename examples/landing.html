@@ -39,10 +39,6 @@
     .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
     .feature-card { padding: 22px; }
     .feature-icon { width: 36px; height: 36px; border-radius: var(--r-sm); display: inline-grid; place-items: center; background: var(--accent-tint); color: var(--accent); margin-bottom: 14px; }
-    .pull-quote { font: 500 clamp(22px, 3.4vw, 32px)/1.35 var(--serif); letter-spacing: -0.012em; color: var(--slate); max-width: 28ch; margin: 0 auto; text-align: center; }
-    .pull-quote::before, .pull-quote::after { color: var(--accent); }
-    .pull-quote::before { content: "\201C"; }
-    .pull-quote::after  { content: "\201D"; }
     details.faq { border-bottom: var(--border-hair); padding: 16px 0; }
     details.faq[open] summary { color: var(--accent); }
     details.faq summary { cursor: pointer; font: 500 16px/1.4 var(--sans); color: var(--slate); list-style: none; display: flex; justify-content: space-between; gap: 16px; }
@@ -67,6 +63,7 @@
         </a>
         <div class="nav-links">
           <a class="btn btn-ghost" href="index.html">All examples</a>
+          <a class="btn btn-ghost" href="app-shell.html">App shell</a>
         </div>
         <div class="palette-toggle" aria-label="Palette">
           <button class="btn btn-ghost" type="button" data-palette-choice="indigo"   title="Indigo &amp; Cloud">Indigo</button>
@@ -147,10 +144,10 @@
         </div>
       </section>
 
-      <section style="margin: 80px auto; padding: 0 24px;">
-        <p class="pull-quote">
+      <section style="margin: 80px auto; padding: 0 24px; max-width: 640px;">
+        <blockquote class="pullquote">
           The only design system that ships in two files and still looks like it took a year.
-        </p>
+        </blockquote>
         <p class="t-caption" style="text-align: center; margin-top: 16px; text-transform: uppercase; letter-spacing: 0.06em;">— a designer who actually reads CSS</p>
       </section>
 

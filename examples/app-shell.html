@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inkwell App Shell Sample</title>
+  <meta name="description" content="SaaS app shell built with the Inkwell pure-CSS design system — navbar, sidebar, stat cards, scrollable table, tooltips, and busy-state buttons.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Inkwell">
+  <meta property="og:url" content="https://inkwell.vinny.dev/app-shell.html">
+  <meta property="og:title" content="Inkwell App Shell Sample">
+  <meta property="og:description" content="SaaS app shell built with the Inkwell pure-CSS design system — navbar, sidebar, stat cards, scrollable table, tooltips, and busy-state buttons.">
+  <meta property="og:image" content="https://inkwell.vinny.dev/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Inkwell — a pure-CSS design system">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Inkwell App Shell Sample">
+  <meta name="twitter:description" content="SaaS app shell built with the Inkwell pure-CSS design system — navbar, sidebar, stat cards, scrollable table, tooltips, and busy-state buttons.">
+  <meta name="twitter:image" content="https://inkwell.vinny.dev/og-image.png">
+  <link rel="icon" type="image/png" href="favicon-512.png">
+  <link rel="apple-touch-icon" href="favicon-512.png">
+  <link rel="stylesheet" href="inkwell.css">
+  <link rel="stylesheet" href="demo.css">
+  <script>
+    // Apply saved theme and palette before first paint (README: "writes data-theme before paint").
+    // KEEP IN SYNC: this snippet is hand-copied across examples/*.html + preview.html.
+    (function () {
+      var t = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      var PALETTES = { clay: 1, sage: 1, burgundy: 1 };
+      var p = new URLSearchParams(location.search).get("palette") || localStorage.getItem("inkwell-palette");
+      if (p && Object.prototype.hasOwnProperty.call(PALETTES, p)) {
+        document.write('<link rel="stylesheet" id="inkwell-palette-prepaint" href="variants/' + p + '.css">');
+      }
+    })();
+  </script>
+  <style>
+    .app-frame {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: var(--sp-5);
+      align-items: start;
+    }
+    .app-sidebar {
+      position: sticky;
+      top: 72px;
+      display: grid;
+      gap: var(--sp-2);
+      padding: var(--sp-4);
+      border: var(--border);
+      border-radius: var(--r-md);
+      background: var(--paper);
+      box-shadow: var(--shadow-sm);
+    }
+    .app-sidebar a {
+      font: 500 13px/1.4 var(--sans);
+      color: var(--gray-700);
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: var(--r-sm);
+      transition: background var(--t-fast), color var(--t-fast);
+    }
+    .app-sidebar a:hover { background: var(--oat); color: var(--slate); }
+    .app-sidebar a[aria-current="page"] {
+      background: var(--accent-tint);
+      color: var(--accent-ink);
+    }
+    .app-sidebar .sidebar-label {
+      font: var(--t-eyebrow) var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gray-500);
+      margin: var(--sp-3) 0 var(--sp-1);
+    }
+    .app-sidebar .sidebar-label:first-child { margin-top: 0; }
+    @media (max-width: 860px) {
+      .app-frame { grid-template-columns: 1fr; }
+      .app-sidebar { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a class="brand" href="#"><span class="dot"></span>Northwind</a>
+      <nav aria-label="Primary">
+        <a href="#" aria-current="page">Customers</a>
+        <a href="#">Reports</a>
+        <a href="#">Settings</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="demo-shell">
+    <div class="wrap-wide">
+      <nav class="demo-nav" aria-label="Sample pages">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+              <path d="M3 12.5h11M3 8.5h11M3 4.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="t-h3">Inkwell</span>
+        </a>
+        <div class="nav-links">
+          <a class="btn btn-ghost" href="index.html">All examples</a>
+          <a class="btn btn-ghost" href="app-shell.html" aria-current="page">App shell</a>
+        </div>
+        <div class="palette-toggle" aria-label="Palette">
+          <button class="btn btn-ghost" type="button" data-palette-choice="indigo"   title="Indigo &amp; Cloud">Indigo</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="clay"     title="Clay">Clay</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="sage"     title="Sage &amp; Stone">Sage</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="burgundy" title="Burgundy &amp; Bone">Burgundy</button>
+        </div>
+        <div class="theme-toggle" aria-label="Theme">
+          <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+        </div>
+      </nav>
+
+      <div class="app-frame">
+        <aside class="app-sidebar" aria-label="Workspace">
+          <div class="sidebar-label">Workspace</div>
+          <a href="#" aria-current="page">Customers</a>
+          <a href="#">Invoices</a>
+          <a href="#">Integrations</a>
+          <div class="sidebar-label">Admin</div>
+          <a href="#">Team</a>
+          <a href="settings.html">Settings</a>
+        </aside>
+
+        <div>
+          <div class="sec-head">
+            <span class="idx">01</span>
+            <h2>Customer accounts</h2>
+            <span class="count">248 active</span>
+          </div>
+
+          <section class="metric-grid" aria-label="Account metrics" style="margin-top: var(--sp-4);">
+            <div class="stat-card is-primary">
+              <div class="stat-num">248</div>
+              <div class="stat-label">Active accounts</div>
+              <div class="stat-delta up">+12 this month</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">$84k</div>
+              <div class="stat-label">Monthly revenue</div>
+              <div class="stat-delta up">+6.4%</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">3</div>
+              <div class="stat-label">At-risk accounts</div>
+              <div class="stat-delta down">needs review</div>
+            </div>
+          </section>
+
+          <div class="toolbar" style="margin-top: var(--sp-6);">
+            <div class="button-row">
+              <button class="btn btn-sm btn-secondary" type="button">Filter</button>
+              <button class="btn btn-sm btn-ghost tooltip" type="button" data-tooltip="Refresh data" aria-label="Refresh data">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M11.5 7A4.5 4.5 0 1 1 7 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M7 1v3l2-1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+            <div class="button-row">
+              <button class="btn btn-sm btn-secondary" type="button" id="export-btn">Export</button>
+              <button class="btn btn-sm btn-primary" type="button">Add customer</button>
+            </div>
+          </div>
+
+          <div class="tbl-scroll" style="margin-top: var(--sp-3);">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Account</th>
+                  <th>Owner</th>
+                  <th>Plan</th>
+                  <th>MRR</th>
+                  <th>Seats</th>
+                  <th>Region</th>
+                  <th>Last login</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Acme Publishing</td>
+                  <td><span class="avatar">AK</span> Avery Kim</td>
+                  <td>Enterprise</td>
+                  <td>$4,200</td>
+                  <td>48</td>
+                  <td>US-East</td>
+                  <td>2h ago</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                </tr>
+                <tr>
+                  <td>Blue Harbor Co.</td>
+                  <td><span class="avatar">MC</span> Morgan Chen</td>
+                  <td>Pro</td>
+                  <td>$890</td>
+                  <td>12</td>
+                  <td>EU-West</td>
+                  <td>Yesterday</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                </tr>
+                <tr>
+                  <td>Delta Freight</td>
+                  <td><span class="avatar">LP</span> Lena Park</td>
+                  <td>Pro</td>
+                  <td>$640</td>
+                  <td>8</td>
+                  <td>US-West</td>
+                  <td>3d ago</td>
+                  <td><span class="badge badge-danger">Past due</span></td>
+                </tr>
+                <tr>
+                  <td>Evergreen Labs</td>
+                  <td><span class="avatar">VN</span> Vin Nguyen</td>
+                  <td>Starter</td>
+                  <td>$120</td>
+                  <td>3</td>
+                  <td>APAC</td>
+                  <td>Today</td>
+                  <td><span class="badge badge-warning">Trial</span></td>
+                </tr>
+                <tr>
+                  <td>Foundry Studio</td>
+                  <td><span class="avatar">JR</span> Jordan Reed</td>
+                  <td>Enterprise</td>
+                  <td>$3,100</td>
+                  <td>32</td>
+                  <td>US-East</td>
+                  <td>5h ago</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <footer class="page-footer t-small">
+        <a class="link" href="index.html">Back to all examples</a>
+        <p class="footer-links">
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+          <span class="sep" aria-hidden="true">·</span>
+          <a class="link" href="https://github.com/vscarpenter/inkwell">GitHub</a>
+          <span class="sep" aria-hidden="true">·</span>
+          <a class="link" href="https://raw.githubusercontent.com/vscarpenter/inkwell/main/agent-instructions.md">Agent instructions</a>
+          <span class="sep" aria-hidden="true">·</span>
+          <a class="link" href="https://vinny.dev">vinny.dev</a>
+        </p>
+      </footer>
+      <p class="t-caption" style="text-align: center; margin: 16px 0 24px; font-style: italic; letter-spacing: 0.02em;">
+        Made with hairlines and serifs by <a class="link" href="https://vinny.dev">Vinny Carpenter</a>. The 1.5px is on purpose.
+      </p>
+
+    </div>
+  </main>
+  <script src="demo.js"></script>
+  <script>
+    (function () {
+      var btn = document.getElementById("export-btn");
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        if (btn.getAttribute("aria-busy") === "true") return;
+        btn.setAttribute("aria-busy", "true");
+        btn.disabled = true;
+        btn.textContent = "Exporting…";
+        setTimeout(function () {
+          btn.removeAttribute("aria-busy");
+          btn.disabled = false;
+          btn.textContent = "Export";
+        }, 2200);
+      });
+    })();
+  </script>
+</body>
+</html>

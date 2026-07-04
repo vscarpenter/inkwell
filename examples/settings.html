@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Inkwell Settings Sample</title>
-  <meta name="description" content="Settings page built with the Inkwell pure-CSS design system — section nav, toggle rows, and form groups.">
+  <meta name="description" content="Settings page built with the Inkwell pure-CSS design system — tabbed panels, segmented controls, toggle rows, and form groups.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Inkwell">
   <meta property="og:url" content="https://inkwell.vinny.dev/settings.html">
   <meta property="og:title" content="Inkwell Settings Sample">
-  <meta property="og:description" content="Settings page built with the Inkwell pure-CSS design system — section nav, toggle rows, and form groups.">
+  <meta property="og:description" content="Settings page built with the Inkwell pure-CSS design system — tabbed panels, segmented controls, toggle rows, and form groups.">
   <meta property="og:image" content="https://inkwell.vinny.dev/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Inkwell — a pure-CSS design system">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Inkwell Settings Sample">
-  <meta name="twitter:description" content="Settings page built with the Inkwell pure-CSS design system — section nav, toggle rows, and form groups.">
+  <meta name="twitter:description" content="Settings page built with the Inkwell pure-CSS design system — tabbed panels, segmented controls, toggle rows, and form groups.">
   <meta name="twitter:image" content="https://inkwell.vinny.dev/og-image.png">
   <link rel="icon" type="image/png" href="favicon-512.png">
   <link rel="apple-touch-icon" href="favicon-512.png">
@@ -51,6 +51,7 @@
         </a>
         <div class="nav-links">
           <a class="btn btn-ghost" href="index.html">All examples</a>
+          <a class="btn btn-ghost" href="app-shell.html">App shell</a>
         </div>
         <div class="palette-toggle" aria-label="Palette">
           <button class="btn btn-ghost" type="button" data-palette-choice="indigo"   title="Indigo &amp; Cloud">Indigo</button>
@@ -68,76 +69,155 @@
       <header>
         <span class="eyebrow">Form sample</span>
         <h1 class="t-display">Workspace settings</h1>
-        <p class="t-small">A settings page showing form controls, badges, button variants, callouts, and destructive actions.</p>
+        <p class="t-small">A settings page showing tabs, segmented controls, form fields, badges, and destructive actions.</p>
       </header>
 
-      <section class="section split">
-        <form class="card form-grid">
-          <div class="sec-head">
-            <span class="idx">01</span>
-            <h2>Profile</h2>
-            <span class="count">Saved</span>
-          </div>
-          <div class="field-row">
-            <div class="field field-grow">
-              <label for="workspace-name">Workspace name</label>
-              <input class="input" id="workspace-name" type="text" value="Inkwell Labs">
-            </div>
-            <div class="field field-grow">
-              <label for="owner-email">Owner email</label>
-              <input class="input" id="owner-email" type="email" value="team@example.com">
-            </div>
-          </div>
-          <div class="field">
-            <label for="release-channel">Release channel</label>
-            <input class="input" id="release-channel" type="text" value="Production">
-          </div>
-          <label class="checkbox">
-            <input type="checkbox" checked>
-            Require review before publishing changes
-          </label>
-          <label class="checkbox">
-            <input type="checkbox" checked>
-            Send weekly release summary
-          </label>
-          <div class="button-row">
-            <button class="btn btn-primary" type="button">Save changes</button>
-            <button class="btn btn-secondary" type="reset">Reset</button>
-          </div>
-        </form>
+      <div class="tabs" role="tablist" aria-label="Settings sections" style="margin-top: var(--sp-6);">
+        <button class="tab" role="tab" id="tab-account" aria-selected="true" aria-controls="panel-account" type="button">Account</button>
+        <button class="tab" role="tab" id="tab-notifications" aria-selected="false" aria-controls="panel-notifications" type="button" tabindex="-1">Notifications</button>
+        <button class="tab" role="tab" id="tab-billing" aria-selected="false" aria-controls="panel-billing" type="button" tabindex="-1">Billing</button>
+      </div>
 
-        <aside class="form-grid">
-          <div class="tldr">
-            <div class="tldr-label">Current plan</div>
-            Inkwell keeps application chrome understated so status, tables, and editorial headings remain easy to scan.
-          </div>
+      <section class="section">
+        <div class="tab-panel" role="tabpanel" id="panel-account" aria-labelledby="tab-account">
+          <div class="split">
+            <form class="card form-grid">
+              <div class="sec-head">
+                <span class="idx">01</span>
+                <h2>Profile</h2>
+                <span class="count">Saved</span>
+              </div>
+              <div class="field-row">
+                <div class="field field-grow">
+                  <label class="field-label" for="workspace-name">Workspace name</label>
+                  <input class="input" id="workspace-name" type="text" value="Inkwell Labs">
+                </div>
+                <div class="field field-grow">
+                  <label class="field-label" for="owner-email">Owner email</label>
+                  <input class="input" id="owner-email" type="email" value="team@example.com">
+                </div>
+              </div>
+              <div class="field">
+                <label class="field-label" for="release-channel">Release channel</label>
+                <input class="input" id="release-channel" type="text" value="Production">
+              </div>
+              <label class="checkbox">
+                <input type="checkbox" checked>
+                Require review before publishing changes
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" checked>
+                Send weekly release summary
+              </label>
+              <div class="button-row">
+                <button class="btn btn-primary" type="button">Save changes</button>
+                <button class="btn btn-secondary" type="reset">Reset</button>
+              </div>
+            </form>
 
-          <div class="card">
+            <aside class="form-grid">
+              <div class="tldr">
+                <div class="tldr-label">Current plan</div>
+                Inkwell keeps application chrome understated so status, tables, and editorial headings remain easy to scan.
+              </div>
+
+              <div class="card">
+                <div class="sec-head">
+                  <span class="idx">02</span>
+                  <h2>Access</h2>
+                </div>
+                <div class="chip-row">
+                  <span class="badge badge-success">SSO enabled</span>
+                  <span class="badge badge-accent">12 members</span>
+                  <span class="badge badge-neutral">3 guests</span>
+                </div>
+                <hr class="rule">
+                <div class="button-row">
+                  <button class="btn btn-secondary" type="button">Invite member</button>
+                  <button class="btn btn-ghost" type="button">View audit log</button>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="sec-head">
+                  <span class="idx">03</span>
+                  <h2>Danger zone</h2>
+                </div>
+                <p class="t-small">Use the danger button sparingly and pair it with clear confirmation UI in real workflows.</p>
+                <button class="btn btn-danger" type="button">Delete workspace</button>
+              </div>
+            </aside>
+          </div>
+        </div>
+
+        <div class="tab-panel" role="tabpanel" id="panel-notifications" aria-labelledby="tab-notifications" hidden>
+          <div class="card form-grid">
             <div class="sec-head">
-              <span class="idx">02</span>
-              <h2>Access</h2>
+              <span class="idx">01</span>
+              <h2>Email alerts</h2>
+              <span class="count">3 active</span>
             </div>
-            <div class="chip-row">
-              <span class="badge badge-success">SSO enabled</span>
-              <span class="badge badge-accent">12 members</span>
-              <span class="badge badge-neutral">3 guests</span>
+            <label class="checkbox">
+              <input type="checkbox" checked>
+              Deploy failures and rollbacks
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" checked>
+              Weekly usage summary
+            </label>
+            <label class="checkbox">
+              <input type="checkbox">
+              Marketing and product updates
+            </label>
+            <div class="field">
+              <label class="field-label" for="digest-time">Digest delivery time</label>
+              <input class="input" id="digest-time" type="text" value="Monday 09:00 UTC">
             </div>
-            <hr class="rule">
             <div class="button-row">
-              <button class="btn btn-secondary" type="button">Invite member</button>
-              <button class="btn btn-ghost" type="button">View audit log</button>
+              <button class="btn btn-primary" type="button">Save preferences</button>
             </div>
           </div>
+        </div>
 
-          <div class="card">
-            <div class="sec-head">
-              <span class="idx">03</span>
-              <h2>Danger zone</h2>
+        <div class="tab-panel" role="tabpanel" id="panel-billing" aria-labelledby="tab-billing" hidden>
+          <div class="split">
+            <div class="card form-grid">
+              <div class="sec-head">
+                <span class="idx">01</span>
+                <h2>Subscription</h2>
+                <span class="badge badge-success">Pro plan</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Billing period</span>
+                <div class="segmented" role="group" aria-label="Billing period" id="billing-period">
+                  <button type="button" aria-pressed="true" data-period="monthly">Monthly</button>
+                  <button type="button" aria-pressed="false" data-period="annual">Annual</button>
+                </div>
+              </div>
+              <p class="t-small" id="billing-copy">$49 per seat / month · next invoice on Apr 12.</p>
+              <div class="button-row">
+                <button class="btn btn-secondary" type="button">Update payment method</button>
+                <button class="btn btn-ghost" type="button">Download invoices</button>
+              </div>
             </div>
-            <p class="t-small">Use the danger button sparingly and pair it with clear confirmation UI in real workflows.</p>
-            <button class="btn btn-danger" type="button">Delete workspace</button>
+
+            <aside class="card form-grid">
+              <div class="sec-head">
+                <span class="idx">02</span>
+                <h2>Usage</h2>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num">12</div>
+                <div class="stat-label">Seats in use</div>
+                <div class="stat-delta flat">of 15 included</div>
+              </div>
+              <div class="chip-row">
+                <span class="badge badge-accent">Annual billing</span>
+                <span class="badge badge-neutral">Renews Dec 1</span>
+              </div>
+            </aside>
           </div>
-        </aside>
+        </div>
       </section>
 
       <footer class="page-footer t-small">
@@ -159,5 +239,41 @@
     </div>
   </main>
   <script src="demo.js"></script>
+  <script>
+    (function () {
+      var tabs = document.querySelectorAll('[role="tab"]');
+      var panels = document.querySelectorAll('.tab-panel');
+      function selectTab(tab) {
+        tabs.forEach(function (t) {
+          var selected = t === tab;
+          t.setAttribute('aria-selected', String(selected));
+          t.tabIndex = selected ? 0 : -1;
+        });
+        panels.forEach(function (p) {
+          p.hidden = p.id !== tab.getAttribute('aria-controls');
+        });
+      }
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () { selectTab(tab); });
+      });
+
+      var periodGroup = document.getElementById('billing-period');
+      var billingCopy = document.getElementById('billing-copy');
+      if (periodGroup && billingCopy) {
+        periodGroup.querySelectorAll('button').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            periodGroup.querySelectorAll('button').forEach(function (b) {
+              b.setAttribute('aria-pressed', String(b === btn));
+            });
+            if (btn.dataset.period === 'annual') {
+              billingCopy.textContent = '$470 per seat / year · save 20% vs monthly.';
+            } else {
+              billingCopy.textContent = '$49 per seat / month · next invoice on Apr 12.';
+            }
+          });
+        });
+      }
+    })();
+  </script>
 </body>
 </html>

@@ -169,6 +169,7 @@
         </span>
         <span class="t-h3">Inkwell <span class="text-gray-500 font-mono text-eyebrow tracking-wider">× TAILWIND v4</span></span>
       </a>
+      <a class="btn btn-ghost btn-sm" href="index.html" style="text-decoration: none;">All examples</a>
       <div class="palette-toggle" aria-label="Palette">
         <button class="btn btn-ghost" type="button" data-palette-choice="indigo"   title="Indigo &amp; Cloud">Indigo</button>
         <button class="btn btn-ghost" type="button" data-palette-choice="clay"     title="Clay">Clay</button>
@@ -390,6 +391,46 @@
       mq.addEventListener('change', function () {
         if (current === 'auto') applyAttr('auto');
       });
+    })();
+  </script>
+  <script>
+    (function () {
+      var PALETTES = {
+        indigo:   null,
+        clay:     "variants/clay.css",
+        sage:     "variants/sage.css",
+        burgundy: "variants/burgundy.css",
+      };
+      var paletteLink = null;
+      function loadSheet(href) {
+        var pre = document.getElementById("inkwell-palette-prepaint");
+        if (pre) pre.remove();
+        if (paletteLink) { paletteLink.remove(); paletteLink = null; }
+        if (!href) return;
+        paletteLink = document.createElement("link");
+        paletteLink.rel = "stylesheet";
+        paletteLink.id = "inkwell-palette-css";
+        paletteLink.href = href;
+        document.head.appendChild(paletteLink);
+      }
+      function applyPalette(name) {
+        if (!Object.prototype.hasOwnProperty.call(PALETTES, name)) name = "indigo";
+        loadSheet(PALETTES[name]);
+        localStorage.setItem("inkwell-palette", name);
+        var url = new URL(location.href);
+        if (name === "indigo") url.searchParams.delete("palette");
+        else url.searchParams.set("palette", name);
+        history.replaceState(null, "", url.toString());
+        document.querySelectorAll("[data-palette-choice]").forEach(function (btn) {
+          btn.setAttribute("aria-pressed", String(btn.getAttribute("data-palette-choice") === name));
+        });
+      }
+      document.querySelectorAll("[data-palette-choice]").forEach(function (btn) {
+        btn.addEventListener("click", function () { applyPalette(btn.getAttribute("data-palette-choice")); });
+      });
+      var fromUrl = new URLSearchParams(location.search).get("palette");
+      var fromStorage = localStorage.getItem("inkwell-palette");
+      applyPalette(fromUrl || fromStorage || "indigo");
     })();
   </script>
 </body>
