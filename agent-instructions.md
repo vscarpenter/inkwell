@@ -386,7 +386,7 @@ Before declaring the integration done:
 - Check focus, hover, disabled, loading, empty, validation/error, dialog, tab, and navigation states that appear in the changed surface.
 - Confirm there are no new console errors, broken routes, missing CSS files, or layout shifts caused by loading `inkwell.css`.
 - Scan new CSS for hardcoded colors, `1px`/`2px` outer borders, webfonts, gradients on surfaces, and extra saturated accent colors.
-- If you are extending tokens in the Inkwell repo itself, run `scripts/check-contrast.mjs` — CI asserts WCAG ratios for every token pair across all four palettes.
+- If you are extending tokens in the Inkwell repo itself, run `scripts/check-contrast.mjs` — CI asserts WCAG ratios for every token pair across all five palettes.
 
 ---
 

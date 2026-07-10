@@ -34,7 +34,7 @@ There are no commands. To preview changes, open the HTML files directly in a bro
 ```
 open index.html               # starter template (navbar + light/dark/auto toggle)
 open preview.html             # comprehensive showcase of every component
-open variants/compare.html    # side-by-side of all four palettes
+open variants/compare.html    # side-by-side of all five palettes
 open examples/tailwind.html   # Tailwind v4 + Inkwell integration demo
 ```
 
@@ -57,7 +57,7 @@ If you add a new source CSS file at the repo root, also add it to the workflow's
 
 The releases section of `examples/changelog.html` AND the `Inkwell vX.Y.Z` footer stamp on every example page (the `data-inkwell-version` anchor) are generated from `CHANGELOG.md`. Re-run `node scripts/build-changelog-html.mjs` and commit the regenerated pages in the same change — CI runs `--check` and fails on drift. Edit the changelog page only outside its BEGIN/END markers; never hand-edit the version stamp text.
 
-## Architecture: one token layer, four palettes
+## Architecture: one token layer, five palettes
 
 Inkwell has one token layer (`inkwell-tokens.css`) and one component layer (`inkwell-components.css`). The five palettes — **Indigo & Cloud** (canonical), **Clay**, **Sage & Stone**, **Burgundy & Bone**, **Azure & Ink** — share both layers; variants are override-only stylesheets that redefine the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) as single `light-dark()` declarations in `:root`; they inherit canonical's `color-mix()` derived tints unless the contrast gate forced a different alpha.
 

@@ -27,7 +27,7 @@ See [`TAILWIND.md`](TAILWIND.md) for the conventions that govern the Tailwind v4
 
 ## Palettes
 
-Inkwell ships with four palettes that share one token layer:
+Inkwell ships with five palettes that share one token layer:
 
 | Palette | File | Vibe |
 |---|---|---|
@@ -35,8 +35,9 @@ Inkwell ships with four palettes that share one token layer:
 | Clay | `variants/clay.css` | Warm cream + Anthropic clay coral. Editorial. |
 | Sage & Stone | `variants/sage.css` | Sage green + warm stone. Quiet, considered. |
 | Burgundy & Bone | `variants/burgundy.css` | Deep burgundy + bone paper. Literary journal. |
+| Azure & Ink | `variants/azure.css` | Cool harbor stone + clean azure. Institutional. |
 
-Variant files contain only brand-layer token overrides (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) as single `light-dark()` declarations in `:root`, plus the dark `.select` chevron override. They never restate component CSS — components live once, in `inkwell-components.css` — and they inherit canonical's `color-mix()` derived tints unless the contrast gate forced a different alpha (clay and sage redeclare `--accent-tint`; burgundy inherits everything).
+Variant files contain only brand-layer token overrides (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) as single `light-dark()` declarations in `:root`, plus the dark `.select` chevron override. They never restate component CSS — components live once, in `inkwell-components.css` — and they inherit canonical's `color-mix()` derived tints unless the contrast gate forced a different alpha (clay, sage, and azure redeclare `--accent-tint`; burgundy inherits everything).
 
 To use a non-default palette, load its file after `inkwell.css`. The example pages ship with a runtime toggle (`?palette=clay`); for static use, link the variant directly.
 
@@ -62,7 +63,7 @@ There's no automated test suite. Verification is visual.
 
 1. Open `preview.html` and confirm your component (or the component you touched) still renders correctly in **both light and dark mode**. Toggle via the theme switcher in the header.
 2. If your change touches the Tailwind v4 path, also open `examples/tailwind.html` and verify components + utilities + `dark:` still behave correctly. The cascade-order check in [`TAILWIND.md`](TAILWIND.md) is the canonical verification.
-3. If you touched anything color-related, also open `variants/compare.html` (or use `preview.html?palette=clay` / `?palette=sage` / `?palette=burgundy`) to confirm none of the four palettes regressed.
+3. If you touched anything color-related, also open `variants/compare.html` (or use `preview.html?palette=clay` / `?palette=sage` / `?palette=burgundy` / `?palette=azure`) to confirm none of the five palettes regressed.
 4. **Do the visual check on a 2x (retina) display when possible.** The 1.5px border is the system's signature and is designed for retina. On 1x, Chrome rounds it to 1px — that's expected, not a bug.
 5. If you added a component that uses an accent in an `rgba()`, make sure the rgba references `var(--accent)` (or a derived token) rather than a hardcoded color value, so palette overrides work automatically.
 

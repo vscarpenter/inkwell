@@ -4,7 +4,7 @@ A reusable design system for product UI, dashboards, and technical interfaces. D
 
 **Inkwell** ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, hairline 1.5px borders. Reads as Linear/Stripe/Notion-adjacent without being a clone of any of them.
 
-The system separates *structure* (borders, type scale, spacing, motion, components) from *brand* (colors). Four palettes share one token layer and one component layer; only the brand-layer tokens differ. The default is **Indigo & Cloud**; three alternate palettes (Clay, Sage & Stone, Burgundy & Bone) are available as override-only CSS files in `variants/`.
+The system separates *structure* (borders, type scale, spacing, motion, components) from *brand* (colors). Five palettes share one token layer and one component layer; only the brand-layer tokens differ. The default is **Indigo & Cloud**; four alternate palettes (Clay, Sage & Stone, Burgundy & Bone, Azure & Ink) are available as override-only CSS files in `variants/`.
 
 > **Why "Inkwell"?** Print metaphor for editorial discipline; an inkwell is also a dark vessel, which signals dark mode is a first-class concern. Color-agnostic — the name still fits if you ever swap palettes.
 
@@ -273,7 +273,7 @@ Inkwell ships with WCAG-conscious defaults. The notable choices:
 - **`::selection` is slate-on-oat.** Selected text gets `--oat` behind `--slate` — the accent tint was too faint to register as a selection highlight.
 - **Print always renders light.** The manual dark theme (`[data-theme="dark"]` blocks) is wrapped in `@media screen`, so a dark-toggled page still prints on the light palette.
 
-All four palettes pass `scripts/check-contrast.mjs` — a zero-dependency WCAG gate asserting 192 token-pair ratios (text at 4.5:1, non-text at 3:1) across both modes — and CI runs it alongside the tokens.json drift check.
+All five palettes pass `scripts/check-contrast.mjs` — a zero-dependency WCAG gate asserting 240 token-pair ratios (text at 4.5:1, non-text at 3:1) across both modes — and CI runs it alongside the tokens.json drift check.
 
 If you extend the system, the rule is: any new colored token must clear 3:1 for non-text and 4.5:1 for normal text against the surface it ships on, *unless* it's pairing with another signal.
 
@@ -334,7 +334,8 @@ inkwell/
     ├── clay.css            ← warm cream + clay coral
     ├── sage.css            ← sage green + warm stone
     ├── burgundy.css        ← deep burgundy + bone paper
-    └── compare.html        ← side-by-side comparison of all four palettes
+    ├── azure.css           ← cool harbor stone + clean azure
+    └── compare.html        ← side-by-side comparison of all five palettes
 ```
 
 The split between `inkwell-tokens.css` and `inkwell-components.css` exists so both entries can wrap components inside a cascade layer while keeping `:root` tokens unlayered — `inkwell.css` uses `@layer inkwell` (your unlayered CSS always overrides Inkwell components), `inkwell-theme.css` uses `@layer components` (Tailwind utilities override them). Link `inkwell.css` and the whole tree resolves; link `inkwell-theme.css` from Tailwind v4 entry CSS and the same source files do double duty.
@@ -349,6 +350,7 @@ To switch palettes, load the relevant `variants/*.css` file after `inkwell.css`.
 | Clay | `variants/clay.css` | Warm cream + Anthropic clay coral. Editorial. |
 | Sage & Stone | `variants/sage.css` | Sage green + warm stone. Quiet, considered. |
 | Burgundy & Bone | `variants/burgundy.css` | Deep burgundy + bone paper. Literary journal. |
+| Azure & Ink | `variants/azure.css` | Cool harbor stone + clean azure. Institutional. |
 
 ---
 
