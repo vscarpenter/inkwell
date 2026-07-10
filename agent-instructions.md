@@ -210,6 +210,7 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 | `.stat-card` (`.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a full 1.5px accent border |
 | `.tbl` | Table with sans headers and hairline rows |
 | `.tbl-scroll` | Overflow wrapper for `.tbl` — horizontal scroll on narrow viewports |
+| `.carousel` (`.carousel-track`, `.carousel-slide`, `.carousel-controls`) | Editorial swipeable series on CSS scroll-snap; core works with zero JS, controls are JS-revealed progressive enhancement. No autoplay. |
 | `.tldr` | Inverted callout (dark in light mode, light in dark) |
 | `.code-block` | Multi-line `<pre><code>` panel |
 | `.dialog` | Native `<dialog>` styling |
