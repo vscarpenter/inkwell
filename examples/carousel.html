@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inkwell Carousel Sample</title>
+  <meta name="description" content="An editorial swipeable series built on Inkwell's scroll-snap carousel — serif chapter slides, contrast callouts, and cited findings with a zero-JS core.">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Inkwell">
+  <meta property="og:url" content="https://inkwell.vinny.dev/carousel.html">
+  <meta property="og:title" content="Inkwell Carousel Sample">
+  <meta property="og:description" content="An editorial swipeable series built on Inkwell's scroll-snap carousel — serif chapter slides, contrast callouts, and cited findings with a zero-JS core.">
+  <meta property="og:image" content="https://inkwell.vinny.dev/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Inkwell — a pure-CSS design system">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Inkwell Carousel Sample">
+  <meta name="twitter:description" content="An editorial swipeable series built on Inkwell's scroll-snap carousel — serif chapter slides, contrast callouts, and cited findings with a zero-JS core.">
+  <meta name="twitter:image" content="https://inkwell.vinny.dev/og-image.png">
+  <link rel="icon" type="image/png" href="favicon-512.png">
+  <link rel="apple-touch-icon" href="favicon-512.png">
+  <link rel="stylesheet" href="inkwell.css">
+  <link rel="stylesheet" href="demo.css">
+  <script>
+    // Apply saved theme and palette before first paint (README: "writes data-theme before paint").
+    // KEEP IN SYNC: this snippet is hand-copied across examples/*.html + preview.html.
+    (function () {
+      var t = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      var PALETTES = { clay: 1, sage: 1, burgundy: 1, azure: 1 };
+      var p = new URLSearchParams(location.search).get("palette") || localStorage.getItem("inkwell-palette");
+      if (p && Object.prototype.hasOwnProperty.call(PALETTES, p)) {
+        document.write('<link rel="stylesheet" id="inkwell-palette-prepaint" href="variants/' + p + '.css">');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <main class="demo-shell">
+    <div class="wrap">
+      <nav class="demo-nav" aria-label="Sample pages">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+              <path d="M4 3h9v11H4z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="t-h3">Inkwell</span>
+        </a>
+        <div class="nav-links">
+          <a class="btn btn-ghost" href="index.html">All examples</a>
+          <a class="btn btn-ghost" href="article.html">Article layout</a>
+        </div>
+        <div class="palette-toggle" aria-label="Palette">
+          <button class="btn btn-ghost" type="button" data-palette-choice="indigo"   title="Indigo &amp; Cloud">Indigo</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="clay"     title="Clay">Clay</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="sage"     title="Sage &amp; Stone">Sage</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="burgundy" title="Burgundy &amp; Bone">Burgundy</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="azure"    title="Azure &amp; Ink">Azure</button>
+        </div>
+        <div class="theme-toggle" aria-label="Theme">
+          <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+        </div>
+      </nav>
+
+      <header class="section">
+        <span class="eyebrow-serif">Editorial series</span>
+        <h1 class="t-display" style="margin: 14px 0 12px;">The adoption gap, in five slides.</h1>
+        <p class="t-lede" style="margin: 0 0 18px;">Why design systems stall after launch — a swipeable series built on the <code>.carousel</code> component. Swipe, scroll, use the buttons below the frame, or press <kbd>←</kbd> <kbd>→</kbd> with the series focused.</p>
+        <div class="byline">
+          <span class="author">By the editors</span>
+          <span>·</span>
+          <span>19 May 2026</span>
+          <span>·</span>
+          <span>5 slides</span>
+        </div>
+      </header>
+
+      <section class="section carousel" data-carousel role="region" aria-roledescription="carousel" aria-label="The adoption gap — a five-part series">
+        <div class="carousel-track" tabindex="0">
+
+          <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="1 of 5">
+            <div class="carousel-slide-meta">
+              <span class="eyebrow-serif">The Adoption Gap</span>
+              <span class="carousel-counter">1 / 5</span>
+            </div>
+            <h2 class="t-h1" style="margin: 8px 0 4px; max-width: 22ch;">A design system nobody reaches for is just <em class="accent">documentation.</em></h2>
+            <p class="t-lede" style="margin: 0;">Most systems don't fail in the token layer. They fail in the last mile — the gap between what the platform team built and what product teams actually ship.</p>
+            <div class="carousel-slide-foot">
+              <div class="byline">
+                <span class="author">By the editors</span>
+                <span>·</span>
+                <span>Part I</span>
+                <span>·</span>
+                <span>The premise</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="2 of 5">
+            <div class="carousel-slide-meta">
+              <span class="eyebrow-serif">Where systems stall</span>
+              <span class="carousel-counter">2 / 5</span>
+            </div>
+            <h2 class="t-h1" style="margin: 8px 0 4px; max-width: 24ch;">Governed is not the same as <em class="accent">used.</em></h2>
+            <p class="t-body" style="color: var(--gray-700); max-width: 60ch; margin: 0 0 8px;">Two states of the same system, one year after launch. The first is where most teams stop. The second is where the payoff lives.</p>
+            <div class="callout">
+              <p class="callout-label">Built and governed</p>
+              <p class="callout-body">Tokens named, components documented, releases versioned, contribution rules ratified — and every product team still shipping its own buttons.</p>
+            </div>
+            <div class="callout is-accent">
+              <p class="callout-label">Enabled and adopted</p>
+              <p class="callout-body">Packaged for the teams that ship, so it gets <strong>installed, extended, and defended</strong> where the product actually gets built.</p>
+            </div>
+            <div class="carousel-slide-foot">
+              <div class="byline">
+                <span class="author">The Adoption Gap</span>
+                <span>·</span>
+                <span>Part II</span>
+                <span>·</span>
+                <span>The stall</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="3 of 5">
+            <div class="carousel-slide-meta">
+              <span class="eyebrow-serif">The evidence</span>
+              <span class="carousel-counter">3 / 5</span>
+            </div>
+            <h2 class="t-h1" style="margin: 8px 0 4px; max-width: 24ch;">The numbers say it's a people problem.</h2>
+            <div class="findings">
+              <div class="finding">
+                <div class="finding-num">62%</div>
+                <p class="finding-text">of design-system teams name <strong>adoption</strong> — not tooling, not tokens — as their hardest problem. The bottleneck is people, not components.
+                  <span class="finding-src">Design Systems Survey · Sparkbox 2024</span>
+                </p>
+              </div>
+              <div class="finding">
+                <div class="finding-num">1/4</div>
+                <p class="finding-text">of product squads consume the official library <strong>without a local fork</strong>. Governance without enablement doesn't stop divergence; it just documents it.
+                  <span class="finding-src">Enterprise UI Benchmark · 2025</span>
+                </p>
+              </div>
+              <div class="finding">
+                <div class="finding-num">2×</div>
+                <p class="finding-text">faster feature delivery for teams that start from shared components instead of rebuilding primitives per project.
+                  <span class="finding-src">Platform Eng. Field Report · 2025</span>
+                </p>
+              </div>
+            </div>
+            <div class="carousel-slide-foot">
+              <div class="byline">
+                <span class="author">The Adoption Gap</span>
+                <span>·</span>
+                <span>Part III</span>
+                <span>·</span>
+                <span>The evidence</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="4 of 5">
+            <div class="carousel-slide-meta">
+              <span class="eyebrow-serif">What adopted systems do</span>
+              <span class="carousel-counter">4 / 5</span>
+            </div>
+            <h2 class="t-h1" style="margin: 8px 0 4px; max-width: 24ch;">Meet teams where they <em class="accent">already work.</em></h2>
+            <blockquote class="pullquote" style="margin: 16px auto;">
+              Systems don't win by being right. They win by being reached for — at the moment a deadline makes the shortcut tempting.
+            </blockquote>
+            <p class="t-body" style="color: var(--gray-700); max-width: 60ch; margin: 0;">The adopted systems ship copy-paste starters, answer questions in the channels where product teams live, and treat every fork as a bug report against their own onboarding — not as someone else's compliance failure.</p>
+            <div class="carousel-slide-foot">
+              <div class="byline">
+                <span class="author">The Adoption Gap</span>
+                <span>·</span>
+                <span>Part IV</span>
+                <span>·</span>
+                <span>The practice</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="5 of 5">
+            <div class="carousel-slide-meta">
+              <span class="eyebrow-serif">Closing note</span>
+              <span class="carousel-counter">5 / 5</span>
+            </div>
+            <h2 class="t-h1" style="margin: 8px 0 4px; max-width: 22ch;">Start where the work is.</h2>
+            <p class="t-lede" style="margin: 0 0 12px;">Measure reach, not release notes. A system earns its keep one adopted component at a time.</p>
+            <div class="field-row">
+              <a class="btn btn-primary" href="article.html">Read the field notes</a>
+              <a class="btn btn-secondary" href="preview.html">Browse the components</a>
+            </div>
+            <div class="carousel-slide-foot">
+              <div class="byline">
+                <span class="author">By the editors</span>
+                <span>·</span>
+                <span>Part V</span>
+                <span>·</span>
+                <span>End of series</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="carousel-controls" hidden>
+          <button class="carousel-btn" type="button" data-carousel-prev aria-label="Previous slide">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M8.5 3 4.5 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="carousel-dots" role="group" aria-label="Choose slide"></div>
+          <button class="carousel-btn" type="button" data-carousel-next aria-label="Next slide">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="m5.5 3 4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="sec-head">
+          <span class="idx">01</span>
+          <h2>How this page behaves</h2>
+        </div>
+        <div class="card-grid">
+          <div class="card">
+            <h3 class="t-h3">Without JavaScript</h3>
+            <p class="t-small">The series is a CSS scroll-snap container: swipe, trackpad, and the thin scrollbar all page through slides. The button row and dots stay <code>[hidden]</code> until the enhancement script wires them, so nothing renders dead.</p>
+          </div>
+          <div class="card">
+            <h3 class="t-h3">Keyboard</h3>
+            <p class="t-small">The track is focusable (<code>tabindex="0"</code>); with the region focused, <kbd>←</kbd> <kbd>→</kbd> move one slide and <kbd>Home</kbd> / <kbd>End</kbd> jump to the ends. Dots and arrows are real buttons with visible focus rings.</p>
+          </div>
+          <div class="card">
+            <h3 class="t-h3">Reduced motion</h3>
+            <p class="t-small">Smooth scrolling only applies under <code>prefers-reduced-motion: no-preference</code>; otherwise every navigation is an instant jump. There is no autoplay to pause because there is no autoplay.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="page-footer t-small">
+        <a class="link" href="index.html">Back to all examples</a>
+        <p class="footer-links">
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+          <span class="sep" aria-hidden="true">·</span>
+          <a class="link" href="https://github.com/vscarpenter/inkwell">GitHub</a>
+          <span class="sep" aria-hidden="true">·</span>
+          <a class="link" href="https://raw.githubusercontent.com/vscarpenter/inkwell/main/agent-instructions.md">Agent instructions</a>
+          <span class="sep" aria-hidden="true">·</span>
+          <a class="link" href="https://vinny.dev">vinny.dev</a>
+        </p>
+      </footer>
+      <p class="t-caption" style="text-align: center; margin: 16px 0 24px; font-style: italic; letter-spacing: 0.02em;">
+        Made with hairlines and serifs by <a class="link" href="https://vinny.dev">Vinny Carpenter</a>. The 1.5px is on purpose.
+      </p>
+
+    </div>
+  </main>
+  <script src="demo.js"></script>
+</body>
+</html>
