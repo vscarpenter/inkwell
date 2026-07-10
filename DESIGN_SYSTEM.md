@@ -205,8 +205,10 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 | `kbd` / `.kbd` | Keyboard-shortcut chip in mono with bottom-edge shadow line |
 | `.badge` (+ neutral / accent / success / warning / danger) | Pill-shaped status labels |
 | `.alert` (+ `.is-info` / `.is-success` / `.is-warning` / `.is-danger`) | Flat-tinted system message; title stays slate, tinted bg + border carry the semantic |
+| `.callout` (+ `.is-accent`) | Two-tier contrast block; neutral base states the reality now, `.is-accent` marks the target. Serif body, accent left spine |
 | `.card` (+ `.is-link`) | Generic card; the `.is-link` variant adds a calm border-color hover shift — no lift, no shadow swap |
 | `.stat-card` (+ `.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a full 1.5px accent border |
+| `.findings` / `.finding` | Rule-divided list of oversized cited stats; the editorial counterpart to `.stat-card` |
 | `.tbl` | Table with sans header labels and hairline row dividers |
 | `.tbl-scroll` | Overflow wrapper for `.tbl` — horizontal scroll on narrow viewports |
 | `.tldr` | Inverted callout — dark in light mode, light in dark mode |
