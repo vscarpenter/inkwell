@@ -12,19 +12,19 @@
   })();
 </script>
 <title>Compare · Original / Sage / Burgundy / Indigo</title>
-<meta name="description" content="Side-by-side comparison of the four Inkwell palette variants — Clay, Sage, Burgundy, and Indigo — rendered in isolated iframes.">
+<meta name="description" content="Side-by-side comparison of the five Inkwell palette variants — Clay, Sage, Burgundy, Indigo, and Azure — rendered in isolated iframes.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Inkwell">
 <meta property="og:url" content="https://inkwell.vinny.dev/variants/compare.html">
 <meta property="og:title" content="Inkwell · Compare Palette Variants">
-<meta property="og:description" content="Side-by-side comparison of the four Inkwell palette variants — Clay, Sage, Burgundy, and Indigo — rendered in isolated iframes.">
+<meta property="og:description" content="Side-by-side comparison of the five Inkwell palette variants — Clay, Sage, Burgundy, Indigo, and Azure — rendered in isolated iframes.">
 <meta property="og:image" content="https://inkwell.vinny.dev/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Inkwell — a pure-CSS design system">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Inkwell · Compare Palette Variants">
-<meta name="twitter:description" content="Side-by-side comparison of the four Inkwell palette variants — Clay, Sage, Burgundy, and Indigo — rendered in isolated iframes.">
+<meta name="twitter:description" content="Side-by-side comparison of the five Inkwell palette variants — Clay, Sage, Burgundy, Indigo, and Azure — rendered in isolated iframes.">
 <meta name="twitter:image" content="https://inkwell.vinny.dev/og-image.png">
 <style>
   /* Comparison shell — deliberately token-free so it doesn't inherit
@@ -114,10 +114,11 @@
   .compare {
     flex: 1 1 auto;
     display: grid;
-    grid-template-columns: repeat(4, minmax(380px, 1fr));
+    grid-template-columns: repeat(5, minmax(340px, 1fr));
     min-height: 0;
     overflow-x: auto;
   }
+  .compare[data-visible="4"] { grid-template-columns: repeat(4, minmax(380px, 1fr)); }
   .compare[data-visible="3"] { grid-template-columns: repeat(3, minmax(420px, 1fr)); }
   .compare[data-visible="2"] { grid-template-columns: repeat(2, minmax(420px, 1fr)); }
   .compare[data-visible="1"] { grid-template-columns: 1fr; }
@@ -155,6 +156,7 @@
   .panel.sage     .label { background: #F6F4EE; color: #181816; border-bottom-color: #CDCAC0; }
   .panel.burgundy .label { background: #F8F5EF; color: #1B1614; border-bottom-color: #D2C9BA; }
   .panel.indigo   .label { background: #F4F4F0; color: #13141B; border-bottom-color: #CFCFCC; }
+  .panel.azure    .label { background: #EDF1F5; color: #14202E; border-bottom-color: #C6D0DB; }
 
   iframe {
     flex: 1 1 auto;
@@ -168,6 +170,8 @@
     body { overflow: auto; }
     .layout { height: auto; }
     .compare,
+    .compare[data-visible="5"],
+    .compare[data-visible="4"],
     .compare[data-visible="3"],
     .compare[data-visible="2"],
     .compare[data-visible="1"] {
@@ -188,7 +192,7 @@
   <div class="topbar">
     <h1>Side-by-side</h1>
     <span class="sep">·</span>
-    <span>Same components, four palettes, light + dark</span>
+    <span>Same components, five palettes, light + dark</span>
 
     <div class="toolbar-right">
       <div class="toggle-group">
@@ -214,12 +218,15 @@
           <button class="toggle" data-target="indigo" aria-pressed="true">
             <span class="swatch" style="background: #3B4A8C"></span>Indigo
           </button>
+          <button class="toggle" data-target="azure" aria-pressed="true">
+            <span class="swatch" style="background: #2C6BB5"></span>Azure
+          </button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="compare" data-visible="4">
+  <div class="compare" data-visible="5">
     <div class="panel original" data-name="original">
       <div class="label">
         <span class="dot" style="background: #D97757"></span>
@@ -254,6 +261,15 @@
         <span class="meta">· navy · #3B4A8C</span>
       </div>
       <iframe src="../preview.html?palette=indigo" title="Indigo &amp; Cloud (canonical)" loading="lazy"></iframe>
+    </div>
+
+    <div class="panel azure" data-name="azure">
+      <div class="label">
+        <span class="dot" style="background: #2C6BB5"></span>
+        <span class="name">Azure &amp; Ink</span>
+        <span class="meta">· azure · #2C6BB5</span>
+      </div>
+      <iframe src="../preview.html?palette=azure" title="Azure &amp; Ink" loading="lazy"></iframe>
     </div>
   </div>
 

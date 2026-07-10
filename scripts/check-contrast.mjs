@@ -108,7 +108,7 @@ function resolveColor(name, vars, mode, depth = 0) {
 // Build the effective var map for a palette: canonical :root overlaid by
 // the variant's :root (if any). Mode is resolved per-token via pickMode().
 const canonical = rootVars("inkwell-tokens.css");
-const variantFiles = { clay: "variants/clay.css", sage: "variants/sage.css", burgundy: "variants/burgundy.css" };
+const variantFiles = { clay: "variants/clay.css", sage: "variants/sage.css", burgundy: "variants/burgundy.css", azure: "variants/azure.css" };
 function varsFor(palette) {
   const out = new Map(canonical);
   if (palette !== "indigo")
@@ -145,7 +145,7 @@ const CHECKS = [
   ["control border vs ivory (non-text)",    "--gray-400",     "--ivory",        3.0],
 ];
 
-const palettes = ["indigo", "clay", "sage", "burgundy"];
+const palettes = ["indigo", "clay", "sage", "burgundy", "azure"];
 const failures = [];
 let count = 0;
 for (const palette of palettes) {

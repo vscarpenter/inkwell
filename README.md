@@ -2,7 +2,7 @@
 
 A pure-CSS design system for product UI, dashboards, and technical interfaces. Drop-in tokens, ~30 component classes, light + dark mode out of the box. No build step, no dependencies — and an optional **Tailwind v4** theme entry for projects already on Tailwind.
 
-Inkwell ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, and a signature 1.5px hairline border. Three alternate palettes (Clay, Sage & Stone, Burgundy & Bone) are available as override-only CSS files in `variants/`.
+Inkwell ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, and a signature 1.5px hairline border. Four alternate palettes (Clay, Sage & Stone, Burgundy & Bone, Azure & Ink) are available as override-only CSS files in `variants/`.
 
 ## Live demo
 
@@ -70,7 +70,7 @@ open examples/tailwind.html  # Tailwind v4 integration demo (no toolchain needed
 - **`preview.html`** — every component, every state.
 - **`examples/`** — real-feeling pages (dashboard, app shell, docs, landing, search, changelog, forms, 404, plus a Tailwind v4 integration demo) built only from the design system. Also the deployed live demo.
 - **`CHANGELOG.md`** — release history following Keep-a-Changelog conventions.
-- **`variants/`** — alternate palette overrides (clay, sage, burgundy). Load after `inkwell.css` to switch the brand layer. The example pages support a runtime toggle via `?palette=X`.
+- **`variants/`** — alternate palette overrides (clay, sage, burgundy, azure). Load after `inkwell.css` to switch the brand layer. The example pages support a runtime toggle via `?palette=X`.
 - **`DESIGN_SYSTEM.md`** — the canonical spec. Token tables, component list, dark-mode cascade, anti-patterns. Read this before extending the system.
 - **`TAILWIND.md`** — the Tailwind v4 install guide. Conventions, the `border-hair` rule, components-vs-utilities, cascade-order verification.
 - **`agent-instructions.md`** — self-contained brief for LLM coding agents (Claude Code, Codex, Cursor) to fetch via raw URL and apply the system without breaking its identity.
@@ -96,7 +96,7 @@ Inkwell has one token layer and one component layer. All four palettes share the
 <link rel="stylesheet" href="variants/clay.css">  <!-- optional override -->
 ```
 
-Indigo & Cloud is the default — no extra file needed. The example pages and `preview.html` include a runtime palette toggle (`?palette=clay`, `?palette=sage`, `?palette=burgundy`). For Tailwind v4, load the variant after your build output so the token overrides win the cascade.
+Indigo & Cloud is the default — no extra file needed. The example pages and `preview.html` include a runtime palette toggle (`?palette=clay`, `?palette=sage`, `?palette=burgundy`, `?palette=azure`). For Tailwind v4, load the variant after your build output so the token overrides win the cascade.
 
 ## Contributing
 

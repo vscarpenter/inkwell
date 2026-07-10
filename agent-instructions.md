@@ -243,7 +243,7 @@ When a component is missing, build it with tokens — never with hardcoded value
 
 ## 6. Palettes
 
-Inkwell has one token layer and one component layer. All four palettes share them; switching palettes is a one-line CSS load after `inkwell.css`.
+Inkwell has one token layer and one component layer. All five palettes share them; switching palettes is a one-line CSS load after `inkwell.css`.
 
 | Palette | File | Vibe |
 |---|---|---|
@@ -251,6 +251,7 @@ Inkwell has one token layer and one component layer. All four palettes share the
 | Clay | `variants/clay.css` | Warm cream + Anthropic clay coral. Editorial. |
 | Sage & Stone | `variants/sage.css` | Sage green + warm stone. Quiet, considered. |
 | Burgundy & Bone | `variants/burgundy.css` | Deep burgundy + bone paper. Literary journal. |
+| Azure & Ink | `variants/azure.css` | Cool harbor stone + clean azure. Institutional. |
 
 To activate a non-default palette:
 
@@ -342,7 +343,7 @@ From `DESIGN_SYSTEM.md` §4. If you catch yourself doing any of these, stop:
 
 ## 9. Building a new page — workflow
 
-1. Confirm which palette the user wants. Indigo & Cloud is the default (no extra file). For Clay, Sage & Stone, or Burgundy & Bone, fetch the corresponding variant file and load it after `inkwell.css` (see §6).
+1. Confirm which palette the user wants. Indigo & Cloud is the default (no extra file). For Clay, Sage & Stone, Burgundy & Bone, or Azure & Ink, fetch the corresponding variant file and load it after `inkwell.css` (see §6).
 2. Fetch the three canonical CSS files per §2 (`inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`). Or if the user is already on Tailwind v4, fetch the three-file Tailwind path instead.
 3. Link `inkwell.css` from `<head>` (or, for the Tailwind path, add `@import "tailwindcss"; @import "./inkwell-theme.css";` to the user's Tailwind entry CSS).
 4. (Optional) Wire the theme toggle (§7).

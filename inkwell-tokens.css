@@ -26,8 +26,8 @@
    default; a token is declared explicitly wherever the contrast gate
    (scripts/check-contrast.mjs) forced a hand-tuned value. The system
    separates structure (borders, type scale, spacing, motion,
-   components) from brand (colors). Three alternate palettes — clay,
-   sage, burgundy — live in /variants/ as standalone files that
+   components) from brand (colors). Four alternate palettes — clay,
+   sage, burgundy, azure — live in /variants/ as standalone files that
    override only the brand-layer tokens.
    ===================================================================== */
 

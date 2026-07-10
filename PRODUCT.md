@@ -10,7 +10,7 @@ Developers (and increasingly LLM coding agents pointed at `agent-instructions.md
 
 ## Product Purpose
 
-Inkwell is a pure-CSS design system: one token layer, one component layer, four palettes (Indigo & Cloud canonical; Clay, Sage & Stone, Burgundy & Bone as override-only variants), light + dark out of the box. Success means a consumer can ship an interface that "already feels considered" in minutes, and that anything built on it stays on-identity as palettes or modes switch.
+Inkwell is a pure-CSS design system: one token layer, one component layer, five palettes (Indigo & Cloud canonical; Clay, Sage & Stone, Burgundy & Bone, Azure & Ink as override-only variants), light + dark out of the box. Success means a consumer can ship an interface that "already feels considered" in minutes, and that anything built on it stays on-identity as palettes or modes switch.
 
 ## Brand Personality
 
