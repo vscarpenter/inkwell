@@ -706,6 +706,102 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
     </div>
   </section>
 
+  <!-- Editorial carousel -->
+  <section>
+    <div class="sec-head">
+      <span class="idx">28</span><h2>Editorial carousel</h2>
+      <span class="count">scroll-snap · zero-JS core</span>
+    </div>
+    <div class="carousel" data-carousel role="region" aria-roledescription="carousel" aria-label="Editorial carousel demo — a three-part series">
+      <div class="carousel-track" tabindex="0">
+        <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="1 of 3">
+          <div class="carousel-slide-meta">
+            <span class="eyebrow-serif">A swipeable series</span>
+            <span class="carousel-counter">1 / 3</span>
+          </div>
+          <h3 class="t-h1" style="margin: 8px 0 4px; max-width: 22ch;">Chapters you page through, not a feed you <em class="accent">scroll past.</em></h3>
+          <p class="t-lede" style="margin: 0;">The core is CSS scroll-snap — swipe, trackpad, and the scrollbar work with JS disabled. Buttons, dots, and arrow keys are progressive enhancement.</p>
+          <div class="carousel-slide-foot">
+            <div class="byline">
+              <span class="author">By the editors</span>
+              <span>·</span>
+              <span>Part I</span>
+            </div>
+          </div>
+        </article>
+        <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="2 of 3">
+          <div class="carousel-slide-meta">
+            <span class="eyebrow-serif">Composes with callouts</span>
+            <span class="carousel-counter">2 / 3</span>
+          </div>
+          <h3 class="t-h1" style="margin: 8px 0 4px; max-width: 24ch;">Each slide is a full editorial surface.</h3>
+          <div class="callout">
+            <p class="callout-label">Built and governed</p>
+            <p class="callout-body">A carousel that only works with a framework, a build step, and a script tag.</p>
+          </div>
+          <div class="callout is-accent">
+            <p class="callout-label">Enabled and adopted</p>
+            <p class="callout-body">A carousel that starts as <strong>plain scrollable HTML</strong> and gets better from there.</p>
+          </div>
+          <div class="carousel-slide-foot">
+            <div class="byline">
+              <span class="author">By the editors</span>
+              <span>·</span>
+              <span>Part II</span>
+            </div>
+          </div>
+        </article>
+        <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="3 of 3">
+          <div class="carousel-slide-meta">
+            <span class="eyebrow-serif">And with findings</span>
+            <span class="carousel-counter">3 / 3</span>
+          </div>
+          <h3 class="t-h1" style="margin: 8px 0 4px; max-width: 24ch;">Numbers keep their gravity mid-swipe.</h3>
+          <div class="findings">
+            <div class="finding">
+              <div class="finding-num">0</div>
+              <p class="finding-text">lines of JavaScript required for the core swipe, snap, and scroll behavior.
+                <span class="finding-src">inkwell-components.css</span>
+              </p>
+            </div>
+            <div class="finding">
+              <div class="finding-num">1.5</div>
+              <p class="finding-text">pixel border on the frame, as always. The slide divider drops to a 1px hairline so the outer frame stays dominant.
+                <span class="finding-src">Design invariant · §1.5</span>
+              </p>
+            </div>
+          </div>
+          <div class="carousel-slide-foot">
+            <div class="byline">
+              <span class="author">By the editors</span>
+              <span>·</span>
+              <span>Part III</span>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="carousel-controls" hidden>
+        <button class="carousel-btn" type="button" data-carousel-prev aria-label="Previous slide">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M8.5 3 4.5 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="carousel-dots" role="group" aria-label="Choose slide"></div>
+        <button class="carousel-btn" type="button" data-carousel-next aria-label="Next slide">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="m5.5 3 4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <p class="t-small" style="margin-top: 10px; color: var(--gray-500);">
+      Controls stay <code>[hidden]</code> until the enhancement script wires them — no dead buttons without JS.
+      Arrow keys and <code>Home</code>/<code>End</code> navigate when the region has focus; smooth scrolling
+      is gated on <code>prefers-reduced-motion: no-preference</code>. See <code>examples/carousel.html</code>
+      for the full five-part series.
+    </p>
+  </section>
+
 </div>
 
 <div class="palette-toggle" aria-label="Palette">
@@ -812,6 +908,88 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
     var fromUrl = new URLSearchParams(location.search).get("palette");
     var fromStorage = localStorage.getItem("inkwell-palette");
     applyPalette(fromUrl || fromStorage || "indigo");
+  })();
+
+  (function () {
+    // Carousel progressive enhancement: prev/next buttons, dot indicators,
+    // arrow-key + Home/End navigation, aria state sync. The CSS core
+    // (scroll-snap swipe/scrollbar) works without any of this — controls stay
+    // [hidden] until wired, so no-JS users never see dead buttons.
+    // KEEP IN SYNC with the carousel IIFE in examples/demo.js — this file cannot share that bundle.
+    document.querySelectorAll("[data-carousel]").forEach(function (carousel) {
+      var track = carousel.querySelector(".carousel-track");
+      var slides = Array.prototype.slice.call(carousel.querySelectorAll(".carousel-slide"));
+      var controls = carousel.querySelector(".carousel-controls");
+      if (!track || !controls || slides.length < 2) return;
+
+      var prev = controls.querySelector("[data-carousel-prev]");
+      var next = controls.querySelector("[data-carousel-next]");
+      var dotsWrap = controls.querySelector(".carousel-dots");
+      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var dots = [];
+      var current = 0; // slide the scroll position is on — drives dots/buttons
+      var target = 0;  // navigation intent — lets rapid clicks chain mid-scroll
+
+      if (dotsWrap) {
+        slides.forEach(function (_, i) {
+          var dot = document.createElement("button");
+          dot.type = "button";
+          dot.className = "carousel-dot";
+          dot.setAttribute("aria-label", "Go to slide " + (i + 1) + " of " + slides.length);
+          dot.addEventListener("click", function () { goTo(i); });
+          dotsWrap.appendChild(dot);
+          dots.push(dot);
+        });
+      }
+
+      function setDisabled(btn, other, disabled) {
+        if (!btn) return;
+        if (disabled && document.activeElement === btn && other) other.focus();
+        btn.disabled = disabled;
+      }
+
+      function sync(i) {
+        current = i;
+        dots.forEach(function (dot, d) {
+          if (d === i) dot.setAttribute("aria-current", "true");
+          else dot.removeAttribute("aria-current");
+        });
+        setDisabled(prev, next, i === 0);
+        setDisabled(next, prev, i === slides.length - 1);
+      }
+
+      function goTo(i) {
+        i = Math.max(0, Math.min(slides.length - 1, i));
+        target = i;
+        track.scrollTo({ left: slides[i].offsetLeft, behavior: reduced.matches ? "auto" : "smooth" });
+      }
+
+      // The scroll position is the single source of truth for visual state —
+      // dots and buttons follow the slide actually in view (covers swipe,
+      // scrollbar, and mid-animation), and manual scrolling re-anchors target.
+      track.addEventListener("scroll", function () {
+        var i = Math.round(track.scrollLeft / track.clientWidth);
+        if (i !== current && i >= 0 && i < slides.length) { target = i; sync(i); }
+      }, { passive: true });
+
+      if (prev) prev.addEventListener("click", function () { goTo(target - 1); });
+      if (next) next.addEventListener("click", function () { goTo(target + 1); });
+
+      carousel.addEventListener("keydown", function (e) {
+        if (e.target.closest("input, textarea, select")) return;
+        var to = null;
+        if (e.key === "ArrowRight") to = target + 1;
+        else if (e.key === "ArrowLeft") to = target - 1;
+        else if (e.key === "Home") to = 0;
+        else if (e.key === "End") to = slides.length - 1;
+        if (to === null) return;
+        e.preventDefault();
+        goTo(to);
+      });
+
+      controls.removeAttribute("hidden");
+      sync(0);
+    });
   })();
 </script>
       <p class="t-caption" style="text-align: center; margin: 16px 0 24px; font-style: italic; letter-spacing: 0.02em;">

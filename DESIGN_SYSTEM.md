@@ -192,7 +192,7 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 
 ## 3. Components
 
-`inkwell-components.css` ships ~34 reusable component classes (the table below). Open `preview.html` for a live tour of all of them in both light and dark mode.
+`inkwell-components.css` ships ~35 reusable component classes (the table below). Open `preview.html` for a live tour of all of them in both light and dark mode.
 
 | Class | Purpose |
 |---|---|
@@ -209,6 +209,7 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 | `.card` (+ `.is-link`) | Generic card; the `.is-link` variant adds a calm border-color hover shift — no lift, no shadow swap |
 | `.stat-card` (+ `.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a full 1.5px accent border |
 | `.findings` / `.finding` | Rule-divided list of oversized cited stats; the editorial counterpart to `.stat-card` |
+| `.carousel` (+ `.carousel-track` / `.carousel-slide` / `.carousel-controls`) | Editorial swipeable series on CSS scroll-snap — the core needs zero JS; prev/next, dots, and arrow keys are progressive enhancement (reference wiring in `examples/demo.js`). No autoplay. |
 | `.tbl` | Table with sans header labels and hairline row dividers |
 | `.tbl-scroll` | Overflow wrapper for `.tbl` — horizontal scroll on narrow viewports |
 | `.tldr` | Inverted callout — dark in light mode, light in dark mode |
