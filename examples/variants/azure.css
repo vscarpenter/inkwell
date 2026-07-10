@@ -1,0 +1,59 @@
+/* =====================================================================
+   Azure & Ink — variant palette of Inkwell.
+   Override-only: load this AFTER inkwell.css to switch the brand layer.
+
+   Cool harbor stone + a clean azure accent, going deep navy in dark.
+   Adapted from the "From Products to Platform" deck (navy surfaces,
+   azure highlight). Structure is untouched: 1.5px borders, the serif
+   type scale, spacing, motion, and every component come from
+   inkwell-components.css. This file redefines surface + accent +
+   neutral tokens only.
+
+   Note on fidelity: the deck leaned on a slab display face and soft
+   surface gradients. Both sit outside Inkwell's rules, so this palette
+   ships the color story, not those two treatments. The serif stays
+   Inkwell's platform stack; surfaces stay flat.
+
+   3.0: single light-dark() declarations. Derived tints (focus ring,
+   strong border) inherit the canonical color-mix() rules and track this
+   file's --accent automatically. --accent-tint is redeclared because
+   the dark alpha (16%) differs from canonical's hand-tuned 10%.
+   ===================================================================== */
+
+:root {
+  /* ---------- Surfaces ---------- */
+  --ivory: light-dark(#EDF1F5, #0F1620); /* page background — cool harbor stone */
+  --paper: light-dark(#FFFFFF, #141E2A); /* card / panel surface — navy in dark */
+  --slate: light-dark(#14202E, #E6ECF2); /* primary text — deep navy ink */
+  --oat:   light-dark(#DBE3EC, #29343F); /* tertiary surface, hover thumbnails */
+
+  /* ---------- Accent (azure, lifted to sky in dark) ---------- */
+  --accent:   light-dark(#2C6BB5, #6E9FD6);
+  --accent-d: light-dark(#24598F, #85B0E0); /* light hover DARKENS (white label clears easily); dark hover lightens */
+  --accent-tint: light-dark(
+    color-mix(in srgb, var(--accent) 14%, transparent),
+    color-mix(in srgb, var(--accent) 16%, transparent));
+  --accent-ink: light-dark(#205A9E, #7FAEDD); /* azure as TEXT — darkened for AA on light stone; dark = lifted */
+  --on-accent:  var(--paper); /* white reads on azure in light; navy paper reads on sky in dark */
+
+  /* ---------- Neutral scale (cool blue-grays) ---------- */
+  --gray-100: light-dark(#E7ECF1, #1A2532);
+  --gray-200: light-dark(#DAE1E9, #222E3B);
+  --gray-300: light-dark(#C6D0DB, #32404E);
+  --gray-400: light-dark(#7E8A98, #6E7B8A); /* control boundaries — >=3:1 */
+  --gray-500: light-dark(#5E6B79, #98A4B0); /* muted text — AA on paper and ivory */
+  --gray-700: light-dark(#33414F, #C2CCD6);
+}
+
+/* Select chevron dark-mode override: see canonical inkwell-tokens.css for rationale.
+   Stroke uses this palette's dark --gray-500 (#98A4B0). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%2398A4B0' stroke-width='1.5' stroke-linecap='round'/></svg>");
+  }
+}
+@media screen {
+  :root[data-theme="dark"] .select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%2398A4B0' stroke-width='1.5' stroke-linecap='round'/></svg>");
+  }
+}
