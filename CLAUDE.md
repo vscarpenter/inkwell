@@ -48,7 +48,7 @@ The GitHub Pages workflow (`.github/workflows/pages.yml`) syncs the source CSS i
 cp tokens.css inkwell.css inkwell-tokens.css inkwell-components.css inkwell-theme.css examples/
 cp preview.html examples/
 mkdir -p examples/variants
-cp variants/clay.css variants/sage.css variants/burgundy.css variants/compare.html examples/variants/
+cp variants/clay.css variants/sage.css variants/burgundy.css variants/azure.css variants/compare.html examples/variants/
 ```
 
 If you add a new source CSS file at the repo root, also add it to the workflow's `paths:` trigger and the `cp` step.
@@ -59,9 +59,9 @@ The releases section of `examples/changelog.html` AND the `Inkwell vX.Y.Z` foote
 
 ## Architecture: one token layer, four palettes
 
-Inkwell has one token layer (`inkwell-tokens.css`) and one component layer (`inkwell-components.css`). The four palettes — **Indigo & Cloud** (canonical), **Clay**, **Sage & Stone**, **Burgundy & Bone** — share both layers; variants are override-only stylesheets that redefine the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) as single `light-dark()` declarations in `:root`; they inherit canonical's `color-mix()` derived tints unless the contrast gate forced a different alpha.
+Inkwell has one token layer (`inkwell-tokens.css`) and one component layer (`inkwell-components.css`). The five palettes — **Indigo & Cloud** (canonical), **Clay**, **Sage & Stone**, **Burgundy & Bone**, **Azure & Ink** — share both layers; variants are override-only stylesheets that redefine the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) as single `light-dark()` declarations in `:root`; they inherit canonical's `color-mix()` derived tints unless the contrast gate forced a different alpha.
 
-Variant files (`variants/clay.css`, `variants/sage.css`, `variants/burgundy.css`) are ~50 lines each. Load them **after** `inkwell.css` to switch the brand layer:
+Variant files (`variants/clay.css`, `variants/sage.css`, `variants/burgundy.css`, `variants/azure.css`) are ~50 lines each. Load them **after** `inkwell.css` to switch the brand layer:
 
 ```html
 <link rel="stylesheet" href="inkwell.css">
