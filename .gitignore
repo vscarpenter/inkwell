@@ -14,5 +14,5 @@
 # Logs
 *.log
 
-# Local Claude Code overrides — project settings.json is shareable, the .local. variant isn't
-.claude/settings.local.json
+# Claude Code session-local files (settings, screenshots, scratch artifacts)
+.claude/
