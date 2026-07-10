@@ -28,7 +28,7 @@
     (function () {
       var t = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
       if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
-      var PALETTES = { clay: 1, sage: 1, burgundy: 1 };
+      var PALETTES = { clay: 1, sage: 1, burgundy: 1, azure: 1 };
       var p = new URLSearchParams(location.search).get("palette") || localStorage.getItem("inkwell-palette");
       if (p && Object.prototype.hasOwnProperty.call(PALETTES, p)) {
         document.write('<link rel="stylesheet" id="inkwell-palette-prepaint" href="variants/' + p + '.css">');
@@ -198,7 +198,7 @@
           <a class="card is-link" href="preview.html">
             <span class="badge badge-accent">Showcase</span>
             <h3 class="t-h3">Component preview</h3>
-            <p class="t-small">Every component, every state, on one page. The palette toggle in the header flips Indigo &amp; Cloud, Clay, Sage, and Burgundy live.</p>
+            <p class="t-small">Every component, every state, on one page. The palette toggle in the header flips Indigo &amp; Cloud, Clay, Sage, Burgundy, and Azure live.</p>
           </a>
           <a class="card is-link" href="variants/compare.html">
             <span class="badge badge-neutral">Palettes</span>

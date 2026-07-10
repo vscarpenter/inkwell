@@ -35,6 +35,7 @@
     clay:     "variants/clay.css",
     sage:     "variants/sage.css",
     burgundy: "variants/burgundy.css",
+    azure:    "variants/azure.css",
   };
 
   var paletteLink = null;
