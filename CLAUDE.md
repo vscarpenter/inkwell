@@ -51,11 +51,13 @@ mkdir -p examples/variants
 cp variants/clay.css variants/sage.css variants/burgundy.css variants/azure.css variants/compare.html examples/variants/
 ```
 
-If you add a new source CSS file at the repo root, also add it to the workflow's `paths:` trigger and the `cp` step.
+If you add a new source CSS file at the repo root, also add it to the workflow's `cp` step.
 
 ### After editing CHANGELOG.md
 
 The releases section of `examples/changelog.html` AND the `Inkwell vX.Y.Z` footer stamp on every example page (the `data-inkwell-version` anchor) are generated from `CHANGELOG.md`. Re-run `node scripts/build-changelog-html.mjs` and commit the regenerated pages in the same change — CI runs `--check` and fails on drift. Edit the changelog page only outside its BEGIN/END markers; never hand-edit the version stamp text.
+
+Every HTML page in the Pages artifact also carries a `data-inkwell-deployed` `<time>` placeholder. Checked-in pages must retain `Deployment pending` and an empty `datetime`; verify them with `node scripts/stamp-deployment.mjs --check`. The Pages workflow runs on every push to `main`, checks out full history, derives `+build.N` from the commit count, and stamps only its disposable artifact copy with the UTC deployment date. Never run the stamping form against checked-in `examples/`.
 
 ## Architecture: one token layer, five palettes
 

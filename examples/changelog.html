@@ -104,6 +104,7 @@
           <div class="change-label">Added</div>
           <ul class="change-list">
             <li><strong>Azure &amp; Ink palette.</strong> A fifth palette — cool harbor stone + a clean azure accent, deep navy surfaces in dark (<code>variants/azure.css</code>), adapted from the "From Products to Platform" deck. Override-only like the others: single <code>light-dark()</code> declarations for surfaces, accent, and the neutral ramp; redeclares <code>--accent-tint</code> (dark alpha 16%) and <code>--accent-ink</code>. Registered in <code>tokens.json</code> <code>_meta.palettes</code>, rendered as a fifth panel on <code>variants/compare.html</code>, and selectable everywhere via <code>?palette=azure</code> or the new Azure button in the palette toggle on every example page and <code>preview.html</code>. The CI contrast gate grows from 192 to 240 token-pair assertions to cover it.</li>
+            <li><strong>Deployment build metadata.</strong> Every live page footer now shows the semantic release, a commit-derived build number, and the UTC deployment date. Pages deploys every commit to <code>main</code> and stamps only its artifact copy, avoiding generated commits and workflow recursion.</li>
           </ul>
         </div>
         <div class="change-block">
@@ -467,6 +468,8 @@
         The real release history — generated from <code>CHANGELOG.md</code> by <code>scripts/build-changelog-html.mjs</code>. Demonstrates: <code>.breadcrumbs</code>, version pills, <code>.tbl</code> for migration tables, native <code>&lt;article&gt;</code> semantics throughout.
         <p class="footer-links">
           <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+          <span class="sep" aria-hidden="true">·</span>
+          <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>
           <a class="link" href="https://github.com/vscarpenter/inkwell">GitHub</a>
           <span class="sep" aria-hidden="true">·</span>

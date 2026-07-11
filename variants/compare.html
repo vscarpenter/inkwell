@@ -165,6 +165,22 @@
     background: inherit;
   }
 
+  .deploy-meta {
+    flex: 0 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 8px;
+    padding: 7px 16px;
+    border-top: 1px solid #2C2C29;
+    color: #87867F;
+    background: #1A1A18;
+    font: 500 10px/1.2 ui-monospace, "SF Mono", Menlo, monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .deploy-meta a { color: #F6F4EE; text-underline-offset: 3px; }
+
   /* Stack vertically on narrow screens */
   @media (max-width: 1100px) {
     body { overflow: auto; }
@@ -272,6 +288,12 @@
       <iframe src="../preview.html?palette=azure&amp;embed=compare" title="Azure &amp; Ink palette preview" loading="lazy"></iframe>
     </div>
   </div>
+
+  <footer class="deploy-meta">
+    <a href="../changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+    <span aria-hidden="true">·</span>
+    <time data-inkwell-deployed datetime="">Deployment pending</time>
+  </footer>
 
 </div>
 

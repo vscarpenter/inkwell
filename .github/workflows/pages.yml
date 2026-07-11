@@ -3,20 +3,6 @@ name: Deploy examples to GitHub Pages
 on:
   push:
     branches: [main]
-    paths:
-      - 'examples/**'
-      - 'tokens.css'
-      - 'inkwell.css'
-      - 'inkwell-tokens.css'
-      - 'inkwell-components.css'
-      - 'inkwell-theme.css'
-      - 'variants/clay.css'
-      - 'variants/sage.css'
-      - 'variants/burgundy.css'
-      - 'variants/azure.css'
-      - 'variants/compare.html'
-      - 'preview.html'
-      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -37,6 +23,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Configure Pages
         uses: actions/configure-pages@v6
@@ -47,6 +35,15 @@ jobs:
           cp preview.html examples/
           mkdir -p examples/variants
           cp variants/clay.css variants/sage.css variants/burgundy.css variants/azure.css variants/compare.html examples/variants/
+
+      - name: Stamp deployment metadata
+        run: |
+          node scripts/stamp-deployment.mjs --check --root examples
+          BUILD_NUMBER="$(git rev-list --count HEAD)"
+          node scripts/stamp-deployment.mjs \
+            --root examples \
+            --build "$BUILD_NUMBER" \
+            --date "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
       - name: Upload examples/ as Pages artifact
         uses: actions/upload-pages-artifact@v5

@@ -8,6 +8,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 - **Azure & Ink palette.** A fifth palette — cool harbor stone + a clean azure accent, deep navy surfaces in dark (`variants/azure.css`), adapted from the "From Products to Platform" deck. Override-only like the others: single `light-dark()` declarations for surfaces, accent, and the neutral ramp; redeclares `--accent-tint` (dark alpha 16%) and `--accent-ink`. Registered in `tokens.json` `_meta.palettes`, rendered as a fifth panel on `variants/compare.html`, and selectable everywhere via `?palette=azure` or the new Azure button in the palette toggle on every example page and `preview.html`. The CI contrast gate grows from 192 to 240 token-pair assertions to cover it.
+- **Deployment build metadata.** Every live page footer now shows the semantic release, a commit-derived build number, and the UTC deployment date. Pages deploys every commit to `main` and stamps only its artifact copy, avoiding generated commits and workflow recursion.
 
 ### Fixed
 - **Example accessibility and responsive behavior.** Tab references now implement complete tab/panel relationships, roving tabindex, and Arrow/Home/End navigation; palette/theme pickers expose named groups; narrow tables and long inline-code URLs no longer force page-level horizontal scrolling.

@@ -18,10 +18,11 @@ This is a pure-CSS repo. There is no build step, no package manager, no test sui
 - `inkwell-theme.css` — Tailwind v4 entry. Imports the two source files, declares `@theme` aliases, defines `@custom-variant dark`. Edit this when adding tokens that need to surface as Tailwind utilities, or when the Tailwind integration itself changes.
 - `tokens.json` — machine-readable mirror of `inkwell-tokens.css`. **Generated** by `scripts/build-tokens-json.mjs`; do not edit by hand. Re-run the script after touching `inkwell-tokens.css` and commit the regenerated JSON in the same change.
 - `examples/changelog.html` — the releases section is **generated** from `CHANGELOG.md` by `scripts/build-changelog-html.mjs`; edit only outside the BEGIN/END markers. The same script stamps the latest released version into every example-page footer (`data-inkwell-version`). After editing `CHANGELOG.md`, re-run the script and commit the regenerated pages in the same change. CI fails on drift for all generated content.
+- Deployment footer metadata — every deployed HTML page has exactly one `data-inkwell-version` link and one `data-inkwell-deployed` `<time>`. Checked-in pages keep the semantic version plus `Deployment pending`; the Pages workflow runs `scripts/stamp-deployment.mjs` against its artifact copy to append a commit-derived `+build.N` and the UTC deployment date. Do not stamp the source tree.
 - `index.html`, `preview.html`, `examples/` — manual verification surfaces.
 - `variants/` — palette override files (clay, sage, burgundy, azure). See "Palettes" below.
 
-If you add a new source CSS file at the repo root, also add it to `inkwell.css`'s `@import` list (if it's part of the default install; choose layered vs. unlayered deliberately) and to the `paths:` trigger plus `cp` step in `.github/workflows/pages.yml`. For Tailwind exposure, register it inside `inkwell-theme.css`.
+If you add a new source CSS file at the repo root, also add it to `inkwell.css`'s `@import` list (if it's part of the default install; choose layered vs. unlayered deliberately) and to the `cp` step in `.github/workflows/pages.yml`. For Tailwind exposure, register it inside `inkwell-theme.css`.
 
 See [`TAILWIND.md`](TAILWIND.md) for the conventions that govern the Tailwind v4 path (`border-hair`, components-vs-utilities, cascade-order check).
 
@@ -55,7 +56,9 @@ These are non-negotiable. PRs that violate them will be asked to change before m
 
 ## Regenerating `tokens.json`
 
-`tokens.json` is the only fully generated standalone file in the repo. The releases region of `examples/changelog.html` and the version stamps on example pages are generated regions inside otherwise hand-authored files. Re-run `node scripts/build-tokens-json.mjs` whenever `inkwell-tokens.css` changes and commit the regenerated JSON in the same change. CI runs `node scripts/build-tokens-json.mjs --check` on every PR — a stale `tokens.json` fails the check with a line-level diff. The script has no dependencies (Node 18+ built-ins only); this is **not** a build step on the CSS itself — the CSS files still ship as-is.
+`tokens.json` is the only fully generated standalone file in the repo. The releases region of `examples/changelog.html` and the base version stamps on example pages are generated regions inside otherwise hand-authored files. Re-run `node scripts/build-tokens-json.mjs` whenever `inkwell-tokens.css` changes and commit the regenerated JSON in the same change. CI runs `node scripts/build-tokens-json.mjs --check` on every PR — a stale `tokens.json` fails the check with a line-level diff. The script has no dependencies (Node 18+ built-ins only); this is **not** a build step on the CSS itself — the CSS files still ship as-is.
+
+Before committing HTML changes, run `node scripts/stamp-deployment.mjs --check`. It verifies that every page has one base version marker and one unstamped deployment placeholder. The Pages workflow checks the same invariant before modifying its disposable artifact copy; because its build number is `git rev-list --count HEAD`, checkout must retain full history.
 
 ## How to verify a change
 
