@@ -712,11 +712,18 @@ pre.code-block { margin: 0; font: inherit; color: inherit; white-space: pre; }
 .tabs {
   display: flex;
   gap: 4px;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
   border-bottom: var(--border-rule);
   margin-bottom: var(--sp-5);
 }
 .tab {
   position: relative;
+  flex: 0 0 auto;
   padding: 10px 16px;
   font: 500 14px/1 var(--sans);
   color: var(--gray-700);
