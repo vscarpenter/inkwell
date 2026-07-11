@@ -889,11 +889,14 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
     function applyPalette(name) {
       if (!PALETTES.hasOwnProperty(name)) name = "indigo";
       loadSheet(PALETTES[name]);
-      localStorage.setItem("inkwell-palette", name);
-      var url = new URL(location.href);
-      if (name === "indigo") url.searchParams.delete("palette");
-      else url.searchParams.set("palette", name);
-      history.replaceState(null, "", url.toString());
+      var isComparison = new URLSearchParams(location.search).get("embed") === "compare";
+      if (!isComparison) {
+        localStorage.setItem("inkwell-palette", name);
+        var url = new URL(location.href);
+        if (name === "indigo") url.searchParams.delete("palette");
+        else url.searchParams.set("palette", name);
+        history.replaceState(null, "", url.toString());
+      }
       document.querySelectorAll("[data-palette-choice]").forEach(function (btn) {
         var active = btn.getAttribute("data-palette-choice") === name;
         btn.classList.toggle("is-active", active);

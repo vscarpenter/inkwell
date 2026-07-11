@@ -171,6 +171,7 @@ code, .code-inline {
   background: var(--gray-100);
   padding: 1.5px 5px;
   border-radius: var(--r-xs);
+  overflow-wrap: anywhere;
 }
 
 /* =====================================================================
@@ -1105,7 +1106,11 @@ pre.code-block { margin: 0; font: inherit; color: inherit; white-space: pre; }
 }
 
 /* ---------- Table overflow wrapper ---------- */
-.tbl-scroll { overflow-x: auto; }
+.tbl-scroll {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
 /* floor so wide tables scroll instead of crushing columns; override per-table if yours is genuinely narrow */
 .tbl-scroll > .tbl { min-width: 560px; }
 

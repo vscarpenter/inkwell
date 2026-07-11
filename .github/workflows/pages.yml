@@ -13,6 +13,7 @@ on:
       - 'variants/clay.css'
       - 'variants/sage.css'
       - 'variants/burgundy.css'
+      - 'variants/azure.css'
       - 'variants/compare.html'
       - 'preview.html'
       - '.github/workflows/pages.yml'
@@ -45,7 +46,7 @@ jobs:
           cp tokens.css inkwell.css inkwell-tokens.css inkwell-components.css inkwell-theme.css examples/
           cp preview.html examples/
           mkdir -p examples/variants
-          cp variants/clay.css variants/sage.css variants/burgundy.css variants/compare.html examples/variants/
+          cp variants/clay.css variants/sage.css variants/burgundy.css variants/azure.css variants/compare.html examples/variants/
 
       - name: Upload examples/ as Pages artifact
         uses: actions/upload-pages-artifact@v5

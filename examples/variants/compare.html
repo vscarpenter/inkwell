@@ -11,7 +11,7 @@
     if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
   })();
 </script>
-<title>Compare · Original / Sage / Burgundy / Indigo</title>
+<title>Compare · Clay / Sage / Burgundy / Indigo / Azure</title>
 <meta name="description" content="Side-by-side comparison of the five Inkwell palette variants — Clay, Sage, Burgundy, Indigo, and Azure — rendered in isolated iframes.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Inkwell">
@@ -152,7 +152,7 @@
   .label .name { font-weight: 600; }
   .label .meta { font-weight: 500; opacity: 0.65; }
 
-  .panel.original .label { background: #FAF9F5; color: #141413; border-bottom-color: #D1CFC5; }
+  .panel.clay     .label { background: #FAF9F5; color: #141413; border-bottom-color: #D1CFC5; }
   .panel.sage     .label { background: #F6F4EE; color: #181816; border-bottom-color: #CDCAC0; }
   .panel.burgundy .label { background: #F8F5EF; color: #1B1614; border-bottom-color: #D2C9BA; }
   .panel.indigo   .label { background: #F4F4F0; color: #13141B; border-bottom-color: #CFCFCC; }
@@ -198,27 +198,27 @@
       <div class="toggle-group">
         <span class="topbar-label">Theme</span>
         <div class="toggles" role="group" aria-label="Theme">
-          <button class="toggle theme-btn" data-theme="auto" aria-pressed="true">Auto</button>
-          <button class="toggle theme-btn" data-theme="light">Light</button>
-          <button class="toggle theme-btn" data-theme="dark">Dark</button>
+          <button class="toggle theme-btn" type="button" data-theme="auto" aria-pressed="true">Auto</button>
+          <button class="toggle theme-btn" type="button" data-theme="light" aria-pressed="false">Light</button>
+          <button class="toggle theme-btn" type="button" data-theme="dark" aria-pressed="false">Dark</button>
         </div>
       </div>
       <div class="toggle-group">
         <span class="topbar-label">Variant</span>
         <div class="toggles" role="group" aria-label="Toggle variants">
-          <button class="toggle" data-target="original" aria-pressed="true">
-            <span class="swatch" style="background: #D97757"></span>Original
+          <button class="toggle" type="button" data-target="clay" aria-pressed="true">
+            <span class="swatch" style="background: #D97757"></span>Clay
           </button>
-          <button class="toggle" data-target="sage" aria-pressed="true">
+          <button class="toggle" type="button" data-target="sage" aria-pressed="true">
             <span class="swatch" style="background: #3F7C5C"></span>Sage
           </button>
-          <button class="toggle" data-target="burgundy" aria-pressed="true">
+          <button class="toggle" type="button" data-target="burgundy" aria-pressed="true">
             <span class="swatch" style="background: #8B3A3A"></span>Burgundy
           </button>
-          <button class="toggle" data-target="indigo" aria-pressed="true">
+          <button class="toggle" type="button" data-target="indigo" aria-pressed="true">
             <span class="swatch" style="background: #3B4A8C"></span>Indigo
           </button>
-          <button class="toggle" data-target="azure" aria-pressed="true">
+          <button class="toggle" type="button" data-target="azure" aria-pressed="true">
             <span class="swatch" style="background: #2C6BB5"></span>Azure
           </button>
         </div>
@@ -227,13 +227,13 @@
   </div>
 
   <div class="compare" data-visible="5">
-    <div class="panel original" data-name="original">
+    <div class="panel clay" data-name="clay">
       <div class="label">
         <span class="dot" style="background: #D97757"></span>
-        <span class="name">Original</span>
-        <span class="meta">· clay · #D97757</span>
+        <span class="name">Clay</span>
+        <span class="meta">· coral · #D97757</span>
       </div>
-      <iframe src="../preview.html?palette=clay" title="Original — clay accent" loading="lazy"></iframe>
+      <iframe src="../preview.html?palette=clay&amp;embed=compare" title="Clay palette preview" loading="lazy"></iframe>
     </div>
 
     <div class="panel sage" data-name="sage">
@@ -242,7 +242,7 @@
         <span class="name">Sage &amp; Stone</span>
         <span class="meta">· forest · #3F7C5C</span>
       </div>
-      <iframe src="../preview.html?palette=sage" title="Sage &amp; Stone" loading="lazy"></iframe>
+      <iframe src="../preview.html?palette=sage&amp;embed=compare" title="Sage &amp; Stone palette preview" loading="lazy"></iframe>
     </div>
 
     <div class="panel burgundy" data-name="burgundy">
@@ -251,7 +251,7 @@
         <span class="name">Burgundy &amp; Bone</span>
         <span class="meta">· crimson · #8B3A3A</span>
       </div>
-      <iframe src="../preview.html?palette=burgundy" title="Burgundy &amp; Bone" loading="lazy"></iframe>
+      <iframe src="../preview.html?palette=burgundy&amp;embed=compare" title="Burgundy &amp; Bone palette preview" loading="lazy"></iframe>
     </div>
 
     <div class="panel indigo" data-name="indigo">
@@ -260,7 +260,7 @@
         <span class="name">Indigo &amp; Cloud</span>
         <span class="meta">· navy · #3B4A8C</span>
       </div>
-      <iframe src="../preview.html?palette=indigo" title="Indigo &amp; Cloud (canonical)" loading="lazy"></iframe>
+      <iframe src="../preview.html?palette=indigo&amp;embed=compare" title="Indigo &amp; Cloud canonical palette preview" loading="lazy"></iframe>
     </div>
 
     <div class="panel azure" data-name="azure">
@@ -269,7 +269,7 @@
         <span class="name">Azure &amp; Ink</span>
         <span class="meta">· azure · #2C6BB5</span>
       </div>
-      <iframe src="../preview.html?palette=azure" title="Azure &amp; Ink" loading="lazy"></iframe>
+      <iframe src="../preview.html?palette=azure&amp;embed=compare" title="Azure &amp; Ink palette preview" loading="lazy"></iframe>
     </div>
   </div>
 
@@ -305,8 +305,12 @@
   // === Theme toggles (broadcast to all iframes via postMessage) ===
   // Iframes also have their own toggle button + localStorage; the parent
   // postMessage simply overrides whatever each iframe currently shows.
-  let currentTheme = 'auto';
+  const savedTheme = localStorage.getItem('inkwell-theme') || localStorage.getItem('theme-preview');
+  let currentTheme = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'auto';
   const themeButtons = document.querySelectorAll('.theme-btn');
+  themeButtons.forEach(btn =>
+    btn.setAttribute('aria-pressed', String(btn.dataset.theme === currentTheme))
+  );
 
   function pushTheme(iframe) {
     try {

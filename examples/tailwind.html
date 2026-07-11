@@ -83,8 +83,6 @@
        border-hair signature, and @custom-variant dark wires the
        [data-theme] toggle into Tailwind's `dark:` prefix. -->
   <style type="text/tailwindcss">
-    @import "tailwindcss";
-
     @theme {
       --color-ivory: var(--ivory);
       --color-paper: var(--paper);
@@ -318,10 +316,10 @@
       </p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-        <button class="btn btn-primary">Default <code class="code-inline ml-2 opacity-70">.btn-primary</code></button>
-        <button class="btn btn-secondary">Default <code class="code-inline ml-2 opacity-70">.btn-secondary</code></button>
-        <button class="btn btn-primary !w-full">Full width <code class="code-inline ml-2 opacity-70">.btn + !w-full</code></button>
-        <button class="btn btn-primary !px-8 !h-12 !text-base">Larger <code class="code-inline ml-2 opacity-70">.btn + !px-8 !h-12</code></button>
+        <button class="btn btn-primary" type="button">Default <code class="code-inline ml-2 opacity-70">.btn-primary</code></button>
+        <button class="btn btn-secondary" type="button">Default <code class="code-inline ml-2 opacity-70">.btn-secondary</code></button>
+        <button class="btn btn-primary !w-full" type="button">Full width <code class="code-inline ml-2 opacity-70">.btn + !w-full</code></button>
+        <button class="btn btn-primary !px-8 !h-12 !text-base" type="button">Larger <code class="code-inline ml-2 opacity-70">.btn + !px-8 !h-12</code></button>
       </div>
     </section>
 
@@ -401,6 +399,7 @@
         clay:     "variants/clay.css",
         sage:     "variants/sage.css",
         burgundy: "variants/burgundy.css",
+        azure:    "variants/azure.css",
       };
       var paletteLink = null;
       function loadSheet(href) {
