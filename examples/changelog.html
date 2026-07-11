@@ -106,6 +106,13 @@
             <li><strong>Azure &amp; Ink palette.</strong> A fifth palette — cool harbor stone + a clean azure accent, deep navy surfaces in dark (<code>variants/azure.css</code>), adapted from the "From Products to Platform" deck. Override-only like the others: single <code>light-dark()</code> declarations for surfaces, accent, and the neutral ramp; redeclares <code>--accent-tint</code> (dark alpha 16%) and <code>--accent-ink</code>. Registered in <code>tokens.json</code> <code>_meta.palettes</code>, rendered as a fifth panel on <code>variants/compare.html</code>, and selectable everywhere via <code>?palette=azure</code> or the new Azure button in the palette toggle on every example page and <code>preview.html</code>. The CI contrast gate grows from 192 to 240 token-pair assertions to cover it.</li>
           </ul>
         </div>
+        <div class="change-block">
+          <div class="change-label">Fixed</div>
+          <ul class="change-list">
+            <li><strong>Example accessibility and responsive behavior.</strong> Tab references now implement complete tab/panel relationships, roving tabindex, and Arrow/Home/End navigation; palette/theme pickers expose named groups; narrow tables and long inline-code URLs no longer force page-level horizontal scrolling.</li>
+            <li><strong>Palette deployment and comparison isolation.</strong> GitHub Pages now watches and copies Azure, Tailwind's browser demo loads Azure without a stray <code>tailwindcss</code> request, and comparison iframes no longer overwrite saved palette or theme choices.</li>
+          </ul>
+        </div>
       </article>
 
       <article class="release">

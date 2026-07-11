@@ -931,8 +931,9 @@ pre.code-block { margin: 0; font: inherit; color: inherit; white-space: pre; }
    enhancement script populate .carousel-dots and reveal the controls
    (reference wiring: examples/demo.js; a KEEP IN SYNC copy lives in
    preview.html).
-   Accessibility contract: .carousel gets role="region" +
-   aria-roledescription="carousel" + aria-label; each slide gets
+   Accessibility contract: .carousel is a named region (prefer a
+   <section> with aria-label; role="region" is the generic fallback) +
+   aria-roledescription="carousel"; each slide gets
    role="group" + aria-roledescription="slide" + aria-label="N of M".
    Give .carousel-track tabindex="0" so keyboard users can scroll it
    even before (or without) the enhancement script. No autoplay. */

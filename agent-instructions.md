@@ -214,7 +214,7 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 | `.tldr` | Inverted callout (dark in light mode, light in dark) |
 | `.code-block` | Multi-line `<pre><code>` panel |
 | `.dialog` | Native `<dialog>` styling |
-| `.tabs` (`.tab`, `.tab-panel`) | Underline tab nav |
+| `.tabs` (`.tab`, `.tab-panel`) | Underline tab nav; requires JavaScript for `aria-selected`, roving tabindex, panel visibility, and Arrow/Home/End keys (see `examples/demo.js`) |
 | `.segmented` (`aria-pressed` / `.is-active`) | Pill-shaped group of mutually-exclusive options (theme toggle, view modes, density) |
 | `.tooltip` (`[data-tooltip]`) | CSS-only hover/focus tooltip |
 | `.breadcrumbs` | `<ol>` with `/` separators |

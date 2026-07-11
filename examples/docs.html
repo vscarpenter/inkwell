@@ -197,13 +197,13 @@ function setTheme(choice) {
             <tr><td><code>.code-block</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Multi-line <code>&lt;pre&gt;&lt;code&gt;</code> with copy slot</td></tr>
             <tr><td><code>.dialog</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Native <code>&lt;dialog&gt;</code> styling</td></tr>
             <tr><td><code>kbd</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Keyboard-shortcut chip</td></tr>
-            <tr><td><code>.tabs</code> · <code>.tab</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Underline tab nav (<code>aria-selected</code> or <code>.is-active</code>)</td></tr>
+            <tr><td><code>.tabs</code> · <code>.tab</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Underline tab nav; reference JS wires panels, roving tabindex, and Arrow/Home/End keys</td></tr>
             <tr><td><code>.tooltip</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>CSS-only bubble via <code>[data-tooltip]</code></td></tr>
             <tr><td><code>.breadcrumbs</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td><code>&lt;ol&gt;</code> with <code>/</code> separators &amp; <code>aria-current</code></td></tr>
             <tr><td><code>.pagination</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Numbered page list with prev/next + ellipsis</td></tr>
             <tr><td><code>.skeleton</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Shimmer placeholder, reduced-motion-safe</td></tr>
             <tr><td><code>.empty-state</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Centered no-data panel with icon slot</td></tr>
-            <tr><td><code>.card</code> · <code>.stat-card</code></td><td><span class="chip-dot safe"><span class="dot"></span>Stable</span></td><td>Surfaces with optional <code>.is-link</code> hover lift</td></tr>
+            <tr><td><code>.card</code> · <code>.stat-card</code></td><td><span class="chip-dot safe"><span class="dot"></span>Stable</span></td><td>Surfaces with an optional calm <code>.is-link</code> border-color hover</td></tr>
             <tr><td><code>.tbl</code> · <code>.tldr</code> · <code>.toc</code></td><td><span class="chip-dot safe"><span class="dot"></span>Stable</span></td><td>Editorial primitives</td></tr>
             <tr><td><code>.timeline</code> · <code>.pill</code> · <code>.chip-dot</code></td><td><span class="chip-dot safe"><span class="dot"></span>Stable</span></td><td>Status &amp; sequence patterns</td></tr>
           </tbody>
@@ -225,7 +225,7 @@ function setTheme(choice) {
         <div class="alert is-success" style="margin-top: 20px;">
           <div>
             <p class="alert-title">Reduced-motion is honored</p>
-            <p class="alert-body">All transitions and animations collapse to ~0ms under <code>prefers-reduced-motion: reduce</code>. The card-hover lift, dialog pop, and switch-knob slide all degrade gracefully.</p>
+            <p class="alert-body">Animations and transitions collapse to ~0ms under <code>prefers-reduced-motion: reduce</code>. The dialog pop, loading spinner, skeleton shimmer, and switch-knob slide all degrade gracefully.</p>
           </div>
         </div>
       </section>

@@ -19,7 +19,7 @@ This is a pure-CSS repo. There is no build step, no package manager, no test sui
 - `tokens.json` — machine-readable mirror of `inkwell-tokens.css`. **Generated** by `scripts/build-tokens-json.mjs`; do not edit by hand. Re-run the script after touching `inkwell-tokens.css` and commit the regenerated JSON in the same change.
 - `examples/changelog.html` — the releases section is **generated** from `CHANGELOG.md` by `scripts/build-changelog-html.mjs`; edit only outside the BEGIN/END markers. The same script stamps the latest released version into every example-page footer (`data-inkwell-version`). After editing `CHANGELOG.md`, re-run the script and commit the regenerated pages in the same change. CI fails on drift for all generated content.
 - `index.html`, `preview.html`, `examples/` — manual verification surfaces.
-- `variants/` — palette override files (clay, sage, burgundy). See "Palettes" below.
+- `variants/` — palette override files (clay, sage, burgundy, azure). See "Palettes" below.
 
 If you add a new source CSS file at the repo root, also add it to `inkwell.css`'s `@import` list (if it's part of the default install; choose layered vs. unlayered deliberately) and to the `paths:` trigger plus `cp` step in `.github/workflows/pages.yml`. For Tailwind exposure, register it inside `inkwell-theme.css`.
 
@@ -55,7 +55,7 @@ These are non-negotiable. PRs that violate them will be asked to change before m
 
 ## Regenerating `tokens.json`
 
-`tokens.json` is the only generated artifact in the repo. Re-run `node scripts/build-tokens-json.mjs` whenever `inkwell-tokens.css` changes and commit the regenerated JSON in the same change. CI runs `node scripts/build-tokens-json.mjs --check` on every PR — a stale `tokens.json` fails the check with a line-level diff. The script has no dependencies (Node 18+ built-ins only); this is **not** a build step on the CSS itself — the CSS files still ship as-is.
+`tokens.json` is the only fully generated standalone file in the repo. The releases region of `examples/changelog.html` and the version stamps on example pages are generated regions inside otherwise hand-authored files. Re-run `node scripts/build-tokens-json.mjs` whenever `inkwell-tokens.css` changes and commit the regenerated JSON in the same change. CI runs `node scripts/build-tokens-json.mjs --check` on every PR — a stale `tokens.json` fails the check with a line-level diff. The script has no dependencies (Node 18+ built-ins only); this is **not** a build step on the CSS itself — the CSS files still ship as-is.
 
 ## How to verify a change
 

@@ -175,7 +175,7 @@ Reverse the order and Tailwind's `@theme`-derived rules win, leaving the default
 
 The component-vs-utility precedence is the integration's load-bearing detail. Sanity check it like this after wiring everything up:
 
-1. **Components render correctly on their own.** Drop a `<button class="btn btn-primary">Test</button>` into a page. It should look like Inkwell's button — 1.5px transparent border, 36px tall, `--accent` background, serif-free.
+1. **Components render correctly on their own.** Drop a `<button class="btn btn-primary">Test</button>` into a page. It should look like Inkwell's button — 1.5px transparent border, 38px tall, `--accent` background, serif-free.
 2. **Utilities override components.** Add a utility: `<button class="btn btn-primary px-12">Test</button>`. The horizontal padding should jump. If it doesn't, `inkwell-components.css` is loading *unlayered* and beating Tailwind. Confirm your entry CSS does `@import "tailwindcss"` **before** `@import "./inkwell-theme.css"`.
 3. **`dark:` follows the toggle.** Add a toggle (see previous section). Pick `dark` manually. Both Inkwell components and any `dark:` utilities you've placed should flip together. If only one flips, you've imported only the component CSS without `inkwell-theme.css`, or vice versa — `inkwell-theme.css` is what wires the `@custom-variant dark` block into Tailwind.
 

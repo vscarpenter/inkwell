@@ -139,12 +139,12 @@ Warm low-spread in light mode (slight orange undertone via `rgba(20,20,19, …)`
 | Token | Value | Use |
 |---|---|---|
 | `--t-fast` | 120ms | Color/border state changes |
-| `--t-base` | 150ms | Card hover, transform |
+| `--t-base` | 150ms | Dialog and component transitions |
 | `--t-slow` | 300ms | Larger reveals |
 | `--ease-out` | `cubic-bezier(0.2, 0.8, 0.2, 1)` | Default |
 | `--ease-pop` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | Slight overshoot |
 
-The signature card-hover gesture is a 3px translateY lift + shadow swap + border-color shift to slate. `prefers-reduced-motion` is respected automatically.
+Interactive card links use a calm border-color shift with no lift or shadow swap. `prefers-reduced-motion` is respected automatically for animated components.
 
 ### 1.8 Layout
 
@@ -215,7 +215,7 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 | `.tldr` | Inverted callout — dark in light mode, light in dark mode |
 | `.code-block` | Multi-line `<pre><code>` panel with optional `.copy` button slot |
 | `.dialog` | Styling for native `<dialog>` (open via `dialog.showModal()`) with backdrop blur |
-| `.tabs` (+ `.tab` / `.tab-panel`) | Underline-style tab nav; consumer wires `aria-selected` / `[hidden]` |
+| `.tabs` (+ `.tab` / `.tab-panel`) | Underline-style tab nav; JavaScript must wire `aria-selected`, roving tabindex, panel visibility, and Arrow/Home/End keys. Reference wiring ships in `examples/demo.js` and `preview.html`. |
 | `.tooltip` (with `[data-tooltip]`) | CSS-only tooltip bubble on hover/focus — pair with `aria-label` for SR |
 | `.breadcrumbs` | `<ol>` list with `/` separators; `aria-current="page"` for the leaf |
 | `.pagination` | Numbered page list with prev/next; `aria-current="page"` for the active page |
@@ -270,7 +270,7 @@ Inkwell ships with WCAG-conscious defaults. The notable choices:
 - **Focus rings are accent ink.** `*:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }` is global. Canonical indigo reads at 7.9:1 (light) and 5.2:1 (dark) on its respective surface — well past WCAG 1.4.11's 3:1 for non-text UI — and because the ring follows `--accent-ink`, variants whose accent is too light (clay, sage) get an AA-passing ring automatically.
 - **Functional control boundaries clear 3:1.** Checkbox, radio, and the switch off-track were 1.56:1 on `--paper` — below WCAG 1.4.11's 3:1 for boundaries that communicate state. They now use `--control-border` (1.5px `--gray-400`, 3.2:1+ on both surfaces). Decorative panel hairlines deliberately stay below 3:1 — see the next bullet.
 - **The 1.5px hairline border is *deliberately* below WCAG 3:1.** `--gray-300` on `--paper` is ~1.57:1 in light mode and ~1.45:1 in dark. This is the system's letterpress-quiet signature — a stronger border would read as wireframe or Material. Visual separation is achieved through the *combination* of border, surface tone shift (`--paper` vs `--ivory`), and shadow. Use `--border-strong` (1.5px solid `--slate`) when a panel genuinely needs to stand off the page.
-- **Reduced motion is honored.** `@media (prefers-reduced-motion: reduce)` shortens all animations and transitions to ~0ms. The card hover lift, dialog pop, and switch knob slide all degrade gracefully.
+- **Reduced motion is honored.** `@media (prefers-reduced-motion: reduce)` shortens animations and transitions to ~0ms. The dialog pop, loading spinner, skeleton shimmer, and switch-knob slide all degrade gracefully.
 - **Color is never the only signal.** Status chips pair color with an explicit dot or label; alerts pair color with a serif title; form errors pair the `--rust` border with an explicit `.field-error` text node. Don't introduce a "danger" state that only changes a hue.
 - **Native semantics first.** `<dialog>` for modals (focus trap, ESC, `::backdrop` for free), real `<input type="checkbox">` and `<input type="radio">` for selection (preserving keyboard interaction), `<kbd>` for keyboard chips. The components style native elements rather than rebuilding them.
 - **`::selection` is slate-on-oat.** Selected text gets `--oat` behind `--slate` — the accent tint was too faint to register as a selection highlight.

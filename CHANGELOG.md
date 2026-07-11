@@ -9,6 +9,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 ### Added
 - **Azure & Ink palette.** A fifth palette — cool harbor stone + a clean azure accent, deep navy surfaces in dark (`variants/azure.css`), adapted from the "From Products to Platform" deck. Override-only like the others: single `light-dark()` declarations for surfaces, accent, and the neutral ramp; redeclares `--accent-tint` (dark alpha 16%) and `--accent-ink`. Registered in `tokens.json` `_meta.palettes`, rendered as a fifth panel on `variants/compare.html`, and selectable everywhere via `?palette=azure` or the new Azure button in the palette toggle on every example page and `preview.html`. The CI contrast gate grows from 192 to 240 token-pair assertions to cover it.
 
+### Fixed
+- **Example accessibility and responsive behavior.** Tab references now implement complete tab/panel relationships, roving tabindex, and Arrow/Home/End navigation; palette/theme pickers expose named groups; narrow tables and long inline-code URLs no longer force page-level horizontal scrolling.
+- **Palette deployment and comparison isolation.** GitHub Pages now watches and copies Azure, Tailwind's browser demo loads Azure without a stray `tailwindcss` request, and comparison iframes no longer overwrite saved palette or theme choices.
+
 ## [3.0.1] — 2026-06-12
 
 ### Fixed
