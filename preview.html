@@ -136,10 +136,10 @@
       <span class="idx">03</span><h2>Buttons &amp; controls</h2>
     </div>
     <div class="stage">
-      <button class="btn btn-primary">Create task</button>
-      <button class="btn btn-secondary">Cancel</button>
-      <button class="btn btn-ghost">Skip</button>
-      <button class="btn btn-danger">Delete</button>
+      <button class="btn btn-primary" type="button">Create task</button>
+      <button class="btn btn-secondary" type="button">Cancel</button>
+      <button class="btn btn-ghost" type="button">Skip</button>
+      <button class="btn btn-danger" type="button">Delete</button>
     </div>
     <div class="stage" style="margin-top: 14px;">
       <input class="input" type="text" placeholder="Search tasks…">
@@ -156,11 +156,11 @@
       <span class="count">2.1.0</span>
     </div>
     <div class="stage">
-      <button class="btn btn-primary" disabled>Disabled</button>
-      <button class="btn btn-secondary" disabled>Disabled</button>
-      <button class="btn btn-primary" aria-busy="true">Saving…</button>
-      <button class="btn btn-secondary btn-sm">Small button</button>
-      <button class="btn btn-primary btn-sm">Small primary</button>
+      <button class="btn btn-primary" type="button" disabled>Disabled</button>
+      <button class="btn btn-secondary" type="button" disabled>Disabled</button>
+      <button class="btn btn-primary" type="button" aria-busy="true">Saving…</button>
+      <button class="btn btn-secondary btn-sm" type="button">Small button</button>
+      <button class="btn btn-primary btn-sm" type="button">Small primary</button>
     </div>
     <div class="stage" style="margin-top: 14px;">
       <div class="tbl-scroll" style="max-width: 420px;">
@@ -495,14 +495,23 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
       <span class="count">aria-selected · .is-active</span>
     </div>
     <div>
-      <div class="tabs" role="tablist" aria-label="Demo tabs">
-        <button class="tab" role="tab" aria-selected="true" type="button">Overview</button>
-        <button class="tab" role="tab" aria-selected="false" type="button">Members</button>
-        <button class="tab" role="tab" aria-selected="false" type="button">Billing</button>
-        <button class="tab" role="tab" aria-selected="false" type="button">Activity <span style="color: var(--gray-500); font: 11px var(--mono); margin-left: 6px;">12</span></button>
+      <div class="tabs" role="tablist" aria-label="Demo tabs" data-tabs>
+        <button class="tab" role="tab" id="pv-tab-overview" aria-selected="true" aria-controls="pv-panel-overview" type="button">Overview</button>
+        <button class="tab" role="tab" id="pv-tab-members" aria-selected="false" aria-controls="pv-panel-members" type="button" tabindex="-1">Members</button>
+        <button class="tab" role="tab" id="pv-tab-billing" aria-selected="false" aria-controls="pv-panel-billing" type="button" tabindex="-1">Billing</button>
+        <button class="tab" role="tab" id="pv-tab-activity" aria-selected="false" aria-controls="pv-panel-activity" type="button" tabindex="-1">Activity <span style="color: var(--gray-500); font: 11px var(--mono); margin-left: 6px;">12</span></button>
       </div>
-      <div class="tab-panel">
-        <p class="t-small" style="margin: 0; color: var(--gray-700);">Tab panels are unstyled containers — show the panel matching the active tab and hide the rest with <code>[hidden]</code>.</p>
+      <div class="tab-panel" role="tabpanel" id="pv-panel-overview" aria-labelledby="pv-tab-overview" tabindex="0">
+        <p class="t-small" style="margin: 0; color: var(--gray-700);">Tab panels are unstyled containers. The reference script synchronizes <code>aria-selected</code>, roving tabindex, keyboard navigation, and <code>[hidden]</code>.</p>
+      </div>
+      <div class="tab-panel" role="tabpanel" id="pv-panel-members" aria-labelledby="pv-tab-members" tabindex="0" hidden>
+        <p class="t-small" style="margin: 0; color: var(--gray-700);">Members content can contain controls, tables, or empty states without changing the tab treatment.</p>
+      </div>
+      <div class="tab-panel" role="tabpanel" id="pv-panel-billing" aria-labelledby="pv-tab-billing" tabindex="0" hidden>
+        <p class="t-small" style="margin: 0; color: var(--gray-700);">Billing content remains associated with its controlling tab through <code>aria-controls</code> and <code>aria-labelledby</code>.</p>
+      </div>
+      <div class="tab-panel" role="tabpanel" id="pv-panel-activity" aria-labelledby="pv-tab-activity" tabindex="0" hidden>
+        <p class="t-small" style="margin: 0; color: var(--gray-700);">Activity shows the same keyboard contract: Arrow keys move, Home and End jump, and focus follows selection.</p>
       </div>
     </div>
   </section>
@@ -712,7 +721,7 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
       <span class="idx">28</span><h2>Editorial carousel</h2>
       <span class="count">scroll-snap · zero-JS core</span>
     </div>
-    <div class="carousel" data-carousel role="region" aria-roledescription="carousel" aria-label="Editorial carousel demo — a three-part series">
+    <section class="carousel" data-carousel aria-roledescription="carousel" aria-label="Editorial carousel demo — a three-part series">
       <div class="carousel-track" tabindex="0">
         <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="1 of 3">
           <div class="carousel-slide-meta">
@@ -793,7 +802,7 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
           </svg>
         </button>
       </div>
-    </div>
+    </section>
     <p class="t-small" style="margin-top: 10px; color: var(--gray-500);">
       Controls stay <code>[hidden]</code> until the enhancement script wires them — no dead buttons without JS.
       Arrow keys and <code>Home</code>/<code>End</code> navigate when the region has focus; smooth scrolling
@@ -804,7 +813,7 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
 
 </div>
 
-<div class="palette-toggle" aria-label="Palette">
+<div class="palette-toggle" role="group" aria-label="Palette">
   <button class="btn btn-ghost" type="button" data-palette-choice="indigo"   title="Indigo &amp; Cloud">Indigo</button>
   <button class="btn btn-ghost" type="button" data-palette-choice="clay"     title="Clay">Clay</button>
   <button class="btn btn-ghost" type="button" data-palette-choice="sage"     title="Sage &amp; Stone">Sage</button>
@@ -911,6 +920,44 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
     var fromUrl = new URLSearchParams(location.search).get("palette");
     var fromStorage = localStorage.getItem("inkwell-palette");
     applyPalette(fromUrl || fromStorage || "indigo");
+  })();
+
+  (function () {
+    document.querySelectorAll("[data-tabs]").forEach(function (tablist) {
+      var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+      if (!tabs.length) return;
+
+      function activate(tab, moveFocus) {
+        tabs.forEach(function (candidate) {
+          var selected = candidate === tab;
+          candidate.setAttribute("aria-selected", String(selected));
+          candidate.tabIndex = selected ? 0 : -1;
+          var panelId = candidate.getAttribute("aria-controls");
+          var panel = panelId ? document.getElementById(panelId) : null;
+          if (panel) panel.hidden = !selected;
+        });
+        if (moveFocus) tab.focus();
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener("click", function () { activate(tab, false); });
+        tab.addEventListener("keydown", function (event) {
+          var index = tabs.indexOf(tab);
+          var next = null;
+          if (event.key === "ArrowRight") next = tabs[(index + 1) % tabs.length];
+          else if (event.key === "ArrowLeft") next = tabs[(index - 1 + tabs.length) % tabs.length];
+          else if (event.key === "Home") next = tabs[0];
+          else if (event.key === "End") next = tabs[tabs.length - 1];
+          if (!next) return;
+          event.preventDefault();
+          activate(next, true);
+        });
+      });
+
+      activate(tabs.find(function (tab) {
+        return tab.getAttribute("aria-selected") === "true";
+      }) || tabs[0], false);
+    });
   })();
 
   (function () {

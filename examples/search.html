@@ -70,14 +70,14 @@
           <a class="btn btn-ghost" href="index.html">All examples</a>
           <a class="btn btn-ghost" href="app-shell.html">App shell</a>
         </div>
-        <div class="palette-toggle" aria-label="Palette">
+        <div class="palette-toggle" role="group" aria-label="Palette">
           <button class="btn btn-ghost" type="button" data-palette-choice="indigo"   title="Indigo &amp; Cloud">Indigo</button>
           <button class="btn btn-ghost" type="button" data-palette-choice="clay"     title="Clay">Clay</button>
           <button class="btn btn-ghost" type="button" data-palette-choice="sage"     title="Sage &amp; Stone">Sage</button>
           <button class="btn btn-ghost" type="button" data-palette-choice="burgundy" title="Burgundy &amp; Bone">Burgundy</button>
           <button class="btn btn-ghost" type="button" data-palette-choice="azure"    title="Azure &amp; Ink">Azure</button>
         </div>
-        <div class="theme-toggle" aria-label="Theme">
+        <div class="theme-toggle" role="group" aria-label="Theme">
           <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
           <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
           <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
@@ -105,11 +105,11 @@
         </p>
       </header>
 
-      <div class="tabs" role="tablist" aria-label="Result categories">
-        <button class="tab" role="tab" aria-selected="true" type="button">All <span style="color: var(--gray-500); font-family: var(--mono); margin-left: 6px;">42</span></button>
-        <button class="tab" role="tab" aria-selected="false" type="button">Documentation <span style="color: var(--gray-500); font-family: var(--mono); margin-left: 6px;">18</span></button>
-        <button class="tab" role="tab" aria-selected="false" type="button">Components <span style="color: var(--gray-500); font-family: var(--mono); margin-left: 6px;">15</span></button>
-        <button class="tab" role="tab" aria-selected="false" type="button">Tokens <span style="color: var(--gray-500); font-family: var(--mono); margin-left: 6px;">9</span></button>
+      <div class="tabs" role="tablist" aria-label="Result categories" data-tabs>
+        <button class="tab" role="tab" id="search-tab-all" aria-selected="true" aria-controls="search-panel-all" type="button">All <span style="color: var(--gray-500); font-family: var(--mono); margin-left: 6px;">42</span></button>
+        <button class="tab" role="tab" id="search-tab-docs" aria-selected="false" aria-controls="search-panel-docs" type="button" tabindex="-1">Documentation <span style="color: var(--gray-500); font-family: var(--mono); margin-left: 6px;">18</span></button>
+        <button class="tab" role="tab" id="search-tab-components" aria-selected="false" aria-controls="search-panel-components" type="button" tabindex="-1">Components <span style="color: var(--gray-500); font-family: var(--mono); margin-left: 6px;">15</span></button>
+        <button class="tab" role="tab" id="search-tab-tokens" aria-selected="false" aria-controls="search-panel-tokens" type="button" tabindex="-1">Tokens <span style="color: var(--gray-500); font-family: var(--mono); margin-left: 6px;">9</span></button>
       </div>
 
       <div class="search-layout">
@@ -135,7 +135,7 @@
           </div>
         </aside>
 
-        <section role="tabpanel" aria-label="All results" style="display: grid; gap: 12px;">
+        <section role="tabpanel" id="search-panel-all" aria-labelledby="search-tab-all" tabindex="0" style="display: grid; gap: 12px;">
           <article class="card result">
             <div class="result-meta">
               <span class="badge badge-accent">Documentation</span>
@@ -180,6 +180,30 @@
             </div>
             <h3><a href="docs.html#accessibility">Contrast in <mark>dark mode</mark> — what we measured</a></h3>
             <p>Body text clears 10.9:1. Captions clear 6.4:1 in <mark>dark</mark>. The 1.5px hairline border sits at 1.45:1 in <mark>dark mode</mark> — deliberate, paired with surface-tone shift for separation.</p>
+          </article>
+        </section>
+
+        <section role="tabpanel" id="search-panel-docs" aria-labelledby="search-tab-docs" tabindex="0" style="display: grid; gap: 12px;" hidden>
+          <article class="card result">
+            <div class="result-meta"><span class="badge badge-accent">Documentation</span><span>DESIGN_SYSTEM.md · §2</span></div>
+            <h3><a href="docs.html#theming">Theming and the <mark>dark mode</mark> cascade</a></h3>
+            <p>How automatic, light, and dark modes resolve through <code>color-scheme</code> and <code>light-dark()</code>.</p>
+          </article>
+        </section>
+
+        <section role="tabpanel" id="search-panel-components" aria-labelledby="search-tab-components" tabindex="0" style="display: grid; gap: 12px;" hidden>
+          <article class="card result">
+            <div class="result-meta"><span class="badge badge-neutral">Component</span><span><code>.tldr</code></span></div>
+            <h3><a href="docs.html#components">The <mark>dark</mark> TL;DR callout that inverts</a></h3>
+            <p>The inverted editorial callout demonstrates how a component can deliberately cross the active color scheme.</p>
+          </article>
+        </section>
+
+        <section role="tabpanel" id="search-panel-tokens" aria-labelledby="search-tab-tokens" tabindex="0" style="display: grid; gap: 12px;" hidden>
+          <article class="card result">
+            <div class="result-meta"><span class="badge badge-neutral">Token</span><span><code>--accent</code></span></div>
+            <h3><a href="docs.html#tokens">The lifted accent in <mark>dark mode</mark></a></h3>
+            <p>The canonical accent shifts from deep indigo in light mode to a more luminous periwinkle in dark mode.</p>
           </article>
         </section>
       </div>

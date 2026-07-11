@@ -53,14 +53,14 @@
           <a class="btn btn-ghost" href="index.html">All examples</a>
           <a class="btn btn-ghost" href="app-shell.html">App shell</a>
         </div>
-        <div class="palette-toggle" aria-label="Palette">
+        <div class="palette-toggle" role="group" aria-label="Palette">
           <button class="btn btn-ghost" type="button" data-palette-choice="indigo"   title="Indigo &amp; Cloud">Indigo</button>
           <button class="btn btn-ghost" type="button" data-palette-choice="clay"     title="Clay">Clay</button>
           <button class="btn btn-ghost" type="button" data-palette-choice="sage"     title="Sage &amp; Stone">Sage</button>
           <button class="btn btn-ghost" type="button" data-palette-choice="burgundy" title="Burgundy &amp; Bone">Burgundy</button>
           <button class="btn btn-ghost" type="button" data-palette-choice="azure"    title="Azure &amp; Ink">Azure</button>
         </div>
-        <div class="theme-toggle" aria-label="Theme">
+        <div class="theme-toggle" role="group" aria-label="Theme">
           <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
           <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
           <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
@@ -73,16 +73,16 @@
         <p class="t-small">A settings page showing tabs, segmented controls, form fields, badges, and destructive actions.</p>
       </header>
 
-      <div class="tabs" role="tablist" aria-label="Settings sections" style="margin-top: var(--sp-6);">
+      <div class="tabs" role="tablist" aria-label="Settings sections" data-tabs style="margin-top: var(--sp-6);">
         <button class="tab" role="tab" id="tab-account" aria-selected="true" aria-controls="panel-account" type="button">Account</button>
         <button class="tab" role="tab" id="tab-notifications" aria-selected="false" aria-controls="panel-notifications" type="button" tabindex="-1">Notifications</button>
         <button class="tab" role="tab" id="tab-billing" aria-selected="false" aria-controls="panel-billing" type="button" tabindex="-1">Billing</button>
       </div>
 
       <section class="section">
-        <div class="tab-panel" role="tabpanel" id="panel-account" aria-labelledby="tab-account">
+        <div class="tab-panel" role="tabpanel" id="panel-account" aria-labelledby="tab-account" tabindex="0">
           <div class="split">
-            <form class="card form-grid">
+            <form class="card form-grid" onsubmit="event.preventDefault();">
               <div class="sec-head">
                 <span class="idx">01</span>
                 <h2>Profile</h2>
@@ -111,12 +111,12 @@
                 Send weekly release summary
               </label>
               <div class="button-row">
-                <button class="btn btn-primary" type="button">Save changes</button>
+                <button class="btn btn-primary" type="submit">Save changes</button>
                 <button class="btn btn-secondary" type="reset">Reset</button>
               </div>
             </form>
 
-            <aside class="form-grid">
+            <aside class="form-grid" aria-label="Plan and workspace access">
               <div class="tldr">
                 <div class="tldr-label">Current plan</div>
                 Inkwell keeps application chrome understated so status, tables, and editorial headings remain easy to scan.
@@ -151,7 +151,7 @@
           </div>
         </div>
 
-        <div class="tab-panel" role="tabpanel" id="panel-notifications" aria-labelledby="tab-notifications" hidden>
+        <div class="tab-panel" role="tabpanel" id="panel-notifications" aria-labelledby="tab-notifications" tabindex="0" hidden>
           <div class="card form-grid">
             <div class="sec-head">
               <span class="idx">01</span>
@@ -180,7 +180,7 @@
           </div>
         </div>
 
-        <div class="tab-panel" role="tabpanel" id="panel-billing" aria-labelledby="tab-billing" hidden>
+        <div class="tab-panel" role="tabpanel" id="panel-billing" aria-labelledby="tab-billing" tabindex="0" hidden>
           <div class="split">
             <div class="card form-grid">
               <div class="sec-head">
@@ -202,7 +202,7 @@
               </div>
             </div>
 
-            <aside class="card form-grid">
+            <aside class="card form-grid" aria-label="Subscription usage">
               <div class="sec-head">
                 <span class="idx">02</span>
                 <h2>Usage</h2>
@@ -242,22 +242,6 @@
   <script src="demo.js"></script>
   <script>
     (function () {
-      var tabs = document.querySelectorAll('[role="tab"]');
-      var panels = document.querySelectorAll('.tab-panel');
-      function selectTab(tab) {
-        tabs.forEach(function (t) {
-          var selected = t === tab;
-          t.setAttribute('aria-selected', String(selected));
-          t.tabIndex = selected ? 0 : -1;
-        });
-        panels.forEach(function (p) {
-          p.hidden = p.id !== tab.getAttribute('aria-controls');
-        });
-      }
-      tabs.forEach(function (tab) {
-        tab.addEventListener('click', function () { selectTab(tab); });
-      });
-
       var periodGroup = document.getElementById('billing-period');
       var billingCopy = document.getElementById('billing-copy');
       if (periodGroup && billingCopy) {
