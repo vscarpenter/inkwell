@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Component reference — Inkwell</title>
+  <meta name="description" content="Copyable Inkwell component markup with anatomy, modifiers, states, accessibility, and JavaScript contracts.">
+  <meta name="theme-color" content="#F4F4F0">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Inkwell">
+  <meta property="og:url" content="https://inkwell.vinny.dev/components.html">
+  <meta property="og:title" content="Component reference — Inkwell">
+  <meta property="og:description" content="Copyable component contracts for the Inkwell pure-CSS design system.">
+  <meta property="og:image" content="https://inkwell.vinny.dev/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Inkwell — a pure-CSS design system">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Component reference — Inkwell">
+  <meta name="twitter:description" content="Copyable component contracts for the Inkwell pure-CSS design system.">
+  <meta name="twitter:image" content="https://inkwell.vinny.dev/og-image.png">
+  <link rel="canonical" href="https://inkwell.vinny.dev/components.html">
+  <link rel="icon" type="image/png" href="favicon-512.png">
+  <link rel="apple-touch-icon" href="favicon-512.png">
+  <link rel="stylesheet" href="inkwell.css">
+  <link rel="stylesheet" href="demo.css">
+  <style>
+    .reference-intro { max-width: 68ch; color: var(--gray-700); }
+    .reference-index { columns: 3 220px; gap: var(--sp-5); margin: var(--sp-5) 0 var(--sp-8); }
+    .reference-index a { display: block; break-inside: avoid; padding: 4px 0; }
+    .reference-entry { padding: var(--sp-7) 0; border-top: var(--border-rule); scroll-margin-top: var(--sp-5); }
+    .reference-head { display: flex; align-items: start; justify-content: space-between; gap: var(--sp-4); }
+    .reference-head h2 { margin: var(--sp-2) 0 0; }
+    .reference-selectors { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin: var(--sp-4) 0; }
+    .reference-contract { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); }
+    .reference-contract section { min-width: 0; padding: var(--sp-4); background: var(--paper); border: var(--border); border-radius: var(--r-md); }
+    .reference-contract h3 { margin: 0 0 var(--sp-2); }
+    .reference-contract ul { margin: 0; padding-left: 20px; color: var(--gray-700); }
+    .reference-js { margin: var(--sp-4) 0; }
+    @media (max-width: 640px) { .reference-contract { grid-template-columns: 1fr; } }
+  </style>
+  <script>
+    (function () {
+      var theme = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
+      if (theme === "light" || theme === "dark") document.documentElement.setAttribute("data-theme", theme);
+      var palettes = { clay: 1, sage: 1, burgundy: 1, azure: 1 };
+      var palette = new URLSearchParams(location.search).get("palette") || localStorage.getItem("inkwell-palette");
+      if (palette && Object.prototype.hasOwnProperty.call(palettes, palette)) {
+        document.write('<link rel="stylesheet" id="inkwell-palette-prepaint" href="variants/' + palette + '.css">');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main class="demo-shell" id="main-content">
+    <div class="wrap">
+      <nav class="demo-nav" aria-label="Sample pages">
+        <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">Ink</span><span class="t-h3">Inkwell</span></a>
+        <div class="nav-links"><a class="btn btn-ghost" href="index.html">All examples</a><a class="btn btn-ghost" href="docs.html">Guide</a></div>
+        <div class="palette-toggle" role="group" aria-label="Palette">
+          <button class="btn btn-ghost" type="button" data-palette-choice="indigo">Indigo</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="clay">Clay</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="sage">Sage</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="burgundy">Burgundy</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="azure">Azure</button>
+        </div>
+        <div class="theme-toggle" role="group" aria-label="Theme">
+          <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+          <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+        </div>
+      </nav>
+
+      <header style="margin-bottom: var(--sp-6);">
+        <span class="eyebrow">Adoption reference · v3.5.0</span>
+        <h1 class="t-display" style="margin: var(--sp-3) 0;">Components, with the contract attached.</h1>
+        <p class="t-lede reference-intro">Copy the markup, then read the anatomy and accessibility notes before adapting it. This page is generated from <code>component-manifest.json</code>, so agents, maintainers, and humans share one inventory.</p>
+      </header>
+
+      <aside class="callout is-accent">
+        <div class="callout-label">Install first</div>
+        <p class="callout-body">Link <code>inkwell.css</code>. Add <code>inkwell-interactions.js</code> only for tabs, carousel controls, or declarative dialogs.</p>
+      </aside>
+
+      <nav class="reference-index" aria-label="Component index" id="component-index"></nav>
+
+      <!-- BEGIN GENERATED COMPONENT REFERENCE -->
+      <article class="reference-entry" id="type-styles">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">01 · Since 1.0.0</span>
+            <h2 class="t-h2">Type styles</h2>
+          </div>
+          <a class="link t-small" href="#type-styles">#type-styles</a>
+        </header>
+        <p class="reference-selectors"><code>.t-display</code> <code>.t-h1</code> <code>.t-h2</code> <code>.t-h3</code> <code>.t-lede</code> <code>.t-body</code> <code>.t-small</code> <code>.t-caption</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Apply one type class to a semantic heading or text element.</li><li>Keep the HTML heading level independent from the visual class.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>.t-display through .t-caption select scale and voice.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Responsive display sizing is token-driven.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Preserve a logical heading outline; visual size does not determine heading rank.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-type-styles">Copy markup</button>
+          <pre><code id="component-code-type-styles">&lt;h2 class=&quot;t-h1&quot;&gt;A semantic heading&lt;/h2&gt;
+&lt;p class=&quot;t-lede&quot;&gt;A concise editorial introduction.&lt;/p&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="editorial">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">02 · Since 1.4.0</span>
+            <h2 class="t-h2">Editorial primitives</h2>
+          </div>
+          <a class="link t-small" href="#editorial">#editorial</a>
+        </header>
+        <p class="reference-selectors"><code>.dropcap</code> <code>.pullquote</code> <code>.byline</code> <code>.figure</code> <code>.eyebrow-serif</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Use inside prose with a 60–65ch measure.</li><li>Figure captions belong inside figure.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>.eyebrow-serif is the editorial counterpart to product-oriented .eyebrow.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Figures and pull quotes avoid breaks in print.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use blockquote for quotations and meaningful alt text for figure images.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-editorial">Copy markup</button>
+          <pre><code id="component-code-editorial">&lt;blockquote class=&quot;pullquote&quot;&gt;Quiet interfaces leave room for the work.&lt;/blockquote&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="button">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">03 · Since 1.0.0</span>
+            <h2 class="t-h2">Button</h2>
+          </div>
+          <a class="link t-small" href="#button">#button</a>
+        </header>
+        <p class="reference-selectors"><code>.btn</code> <code>.btn-primary</code> <code>.btn-secondary</code> <code>.btn-ghost</code> <code>.btn-danger</code> <code>.btn-sm</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>.btn supplies structure; add one intent modifier.</li><li>Use a native button for actions and an anchor for navigation.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Primary, secondary, ghost, danger, and small.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Hover, active, disabled, .is-disabled, and aria-busy=true.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Pair aria-busy=true with disabled while an action is pending.</li><li>Icon-only buttons need an accessible name.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">Only the product action; Inkwell supplies state styling.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-button">Copy markup</button>
+          <pre><code id="component-code-button">&lt;button class=&quot;btn btn-primary&quot; type=&quot;button&quot;&gt;Save changes&lt;/button&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="form-controls">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">04 · Since 1.0.0</span>
+            <h2 class="t-h2">Text controls</h2>
+          </div>
+          <a class="link t-small" href="#form-controls">#form-controls</a>
+        </header>
+        <p class="reference-selectors"><code>.input</code> <code>.textarea</code> <code>.select</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Place a labelled control inside .field.</li><li>Use .textarea for multi-line input and .select on native select.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>.is-error and .is-disabled.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Focus, disabled, placeholder, and invalid.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Every control needs a label and name.</li><li>Invalid controls set aria-invalid=true and reference error copy with aria-describedby.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">Application validation only.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-form-controls">Copy markup</button>
+          <pre><code id="component-code-form-controls">&lt;label class=&quot;field&quot; for=&quot;reference-email&quot;&gt;
+  &lt;span class=&quot;field-label&quot;&gt;Email&lt;/span&gt;
+  &lt;input class=&quot;input&quot; id=&quot;reference-email&quot; name=&quot;email&quot; type=&quot;email&quot; autocomplete=&quot;email&quot;&gt;
+&lt;/label&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="field">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">05 · Since 1.3.0</span>
+            <h2 class="t-h2">Field group</h2>
+          </div>
+          <a class="link t-small" href="#field">#field</a>
+        </header>
+        <p class="reference-selectors"><code>.field</code> <code>.field-label</code> <code>.field-help</code> <code>.field-error</code> <code>.field-row</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Label, control, then helper or error text.</li><li>.field-row aligns related controls without removing labels.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Helper and error copy are mutually contextual, not visual replacements for labels.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Normal, help, and invalid.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Connect help or error IDs from the control with aria-describedby.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">Application validation only.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-field">Copy markup</button>
+          <pre><code id="component-code-field">&lt;div class=&quot;field&quot;&gt;
+  &lt;label class=&quot;field-label&quot; for=&quot;reference-slug&quot;&gt;Slug&lt;/label&gt;
+  &lt;input class=&quot;input is-error&quot; id=&quot;reference-slug&quot; name=&quot;slug&quot; aria-invalid=&quot;true&quot; aria-describedby=&quot;reference-slug-error&quot;&gt;
+  &lt;span class=&quot;field-error&quot; id=&quot;reference-slug-error&quot;&gt;Use letters, numbers, and hyphens.&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="choice-controls">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">06 · Since 1.0.0</span>
+            <h2 class="t-h2">Choice controls</h2>
+          </div>
+          <a class="link t-small" href="#choice-controls">#choice-controls</a>
+        </header>
+        <p class="reference-selectors"><code>.checkbox</code> <code>.radio</code> <code>.switch</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Wrap a native input and visible text in the matching label class.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Checkbox for independent choices, radio for one-of-many, switch for immediate settings.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Checked, unchecked, focus-visible, and disabled native states.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Radio groups need a fieldset and legend.</li><li>Do not use a switch for a submit-time preference.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None for native state; application behavior may respond to change.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-choice-controls">Copy markup</button>
+          <pre><code id="component-code-choice-controls">&lt;label class=&quot;checkbox&quot;&gt;&lt;input type=&quot;checkbox&quot; name=&quot;updates&quot;&gt; Product updates&lt;/label&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="segmented">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">07 · Since 1.4.0</span>
+            <h2 class="t-h2">Segmented control</h2>
+          </div>
+          <a class="link t-small" href="#segmented">#segmented</a>
+        </header>
+        <p class="reference-selectors"><code>.segmented</code> <code>.seg</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>A .segmented group containing two to four buttons or .seg items.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Mark the selected option with aria-pressed=true or .is-active.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Selected, hover, and focus-visible.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Give the group an accessible label and expose selection with aria-pressed.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">Application code updates the selected choice.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-segmented">Copy markup</button>
+          <pre><code id="component-code-segmented">&lt;div class=&quot;segmented&quot; role=&quot;group&quot; aria-label=&quot;Density&quot;&gt;
+  &lt;button class=&quot;seg&quot; type=&quot;button&quot; aria-pressed=&quot;true&quot;&gt;Comfortable&lt;/button&gt;
+  &lt;button class=&quot;seg&quot; type=&quot;button&quot; aria-pressed=&quot;false&quot;&gt;Compact&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="badge">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">08 · Since 1.0.0</span>
+            <h2 class="t-h2">Badge</h2>
+          </div>
+          <a class="link t-small" href="#badge">#badge</a>
+        </header>
+        <p class="reference-selectors"><code>.badge</code> <code>.badge-neutral</code> <code>.badge-accent</code> <code>.badge-success</code> <code>.badge-warning</code> <code>.badge-danger</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Short, non-interactive status text inside .badge.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Neutral, accent, success, warning, and danger.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Static status only.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Do not rely on hue alone; the label must name the status.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-badge">Copy markup</button>
+          <pre><code id="component-code-badge">&lt;span class=&quot;badge badge-success&quot;&gt;Published&lt;/span&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="pill">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">09 · Since 1.0.0</span>
+            <h2 class="t-h2">Issue pill</h2>
+          </div>
+          <a class="link t-small" href="#pill">#pill</a>
+        </header>
+        <p class="reference-selectors"><code>.pill</code> <code>.sev</code> <code>.resolved</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Compact severity or resolution label.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>.sev for severity and .resolved for completed findings.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Static status only.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Include meaningful status text; color is supplemental.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-pill">Copy markup</button>
+          <pre><code id="component-code-pill">&lt;span class=&quot;pill resolved&quot;&gt;Resolved&lt;/span&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="card">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">10 · Since 1.0.0</span>
+            <h2 class="t-h2">Card</h2>
+          </div>
+          <a class="link t-small" href="#card">#card</a>
+        </header>
+        <p class="reference-selectors"><code>.card</code> <code>.card.is-link</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Paper surface containing an optional title and body.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>.is-link adds a restrained hover affordance to a genuinely linked card.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Base and linked hover.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>If the whole card navigates, use one clear anchor rather than nested interactive elements.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-card">Copy markup</button>
+          <pre><code id="component-code-card">&lt;article class=&quot;card&quot;&gt;&lt;h3 class=&quot;t-h3&quot;&gt;Release notes&lt;/h3&gt;&lt;p class=&quot;t-small&quot;&gt;What changed and why.&lt;/p&gt;&lt;/article&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="card-grid">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">11 · Since 2.1.0</span>
+            <h2 class="t-h2">Card grid</h2>
+          </div>
+          <a class="link t-small" href="#card-grid">#card-grid</a>
+        </header>
+        <p class="reference-selectors"><code>.card-grid</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Responsive parent for sibling cards.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Override the minimum column size only when content requires it.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Auto-fills from one column upward.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>DOM order remains reading order; do not rearrange items visually.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-card-grid">Copy markup</button>
+          <pre><code id="component-code-card-grid">&lt;div class=&quot;card-grid&quot;&gt;&lt;article class=&quot;card&quot;&gt;First&lt;/article&gt;&lt;article class=&quot;card&quot;&gt;Second&lt;/article&gt;&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="stat-card">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">12 · Since 1.0.0</span>
+            <h2 class="t-h2">Stat card</h2>
+          </div>
+          <a class="link t-small" href="#stat-card">#stat-card</a>
+        </header>
+        <p class="reference-selectors"><code>.stat-card</code> <code>.stat-label</code> <code>.stat-num</code> <code>.stat-delta</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Label, prominent value, and optional directional delta.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>.is-primary changes the full border to accent; .up and .down color deltas.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Default and primary emphasis.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Write the direction in text or accessible copy; arrows and color are supplemental.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-stat-card">Copy markup</button>
+          <pre><code id="component-code-stat-card">&lt;article class=&quot;stat-card is-primary&quot;&gt;&lt;div class=&quot;stat-label&quot;&gt;Adoption&lt;/div&gt;&lt;div class=&quot;stat-num&quot;&gt;68%&lt;/div&gt;&lt;div class=&quot;stat-delta up&quot;&gt;Up 12%&lt;/div&gt;&lt;/article&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="avatar">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">13 · Since 1.0.0</span>
+            <h2 class="t-h2">Avatar</h2>
+          </div>
+          <a class="link t-small" href="#avatar">#avatar</a>
+        </header>
+        <p class="reference-selectors"><code>.avatar</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Image or initials inside .avatar; groups overlap siblings.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>No public size modifiers; override dimensions locally only when the surrounding pattern requires it.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Static identity display.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use meaningful alt text when the identity is not repeated nearby; otherwise use empty alt.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-avatar">Copy markup</button>
+          <pre><code id="component-code-avatar">&lt;span class=&quot;avatar&quot; aria-label=&quot;Ada Lovelace&quot;&gt;AL&lt;/span&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="chip-dot">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">14 · Since 1.0.0</span>
+            <h2 class="t-h2">Status chip</h2>
+          </div>
+          <a class="link t-small" href="#chip-dot">#chip-dot</a>
+        </header>
+        <p class="reference-selectors"><code>.chip-dot</code> <code>.dot</code> <code>.safe</code> <code>.medium</code> <code>.attention</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>A visible dot plus a textual status label.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Safe, medium, and attention.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Static status only.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Keep the text label; the dot is intentionally not the sole signal.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-chip-dot">Copy markup</button>
+          <pre><code id="component-code-chip-dot">&lt;span class=&quot;chip-dot safe&quot;&gt;&lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Healthy&lt;/span&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="timeline">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">15 · Since 1.0.0</span>
+            <h2 class="t-h2">Timeline</h2>
+          </div>
+          <a class="link t-small" href="#timeline">#timeline</a>
+        </header>
+        <p class="reference-selectors"><code>.timeline</code> <code>.tl-entry</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Ordered entries containing date, title, and optional description.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>No public visual modifiers.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Chronological static content.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use an ordered list when sequence matters and machine-readable time elements for dates.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-timeline">Copy markup</button>
+          <pre><code id="component-code-timeline">&lt;ol class=&quot;timeline&quot;&gt;&lt;li class=&quot;tl-entry&quot;&gt;&lt;time class=&quot;t-caption&quot; datetime=&quot;2026-08-27&quot;&gt;Aug 27&lt;/time&gt;&lt;h3 class=&quot;t-h3&quot;&gt;Release&lt;/h3&gt;&lt;/li&gt;&lt;/ol&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="tldr">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">16 · Since 1.0.0</span>
+            <h2 class="t-h2">TL;DR panel</h2>
+          </div>
+          <a class="link t-small" href="#tldr">#tldr</a>
+        </header>
+        <p class="reference-selectors"><code>.tldr</code> <code>.tldr-label</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Dark summary panel with a label and concise content.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>No public modifiers.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Print swaps the fill for an ink border.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Do not hide essential details exclusively in the summary.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-tldr">Copy markup</button>
+          <pre><code id="component-code-tldr">&lt;aside class=&quot;tldr&quot;&gt;&lt;div class=&quot;tldr-label&quot;&gt;TL;DR&lt;/div&gt;&lt;p&gt;Three files install the complete CSS system.&lt;/p&gt;&lt;/aside&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="section-heading">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">17 · Since 1.0.0</span>
+            <h2 class="t-h2">Section heading</h2>
+          </div>
+          <a class="link t-small" href="#section-heading">#section-heading</a>
+        </header>
+        <p class="reference-selectors"><code>.sec-head</code> <code>.idx</code> <code>.count</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Optional index, semantic h1 or h2, and optional count.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Use the index only when sequence carries meaning.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Responsive wrapping follows content.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use the correct semantic heading rank; the class styles h1 and h2 equally.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-section-heading">Copy markup</button>
+          <pre><code id="component-code-section-heading">&lt;div class=&quot;sec-head&quot;&gt;&lt;span class=&quot;idx&quot;&gt;02&lt;/span&gt;&lt;h2&gt;Components&lt;/h2&gt;&lt;span class=&quot;count&quot;&gt;34 families&lt;/span&gt;&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="breadcrumbs">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">18 · Since 1.0.0</span>
+            <h2 class="t-h2">Breadcrumbs</h2>
+          </div>
+          <a class="link t-small" href="#breadcrumbs">#breadcrumbs</a>
+        </header>
+        <p class="reference-selectors"><code>.breadcrumbs</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>A labelled nav containing an ordered list of ancestors and current page.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>No public modifiers.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Current page uses aria-current=page.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Set aria-label=Breadcrumb on nav and aria-current=page on the last item.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-breadcrumbs">Copy markup</button>
+          <pre><code id="component-code-breadcrumbs">&lt;nav class=&quot;breadcrumbs&quot; aria-label=&quot;Breadcrumb&quot;&gt;&lt;ol&gt;&lt;li&gt;&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;&lt;li aria-current=&quot;page&quot;&gt;Components&lt;/li&gt;&lt;/ol&gt;&lt;/nav&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="tabs">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">19 · Since 1.0.0</span>
+            <h2 class="t-h2">Tabs</h2>
+          </div>
+          <a class="link t-small" href="#tabs">#tabs</a>
+        </header>
+        <p class="reference-selectors"><code>.tabs</code> <code>.tab</code> <code>[data-tabs]</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>A labelled tablist of tabs plus one labelled panel per tab.</li><li>Each tab's aria-controls points to its panel; each panel's aria-labelledby points back.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>aria-selected=true marks the active tab.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Selected, hover, focus-visible, and hidden panels.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use roving tabindex and ArrowLeft/ArrowRight/Home/End navigation.</li><li>Do not use tabs when users need to compare panels simultaneously.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">Load inkwell-interactions.js or reproduce the documented WAI-ARIA behavior.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-tabs">Copy markup</button>
+          <pre><code id="component-code-tabs">&lt;div class=&quot;tabs&quot; role=&quot;tablist&quot; aria-label=&quot;Account views&quot; data-tabs&gt;
+  &lt;button class=&quot;tab&quot; id=&quot;ref-tab-overview&quot; role=&quot;tab&quot; aria-selected=&quot;true&quot; aria-controls=&quot;ref-panel-overview&quot;&gt;Overview&lt;/button&gt;
+  &lt;button class=&quot;tab&quot; id=&quot;ref-tab-activity&quot; role=&quot;tab&quot; aria-selected=&quot;false&quot; aria-controls=&quot;ref-panel-activity&quot; tabindex=&quot;-1&quot;&gt;Activity&lt;/button&gt;
+&lt;/div&gt;
+&lt;div id=&quot;ref-panel-overview&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;ref-tab-overview&quot;&gt;Overview content&lt;/div&gt;
+&lt;div id=&quot;ref-panel-activity&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;ref-tab-activity&quot; hidden&gt;Activity content&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="alert">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">20 · Since 1.0.0</span>
+            <h2 class="t-h2">Alert</h2>
+          </div>
+          <a class="link t-small" href="#alert">#alert</a>
+        </header>
+        <p class="reference-selectors"><code>.alert</code> <code>.alert-title</code> <code>.alert-body</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Optional title followed by concise guidance.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>.is-info, .is-success, .is-warning, and .is-danger.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Persistent notice or dynamically announced alert.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use role=alert only for important content inserted after load; static notices need no live role.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None unless the product inserts or dismisses the alert.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-alert">Copy markup</button>
+          <pre><code id="component-code-alert">&lt;div class=&quot;alert is-info&quot;&gt;&lt;div class=&quot;alert-title&quot;&gt;Before you continue&lt;/div&gt;&lt;p class=&quot;alert-body&quot;&gt;Review the generated changes.&lt;/p&gt;&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="callout">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">21 · Since 3.1.0</span>
+            <h2 class="t-h2">Callout</h2>
+          </div>
+          <a class="link t-small" href="#callout">#callout</a>
+        </header>
+        <p class="reference-selectors"><code>.callout</code> <code>.callout-label</code> <code>.callout-body</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Label and emphasized editorial statement inside a ruled panel.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>.is-accent for brand emphasis.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Static emphasis.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use an aside when the callout is complementary; do not use visual treatment as heading semantics.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-callout">Copy markup</button>
+          <pre><code id="component-code-callout">&lt;aside class=&quot;callout is-accent&quot;&gt;&lt;div class=&quot;callout-label&quot;&gt;Adoption note&lt;/div&gt;&lt;p class=&quot;callout-body&quot;&gt;Start with the canonical entry file.&lt;/p&gt;&lt;/aside&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="findings">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">22 · Since 3.1.0</span>
+            <h2 class="t-h2">Cited findings</h2>
+          </div>
+          <a class="link t-small" href="#findings">#findings</a>
+        </header>
+        <p class="reference-selectors"><code>.findings</code> <code>.finding</code> <code>.finding-num</code> <code>.finding-text</code> <code>.finding-src</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>A list of numbered findings, each with statement and source.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>No public modifiers.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Stacks on narrow screens.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use an ordered list when numbering communicates order; source links need descriptive labels.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-findings">Copy markup</button>
+          <pre><code id="component-code-findings">&lt;ol class=&quot;findings&quot;&gt;&lt;li class=&quot;finding&quot;&gt;&lt;span class=&quot;finding-num&quot;&gt;01&lt;/span&gt;&lt;p class=&quot;finding-text&quot;&gt;Reference pages reduce adoption uncertainty. &lt;cite class=&quot;finding-src&quot;&gt;Repository review&lt;/cite&gt;&lt;/p&gt;&lt;/li&gt;&lt;/ol&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="code-block">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">23 · Since 1.0.0</span>
+            <h2 class="t-h2">Code block</h2>
+          </div>
+          <a class="link t-small" href="#code-block">#code-block</a>
+        </header>
+        <p class="reference-selectors"><code>.code-block</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Optional label and pre/code pair inside a framed block.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>No public modifiers.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Scrolls internally when code is wider than its container.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Keep commands as selectable text and identify the language in nearby copy when relevant.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None; copy buttons are an application enhancement.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-code-block">Copy markup</button>
+          <pre><code id="component-code-code-block">&lt;div class=&quot;code-block&quot;&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;link rel=&quot;stylesheet&quot; href=&quot;inkwell.css&quot;&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="dialog">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">24 · Since 1.3.0</span>
+            <h2 class="t-h2">Dialog</h2>
+          </div>
+          <a class="link t-small" href="#dialog">#dialog</a>
+        </header>
+        <p class="reference-selectors"><code>.dialog</code> <code>.dialog-head</code> <code>.dialog-body</code> <code>.dialog-foot</code> <code>.dialog-close</code> <code>[data-dialog-open]</code> <code>[data-dialog-close]</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Native dialog with head, labelled title, body, and action footer.</li><li>A trigger's data-dialog-open value matches the dialog ID.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>No public visual modifiers.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Closed, modal open, cancel, and return-focus.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use native dialog.showModal(), aria-labelledby, an obvious close action, and restore focus to the trigger.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">inkwell-interactions.js wires data-dialog-open and data-dialog-close; native Escape handles cancel.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-dialog">Copy markup</button>
+          <pre><code id="component-code-dialog">&lt;button class=&quot;btn btn-secondary&quot; type=&quot;button&quot; data-dialog-open=&quot;reference-dialog&quot;&gt;Open dialog&lt;/button&gt;
+&lt;dialog class=&quot;dialog&quot; id=&quot;reference-dialog&quot; aria-labelledby=&quot;reference-dialog-title&quot;&gt;
+  &lt;div class=&quot;dialog-head&quot;&gt;&lt;h2 id=&quot;reference-dialog-title&quot;&gt;Confirm&lt;/h2&gt;&lt;button class=&quot;dialog-close&quot; type=&quot;button&quot; aria-label=&quot;Close&quot; data-dialog-close&gt;×&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;dialog-body&quot;&gt;Continue with this change?&lt;/div&gt;
+  &lt;div class=&quot;dialog-foot&quot;&gt;&lt;button class=&quot;btn btn-secondary&quot; type=&quot;button&quot; data-dialog-close&gt;Cancel&lt;/button&gt;&lt;/div&gt;
+&lt;/dialog&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="skeleton">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">25 · Since 1.0.0</span>
+            <h2 class="t-h2">Skeleton</h2>
+          </div>
+          <a class="link t-small" href="#skeleton">#skeleton</a>
+        </header>
+        <p class="reference-selectors"><code>.skeleton</code> <code>.skeleton.is-text</code> <code>.skeleton.is-title</code> <code>.skeleton.is-block</code> <code>.skeleton.is-circle</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Decorative blocks that approximate pending content.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Line and circle shapes.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Animated normally, static under reduced motion and print.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Hide decorative skeletons from assistive tech and mark the containing region aria-busy=true.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">Application code removes the skeleton and clears aria-busy when content arrives.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-skeleton">Copy markup</button>
+          <pre><code id="component-code-skeleton">&lt;div aria-busy=&quot;true&quot; aria-label=&quot;Loading profile&quot;&gt;&lt;div class=&quot;skeleton is-text&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="table">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">26 · Since 1.0.0</span>
+            <h2 class="t-h2">Table</h2>
+          </div>
+          <a class="link t-small" href="#table">#table</a>
+        </header>
+        <p class="reference-selectors"><code>.tbl</code> <code>.tbl-scroll</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Semantic table wrapped in .tbl-scroll when columns may exceed the viewport.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>No public modifiers.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Container-level horizontal scroll on narrow screens.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Provide a caption, use th with scope, and keep page-level scrolling vertical.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-table">Copy markup</button>
+          <pre><code id="component-code-table">&lt;div class=&quot;tbl-scroll&quot;&gt;&lt;table class=&quot;tbl&quot;&gt;&lt;caption class=&quot;sr-only&quot;&gt;Release status&lt;/caption&gt;&lt;thead&gt;&lt;tr&gt;&lt;th scope=&quot;col&quot;&gt;Version&lt;/th&gt;&lt;th scope=&quot;col&quot;&gt;Status&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;3.5.0&lt;/td&gt;&lt;td&gt;Ready&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="toc">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">27 · Since 1.0.0</span>
+            <h2 class="t-h2">Table of contents</h2>
+          </div>
+          <a class="link t-small" href="#toc">#toc</a>
+        </header>
+        <p class="reference-selectors"><code>.toc</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Labelled navigation list of in-page section links.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Optional .n number within each link.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Hover and focus-visible.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Wrap in nav with an accessible label; target IDs must exist.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-toc">Copy markup</button>
+          <pre><code id="component-code-toc">&lt;nav class=&quot;toc&quot; aria-label=&quot;On this page&quot;&gt;&lt;a href=&quot;#reference-install&quot;&gt;&lt;span class=&quot;n&quot;&gt;01&lt;/span&gt; Install&lt;/a&gt;&lt;/nav&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="pagination">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">28 · Since 1.0.0</span>
+            <h2 class="t-h2">Pagination</h2>
+          </div>
+          <a class="link t-small" href="#pagination">#pagination</a>
+        </header>
+        <p class="reference-selectors"><code>.pagination</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Labelled navigation containing page links.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>aria-current=page marks the current page.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Current, hover, focus-visible, and disabled button states.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Give nav a label and each ambiguous numeric link a useful accessible name.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None for links; client-side routers may intercept navigation.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-pagination">Copy markup</button>
+          <pre><code id="component-code-pagination">&lt;nav class=&quot;pagination&quot; aria-label=&quot;Pagination&quot;&gt;&lt;a href=&quot;?page=1&quot; aria-current=&quot;page&quot; aria-label=&quot;Page 1&quot;&gt;1&lt;/a&gt;&lt;a href=&quot;?page=2&quot; aria-label=&quot;Page 2&quot;&gt;2&lt;/a&gt;&lt;/nav&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="empty-state">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">29 · Since 1.0.0</span>
+            <h2 class="t-h2">Empty state</h2>
+          </div>
+          <a class="link t-small" href="#empty-state">#empty-state</a>
+        </header>
+        <p class="reference-selectors"><code>.empty-state</code> <code>.empty-state-icon</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Optional decorative icon, heading, explanation, and one next action.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>No public modifiers.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Empty content only.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use a semantic heading and hide decorative icon glyphs with aria-hidden=true.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-empty-state">Copy markup</button>
+          <pre><code id="component-code-empty-state">&lt;section class=&quot;empty-state&quot;&gt;&lt;div class=&quot;empty-state-icon&quot; aria-hidden=&quot;true&quot;&gt;◎&lt;/div&gt;&lt;h2&gt;Nothing here yet&lt;/h2&gt;&lt;p&gt;Create the first item to get started.&lt;/p&gt;&lt;button class=&quot;btn btn-primary&quot; type=&quot;button&quot;&gt;Create item&lt;/button&gt;&lt;/section&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="disclosure">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">30 · Since 3.5.0</span>
+            <h2 class="t-h2">Disclosure</h2>
+          </div>
+          <a class="link t-small" href="#disclosure">#disclosure</a>
+        </header>
+        <p class="reference-selectors"><code>.disclosure</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Native details.disclosure containing summary followed by content.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>The native open attribute controls expanded state.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Collapsed, expanded, hover, and focus-visible.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Keep summary concise and unique; native details exposes expanded state and keyboard behavior.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-disclosure">Copy markup</button>
+          <pre><code id="component-code-disclosure">&lt;details class=&quot;disclosure&quot;&gt;&lt;summary&gt;Does this need JavaScript?&lt;/summary&gt;&lt;p&gt;No. The native details element owns the behavior.&lt;/p&gt;&lt;/details&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="carousel">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">31 · Since 3.2.0</span>
+            <h2 class="t-h2">Editorial carousel</h2>
+          </div>
+          <a class="link t-small" href="#carousel">#carousel</a>
+        </header>
+        <p class="reference-selectors"><code>.carousel</code> <code>.carousel-track</code> <code>.carousel-slide</code> <code>.carousel-controls</code> <code>.carousel-btn</code> <code>.carousel-dot</code> <code>[data-carousel]</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Named carousel region, focusable snap track, labelled slides, and initially hidden controls.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>No autoplay or visual variants.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Current slide, first/last disabled controls, swipe, keyboard, and reduced motion.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Name the region and each slide, keep the track keyboard-scrollable, and never autoplay.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">inkwell-interactions.js reveals controls, creates labelled dots, and handles arrows/Home/End. Swipe and scroll work without it.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-carousel">Copy markup</button>
+          <pre><code id="component-code-carousel">&lt;section class=&quot;carousel&quot; data-carousel aria-roledescription=&quot;carousel&quot; aria-label=&quot;Release tour&quot;&gt;
+  &lt;div class=&quot;carousel-track&quot; tabindex=&quot;0&quot;&gt;
+    &lt;article class=&quot;carousel-slide&quot; role=&quot;group&quot; aria-roledescription=&quot;slide&quot; aria-label=&quot;1 of 2&quot;&gt;First slide&lt;/article&gt;
+    &lt;article class=&quot;carousel-slide&quot; role=&quot;group&quot; aria-roledescription=&quot;slide&quot; aria-label=&quot;2 of 2&quot;&gt;Second slide&lt;/article&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;carousel-controls&quot; hidden&gt;&lt;button class=&quot;carousel-btn&quot; type=&quot;button&quot; data-carousel-prev aria-label=&quot;Previous slide&quot;&gt;←&lt;/button&gt;&lt;div class=&quot;carousel-dots&quot;&gt;&lt;/div&gt;&lt;button class=&quot;carousel-btn&quot; type=&quot;button&quot; data-carousel-next aria-label=&quot;Next slide&quot;&gt;→&lt;/button&gt;&lt;/div&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="navbar">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">32 · Since 2.1.0</span>
+            <h2 class="t-h2">Navbar</h2>
+          </div>
+          <a class="link t-small" href="#navbar">#navbar</a>
+        </header>
+        <p class="reference-selectors"><code>.navbar</code> <code>.navbar-inner</code> <code>.brand</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Sticky navbar, constrained inner row, brand link, and navigation.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Optional .dot inside the brand.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Sticky position and link hover/focus.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Label multiple nav landmarks and mark the current page with aria-current=page.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-navbar">Copy markup</button>
+          <pre><code id="component-code-navbar">&lt;header class=&quot;navbar&quot;&gt;&lt;div class=&quot;navbar-inner&quot;&gt;&lt;a class=&quot;brand&quot; href=&quot;/&quot;&gt;&lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Inkwell&lt;/a&gt;&lt;nav aria-label=&quot;Primary&quot;&gt;&lt;a href=&quot;/docs.html&quot;&gt;Docs&lt;/a&gt;&lt;/nav&gt;&lt;/div&gt;&lt;/header&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="layout-wraps">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">33 · Since 1.0.0</span>
+            <h2 class="t-h2">Layout wraps</h2>
+          </div>
+          <a class="link t-small" href="#layout-wraps">#layout-wraps</a>
+        </header>
+        <p class="reference-selectors"><code>.wrap</code> <code>.wrap-narrow</code> <code>.wrap-wide</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>A max-width container with responsive horizontal page padding.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Narrow, default, and wide content measures.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Fluid until each maximum width.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Layout classes do not replace semantic landmarks.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-layout-wraps">Copy markup</button>
+          <pre><code id="component-code-layout-wraps">&lt;main class=&quot;wrap&quot;&gt;&lt;h1 class=&quot;t-display&quot;&gt;Page title&lt;/h1&gt;&lt;/main&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="accessibility-utilities">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">34 · Since 2.1.0</span>
+            <h2 class="t-h2">Accessibility utilities</h2>
+          </div>
+          <a class="link t-small" href="#accessibility-utilities">#accessibility-utilities</a>
+        </header>
+        <p class="reference-selectors"><code>.sr-only</code> <code>.skip-link</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>.sr-only preserves accessible text visually; .skip-link becomes visible on focus.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>No public modifiers.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Skip link hidden until focus-visible.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Every page should place the skip link first in body and target its main landmark.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-accessibility-utilities">Copy markup</button>
+          <pre><code id="component-code-accessibility-utilities">&lt;a class=&quot;skip-link&quot; href=&quot;#main-content&quot;&gt;Skip to content&lt;/a&gt;
+&lt;main id=&quot;main-content&quot;&gt;…&lt;/main&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="keyboard-chip">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">35 · Since 1.3.0</span>
+            <h2 class="t-h2">Keyboard chip</h2>
+          </div>
+          <a class="link t-small" href="#keyboard-chip">#keyboard-chip</a>
+        </header>
+        <p class="reference-selectors"><code>.kbd</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Use the semantic kbd element for a single key or chord.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>.kbd is available when semantic kbd is not applicable.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Static inline content.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Write the shortcut in surrounding text and use platform-appropriate key names.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-keyboard-chip">Copy markup</button>
+          <pre><code id="component-code-keyboard-chip">&lt;p&gt;Press &lt;kbd&gt;⌘&lt;/kbd&gt; &lt;kbd&gt;K&lt;/kbd&gt; to search.&lt;/p&gt;</code></pre>
+        </div>
+      </article>
+      <!-- END GENERATED COMPONENT REFERENCE -->
+
+      <footer class="page-footer t-small" style="margin-top: var(--sp-7);">
+        Generated from <code>component-manifest.json</code>. Treat the manifest and shipped CSS as the public contract.
+        <p class="footer-links">
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.5.0</a>
+          <span class="sep" aria-hidden="true">·</span>
+          <time data-inkwell-deployed datetime="">Deployment pending</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <a class="link" href="https://github.com/vscarpenter/inkwell">GitHub</a>
+        </p>
+      </footer>
+    </div>
+  </main>
+  <script src="inkwell-interactions.js"></script>
+  <script src="demo.js"></script>
+  <script>
+    var index = document.getElementById("component-index");
+    document.querySelectorAll(".reference-entry").forEach(function (entry) {
+      var heading = entry.querySelector("h2");
+      var link = document.createElement("a");
+      link.className = "link t-small";
+      link.href = "#" + entry.id;
+      link.textContent = heading.textContent;
+      index.appendChild(link);
+    });
+    document.addEventListener("click", function (event) {
+      var button = event.target.closest("[data-copy-code]");
+      if (!button) return;
+      var code = document.getElementById(button.getAttribute("data-copy-code"));
+      if (!code || !navigator.clipboard) return;
+      navigator.clipboard.writeText(code.textContent).then(function () {
+        var original = button.textContent;
+        button.textContent = "Copied";
+        setTimeout(function () { button.textContent = original; }, 1200);
+      });
+    });
+  </script>
+</body>
+</html>

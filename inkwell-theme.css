@@ -1,6 +1,6 @@
 /* =====================================================================
    Inkwell — Tailwind v4 entry.
-   Version: 3.0.1
+   Version: 3.5.0
 
    Drop this into a Tailwind v4 project AFTER `@import "tailwindcss"`:
 
@@ -19,7 +19,7 @@
    No JavaScript. No tailwind.config.js. No build configuration
    beyond what Tailwind already needs.
 
-   See TAILWIND.md for the install guide, the border-hair convention,
+   See TAILWIND.md for the install guide, the border-inkwell convention,
    the components-vs-utilities rule, and cascade-order guidance for
    loading a variants/ palette on top.
    ===================================================================== */
@@ -161,26 +161,33 @@
   /* Container max-widths — match Inkwell's --content-* tokens.
      Tailwind v4's --container-* namespace generates both
      max-w-* and container-* utilities automatically. */
-  --container-narrow:  820px;
-  --container-default: 920px;
-  --container-wide:   1120px;
+  --container-narrow:  var(--content-narrow);
+  --container-default: var(--content-default);
+  --container-wide:    var(--content-wide);
 }
 
 /* =====================================================================
-   @utility border-hair — the 1.5px signature.
+   @utility border-inkwell — the 1.5px signature.
 
    We deliberately do NOT redefine the default `border` width.
    Overriding the default would surprise any third-party Tailwind
-   component that assumes 1px. Use border-hair explicitly in
+   component that assumes 1px. Use border-inkwell explicitly in
    Inkwell-flavored markup.
 
    Tailwind v4 does not auto-generate border-width utilities from
    the @theme namespace (border widths are core utilities, not
    theme-extensible the same way as colors / radii / containers).
    `@utility` is v4's mechanism for registering custom utility
-   classes that can be composed with variants like `dark:border-hair`
-   or `md:border-hair`.
+   classes that can be composed with variants like `dark:border-inkwell`
+   or `md:border-inkwell`.
    ===================================================================== */
+@utility border-inkwell {
+  border-width: 1.5px;
+}
+
+/* Deprecated compatibility alias. The CSS token --border-hair is a 1px
+   divider, while this historical Tailwind utility means 1.5px. Prefer
+   border-inkwell; border-hair remains through 3.x and is removed in 4.0. */
 @utility border-hair {
   border-width: 1.5px;
 }

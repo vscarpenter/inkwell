@@ -1,6 +1,6 @@
 /* =====================================================================
    Inkwell — component CSS, base reset, layout helpers, accessibility.
-   Version: 3.0.1
+   Version: 3.5.0
 
    This file contains everything EXCEPT custom-property declarations
    and the dark-mode cascade (which live in inkwell-tokens.css).
@@ -10,7 +10,7 @@
    the tokens file alone.
 
    Consumption:
-     • Pure-CSS use: `tokens.css` re-exports this file alongside
+     • Pure-CSS use: `inkwell.css` imports this file alongside
        inkwell-tokens.css. Link inkwell.css from <head>.
      • Tailwind v4: inkwell-theme.css imports this file inside
        @layer components so Tailwind utilities can override
@@ -531,7 +531,7 @@ kbd, .kbd {
   width: 34px;
   flex-shrink: 0;
 }
-.sec-head h2 { margin: 0; font-family: var(--serif); font-weight: 600; font-size: 27px; letter-spacing: -0.012em; }
+.sec-head :is(h1, h2) { margin: 0; font-family: var(--serif); font-weight: 600; font-size: 27px; letter-spacing: -0.012em; }
 .sec-head .count {
   font: 11px/1 var(--mono);
   color: var(--gray-500);
@@ -929,15 +929,46 @@ pre.code-block { margin: 0; font: inherit; color: inherit; white-space: pre; }
   font: var(--t-small)/1.55 var(--sans);
 }
 
+/* ---------- Disclosure / accordion item ----------
+   Native <details> keeps keyboard and expanded-state behavior without JS.
+   Use one .disclosure per question/section; group siblings in a plain div. */
+.disclosure {
+  padding: var(--sp-4) 0;
+  border-bottom: var(--border-hair);
+}
+.disclosure:first-child { border-top: var(--border-hair); }
+.disclosure > summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  color: var(--slate);
+  font: 500 var(--t-body)/1.4 var(--sans);
+  cursor: pointer;
+  list-style: none;
+}
+.disclosure > summary::-webkit-details-marker { display: none; }
+.disclosure > summary::after {
+  content: "+";
+  flex: 0 0 auto;
+  color: var(--gray-500);
+  font-family: var(--mono);
+}
+.disclosure[open] > summary { color: var(--accent-ink); }
+.disclosure[open] > summary::after { content: "−"; }
+.disclosure > :not(summary) {
+  max-width: 64ch;
+  margin: var(--sp-3) 0 0;
+  color: var(--gray-700);
+}
+
 /* ---------- Editorial carousel ----------
    A swipeable series of full-width slides — "chapters" a reader pages
    through. The core is CSS-only: scroll-snap, one slide per view; swipe,
    trackpad, and the scrollbar all work with JS disabled. Prev/next
    buttons, dot indicators, and arrow-key navigation are progressive
-   enhancement: author .carousel-controls with [hidden] and let the
-   enhancement script populate .carousel-dots and reveal the controls
-   (reference wiring: examples/demo.js; a KEEP IN SYNC copy lives in
-   preview.html).
+   enhancement: author .carousel-controls with [hidden] and let
+   inkwell-interactions.js populate .carousel-dots and reveal controls.
    Accessibility contract: .carousel is a named region (prefer a
    <section> with aria-label; role="region" is the generic fallback) +
    aria-roledescription="carousel"; each slide gets
@@ -1122,6 +1153,32 @@ pre.code-block { margin: 0; font: inherit; color: inherit; white-space: pre; }
 /* floor so wide tables scroll instead of crushing columns; override per-table if yours is genuinely narrow */
 .tbl-scroll > .tbl { min-width: 560px; }
 
+/* Keep compact desktop rhythm while meeting the 44px target floor on
+   coarse-pointer devices. The control itself grows, not only its hit area,
+   so the interactive boundary remains visible and testable. */
+@media (pointer: coarse) {
+  .btn,
+  .btn-sm,
+  .input,
+  .select,
+  .tab,
+  .segmented > button,
+  .segmented > .seg,
+  .code-block .copy,
+  .dialog-close,
+  .pagination a,
+  .pagination button,
+  .carousel-btn,
+  .carousel-dot {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .checkbox,
+  .radio,
+  .switch,
+  .disclosure > summary { min-height: 44px; }
+}
+
 /* =====================================================================
    Layout helpers
    ===================================================================== */
@@ -1172,7 +1229,7 @@ hr.rule       { border: none; border-top: var(--border-rule); margin: 0 0 22px; 
    Print
    ===================================================================== */
 @media print {
-  .card, .stat-card, .callout, .finding, .tbl, figure.figure, .alert, .code-block { break-inside: avoid; }
+  .card, .stat-card, .callout, .finding, .tbl, .disclosure, figure.figure, .alert, .code-block { break-inside: avoid; }
   /* Stack carousel slides so every one prints instead of clipping to the snapped slide. */
   .carousel-track { display: block; overflow: visible; }
   .carousel-slide { break-inside: avoid; }
