@@ -23,6 +23,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - **Palette deployment and comparison isolation.** GitHub Pages now watches and copies Azure, Tailwind's browser demo loads Azure without a stray `tailwindcss` request, and comparison iframes no longer overwrite saved palette or theme choices.
 - **Reference-page semantics.** Every deployed page now has one visible `h1`, one `main#main-content`, and a working skip link. The app-shell and 404 heading hierarchies are corrected; invalid examples expose `aria-invalid` and `aria-describedby`; sign-in controls use correct types, names, and autocomplete values.
 - **Mobile containment and target sizing.** App-shell grid children can shrink, dense tables scroll inside `.tbl-scroll`, demo navigation groups contain their own overflow, and coarse-pointer controls reach a 44px target floor without loosening desktop density.
+- **Cross-platform pagination containment.** Pagination now owns horizontal overflow on narrow screens, so platform font-metric differences cannot push the document beyond its viewport.
 - **Current documentation.** The live guide now describes the three-file 3.5 install, canonical source split, five palettes, Tailwind v4 entry, optional interactions, component reference, and agent adoption path instead of the retired v1.1/two-file model.
 
 ### Changed

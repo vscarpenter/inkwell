@@ -836,6 +836,9 @@ pre.code-block { margin: 0; font: inherit; color: inherit; white-space: pre; }
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
   list-style: none;
   margin: 0;
   padding: 0;
