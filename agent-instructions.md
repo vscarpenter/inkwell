@@ -5,7 +5,7 @@ You are an AI coding agent (Claude Code, Codex, Cursor, etc.) and the user has a
 - **Repo:** https://github.com/vscarpenter/inkwell
 - **Live demo:** https://inkwell.vinny.dev/
 - **License:** MIT
-- **Targets:** Inkwell 3.0.1 — if the repo's `CHANGELOG.md` shows a newer release, re-fetch this file before proceeding. 3.0 requires Chrome/Edge 123+, Firefox 120+, Safari 17.5+ (mid-2024); pin the `v2.1.0` tag in raw URLs if the project must support older browsers.
+- **Targets:** Inkwell 3.5.0 — if the repo's `CHANGELOG.md` shows a newer release, re-fetch this file before proceeding. Inkwell 3.x requires Chrome/Edge 123+, Firefox 120+, Safari 17.5+ (mid-2024); pin the `v2.1.0` tag in raw URLs if the project must support older browsers.
 
 Read this file end-to-end before writing any HTML or CSS. The "Hard rules" and "Anti-patterns" sections are non-negotiable — Inkwell has a deliberate, opinionated look and breaking these rules will produce something that does not look like Inkwell.
 
@@ -23,7 +23,7 @@ Do not apply `CLAUDE.md` editing rules when consuming Inkwell in another project
 
 ## 1. What Inkwell is
 
-A pure-CSS design system. **No build step. No package manager. No JS framework. No dependencies.** The deliverable is a small set of CSS files plus reference HTML. You install it by downloading three CSS files and linking one of them (§2).
+A pure-CSS design system. **No build step. No package manager. No JS framework. No dependencies.** The core deliverable is three CSS files plus reference HTML. An optional dependency-free JavaScript file supplies portable behavior for tabs, carousels, and native-dialog triggers; static styles do not depend on it.
 
 Inkwell ships with the **Indigo & Cloud** palette: cool stone background (`--ivory`), deep indigo accent (`--accent`), serif headlines at weight 600, monospace eyebrows for product/dashboard contexts (italic-serif `.eyebrow-serif` for editorial), and a signature **1.5px hairline border** that is the system's most recognizable feature.
 
@@ -37,9 +37,9 @@ Download three canonical CSS files into the user's project. Use raw GitHub URLs:
 
 | File | Raw URL | Where to put it |
 |---|---|---|
-| `inkwell.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1/inkwell.css` | Project static/CSS folder |
-| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1/inkwell-tokens.css` | Same folder as `inkwell.css` |
-| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1/inkwell-components.css` | Same folder |
+| `inkwell.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.5.0/inkwell.css` | Project static/CSS folder |
+| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.5.0/inkwell-tokens.css` | Same folder as `inkwell.css` |
+| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.5.0/inkwell-components.css` | Same folder |
 
 All three files must live side-by-side. `inkwell.css` `@import`s `inkwell-tokens.css` (unlayered) and `inkwell-components.css` (into `@layer inkwell`, so the user's own CSS always overrides Inkwell components). `tokens.css` is a deprecated alias of `inkwell.css` — only fetch it if the project already links that filename. Link `inkwell.css` from your `<head>`:
 
@@ -55,9 +55,9 @@ If the user's project uses **Tailwind v4 (October 2024 or later)**, fetch the Ta
 
 | File | Raw URL |
 |---|---|
-| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1/inkwell-tokens.css` |
-| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1/inkwell-components.css` |
-| `inkwell-theme.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1/inkwell-theme.css` |
+| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.5.0/inkwell-tokens.css` |
+| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.5.0/inkwell-components.css` |
+| `inkwell-theme.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.5.0/inkwell-theme.css` |
 
 Keep the three files side by side, then add two lines to the user's Tailwind entry CSS (typically `app.css`, `globals.css`, or whatever their build points at), in this order:
 
@@ -66,7 +66,7 @@ Keep the three files side by side, then add two lines to the user's Tailwind ent
 @import "./inkwell-theme.css";
 ```
 
-That activates: every Inkwell token as a Tailwind utility (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-hair`), Inkwell component classes (`.btn`, `.card`, …) inside `@layer components` so utilities can override them, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle. You do not need `inkwell.css` (or the deprecated `tokens.css` alias) unless you also want the pure-CSS entry for non-Tailwind consumers.
+That activates: every Inkwell token as a Tailwind utility (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-inkwell`), Inkwell component classes (`.btn`, `.card`, …) inside `@layer components` so utilities can override them, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle. You do not need `inkwell.css` (or the deprecated `tokens.css` alias) unless you also want the pure-CSS entry for non-Tailwind consumers.
 
 **Tailwind v3 is not supported.** v3 requires a JS preset. If the user is on v3, recommend upgrading to v4 or installing Inkwell via the default path without Tailwind utility coverage.
 
@@ -77,10 +77,13 @@ Full Tailwind setup guide and conventions: [`TAILWIND.md`](TAILWIND.md) in the r
 | File | When to fetch |
 |---|---|
 | `tokens.json` | User wants tokens for Style Dictionary or a Figma plugin |
+| `inkwell-interactions.js` | User uses tabs, enhanced carousel controls, or declarative native-dialog triggers |
+| `component-manifest.json` | User or tooling needs the machine-readable public component contract |
 | `index.html` | User wants a starter template with navbar + theme toggle |
 | `preview.html` | User wants the full component showcase page |
+| `examples/components.html` | User wants copyable markup plus anatomy, states, accessibility, and JavaScript requirements |
 | `examples/tailwind.html` | User wants a live Tailwind v4 + Inkwell integration demo |
-| `examples/*.html` | User wants a specific page pattern. Exact filenames: `index`, `dashboard`, `app-shell`, `docs`, `landing`, `search`, `pricing`, `settings`, `profile`, `auth-pattern`, `not-found`, `changelog`, `roadmap`, `article`, `forms` (all `.html`; 15 destination pages — excludes `preview.html` and `tailwind.html`, which are integration/showcase demos) |
+| `examples/*.html` | User wants a specific page pattern. Sixteen destinations: `index`, `dashboard`, `app-shell`, `docs`, `landing`, `search`, `pricing`, `settings`, `profile`, `auth-pattern`, `not-found`, `changelog`, `roadmap`, `article`, `forms`, `carousel`; three showcase/integration pages: `components`, `preview`, `tailwind`; plus `variants/compare.html` |
 | `DESIGN_SYSTEM.md` | You need the canonical spec (token tables, component list, anti-patterns) |
 | `TAILWIND.md` | User is integrating with Tailwind v4 — read this in full before writing markup |
 
@@ -93,7 +96,7 @@ If the user wants a non-default palette, also fetch the relevant variant file fr
 ```bash
 # Default install (pure CSS, no Tailwind) — three files
 mkdir -p public/css
-BASE=https://raw.githubusercontent.com/vscarpenter/inkwell/v3.0.1
+BASE=https://raw.githubusercontent.com/vscarpenter/inkwell/v3.5.0
 curl -sSLo public/css/inkwell.css           $BASE/inkwell.css
 curl -sSLo public/css/inkwell-tokens.css    $BASE/inkwell-tokens.css
 curl -sSLo public/css/inkwell-components.css $BASE/inkwell-components.css
@@ -180,7 +183,7 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 **Borders & radius**
 - `--border` (1.5px solid `--gray-300`) — the signature outer frame
 - `--border-strong` (1.5px solid `--slate`)
-- `--border-hair` (1px solid `--gray-100`) — internal dividers inside a `--border` panel
+- `--border-hair` (1px solid `--gray-100`) — internal dividers inside a `--border` panel. This CSS token is distinct from Tailwind's deprecated `border-hair` class; use `border-inkwell` for a 1.5px Tailwind border.
 - `--border-rule` (1px solid `--gray-300`) — horizontal section rules
 - `--control-border` (1.5px solid `--gray-400`) — checkbox/radio/switch boundaries; functional state edges must clear 3:1, unlike decorative hairlines
 - `--r-xs`, `--r-sm`, `--r-md`, `--r-lg`, `--r-xl`, `--r-pill` — radii
@@ -210,11 +213,12 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 | `.stat-card` (`.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a full 1.5px accent border |
 | `.tbl` | Table with sans headers and hairline rows |
 | `.tbl-scroll` | Overflow wrapper for `.tbl` — horizontal scroll on narrow viewports |
-| `.carousel` (`.carousel-track`, `.carousel-slide`, `.carousel-controls`) | Editorial swipeable series on CSS scroll-snap; core works with zero JS, controls are JS-revealed progressive enhancement. No autoplay. |
+| `.carousel` (`.carousel-track`, `.carousel-slide`, `.carousel-controls`) | Editorial swipeable series on CSS scroll-snap; core works with zero JS, controls are enhanced by `inkwell-interactions.js`. No autoplay. |
 | `.tldr` | Inverted callout (dark in light mode, light in dark) |
 | `.code-block` | Multi-line `<pre><code>` panel |
-| `.dialog` | Native `<dialog>` styling |
-| `.tabs` (`.tab`, `.tab-panel`) | Underline tab nav; requires JavaScript for `aria-selected`, roving tabindex, panel visibility, and Arrow/Home/End keys (see `examples/demo.js`) |
+| `.dialog` | Native `<dialog>` styling; `inkwell-interactions.js` can wire `data-dialog-open="id"` triggers and `data-dialog-close` controls with focus restoration |
+| `.tabs` (`.tab`, `.tab-panel`) | Underline tab nav; `inkwell-interactions.js` wires `aria-selected`, roving tabindex, panel visibility, and Arrow/Home/End keys |
+| `.disclosure` | Native `<details>` disclosure/accordion item; no JavaScript |
 | `.segmented` (`aria-pressed` / `.is-active`) | Pill-shaped group of mutually-exclusive options (theme toggle, view modes, density) |
 | `.tooltip` (`[data-tooltip]`) | CSS-only hover/focus tooltip |
 | `.breadcrumbs` | `<ol>` with `/` separators |
@@ -238,7 +242,17 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 
 For typography in markup, also use the utility classes that are defined in `inkwell-components.css`: `.t-display`, `.t-h1`, `.t-h2`, `.t-h3`, `.t-lede`, `.t-body`, `.t-small`, `.t-caption`.
 
-When a component is missing, build it with tokens — never with hardcoded values. Inspect `preview.html` from the repo to see how the existing components compose.
+When a component is missing, build it with tokens — never with hardcoded values. Consult `examples/components.html` for the public contract and copyable markup; use `preview.html` for visual-state review.
+
+### Optional shared interactions
+
+Load the companion after component markup when the page uses tabs, enhanced carousel controls, or declarative dialogs:
+
+```html
+<script src="/path/to/inkwell-interactions.js"></script>
+```
+
+The script auto-initializes and exposes `window.InkwellInteractions.init(root)` for dynamically inserted markup. Initialization is idempotent. The required HTML and ARIA relationships remain the consumer's responsibility; the component reference shows complete examples.
 
 ---
 
@@ -345,14 +359,15 @@ From `DESIGN_SYSTEM.md` §4. If you catch yourself doing any of these, stop:
 ## 9. Building a new page — workflow
 
 1. Confirm which palette the user wants. Indigo & Cloud is the default (no extra file). For Clay, Sage & Stone, Burgundy & Bone, or Azure & Ink, fetch the corresponding variant file and load it after `inkwell.css` (see §6).
-2. Fetch the three canonical CSS files per §2 (`inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`). Or if the user is already on Tailwind v4, fetch the three-file Tailwind path instead.
+2. Fetch the three canonical CSS files per §2 (`inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`). Or if the user is already on Tailwind v4, fetch the three-file Tailwind path instead. Fetch `inkwell-interactions.js` only when the selected components require it.
 3. Link `inkwell.css` from `<head>` (or, for the Tailwind path, add `@import "tailwindcss"; @import "./inkwell-theme.css";` to the user's Tailwind entry CSS).
 4. (Optional) Wire the theme toggle (§7).
 5. Set the page background to `--ivory` and body text to `--slate`. Use `var(--sans)` for the body, `var(--serif)` for headings.
 6. Compose with the component classes in §5. For unique layouts, write thin per-page CSS that *only references tokens*.
 7. Use `--content-default` (920px) as the default max-width; reach for `--content-narrow` for prose, `--content-wide` for dashboards.
-8. Verify in both light and dark mode before declaring done. (Toggle via the script in §7, or via OS-level dark mode preference.)
-9. If you add custom colored tokens or tints, put both mode values in one `light-dark(light, dark)` declaration with a lifted dark value. Prefer `color-mix()` from an existing base token for alpha tints — do not hand-write separate `rgba()` values per mode or add `@media (prefers-color-scheme: dark)` color blocks.
+8. Give the page one visible `h1`, one `main` landmark, and a skip link to that landmark. Add canonical and theme-color metadata.
+9. Verify auto, light, and dark at desktop and 375px. Check keyboard behavior and confirm no page-level horizontal overflow. Coarse-pointer targets should reach 44 by 44 CSS pixels.
+10. If you add custom colored tokens or tints, put both mode values in one `light-dark(light, dark)` declaration with a lifted dark value. Prefer `color-mix()` from an existing base token for alpha tints — do not hand-write separate `rgba()` values per mode or add `@media (prefers-color-scheme: dark)` color blocks.
 
 ---
 
@@ -372,7 +387,7 @@ When applying Inkwell to an existing application, preserve the app's routing, da
 4. Replace local color, border, font, radius, shadow, and spacing literals with Inkwell tokens in app CSS.
 5. Keep app-specific layout CSS thin and token-driven. Use existing components and props; only change markup/classes where needed for styling.
 6. Remove or neutralize old global styles that fight Inkwell's body background, typography, focus rings, or component classes.
-7. **If the app already uses Tailwind v4:** use the Tailwind path from §2 in the existing entry CSS — components live in `@layer components`, so existing Tailwind utilities still override component padding/margins. Read [`TAILWIND.md`](TAILWIND.md) for the components-vs-utilities rule and the `border-hair` convention. Do NOT also load `inkwell.css` or `tokens.css` in the Tailwind entry CSS — `inkwell-theme.css` already brings in the source split.
+7. **If the app already uses Tailwind v4:** use the Tailwind path from §2 in the existing entry CSS — components live in `@layer components`, so existing Tailwind utilities still override component padding/margins. Read [`TAILWIND.md`](TAILWIND.md) for the components-vs-utilities rule and the `border-inkwell` convention. Do NOT also load `inkwell.css` or `tokens.css` in the Tailwind entry CSS — `inkwell-theme.css` already brings in the source split.
 8. If the app already uses Tailwind v3, CSS modules, CSS-in-JS, or another component library, integrate Inkwell at the edge: global tokens and classes first, then targeted component updates. Do not introduce a second styling architecture just for this migration.
 
 ---
@@ -384,6 +399,8 @@ Before declaring the integration done:
 - Run the app's existing lint, test, typecheck, and build commands when they exist. Do not invent new commands.
 - Open the changed page or app locally and check at least one desktop and one mobile viewport.
 - Verify light, dark, and auto theme behavior.
+- Confirm one visible `h1`, one `main`, a working skip link, canonical/theme-color metadata, and no page-level horizontal overflow at 375px.
+- Confirm invalid fields use `aria-invalid="true"` and reference visible error copy with `aria-describedby`.
 - Check focus, hover, disabled, loading, empty, validation/error, dialog, tab, and navigation states that appear in the changed surface.
 - Confirm there are no new console errors, broken routes, missing CSS files, or layout shifts caused by loading `inkwell.css`.
 - Scan new CSS for hardcoded colors, `1px`/`2px` outer borders, webfonts, gradients on surfaces, and extra saturated accent colors.
@@ -397,8 +414,10 @@ Always available in the repo:
 
 - `DESIGN_SYSTEM.md` — canonical spec: token tables, full component list, dark-mode cascade, accessibility notes, the *why* behind every rule. Read this before designing new components or extending tokens.
 - `CLAUDE.md` — repo maintainer notes for editing Inkwell's source in this repo. Do not fetch or apply when integrating Inkwell into another project.
-- `preview.html` — every component, every state, both modes. The reference rendering.
-- `examples/` — fifteen destination pages (`index` plus fourteen patterns) built only from the design system; `tailwind.html` is a separate Tailwind v4 integration demo. The best place to learn composition.
+- `examples/components.html` — generated adoption reference: selectors, anatomy, modifiers, states, accessibility, JavaScript, since-version, and copyable markup.
+- `component-manifest.json` — the same public component contract for tools and agents.
+- `preview.html` — every component and state in both modes; the visual review surface.
+- `examples/` — sixteen destination pages, the generated component reference, visual showcase, Tailwind proof, and palette comparison. The best place to learn composition.
 - `CHANGELOG.md` — what changed in each release.
 
 ---
@@ -407,7 +426,7 @@ Always available in the repo:
 
 - Do not run `npm install inkwell` or any package-manager equivalent. There is no package.
 - Do not add a build step (Vite, Webpack, PostCSS, Tailwind) just to use Inkwell. Existing build tooling in the host app is fine; do not create new tooling for the CSS files. The one exception: if the user is already on Tailwind v4, the Tailwind path in §2 is a first-class supported integration — install `inkwell-theme.css` into their existing build.
-- Do not modify `tokens.css`, `inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`, or `inkwell-theme.css` in the user's project. If they need a custom token value, override it in their own stylesheet that loads *after* Inkwell.
+- Do not modify `tokens.css`, `inkwell.css`, `inkwell-tokens.css`, `inkwell-components.css`, `inkwell-theme.css`, or `inkwell-interactions.js` in the user's project. If they need a custom token value, override it in their own stylesheet that loads *after* Inkwell.
 - Do not invent new component classes that conflict with `inkwell-components.css` (`.btn`, `.card`, etc.). Extend with modifier classes instead.
 - Do not introduce a CSS-in-JS layer, styled-components, or a UI framework on top. Inkwell is the framework.
 - Do not paste this file's content inline into the user's project. It is for *you* to read; reference it via URL if the user wants a copy.

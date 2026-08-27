@@ -13,7 +13,7 @@ Promote an item by deleting it from here and writing it up in the relevant doc +
 ### Deferred from the 3.0 design pass
 
 - **Relative color syntax for lifted dark accents** (`oklch(from var(--accent) …)`) — rejected for 3.0 because deriving dark values would change the hand-tuned 2.1.0 contrast work; candidate for a future major with a fresh contrast pass.
-- **Popover-based menu, `<details>` accordion, `progress`/`meter`, container queries** — additive 3.x candidates; re-verify anchor-positioning Baseline status before committing.
+- **Popover-based menu, `progress`/`meter`, container queries** — additive 3.x candidates; re-verify anchor-positioning Baseline status before committing. Native `<details>` disclosures shipped as `.disclosure` in 3.5.0.
 - **W3C Design Tokens format for `tokens.json`** — schema stability was 3.0's safety gate; revisit separately.
 
 ### Audit Tier-2 items left for a 3.x

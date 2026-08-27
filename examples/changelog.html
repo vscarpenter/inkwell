@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F4F4F0">
+  <link rel="canonical" href="https://inkwell.vinny.dev/changelog.html">
   <title>Changelog · Inkwell</title>
   <meta name="description" content="Inkwell release notes — every version of the pure-CSS design system, generated from CHANGELOG.md.">
   <meta property="og:type" content="website">
@@ -50,7 +52,8 @@
   </style>
 </head>
 <body>
-  <main class="demo-shell">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main id="main-content" class="demo-shell">
     <div class="wrap">
       <nav class="demo-nav" aria-label="Sample pages">
         <a class="brand" href="index.html">
@@ -97,7 +100,8 @@
       <!-- BEGIN GENERATED: releases — edit CHANGELOG.md and run scripts/build-changelog-html.mjs -->
       <article class="release">
         <div class="release-head">
-          <span class="ver">Unreleased</span>
+          <span class="ver">v3.5.0</span>
+          <span class="release-date">2026-08-27</span>
           <span class="badge badge-accent">Latest</span>
         </div>
         <div class="change-block">
@@ -105,6 +109,12 @@
           <ul class="change-list">
             <li><strong>Azure &amp; Ink palette.</strong> A fifth palette — cool harbor stone + a clean azure accent, deep navy surfaces in dark (<code>variants/azure.css</code>), adapted from the "From Products to Platform" deck. Override-only like the others: single <code>light-dark()</code> declarations for surfaces, accent, and the neutral ramp; redeclares <code>--accent-tint</code> (dark alpha 16%) and <code>--accent-ink</code>. Registered in <code>tokens.json</code> <code>_meta.palettes</code>, rendered as a fifth panel on <code>variants/compare.html</code>, and selectable everywhere via <code>?palette=azure</code> or the new Azure button in the palette toggle on every example page and <code>preview.html</code>. The CI contrast gate grows from 192 to 240 token-pair assertions to cover it.</li>
             <li><strong>Deployment build metadata.</strong> Every live page footer now shows the semantic release, a commit-derived build number, and the UTC deployment date. Pages deploys every commit to <code>main</code> and stamps only its artifact copy, avoiding generated commits and workflow recursion.</li>
+            <li><strong>Generated component reference.</strong> <code>component-manifest.json</code> now catalogs 35 public component families with selectors, anatomy, modifiers, states, accessibility responsibilities, JavaScript requirements, since-version, and copyable markup. <code>scripts/build-components-reference.mjs</code> deterministically renders the catalog into <code>examples/components.html</code> and supports CI drift checking.</li>
+            <li><strong>Optional shared interactions.</strong> <code>inkwell-interactions.js</code> provides idempotent, dependency-free progressive enhancement for tabs, carousel controls, and declarative native-dialog triggers. It auto-initializes and exposes <code>window.InkwellInteractions.init(root)</code> for dynamically inserted UI. The examples no longer maintain duplicate tab/carousel implementations.</li>
+            <li><strong>Native disclosure component.</strong> <code>.disclosure</code> styles a semantic <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> pair for FAQ and accordion content with no JavaScript. The landing page now consumes the shared primitive instead of private FAQ CSS.</li>
+            <li><strong>Repository-wide adoption contract.</strong> <code>scripts/check-system-contract.mjs</code> verifies release/version alignment, distributable mirrors, manifest/CSS parity, page landmarks and metadata, form-error relationships, local targets, Tailwind aliases, and known stale claims. An ephemeral Playwright suite adds desktop/mobile runtime, interaction, theme/palette, touch-target, and overflow coverage without adding package metadata.</li>
+            <li><strong>Reference-page metadata.</strong> All 20 published pages now include a canonical URL and theme-color metadata; theme-aware pages synchronize the color after mode or palette changes.</li>
+            <li><strong>Preferred Tailwind border name.</strong> <code>border-inkwell</code> is the unambiguous name for the 1.5px signature utility. The historical <code>border-hair</code> utility remains as a deprecated compatibility alias until 4.0; the CSS token <code>--border-hair</code> continues to mean a 1px internal divider.</li>
           </ul>
         </div>
         <div class="change-block">
@@ -112,6 +122,25 @@
           <ul class="change-list">
             <li><strong>Example accessibility and responsive behavior.</strong> Tab references now implement complete tab/panel relationships, roving tabindex, and Arrow/Home/End navigation; palette/theme pickers expose named groups; narrow tables and long inline-code URLs no longer force page-level horizontal scrolling.</li>
             <li><strong>Palette deployment and comparison isolation.</strong> GitHub Pages now watches and copies Azure, Tailwind's browser demo loads Azure without a stray <code>tailwindcss</code> request, and comparison iframes no longer overwrite saved palette or theme choices.</li>
+            <li><strong>Reference-page semantics.</strong> Every deployed page now has one visible <code>h1</code>, one <code>main#main-content</code>, and a working skip link. The app-shell and 404 heading hierarchies are corrected; invalid examples expose <code>aria-invalid</code> and <code>aria-describedby</code>; sign-in controls use correct types, names, and autocomplete values.</li>
+            <li><strong>Mobile containment and target sizing.</strong> App-shell grid children can shrink, dense tables scroll inside <code>.tbl-scroll</code>, demo navigation groups contain their own overflow, and coarse-pointer controls reach a 44px target floor without loosening desktop density.</li>
+            <li><strong>Current documentation.</strong> The live guide now describes the three-file 3.5 install, canonical source split, five palettes, Tailwind v4 entry, optional interactions, component reference, and agent adoption path instead of the retired v1.1/two-file model.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Changed</div>
+          <ul class="change-list">
+            <li><strong>Agent and consumer guidance now pins 3.5.0.</strong> Raw install URLs, component lists, example counts, JavaScript responsibilities, accessibility requirements, and verification steps all match the shipped API.</li>
+            <li><strong>Tailwind container aliases reference canonical layout tokens.</strong> <code>--container-narrow/default/wide</code> now resolve through <code>--content-*</code> rather than copying pixel values, eliminating another parity seam.</li>
+            <li><strong>CI is repository-wide.</strong> Generated-file, contrast, deployment-marker, system-contract, and browser-smoke gates run for every pull request and push to <code>main</code>; Pages runs the static gates before assembling its artifact.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Migration</div>
+          <ul class="change-list">
+            <li>New installs should continue linking the three canonical CSS files. Add <code>inkwell-interactions.js</code> only when using tabs, enhanced carousel controls, or declarative dialogs.</li>
+            <li>Replace new Tailwind uses of <code>border-hair</code> with <code>border-inkwell</code>. Existing <code>border-hair</code> markup remains supported until 4.0.</li>
+            <li>If you copied interaction code from <code>examples/demo.js</code> or <code>preview.html</code>, replace it with the shared module and keep the documented ARIA markup.</li>
           </ul>
         </div>
       </article>
@@ -467,7 +496,7 @@
       <footer class="page-footer t-small" style="margin-top: 56px;">
         The real release history — generated from <code>CHANGELOG.md</code> by <code>scripts/build-changelog-html.mjs</code>. Demonstrates: <code>.breadcrumbs</code>, version pills, <code>.tbl</code> for migration tables, native <code>&lt;article&gt;</code> semantics throughout.
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.5.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>

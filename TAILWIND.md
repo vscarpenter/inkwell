@@ -27,7 +27,7 @@ Then, in your Tailwind entry CSS — typically `app.css`, `globals.css`, or what
 @import "./inkwell-theme.css";
 ```
 
-That's the install. **Order matters**: Tailwind must come first so the `@theme` aliases in `inkwell-theme.css` can extend it. That gives you Inkwell tokens as Tailwind utilities (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-hair`, `text-accent-ink`, `bg-olive-dark`, `border-gray-400`, `bg-info-tint`), Inkwell components in `@layer components`, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle.
+That's the install. **Order matters**: Tailwind must come first so the `@theme` aliases in `inkwell-theme.css` can extend it. That gives you Inkwell tokens as Tailwind utilities (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-inkwell`, `text-accent-ink`, `bg-olive-dark`, `border-gray-400`, `bg-info-tint`), Inkwell components in `@layer components`, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle.
 
 ### Live example
 
@@ -51,7 +51,7 @@ Inkwell's tokens are aliased into Tailwind's namespace, so all of these utility 
 
 **Radii** — `rounded-xs`, `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl`, `rounded-full`
 
-**The 1.5px border signature** — `border-hair` (see the next section)
+**The 1.5px border signature** — `border-inkwell` (see the next section)
 
 **Containers** — `max-w-narrow` (820px), `max-w-default` (920px), `max-w-wide` (1120px)
 
@@ -59,13 +59,13 @@ You also get every component class from `inkwell-components.css`: `.btn`, `.btn-
 
 ---
 
-## The `border-hair` convention
+## The `border-inkwell` convention
 
 Inkwell's signature is a **1.5px border**. Tailwind's default `border` utility is **1px**. We deliberately keep Tailwind's default alone — overriding it globally would surprise any third-party Tailwind component you might pull in. Instead, Inkwell exposes a named utility:
 
 ```html
 <!-- Inkwell-flavored panel -->
-<div class="border-hair border-solid border-gray-300 rounded-md bg-paper p-5">
+<div class="border-inkwell border-solid border-gray-300 rounded-md bg-paper p-5">
   …
 </div>
 
@@ -75,7 +75,9 @@ Inkwell's signature is a **1.5px border**. Tailwind's default `border` utility i
 </div>
 ```
 
-Reach for `border-hair` whenever the element should feel like Inkwell. Reach for `border` when it shouldn't.
+Reach for `border-inkwell` whenever the element should feel like Inkwell. Reach for `border` when it shouldn't.
+
+In 3.5.0, `border-inkwell` replaces the ambiguous historical name `border-hair`. The old Tailwind utility remains as a compatibility alias through 3.x, but do not use it in new markup: the CSS token `--border-hair` correctly means a 1px internal divider, while the old utility name meant the 1.5px outer frame. The preferred name makes the distinction explicit.
 
 ---
 
@@ -89,7 +91,7 @@ Inkwell's tokens themselves change values in dark mode. When you use a token-dri
 
 ```html
 <!-- Same classes in both modes. --paper / --slate / --accent shift on dark. -->
-<div class="bg-paper text-slate border-hair border-gray-300 rounded-md p-5">
+<div class="bg-paper text-slate border-inkwell border-gray-300 rounded-md p-5">
   Adapts to OS dark and to the manual toggle automatically.
 </div>
 ```
@@ -139,7 +141,7 @@ This is the rule that keeps Inkwell looking like Inkwell when Tailwind is in the
 |---|---|
 | **Components** (`.btn`, `.card`, `.alert`, `.tldr`, `.stat-card`, `.tbl`, …) | Primitives. The visual identity of "a button" or "a card" is the system. Compose them with utilities — don't recompose them from utilities. |
 | **Utilities** (`grid`, `gap-*`, `max-w-*`, `flex`, `p-*`, `space-y-*`) | Layout. Where things sit on the page, how they're spaced, how they wrap. Tailwind's strength. |
-| **`border-hair`, `bg-accent`, `text-slate`, `font-serif`** | Anywhere you need the brand token applied to non-component markup. |
+| **`border-inkwell`, `bg-accent`, `text-slate`, `font-serif`** | Anywhere you need the brand token applied to non-component markup. |
 
 The footgun to avoid: rebuilding a button from utilities just because you can.
 

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-Inkwell is a **pure CSS design system** — no build step, no package manager, no tests. The deliverable is five CSS files (`inkwell-tokens.css`, `inkwell-components.css`, `tokens.css`, `inkwell.css`, `inkwell-theme.css`) plus HTML reference pages. Treat it like a small library you ship by copying files, not like an application.
+Inkwell is a **pure CSS design system** — no consumer build step or package manager. The deliverable is five CSS files, one optional interaction file, a machine-readable component contract, and HTML reference pages. Maintainer-only Node/Playwright checks do not transform the shipped CSS. Treat it like a small library you ship by copying files, not like an application.
 
 ## File structure — do not collapse the split
 
@@ -17,6 +17,8 @@ inkwell.css              Canonical entry: imports tokens unlayered + components
 tokens.css               DEPRECATED one-line alias of inkwell.css (removal: 4.0)
 inkwell-theme.css        Tailwind v4 entry: imports inkwell-tokens.css + inkwell-components.css,
                          declares @theme aliases + @custom-variant dark
+inkwell-interactions.js  Optional, dependency-free tabs/carousel/dialog behavior
+component-manifest.json  Public component contract; generates examples/components.html
 ```
 
 The split exists for layering: both entries (`inkwell.css` and `inkwell-theme.css`) put components inside a cascade layer while keeping tokens unlayered. **Do not** merge `inkwell-tokens.css` and `inkwell-components.css` back together.
@@ -34,6 +36,7 @@ There are no commands. To preview changes, open the HTML files directly in a bro
 ```
 open index.html               # starter template (navbar + light/dark/auto toggle)
 open preview.html             # comprehensive showcase of every component
+open examples/components.html # generated adoption reference
 open variants/compare.html    # side-by-side of all five palettes
 open examples/tailwind.html   # Tailwind v4 + Inkwell integration demo
 ```
@@ -45,13 +48,15 @@ Light/dark/auto state is wired in the `<head>` of `index.html` and `preview.html
 The GitHub Pages workflow (`.github/workflows/pages.yml`) syncs the source CSS into `examples/` on deploy. For local testing, mirror the files manually so `examples/*.html` reflects current source:
 
 ```
-cp tokens.css inkwell.css inkwell-tokens.css inkwell-components.css inkwell-theme.css examples/
+cp tokens.css inkwell.css inkwell-tokens.css inkwell-components.css inkwell-theme.css inkwell-interactions.js examples/
 cp preview.html examples/
 mkdir -p examples/variants
 cp variants/clay.css variants/sage.css variants/burgundy.css variants/azure.css variants/compare.html examples/variants/
 ```
 
 If you add a new source CSS file at the repo root, also add it to the workflow's `cp` step.
+
+After editing `component-manifest.json`, run `node scripts/build-components-reference.mjs` and commit `examples/components.html`. Before every commit, run `node scripts/check-system-contract.mjs`; it verifies mirrors, versions, manifest selectors, page landmarks/metadata, error relationships, and local links.
 
 ### After editing CHANGELOG.md
 
@@ -89,4 +94,4 @@ All top-level HTML pages under `examples/` and the root `preview.html` carry a r
 
 ## Where to read more
 
-`DESIGN_SYSTEM.md` is the canonical spec — token tables, component list, dark-mode cascade, anti-patterns, quick-start snippet. Read it before designing new components or extending tokens; it documents intent (the *why* behind the 1.5px border, the lifted dark accent, the cool-putty neutrals) that isn't recoverable from the CSS alone.
+`DESIGN_SYSTEM.md` is the canonical spec — token tables, component list, dark-mode cascade, anti-patterns, quick-start snippet. `component-manifest.json` is the public machine contract and `examples/components.html` is its generated human view. Read them before designing new components or extending tokens; they document intent and adoption responsibilities that are not recoverable from selectors alone.

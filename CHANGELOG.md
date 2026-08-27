@@ -6,13 +6,34 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [3.5.0] — 2026-08-27
+
 ### Added
 - **Azure & Ink palette.** A fifth palette — cool harbor stone + a clean azure accent, deep navy surfaces in dark (`variants/azure.css`), adapted from the "From Products to Platform" deck. Override-only like the others: single `light-dark()` declarations for surfaces, accent, and the neutral ramp; redeclares `--accent-tint` (dark alpha 16%) and `--accent-ink`. Registered in `tokens.json` `_meta.palettes`, rendered as a fifth panel on `variants/compare.html`, and selectable everywhere via `?palette=azure` or the new Azure button in the palette toggle on every example page and `preview.html`. The CI contrast gate grows from 192 to 240 token-pair assertions to cover it.
 - **Deployment build metadata.** Every live page footer now shows the semantic release, a commit-derived build number, and the UTC deployment date. Pages deploys every commit to `main` and stamps only its artifact copy, avoiding generated commits and workflow recursion.
+- **Generated component reference.** `component-manifest.json` now catalogs 35 public component families with selectors, anatomy, modifiers, states, accessibility responsibilities, JavaScript requirements, since-version, and copyable markup. `scripts/build-components-reference.mjs` deterministically renders the catalog into `examples/components.html` and supports CI drift checking.
+- **Optional shared interactions.** `inkwell-interactions.js` provides idempotent, dependency-free progressive enhancement for tabs, carousel controls, and declarative native-dialog triggers. It auto-initializes and exposes `window.InkwellInteractions.init(root)` for dynamically inserted UI. The examples no longer maintain duplicate tab/carousel implementations.
+- **Native disclosure component.** `.disclosure` styles a semantic `<details>`/`<summary>` pair for FAQ and accordion content with no JavaScript. The landing page now consumes the shared primitive instead of private FAQ CSS.
+- **Repository-wide adoption contract.** `scripts/check-system-contract.mjs` verifies release/version alignment, distributable mirrors, manifest/CSS parity, page landmarks and metadata, form-error relationships, local targets, Tailwind aliases, and known stale claims. An ephemeral Playwright suite adds desktop/mobile runtime, interaction, theme/palette, touch-target, and overflow coverage without adding package metadata.
+- **Reference-page metadata.** All 20 published pages now include a canonical URL and theme-color metadata; theme-aware pages synchronize the color after mode or palette changes.
+- **Preferred Tailwind border name.** `border-inkwell` is the unambiguous name for the 1.5px signature utility. The historical `border-hair` utility remains as a deprecated compatibility alias until 4.0; the CSS token `--border-hair` continues to mean a 1px internal divider.
 
 ### Fixed
 - **Example accessibility and responsive behavior.** Tab references now implement complete tab/panel relationships, roving tabindex, and Arrow/Home/End navigation; palette/theme pickers expose named groups; narrow tables and long inline-code URLs no longer force page-level horizontal scrolling.
 - **Palette deployment and comparison isolation.** GitHub Pages now watches and copies Azure, Tailwind's browser demo loads Azure without a stray `tailwindcss` request, and comparison iframes no longer overwrite saved palette or theme choices.
+- **Reference-page semantics.** Every deployed page now has one visible `h1`, one `main#main-content`, and a working skip link. The app-shell and 404 heading hierarchies are corrected; invalid examples expose `aria-invalid` and `aria-describedby`; sign-in controls use correct types, names, and autocomplete values.
+- **Mobile containment and target sizing.** App-shell grid children can shrink, dense tables scroll inside `.tbl-scroll`, demo navigation groups contain their own overflow, and coarse-pointer controls reach a 44px target floor without loosening desktop density.
+- **Current documentation.** The live guide now describes the three-file 3.5 install, canonical source split, five palettes, Tailwind v4 entry, optional interactions, component reference, and agent adoption path instead of the retired v1.1/two-file model.
+
+### Changed
+- **Agent and consumer guidance now pins 3.5.0.** Raw install URLs, component lists, example counts, JavaScript responsibilities, accessibility requirements, and verification steps all match the shipped API.
+- **Tailwind container aliases reference canonical layout tokens.** `--container-narrow/default/wide` now resolve through `--content-*` rather than copying pixel values, eliminating another parity seam.
+- **CI is repository-wide.** Generated-file, contrast, deployment-marker, system-contract, and browser-smoke gates run for every pull request and push to `main`; Pages runs the static gates before assembling its artifact.
+
+### Migration
+- New installs should continue linking the three canonical CSS files. Add `inkwell-interactions.js` only when using tabs, enhanced carousel controls, or declarative dialogs.
+- Replace new Tailwind uses of `border-hair` with `border-inkwell`. Existing `border-hair` markup remains supported until 4.0.
+- If you copied interaction code from `examples/demo.js` or `preview.html`, replace it with the shared module and keep the documented ARIA markup.
 
 ## [3.0.1] — 2026-06-12
 

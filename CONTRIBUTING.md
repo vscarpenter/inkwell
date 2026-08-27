@@ -9,14 +9,17 @@ Thanks for your interest. Inkwell is a small, opinionated design system — cont
 
 ## Project layout
 
-This is a pure-CSS repo. There is no build step, no package manager, no test suite. You edit CSS, you reload an HTML file, you look at it.
+This is a pure-CSS repo. Consumers have no build step or package manager. Maintainers use zero-dependency Node generators/checks and an ephemeral Playwright browser suite; the shipped CSS still goes out byte-for-byte.
 
 - `inkwell-tokens.css` — source of truth for `:root` tokens. Edit this when changing colors, type sizes, radii, shadows, motion, layout widths, or z-index. Since 3.0 every color token is a single declaration: both mode values live in `light-dark(light, dark)`, and alpha tints derive from their base via `color-mix()` (declare explicitly only where the contrast gate forces a hand-tuned value).
 - `inkwell-components.css` — source of truth for component classes, base reset, type styles, layout helpers, and a11y rules. Edit this when changing `.btn`, `.card`, `.alert`, etc.
 - `inkwell.css` — the canonical entry consumers link from: imports `inkwell-tokens.css` unlayered and `inkwell-components.css` into `@layer inkwell`. **Do not edit** beyond the import list.
 - `tokens.css` — deprecated one-line alias of `inkwell.css` (removal slated for 4.0). **Do not edit.**
 - `inkwell-theme.css` — Tailwind v4 entry. Imports the two source files, declares `@theme` aliases, defines `@custom-variant dark`. Edit this when adding tokens that need to surface as Tailwind utilities, or when the Tailwind integration itself changes.
+- `inkwell-interactions.js` — optional dependency-free tabs, carousel, and declarative-dialog behavior. Keep it framework-free, idempotent, and progressively enhanced.
 - `tokens.json` — machine-readable mirror of `inkwell-tokens.css`. **Generated** by `scripts/build-tokens-json.mjs`; do not edit by hand. Re-run the script after touching `inkwell-tokens.css` and commit the regenerated JSON in the same change.
+- `component-manifest.json` — machine-readable public component catalog. Update it when selectors, anatomy, states, accessibility, JavaScript responsibilities, or component availability change.
+- `examples/components.html` — its component entries are **generated** from `component-manifest.json` by `scripts/build-components-reference.mjs`; edit only outside the generated markers.
 - `examples/changelog.html` — the releases section is **generated** from `CHANGELOG.md` by `scripts/build-changelog-html.mjs`; edit only outside the BEGIN/END markers. The same script stamps the latest released version into every example-page footer (`data-inkwell-version`). After editing `CHANGELOG.md`, re-run the script and commit the regenerated pages in the same change. CI fails on drift for all generated content.
 - Deployment footer metadata — every deployed HTML page has exactly one `data-inkwell-version` link and one `data-inkwell-deployed` `<time>`. Checked-in pages keep the semantic version plus `Deployment pending`; the Pages workflow runs `scripts/stamp-deployment.mjs` against its artifact copy to append a commit-derived `+build.N` and the UTC deployment date. Do not stamp the source tree.
 - `index.html`, `preview.html`, `examples/` — manual verification surfaces.
@@ -24,7 +27,7 @@ This is a pure-CSS repo. There is no build step, no package manager, no test sui
 
 If you add a new source CSS file at the repo root, also add it to `inkwell.css`'s `@import` list (if it's part of the default install; choose layered vs. unlayered deliberately) and to the `cp` step in `.github/workflows/pages.yml`. For Tailwind exposure, register it inside `inkwell-theme.css`.
 
-See [`TAILWIND.md`](TAILWIND.md) for the conventions that govern the Tailwind v4 path (`border-hair`, components-vs-utilities, cascade-order check).
+See [`TAILWIND.md`](TAILWIND.md) for the conventions that govern the Tailwind v4 path (`border-inkwell`, components-vs-utilities, cascade-order check). The old `border-hair` utility is a deprecated 3.x alias.
 
 ## Palettes
 
@@ -56,19 +59,31 @@ These are non-negotiable. PRs that violate them will be asked to change before m
 
 ## Regenerating `tokens.json`
 
-`tokens.json` is the only fully generated standalone file in the repo. The releases region of `examples/changelog.html` and the base version stamps on example pages are generated regions inside otherwise hand-authored files. Re-run `node scripts/build-tokens-json.mjs` whenever `inkwell-tokens.css` changes and commit the regenerated JSON in the same change. CI runs `node scripts/build-tokens-json.mjs --check` on every PR — a stale `tokens.json` fails the check with a line-level diff. The script has no dependencies (Node 18+ built-ins only); this is **not** a build step on the CSS itself — the CSS files still ship as-is.
+`tokens.json` is a fully generated standalone file. The component entries in `examples/components.html`, releases region of `examples/changelog.html`, and base version stamps on example pages are generated regions inside otherwise hand-authored files. Re-run the matching generator when its source changes and commit the output in the same change. CI runs every generator with `--check`; these maintainer checks are **not** a build step on the CSS itself — distributable files still ship as-is.
 
 Before committing HTML changes, run `node scripts/stamp-deployment.mjs --check`. It verifies that every page has one base version marker and one unstamped deployment placeholder. The Pages workflow checks the same invariant before modifying its disposable artifact copy; because its build number is `git rev-list --count HEAD`, checkout must retain full history.
 
 ## How to verify a change
 
-There's no automated test suite. Verification is visual.
+Start with the automated contract, then perform a proportionate visual pass:
+
+```bash
+node scripts/build-tokens-json.mjs --check
+node scripts/build-changelog-html.mjs --check
+node scripts/build-components-reference.mjs --check
+node scripts/stamp-deployment.mjs --check
+node scripts/check-contrast.mjs
+node scripts/check-system-contract.mjs
+npx --yes --package=playwright@1.62.1 -- sh scripts/run-browser-smoke.sh
+git diff --check
+```
 
 1. Open `preview.html` and confirm your component (or the component you touched) still renders correctly in **both light and dark mode**. Toggle via the theme switcher in the header.
 2. If your change touches the Tailwind v4 path, also open `examples/tailwind.html` and verify components + utilities + `dark:` still behave correctly. The cascade-order check in [`TAILWIND.md`](TAILWIND.md) is the canonical verification.
 3. If you touched anything color-related, also open `variants/compare.html` (or use `preview.html?palette=clay` / `?palette=sage` / `?palette=burgundy` / `?palette=azure`) to confirm none of the five palettes regressed.
 4. **Do the visual check on a 2x (retina) display when possible.** The 1.5px border is the system's signature and is designed for retina. On 1x, Chrome rounds it to 1px — that's expected, not a bug.
 5. If you added a component that uses an accent in an `rgba()`, make sure the rgba references `var(--accent)` (or a derived token) rather than a hardcoded color value, so palette overrides work automatically.
+6. Every published page keeps one visible `h1`, one `main#main-content`, a skip link, canonical and theme-color metadata, one version/deployment marker pair, and no page-level horizontal overflow at 375px.
 
 ## Commit & PR style
 

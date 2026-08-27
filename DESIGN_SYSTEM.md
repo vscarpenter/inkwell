@@ -1,6 +1,6 @@
 # Inkwell
 
-A reusable design system for product UI, dashboards, and technical interfaces. Drop-in CSS tokens, ~30 component classes, light + dark mode out of the box.
+A reusable design system for product UI, dashboards, and technical interfaces. Drop-in CSS tokens, 35 documented component families, light + dark mode out of the box.
 
 **Inkwell** ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, hairline 1.5px borders. Reads as Linear/Stripe/Notion-adjacent without being a clone of any of them.
 
@@ -192,7 +192,7 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 
 ## 3. Components
 
-`inkwell-components.css` ships ~35 reusable component classes (the table below). Open `preview.html` for a live tour of all of them in both light and dark mode.
+`inkwell-components.css` ships 35 documented component families (the table below). Use `examples/components.html` for the generated adoption contract and copyable markup; use `preview.html` for a visual tour in light, dark, auto, and every palette. `component-manifest.json` is the machine-readable source for the component reference.
 
 | Class | Purpose |
 |---|---|
@@ -209,18 +209,19 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 | `.card` (+ `.is-link`) | Generic card; the `.is-link` variant adds a calm border-color hover shift — no lift, no shadow swap |
 | `.stat-card` (+ `.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a full 1.5px accent border |
 | `.findings` / `.finding` | Rule-divided list of oversized cited stats; the editorial counterpart to `.stat-card` |
-| `.carousel` (+ `.carousel-track` / `.carousel-slide` / `.carousel-controls`) | Editorial swipeable series on CSS scroll-snap — the core needs zero JS; prev/next, dots, and arrow keys are progressive enhancement (reference wiring in `examples/demo.js`). No autoplay. |
+| `.carousel` (+ `.carousel-track` / `.carousel-slide` / `.carousel-controls`) | Editorial swipeable series on CSS scroll-snap — the core needs zero JS; `inkwell-interactions.js` progressively enhances prev/next, dots, and arrow keys. No autoplay. |
 | `.tbl` | Table with sans header labels and hairline row dividers |
 | `.tbl-scroll` | Overflow wrapper for `.tbl` — horizontal scroll on narrow viewports |
 | `.tldr` | Inverted callout — dark in light mode, light in dark mode |
 | `.code-block` | Multi-line `<pre><code>` panel with optional `.copy` button slot |
-| `.dialog` | Styling for native `<dialog>` (open via `dialog.showModal()`) with backdrop blur |
-| `.tabs` (+ `.tab` / `.tab-panel`) | Underline-style tab nav; JavaScript must wire `aria-selected`, roving tabindex, panel visibility, and Arrow/Home/End keys. Reference wiring ships in `examples/demo.js` and `preview.html`. |
+| `.dialog` | Styling for native `<dialog>` with backdrop blur; `inkwell-interactions.js` can wire `data-dialog-open="id"` and `data-dialog-close` with focus restoration |
+| `.tabs` (+ `.tab` / `.tab-panel`) | Underline-style tab nav; `inkwell-interactions.js` wires `aria-selected`, roving tabindex, panel visibility, and Arrow/Home/End keys. |
 | `.tooltip` (with `[data-tooltip]`) | CSS-only tooltip bubble on hover/focus — pair with `aria-label` for SR |
 | `.breadcrumbs` | `<ol>` list with `/` separators; `aria-current="page"` for the leaf |
 | `.pagination` | Numbered page list with prev/next; `aria-current="page"` for the active page |
 | `.skeleton` (+ `.is-text` / `.is-title` / `.is-block` / `.is-circle`) | Shimmer placeholder; reduced-motion-safe |
 | `.empty-state` (+ `.empty-state-icon`) | Centered no-data panel with icon slot, headline, body, action |
+| `.disclosure` | Native `<details>` disclosure/accordion item with styled `<summary>`; no JavaScript |
 | `.pill` (+ sev / resolved / neutral) | Severity / status pill |
 | `.timeline` (+ `.tl-entry`) | Vertical event timeline |
 | `.chip-dot` (+ safe / medium / attention) | Mono label with colored status dot |
@@ -273,6 +274,9 @@ Inkwell ships with WCAG-conscious defaults. The notable choices:
 - **Reduced motion is honored.** `@media (prefers-reduced-motion: reduce)` shortens animations and transitions to ~0ms. The dialog pop, loading spinner, skeleton shimmer, and switch-knob slide all degrade gracefully.
 - **Color is never the only signal.** Status chips pair color with an explicit dot or label; alerts pair color with a serif title; form errors pair the `--rust` border with an explicit `.field-error` text node. Don't introduce a "danger" state that only changes a hue.
 - **Native semantics first.** `<dialog>` for modals (focus trap, ESC, `::backdrop` for free), real `<input type="checkbox">` and `<input type="radio">` for selection (preserving keyboard interaction), `<kbd>` for keyboard chips. The components style native elements rather than rebuilding them.
+- **Reference pages demonstrate the full contract.** Every published page has one visible `h1`, one `main` landmark, a working skip link, canonical and theme-color metadata, and no page-level horizontal overflow at 375px. Wide tables scroll inside `.tbl-scroll`.
+- **Invalid state is programmatic.** `.is-error` is visual only; invalid controls must also set `aria-invalid="true"` and reference visible `.field-error` copy with `aria-describedby`.
+- **Touch targets stay compact where appropriate.** Desktop controls preserve Inkwell's dense rhythm; under `pointer: coarse`, interactive components reach a minimum 44×44 CSS pixels.
 - **`::selection` is slate-on-oat.** Selected text gets `--oat` behind `--slate` — the accent tint was too faint to register as a selection highlight.
 - **Print always renders light.** The manual dark theme (`[data-theme="dark"]` blocks) is wrapped in `@media screen`, so a dark-toggled page still prints on the light palette.
 
@@ -292,23 +296,25 @@ Copy three files — `inkwell.css`, `inkwell-tokens.css`, and `inkwell-component
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F4F4F0">
   <link rel="stylesheet" href="inkwell.css">
   <title>My new app</title>
 </head>
 <body>
-  <div class="wrap">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main class="wrap" id="main-content">
     <div class="eyebrow">Section label</div>
     <h1 class="t-h1">A serif headline with <em class="accent">italic accent</em></h1>
     <p class="t-body">Body copy at 16/1.55, sans, weight 430.</p>
 
     <button class="btn btn-primary">Primary action</button>
     <button class="btn btn-secondary">Cancel</button>
-  </div>
+  </main>
 </body>
 </html>
 ```
 
-For a fuller starting point, copy `index.html` — it includes the navbar, layout shell, sample components, and a working light/dark/auto toggle. For a comprehensive component reference, open `preview.html`.
+For a fuller starting point, copy `index.html` — it includes the navbar, layout shell, sample components, and a working light/dark/auto toggle. Load `inkwell-interactions.js` only for tabs, carousel controls, or declarative dialogs. Use `examples/components.html` for the comprehensive adoption reference and `preview.html` for visual review.
 
 ---
 
@@ -325,10 +331,14 @@ inkwell/
 ├── inkwell-components.css  ← source: base reset, components, layout helpers, a11y
 ├── inkwell-theme.css       ← Tailwind v4 entry — imports the two source files,
 │                             declares @theme aliases + @custom-variant dark
+├── inkwell-interactions.js ← optional tabs, carousel, and dialog behavior
 ├── tokens.json             ← machine-readable mirror for Figma plugins / Style Dictionary
+├── component-manifest.json ← machine-readable public component contract
 ├── index.html              ← starter template (copy as seed of a new project)
 ├── preview.html            ← comprehensive component showcase
-├── examples/               ← real-feeling pages (deployed to inkwell.vinny.dev)
+├── examples/               ← 20 published reference/pattern pages
+│   └── components.html     ← generated component adoption reference
+├── scripts/                ← zero-dependency generators and conformance checks
 ├── DESIGN_SYSTEM.md        ← this file
 ├── TAILWIND.md             ← Tailwind v4 install guide
 ├── agent-instructions.md   ← self-contained brief for LLM coding agents

@@ -1,0 +1,41 @@
+name: Inkwell system contract
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  static-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+      - name: Verify generated token data
+        run: node scripts/build-tokens-json.mjs --check
+      - name: Verify generated changelog and version stamps
+        run: node scripts/build-changelog-html.mjs --check
+      - name: Verify generated component reference
+        run: node scripts/build-components-reference.mjs --check
+      - name: Verify deployment placeholders
+        run: node scripts/stamp-deployment.mjs --check
+      - name: Verify WCAG contrast across palettes
+        run: node scripts/check-contrast.mjs
+      - name: Verify repository-wide adoption contract
+        run: node scripts/check-system-contract.mjs
+      - name: Verify patch whitespace
+        run: git diff --check
+
+  browser-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+      - name: Install ephemeral Chromium runtime
+        run: npx --yes --package=playwright@1.62.1 playwright install --with-deps chromium
+      - name: Verify desktop and mobile reference behavior
+        run: npx --yes --package=playwright@1.62.1 -- sh scripts/run-browser-smoke.sh

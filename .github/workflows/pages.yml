@@ -26,12 +26,26 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+
+      - name: Verify generated files and public contract
+        run: |
+          node scripts/build-tokens-json.mjs --check
+          node scripts/build-changelog-html.mjs --check
+          node scripts/build-components-reference.mjs --check
+          node scripts/stamp-deployment.mjs --check
+          node scripts/check-contrast.mjs
+          node scripts/check-system-contract.mjs
+          git diff --check
+
       - name: Configure Pages
         uses: actions/configure-pages@v6
 
-      - name: Sync canonical CSS + showcase HTML into examples/
+      - name: Sync distributable files + showcase HTML into examples/
         run: |
-          cp tokens.css inkwell.css inkwell-tokens.css inkwell-components.css inkwell-theme.css examples/
+          cp tokens.css inkwell.css inkwell-tokens.css inkwell-components.css inkwell-theme.css inkwell-interactions.js component-manifest.json examples/
           cp preview.html examples/
           mkdir -p examples/variants
           cp variants/clay.css variants/sage.css variants/burgundy.css variants/azure.css variants/compare.html examples/variants/
