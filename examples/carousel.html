@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F4F4F0">
+  <link rel="canonical" href="https://inkwell.vinny.dev/carousel.html">
   <title>Inkwell Carousel Sample</title>
   <meta name="description" content="An editorial swipeable series built on Inkwell's scroll-snap carousel — serif chapter slides, contrast callouts, and cited findings with a zero-JS core.">
   <meta property="og:type" content="article">
@@ -37,7 +39,8 @@
   </script>
 </head>
 <body>
-  <main class="demo-shell">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main id="main-content" class="demo-shell">
     <div class="wrap">
       <nav class="demo-nav" aria-label="Sample pages">
         <a class="brand" href="index.html">
@@ -248,7 +251,7 @@
       <footer class="page-footer t-small">
         <a class="link" href="index.html">Back to all examples</a>
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.5.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>
@@ -265,6 +268,7 @@
 
     </div>
   </main>
+  <script src="inkwell-interactions.js"></script>
   <script src="demo.js"></script>
 </body>
 </html>

@@ -3,8 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F4F4F0">
+  <link rel="canonical" href="https://inkwell.vinny.dev/tailwind.html">
   <title>Inkwell × Tailwind v4 — integration demo</title>
-  <meta name="description" content="Inkwell components and tokens used alongside Tailwind v4 utilities. The 1.5px border-hair signature, the dark: variant that honors Inkwell's [data-theme] toggle, and utility-override of component padding all in one page.">
+  <meta name="description" content="Inkwell components and tokens used alongside Tailwind v4 utilities. The 1.5px border-inkwell signature, the dark: variant that honors Inkwell's [data-theme] toggle, and utility-override of component padding all in one page.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Inkwell">
   <meta property="og:url" content="https://inkwell.vinny.dev/tailwind.html">
@@ -80,7 +82,7 @@
 
   <!-- The Tailwind v4 compile target. The @theme block aliases Inkwell
        tokens into Tailwind's namespace, @utility defines the 1.5px
-       border-hair signature, and @custom-variant dark wires the
+       border-inkwell signature, and @custom-variant dark wires the
        [data-theme] toggle into Tailwind's `dark:` prefix. -->
   <style type="text/tailwindcss">
     @theme {
@@ -138,6 +140,11 @@
       --container-wide:   1120px;
     }
 
+    @utility border-inkwell {
+      border-width: 1.5px;
+    }
+
+    /* Deprecated 3.x compatibility alias; use border-inkwell in new markup. */
     @utility border-hair {
       border-width: 1.5px;
     }
@@ -153,8 +160,9 @@
   </style>
 </head>
 <body class="bg-ivory text-slate">
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
-  <main class="max-w-default mx-auto px-6 py-12 space-y-12">
+  <main id="main-content" class="max-w-default mx-auto px-6 py-12 space-y-12">
 
     <!-- Header: layout via Tailwind utilities, components inline -->
     <header class="flex items-center justify-between gap-6 flex-wrap">
@@ -187,7 +195,7 @@
       <span class="eyebrow">Integration demo</span>
       <h1 class="font-serif text-h1 leading-tight tracking-tight m-0">Tailwind v4 utilities. Inkwell tokens and components. One page.</h1>
       <p class="max-w-prose text-body leading-relaxed text-gray-700 m-0">
-        Every color, type stack, radius, and the 1.5px <code class="code-inline">border-hair</code> signature
+        Every color, type stack, radius, and the 1.5px <code class="code-inline">border-inkwell</code> signature
         come from the same Inkwell tokens that drive the rest of this site. The components below
         (<code class="code-inline">.btn</code>, <code class="code-inline">.card</code>,
         <code class="code-inline">.alert</code>) are unchanged Inkwell. Layout (the grid, the gaps,
@@ -216,7 +224,7 @@
         <div class="stat-card is-primary">
           <div class="stat-num">1.5</div>
           <div class="stat-label">Border px (signature)</div>
-          <div class="stat-delta up">border-hair</div>
+          <div class="stat-delta up">border-inkwell</div>
         </div>
         <div class="stat-card">
           <div class="stat-num">0</div>
@@ -226,15 +234,15 @@
       </div>
     </section>
 
-    <!-- Section 2: The 1.5px signature, via Tailwind's border-hair utility -->
+    <!-- Section 2: The 1.5px signature, via Tailwind's border-inkwell utility -->
     <section class="space-y-4">
       <div class="sec-head">
         <span class="idx">02</span>
-        <h2 class="text-h2 font-serif m-0">The signature: <code class="code-inline">border-hair</code></h2>
+        <h2 class="text-h2 font-serif m-0">The signature: <code class="code-inline">border-inkwell</code></h2>
       </div>
       <p class="text-small text-gray-700 m-0 max-w-prose">
         Tailwind's default <code class="code-inline">border</code> is 1px. Inkwell's signature is 1.5px.
-        We deliberately do not redefine the default; instead, you reach for <code class="code-inline">border-hair</code>
+        We deliberately do not redefine the default; instead, you reach for <code class="code-inline">border-inkwell</code>
         wherever Inkwell character is intended.
       </p>
 
@@ -243,8 +251,8 @@
           <div class="text-eyebrow font-mono tracking-wider uppercase text-gray-500 mb-2">Default — <code class="code-inline">border</code> (1px)</div>
           <p class="m-0 text-small text-gray-700">Tailwind's stock 1px border. Used everywhere outside Inkwell-flavored markup.</p>
         </div>
-        <div class="border-hair border-solid border-gray-300 rounded-md p-5 bg-paper">
-          <div class="text-eyebrow font-mono tracking-wider uppercase text-accent mb-2">Inkwell — <code class="code-inline">border-hair</code> (1.5px)</div>
+        <div class="border-inkwell border-solid border-gray-300 rounded-md p-5 bg-paper">
+          <div class="text-eyebrow font-mono tracking-wider uppercase text-accent mb-2">Inkwell — <code class="code-inline">border-inkwell</code> (1.5px)</div>
           <p class="m-0 text-small text-gray-700">The system's signature, on a retina display. On 1× displays Chrome rounds to 1px and reports 1px in <code class="code-inline">getComputedStyle</code> — that's browser behavior, not a bug.</p>
         </div>
       </div>
@@ -266,11 +274,11 @@
       </p>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div class="border-hair border-solid border-gray-300 rounded-md p-5 bg-paper text-slate">
+        <div class="border-inkwell border-solid border-gray-300 rounded-md p-5 bg-paper text-slate">
           <div class="text-eyebrow font-mono uppercase tracking-wider mb-2 text-accent">Token shift</div>
           <p class="m-0 text-small">Uses <code class="code-inline">bg-paper text-slate</code>. No <code class="code-inline">dark:</code> needed — the values of <code class="code-inline">--paper</code> and <code class="code-inline">--slate</code> change in dark mode, so the same utility produces the right color in both.</p>
         </div>
-        <div class="border-hair border-solid border-gray-300 rounded-md p-5 bg-accent-tint">
+        <div class="border-inkwell border-solid border-gray-300 rounded-md p-5 bg-accent-tint">
           <div class="text-eyebrow font-mono uppercase tracking-wider mb-2 text-accent">Alpha-tint token</div>
           <p class="m-0 text-small text-slate"><code class="code-inline">bg-accent-tint</code> maps to Inkwell's <code class="code-inline">--accent-tint</code>. Preserves the specific 0.14/0.18 alpha values instead of guessing at <code class="code-inline">/14</code>.</p>
         </div>
@@ -281,15 +289,15 @@
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div class="border-hair border-rust-tint-border rounded-md p-4 bg-rust-tint">
+        <div class="border-inkwell border-rust-tint-border rounded-md p-4 bg-rust-tint">
           <div class="text-eyebrow font-mono uppercase tracking-wider mb-2 text-rust">Danger tint</div>
           <p class="m-0 text-small text-rust">Uses <code class="code-inline">bg-rust-tint</code> and <code class="code-inline">border-rust-tint-border</code>.</p>
         </div>
-        <div class="border-hair border-warning-tint rounded-md p-4 bg-warning-tint">
+        <div class="border-inkwell border-warning-tint rounded-md p-4 bg-warning-tint">
           <div class="text-eyebrow font-mono uppercase tracking-wider mb-2 text-warning-dark">Warning text</div>
           <p class="m-0 text-small text-warning-dark">Uses <code class="code-inline">bg-warning-tint</code> and <code class="code-inline">text-warning-dark</code>.</p>
         </div>
-        <div class="border-hair border-olive-tint rounded-md p-4 bg-olive-tint">
+        <div class="border-inkwell border-olive-tint rounded-md p-4 bg-olive-tint">
           <div class="text-eyebrow font-mono uppercase tracking-wider mb-2 text-olive">Success tint</div>
           <p class="m-0 text-small text-olive">Uses <code class="code-inline">bg-olive-tint</code> and <code class="code-inline">border-olive-tint</code>.</p>
         </div>
@@ -350,7 +358,7 @@
       <p class="m-0"><strong class="text-slate">Production usage:</strong> install Tailwind v4, then in your entry CSS write <code class="code-inline">@import "tailwindcss"; @import "./inkwell-theme.css";</code>. See <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/TAILWIND.md">TAILWIND.md</a> for the full install guide.</p>
       <p class="m-0"><strong class="text-slate">This demo</strong> uses the <code class="code-inline">@tailwindcss/browser</code> CDN so it opens directly in a browser without a build step. The <code class="code-inline">@theme</code> and <code class="code-inline">@custom-variant</code> blocks live inline in this HTML rather than in <code class="code-inline">inkwell-theme.css</code> because the browser compiler only reads inline <code class="code-inline">&lt;style type="text/tailwindcss"&gt;</code> blocks. Real builds use <code class="code-inline">inkwell-theme.css</code> directly and get correct <code class="code-inline">@layer components</code> precedence for free.</p>
       <p class="m-0 font-mono uppercase tracking-wider">
-        <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+        <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.5.0</a>
         <span aria-hidden="true">·</span>
         <time data-inkwell-deployed datetime="">Deployment pending</time>
       </p>

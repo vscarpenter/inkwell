@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F4F4F0">
+  <link rel="canonical" href="https://inkwell.vinny.dev/search.html">
   <title>Search · Inkwell</title>
   <meta name="description" content="Search results page built with the Inkwell pure-CSS design system — query input, filter chips, and result list.">
   <meta property="og:type" content="website">
@@ -55,7 +57,8 @@
   </style>
 </head>
 <body>
-  <main class="demo-shell">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main id="main-content" class="demo-shell">
     <div class="wrap-wide">
       <nav class="demo-nav" aria-label="Sample pages">
         <a class="brand" href="index.html">
@@ -95,7 +98,7 @@
         <span class="eyebrow">Find anything</span>
         <h1 class="t-h1" style="margin: 12px 0 12px;">Search the system</h1>
         <form class="search-bar" onsubmit="event.preventDefault();">
-          <input class="input" type="search" placeholder="Try: dark mode, tokens, accent color…" value="dark mode" aria-label="Search query">
+          <input class="input" name="q" type="search" placeholder="Try: dark mode, tokens, accent color…" value="dark mode" aria-label="Search query">
           <button class="btn btn-primary" style="height: 42px; padding: 0 22px;" type="submit">Search</button>
           <button class="btn btn-secondary tooltip" data-tooltip="Toggle filters panel" type="button" aria-label="Filter" style="height: 42px; width: 42px; padding: 0;">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -269,7 +272,7 @@
       <footer class="page-footer t-small" style="margin-top: 56px;">
         Demonstrates: <code>.breadcrumbs</code>, <code>.tabs</code>, <code>.tooltip</code> on the filter button, <code>.pagination</code>, <code>.skeleton</code> with multiple variants, and <code>.empty-state</code> for no-results.
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.5.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>
@@ -286,6 +289,7 @@
 
     </div>
   </main>
+  <script src="inkwell-interactions.js"></script>
   <script src="demo.js"></script>
 </body>
 </html>

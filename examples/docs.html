@@ -3,62 +3,58 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Getting started with Inkwell — Docs</title>
-  <meta name="description" content="Documentation layout built with the Inkwell pure-CSS design system — table of contents chips, prose styles, code blocks, and component reference tables.">
+  <meta name="theme-color" content="#F4F4F0">
+  <link rel="canonical" href="https://inkwell.vinny.dev/docs.html">
+  <title>Getting started with Inkwell 3.5</title>
+  <meta name="description" content="Install, architecture, theming, accessibility, component, Tailwind, and agent guidance for Inkwell 3.5.">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Inkwell">
   <meta property="og:url" content="https://inkwell.vinny.dev/docs.html">
-  <meta property="og:title" content="Getting started with Inkwell — Docs">
-  <meta property="og:description" content="Documentation layout built with the Inkwell pure-CSS design system — table of contents chips, prose styles, code blocks, and component reference tables.">
+  <meta property="og:title" content="Getting started with Inkwell 3.5">
+  <meta property="og:description" content="The current adoption guide for the Inkwell pure-CSS design system.">
   <meta property="og:image" content="https://inkwell.vinny.dev/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Inkwell — a pure-CSS design system">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Getting started with Inkwell — Docs">
-  <meta name="twitter:description" content="Documentation layout built with the Inkwell pure-CSS design system — table of contents chips, prose styles, code blocks, and component reference tables.">
+  <meta name="twitter:title" content="Getting started with Inkwell 3.5">
+  <meta name="twitter:description" content="The current adoption guide for the Inkwell pure-CSS design system.">
   <meta name="twitter:image" content="https://inkwell.vinny.dev/og-image.png">
   <link rel="icon" type="image/png" href="favicon-512.png">
   <link rel="apple-touch-icon" href="favicon-512.png">
   <link rel="stylesheet" href="inkwell.css">
   <link rel="stylesheet" href="demo.css">
   <script>
-    // Apply saved theme and palette before first paint (README: "writes data-theme before paint").
-    // KEEP IN SYNC: this snippet is hand-copied across examples/*.html + preview.html.
     (function () {
-      var t = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
-      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
-      var PALETTES = { clay: 1, sage: 1, burgundy: 1, azure: 1 };
-      var p = new URLSearchParams(location.search).get("palette") || localStorage.getItem("inkwell-palette");
-      if (p && Object.prototype.hasOwnProperty.call(PALETTES, p)) {
-        document.write('<link rel="stylesheet" id="inkwell-palette-prepaint" href="variants/' + p + '.css">');
+      var theme = localStorage.getItem("inkwell-theme") || localStorage.getItem("theme-preview");
+      if (theme === "light" || theme === "dark") document.documentElement.setAttribute("data-theme", theme);
+      var palettes = { clay: 1, sage: 1, burgundy: 1, azure: 1 };
+      var palette = new URLSearchParams(location.search).get("palette") || localStorage.getItem("inkwell-palette");
+      if (palette && Object.prototype.hasOwnProperty.call(palettes, palette)) {
+        document.write('<link rel="stylesheet" id="inkwell-palette-prepaint" href="variants/' + palette + '.css">');
       }
     })();
   </script>
 </head>
 <body>
-  <main class="demo-shell">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main class="demo-shell" id="main-content">
     <div class="wrap">
       <nav class="demo-nav" aria-label="Sample pages">
         <a class="brand" href="index.html">
-          <span class="brand-mark" aria-hidden="true">
-            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
-              <path d="M5 2.5h7v12H5z" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M7.2 5.4h2.8M7.2 8.3h3.6M7.2 11.2h2.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-          </span>
+          <span class="brand-mark" aria-hidden="true">Ink</span>
           <span class="t-h3">Inkwell</span>
         </a>
         <div class="nav-links">
           <a class="btn btn-ghost" href="index.html">All examples</a>
-          <a class="btn btn-ghost" href="app-shell.html">App shell</a>
+          <a class="btn btn-ghost" href="components.html">Components</a>
         </div>
         <div class="palette-toggle" role="group" aria-label="Palette">
-          <button class="btn btn-ghost" type="button" data-palette-choice="indigo"   title="Indigo &amp; Cloud">Indigo</button>
-          <button class="btn btn-ghost" type="button" data-palette-choice="clay"     title="Clay">Clay</button>
-          <button class="btn btn-ghost" type="button" data-palette-choice="sage"     title="Sage &amp; Stone">Sage</button>
-          <button class="btn btn-ghost" type="button" data-palette-choice="burgundy" title="Burgundy &amp; Bone">Burgundy</button>
-          <button class="btn btn-ghost" type="button" data-palette-choice="azure"    title="Azure &amp; Ink">Azure</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="indigo">Indigo</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="clay">Clay</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="sage">Sage</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="burgundy">Burgundy</button>
+          <button class="btn btn-ghost" type="button" data-palette-choice="azure">Azure</button>
         </div>
         <div class="theme-toggle" role="group" aria-label="Theme">
           <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
@@ -67,220 +63,107 @@
         </div>
       </nav>
 
-      <header style="margin-bottom: 40px;">
-        <span class="eyebrow">Documentation guide</span>
-        <h1 class="t-display" style="margin: 14px 0 12px;">Getting started with <em class="accent">Inkwell</em></h1>
-        <p class="t-body" style="max-width: 62ch; color: var(--gray-700); margin: 0;">
-          A pure-CSS design system for product UI, dashboards, and editorial interfaces. Two files, no build step, light and dark out of the box. This page walks through installing it, understanding the token model, and building a custom component without breaking the system.
-        </p>
-        <p class="t-caption" style="margin-top: 14px; text-transform: uppercase; letter-spacing: 0.05em;">Last updated · 2026-05-09 · v1.1</p>
+      <header style="margin-bottom: var(--sp-6);">
+        <span class="eyebrow">Adoption guide · v3.5.0</span>
+        <h1 class="t-display" style="margin: var(--sp-3) 0;">Start with one link. Understand the seams.</h1>
+        <p class="t-lede">Inkwell is a framework-free CSS design system for product interfaces, dashboards, and editorial surfaces. Consumers do not install dependencies or run a build.</p>
       </header>
 
-      <nav class="toc" aria-label="On this page" style="margin-bottom: 56px;">
+      <nav class="toc" aria-label="On this page" style="margin-bottom: var(--sp-8);">
         <a href="#install"><span class="n">01</span> Install</a>
-        <a href="#tokens"><span class="n">02</span> Tokens</a>
-        <a href="#theming"><span class="n">03</span> Theming</a>
+        <a href="#architecture"><span class="n">02</span> Architecture</a>
+        <a href="#theme"><span class="n">03</span> Theme + palette</a>
         <a href="#components"><span class="n">04</span> Components</a>
         <a href="#accessibility"><span class="n">05</span> Accessibility</a>
-        <a href="#extend"><span class="n">06</span> Extend</a>
+        <a href="#tailwind"><span class="n">06</span> Tailwind</a>
+        <a href="#agents"><span class="n">07</span> Agents</a>
       </nav>
 
-      <section id="install" style="margin-bottom: 56px;">
-        <div class="sec-head"><span class="idx">01</span><h2>Install</h2><span class="count">2 files</span></div>
-        <p class="t-body" style="max-width: 64ch;">
-          Copy <code>tokens.css</code> and <code>inkwell.css</code> into your project. Link <code>inkwell.css</code> from your <code>&lt;head&gt;</code> — it re-exports the tokens file, so one link is all you need.
-        </p>
-        <div class="code-block" style="margin-top: 16px;">
-          <button class="copy" type="button" onclick="navigator.clipboard?.writeText(this.nextElementSibling.innerText)">Copy</button>
-          <pre><code>&lt;!doctype html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-  &lt;meta charset="utf-8"&gt;
-  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
-  &lt;link rel="stylesheet" href="inkwell.css"&gt;
-  &lt;title&gt;My new app&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;div class="wrap"&gt;
-    &lt;h1 class="t-h1"&gt;Hello, Inkwell&lt;/h1&gt;
-  &lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-        </div>
-        <div class="alert is-info" style="margin-top: 20px;">
-          <div>
-            <p class="alert-title">No bundler, no preprocessing</p>
-            <p class="alert-body">Inkwell ships unminified by design. Open <code>tokens.css</code> in your editor — it's the source of truth and the spec, in the same file.</p>
-          </div>
-        </div>
+      <section id="install" class="section">
+        <div class="sec-head"><span class="idx">01</span><h2>Install</h2><span class="count">3 required files</span></div>
+        <p class="t-body" style="max-width: 65ch;">Copy <code>inkwell.css</code>, <code>inkwell-tokens.css</code>, and <code>inkwell-components.css</code> side by side. Link only the entry file; its imports resolve the other two.</p>
+        <div class="code-block"><pre><code>&lt;link rel="stylesheet" href="inkwell.css"&gt;</code></pre></div>
+        <div class="alert is-info" style="margin-top: var(--sp-4);"><div><p class="alert-title">Optional interactions</p><p class="alert-body">Copy and load <code>inkwell-interactions.js</code> only if you use tabs, enhanced carousel controls, or declarative dialog triggers. Disclosures use native <code>&lt;details&gt;</code> and require no JavaScript.</p></div></div>
+        <div class="code-block" style="margin-top: var(--sp-3);"><pre><code>&lt;script src="inkwell-interactions.js"&gt;&lt;/script&gt;</code></pre></div>
       </section>
 
-      <section id="tokens" style="margin-bottom: 56px;">
-        <div class="sec-head"><span class="idx">02</span><h2>Tokens</h2><span class="count">2 layers</span></div>
-        <p class="t-body" style="max-width: 64ch;">
-          Inkwell separates <strong>structure</strong> (borders, type scale, spacing, motion, components) from <strong>brand</strong> (colors). The structural layer is identical across palettes; only the brand-layer tokens change. This means a future palette swap is a ~30-line file, not a fork.
-        </p>
-        <table class="tbl" style="margin-top: 20px;">
-          <thead>
-            <tr>
-              <th>Token</th>
-              <th>Light</th>
-              <th>Dark</th>
-              <th>Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td><code>--ivory</code></td><td>#F4F4F0</td><td>#0F1018</td><td>Page background</td></tr>
-            <tr><td><code>--paper</code></td><td>#FFFFFF</td><td>#181A24</td><td>Card surface</td></tr>
-            <tr><td><code>--slate</code></td><td>#13141B</td><td>#E8E8EE</td><td>Primary text</td></tr>
-            <tr><td><code>--accent</code></td><td>#3B4A8C</td><td>#7A8AD1</td><td>Links, focus, active</td></tr>
-            <tr><td><code>--olive</code></td><td>#788C5D</td><td>#9CB07A</td><td>Success</td></tr>
-            <tr><td><code>--rust</code></td><td>#B04A3F</td><td>#D27468</td><td>Danger</td></tr>
-          </tbody>
-        </table>
-        <p class="t-small" style="margin-top: 14px;">
-          Notice every saturated token is <em class="accent">lifted</em> in dark mode — same hue, more luminance. <code>#3B4A8C</code> against near-black would read as a hole in the page; <code>#7A8AD1</code> reads as an accent. Apply this rule to any new colored token.
-        </p>
+      <section id="architecture" class="section">
+        <div class="sec-head"><span class="idx">02</span><h2>Architecture</h2><span class="count">source → entry → consumer</span></div>
+        <div class="tbl-scroll">
+          <table class="tbl">
+            <caption class="sr-only">Inkwell distributable files and responsibilities</caption>
+            <thead><tr><th scope="col">File</th><th scope="col">Responsibility</th><th scope="col">Edit?</th></tr></thead>
+            <tbody>
+              <tr><td><code>inkwell-tokens.css</code></td><td>Canonical custom properties, light/dark values, mode machinery</td><td>Token changes</td></tr>
+              <tr><td><code>inkwell-components.css</code></td><td>Reset, type, components, layout, accessibility</td><td>Component changes</td></tr>
+              <tr><td><code>inkwell.css</code></td><td>Canonical layered entry</td><td>No</td></tr>
+              <tr><td><code>tokens.css</code></td><td>Deprecated compatibility alias</td><td>No; removed in 4.0</td></tr>
+              <tr><td><code>tokens.json</code></td><td>Generated external-tooling mirror</td><td>Regenerate, never hand-edit</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="t-small">Components load in <code>@layer inkwell</code>, so ordinary unlayered consumer CSS overrides them without specificity escalation. Tokens stay unlayered.</p>
       </section>
 
-      <section id="theming" style="margin-bottom: 56px;">
-        <div class="sec-head"><span class="idx">03</span><h2>Theming</h2><span class="count">3 states</span></div>
-        <p class="t-body" style="max-width: 64ch;">
-          Dark mode applies automatically via <code>prefers-color-scheme</code>. Users can override with a <code>data-theme</code> attribute on <code>&lt;html&gt;</code>. The toggle in the top-right of this page is a working three-state widget — try it with <kbd>Tab</kbd> and <kbd>Enter</kbd>.
-        </p>
-        <div class="code-block" style="margin-top: 16px;">
-          <button class="copy" type="button" onclick="navigator.clipboard?.writeText(this.nextElementSibling.innerText)">Copy</button>
-          <pre><code>// Persist user choice; default to OS preference.
-const KEY = 'inkwell-theme';
-const saved = localStorage.getItem(KEY);
-if (saved === 'light' || saved === 'dark') {
-  document.documentElement.setAttribute('data-theme', saved);
-}
-
-function setTheme(choice) {
-  if (choice === 'auto') {
-    document.documentElement.removeAttribute('data-theme');
-    localStorage.removeItem(KEY);
-  } else {
-    document.documentElement.setAttribute('data-theme', choice);
-    localStorage.setItem(KEY, choice);
+      <section id="theme" class="section">
+        <div class="sec-head"><span class="idx">03</span><h2>Theme and palette</h2><span class="count">auto · light · dark</span></div>
+        <p class="t-body" style="max-width: 65ch;">Color tokens use <code>light-dark()</code>. Auto follows the operating system; set <code>data-theme="light"</code> or <code>data-theme="dark"</code> on <code>&lt;html&gt;</code> for a manual choice. Apply it before first paint when the preference is persisted.</p>
+        <div class="code-block"><pre><code>&lt;script&gt;
+  const saved = localStorage.getItem("inkwell-theme");
+  if (saved === "light" || saved === "dark") {
+    document.documentElement.dataset.theme = saved;
   }
-}</code></pre>
-        </div>
-        <div class="alert is-warning" style="margin-top: 20px;">
-          <div>
-            <p class="alert-title">Avoid the flash</p>
-            <p class="alert-body">Read <code>localStorage</code> and set the attribute <em>before paint</em> — inline this script in <code>&lt;head&gt;</code>, not in a deferred bundle. The <code>index.html</code> example shows the pattern.</p>
-          </div>
+&lt;/script&gt;</code></pre></div>
+        <p class="t-body" style="max-width: 65ch;">For Clay, Sage, Burgundy, or Azure, load one override file after <code>inkwell.css</code>. A palette swaps brand-layer tokens and never repeats component CSS.</p>
+        <div class="code-block"><pre><code>&lt;link rel="stylesheet" href="inkwell.css"&gt;
+&lt;link rel="stylesheet" href="variants/azure.css"&gt;</code></pre></div>
+      </section>
+
+      <section id="components" class="section">
+        <div class="sec-head"><span class="idx">04</span><h2>Components</h2><span class="count">35 families</span></div>
+        <p class="t-body" style="max-width: 65ch;">The <a class="link" href="components.html">component reference</a> is the canonical adoption surface. It lists selectors, anatomy, modifiers, states, accessibility requirements, JavaScript responsibilities, version introduced, and copyable markup from one machine-readable manifest.</p>
+        <div class="button-row"><a class="btn btn-primary" href="components.html">Open component reference</a><a class="btn btn-secondary" href="preview.html">Open visual showcase</a></div>
+        <details class="disclosure" style="margin-top: var(--sp-5);"><summary>Which components need JavaScript?</summary><p>Tabs need selection and keyboard synchronization; enhanced carousel buttons need navigation state; declarative dialog triggers need <code>showModal()</code>, close handling, and focus restoration. Load the optional interaction file for those recipes. Everything else is CSS-only or relies on native HTML behavior.</p></details>
+      </section>
+
+      <section id="accessibility" class="section">
+        <div class="sec-head"><span class="idx">05</span><h2>Accessibility baseline</h2><span class="count">part of the API</span></div>
+        <div class="card-grid">
+          <article class="card"><h3 class="t-h3" style="margin-top: 0;">Pages</h3><p class="t-small">One visible h1, one main landmark, a working skip link, logical headings, canonical metadata, and no page-level horizontal overflow.</p></article>
+          <article class="card"><h3 class="t-h3" style="margin-top: 0;">Forms</h3><p class="t-small">Visible labels, useful names and autocomplete, <code>aria-invalid="true"</code>, and <code>aria-describedby</code> pointing to error text.</p></article>
+          <article class="card"><h3 class="t-h3" style="margin-top: 0;">Interaction</h3><p class="t-small">Keyboard parity, visible focus, reduced-motion support, no autoplay, and 44px controls on coarse-pointer devices.</p></article>
         </div>
       </section>
 
-      <section id="components" style="margin-bottom: 56px;">
-        <div class="sec-head"><span class="idx">04</span><h2>Components</h2><span class="count">26 classes</span></div>
-        <p class="t-body" style="max-width: 64ch;">
-          Each component is a single class plus optional modifiers. None of them require JavaScript except <code>&lt;dialog&gt;</code>, which uses the native <code>showModal()</code> API for focus trap and <code>::backdrop</code>.
-        </p>
-        <table class="tbl" style="margin-top: 20px;">
-          <thead>
-            <tr>
-              <th>Class</th>
-              <th>Status</th>
-              <th>Purpose</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td><code>.btn</code></td><td><span class="chip-dot safe"><span class="dot"></span>Stable</span></td><td>Buttons (primary / secondary / ghost / danger)</td></tr>
-            <tr><td><code>.input</code> · <code>.textarea</code> · <code>.select</code></td><td><span class="chip-dot safe"><span class="dot"></span>Stable</span></td><td>Form controls with <code>.is-error</code> + <code>:disabled</code></td></tr>
-            <tr><td><code>.field</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Label + control + help/error wrapper</td></tr>
-            <tr><td><code>.radio</code> · <code>.switch</code> · <code>.checkbox</code></td><td><span class="chip-dot safe"><span class="dot"></span>Stable</span></td><td>Selection controls</td></tr>
-            <tr><td><code>.alert</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Flat-tinted system messages (4 severities)</td></tr>
-            <tr><td><code>.code-block</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Multi-line <code>&lt;pre&gt;&lt;code&gt;</code> with copy slot</td></tr>
-            <tr><td><code>.dialog</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Native <code>&lt;dialog&gt;</code> styling</td></tr>
-            <tr><td><code>kbd</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Keyboard-shortcut chip</td></tr>
-            <tr><td><code>.tabs</code> · <code>.tab</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Underline tab nav; reference JS wires panels, roving tabindex, and Arrow/Home/End keys</td></tr>
-            <tr><td><code>.tooltip</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>CSS-only bubble via <code>[data-tooltip]</code></td></tr>
-            <tr><td><code>.breadcrumbs</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td><code>&lt;ol&gt;</code> with <code>/</code> separators &amp; <code>aria-current</code></td></tr>
-            <tr><td><code>.pagination</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Numbered page list with prev/next + ellipsis</td></tr>
-            <tr><td><code>.skeleton</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Shimmer placeholder, reduced-motion-safe</td></tr>
-            <tr><td><code>.empty-state</code></td><td><span class="chip-dot attention"><span class="dot"></span>New</span></td><td>Centered no-data panel with icon slot</td></tr>
-            <tr><td><code>.card</code> · <code>.stat-card</code></td><td><span class="chip-dot safe"><span class="dot"></span>Stable</span></td><td>Surfaces with an optional calm <code>.is-link</code> border-color hover</td></tr>
-            <tr><td><code>.tbl</code> · <code>.tldr</code> · <code>.toc</code></td><td><span class="chip-dot safe"><span class="dot"></span>Stable</span></td><td>Editorial primitives</td></tr>
-            <tr><td><code>.timeline</code> · <code>.pill</code> · <code>.chip-dot</code></td><td><span class="chip-dot safe"><span class="dot"></span>Stable</span></td><td>Status &amp; sequence patterns</td></tr>
-          </tbody>
-        </table>
+      <section id="tailwind" class="section">
+        <div class="sec-head"><span class="idx">06</span><h2>Tailwind v4</h2><span class="count">alternate entry</span></div>
+        <p class="t-body" style="max-width: 65ch;">Use <code>inkwell-theme.css</code> instead of <code>inkwell.css</code>. It imports the same canonical token and component sources, maps tokens into <code>@theme</code>, and keeps utilities above components in the cascade.</p>
+        <div class="code-block"><pre><code>@import "tailwindcss";
+@import "./inkwell-theme.css";</code></pre></div>
+        <p class="t-small">Use <code>border-inkwell</code> for the 1.5px signature border. The historical <code>border-hair</code> Tailwind alias still works through 3.x, but the CSS token <code>--border-hair</code> means a 1px divider.</p>
+        <a class="link" href="tailwind.html">Open the live Tailwind integration proof →</a>
       </section>
 
-      <section id="accessibility" style="margin-bottom: 56px;">
-        <div class="sec-head"><span class="idx">05</span><h2>Accessibility</h2><span class="count">WCAG-conscious</span></div>
-        <div class="tldr" style="margin-bottom: 20px;">
-          <div class="tldr-label">TL;DR</div>
-          Body text clears WCAG AA (4.5:1). Focus rings clear AA non-text (3:1) by a margin. The 1.5px hairline border is <em>deliberately</em> below 3:1 — visual separation comes from border + surface tone shift + shadow combined.
-        </div>
-        <ul style="line-height: 1.7; max-width: 64ch; padding-left: 20px;">
-          <li><code>--gray-700</code> on <code>--paper</code>: <strong>10.9:1</strong> · primary body text</li>
-          <li><code>--gray-500</code> on <code>--paper</code>: <strong>5.05:1</strong> · captions, muted labels</li>
-          <li><code>--accent</code> focus ring on <code>--paper</code>: <strong>7.9:1</strong> light · <strong>5.2:1</strong> dark</li>
-          <li><code>--gray-300</code> hairline on <code>--paper</code>: <strong>1.57:1</strong> light · <strong>1.45:1</strong> dark — intentional, see above</li>
-        </ul>
-        <div class="alert is-success" style="margin-top: 20px;">
-          <div>
-            <p class="alert-title">Reduced-motion is honored</p>
-            <p class="alert-body">Animations and transitions collapse to ~0ms under <code>prefers-reduced-motion: reduce</code>. The dialog pop, loading spinner, skeleton shimmer, and switch-knob slide all degrade gracefully.</p>
-          </div>
-        </div>
+      <section id="agents" class="section">
+        <div class="sec-head"><span class="idx">07</span><h2>Agent adoption</h2><span class="count">one context file</span></div>
+        <p class="t-body" style="max-width: 65ch;">Give an implementation agent <code>agent-instructions.md</code>. It contains the pinned 3.5.0 install URLs, component and token rules, interaction responsibilities, accessibility contracts, and the verification checklist. Repository-editing agents should also follow <code>AGENTS.md</code>.</p>
+        <div class="code-block"><pre><code>Read agent-instructions.md before building UI.
+Use the existing Inkwell tokens and components.
+Verify light, dark, auto, keyboard, and 375px layout.</code></pre></div>
       </section>
 
-      <section id="extend" style="margin-bottom: 56px;">
-        <div class="sec-head"><span class="idx">06</span><h2>Extend</h2><span class="count">tokens, never literals</span></div>
-        <p class="t-body" style="max-width: 64ch;">
-          Build new components by composing existing tokens. Never hardcode hex values in component CSS — that's the rule that keeps the system theme-able. Here's a notification card that respects the entire token system, including dark mode, with no extra work:
-        </p>
-        <div class="code-block" style="margin-top: 16px;">
-          <button class="copy" type="button" onclick="navigator.clipboard?.writeText(this.nextElementSibling.innerText)">Copy</button>
-          <pre><code>.notice {
-  background: var(--paper);
-  border: var(--border);
-  border-color: var(--accent);
-  border-radius: var(--r-md);
-  padding: var(--sp-4) var(--sp-5);
-  box-shadow: var(--shadow-sm);
-  font: var(--t-body)/1.55 var(--sans);
-  color: var(--slate);
-}
-.notice strong {
-  font-family: var(--serif);
-  font-weight: 500;
-}</code></pre>
-        </div>
-        <p class="t-small" style="margin-top: 16px;">
-          Every value is a token. Switch to dark mode and this component shifts surfaces, text, accent, and shadow in lockstep — no <code>@media (prefers-color-scheme: dark)</code> needed in your component file.
-        </p>
-        <div class="alert is-info" style="margin-top: 20px;">
-          <div>
-            <p class="alert-title">When you need a second hue</p>
-            <p class="alert-body">For data viz with multiple series, reach for <code>--olive</code> or <code>--sky</code>. Do not introduce a second saturated brand color — it dilutes the accent's job.</p>
-          </div>
-        </div>
-      </section>
-
-      <footer class="page-footer t-small" style="margin-top: 56px;">
-        Source · <code>tokens.css</code> (the spec) · <code>inkwell.css</code> (the alias) · <code>DESIGN_SYSTEM.md</code> (the canonical reference). Every example on this site is built from the same two CSS files you'd link from your own project.
+      <footer class="page-footer t-small" style="margin-top: var(--sp-8);">
+        Canonical sources: <code>inkwell-tokens.css</code>, <code>inkwell-components.css</code>, and <code>component-manifest.json</code>.
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.5.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>
           <a class="link" href="https://github.com/vscarpenter/inkwell">GitHub</a>
           <span class="sep" aria-hidden="true">·</span>
-          <a class="link" href="https://raw.githubusercontent.com/vscarpenter/inkwell/main/agent-instructions.md">Agent instructions</a>
-          <span class="sep" aria-hidden="true">·</span>
-          <a class="link" href="https://vinny.dev">vinny.dev</a>
+          <a class="link" href="https://raw.githubusercontent.com/vscarpenter/inkwell/v3.5.0/agent-instructions.md">Agent instructions</a>
         </p>
       </footer>
-      <p class="t-caption" style="text-align: center; margin: 16px 0 24px; font-style: italic; letter-spacing: 0.02em;">
-        Made with hairlines and serifs by <a class="link" href="https://vinny.dev">Vinny Carpenter</a>. The 1.5px is on purpose.
-      </p>
-
     </div>
   </main>
   <script src="demo.js"></script>

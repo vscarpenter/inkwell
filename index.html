@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F4F4F0">
+<link rel="canonical" href="https://inkwell.vinny.dev/">
 <script>
   // Apply saved theme before first paint (README: "writes data-theme before paint").
   // KEEP IN SYNC: this snippet is hand-copied across examples/*.html + preview.html.
@@ -28,7 +30,7 @@
 <meta name="twitter:image" content="https://inkwell.vinny.dev/og-image.png">
 <link rel="stylesheet" href="inkwell.css">
 <style>
-  /* Page-specific layout. Keep tokens.css for the system; put per-page
+  /* Page-specific layout. Keep inkwell.css for the system; put per-page
      adjustments here. Most projects only need ~30 lines of custom CSS. */
 
   body { padding-bottom: 120px; }
@@ -95,6 +97,7 @@
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
 
 <!-- ── Navbar ─────────────────────────────────────────── -->
 <header class="navbar">
@@ -120,7 +123,7 @@
   </div>
 </header>
 
-<div class="wrap">
+<main class="wrap" id="main-content">
 
   <!-- ── Hero ────────────────────────────────────────── -->
   <section class="hero" id="overview">
@@ -129,7 +132,7 @@
     <p class="lede">
       This is a starter template. Replace the headline, point the navbar at real pages, fill in the
       sections below — and you have a project that already feels considered. The design system in
-      <code>tokens.css</code> handles the rest.
+      <code>inkwell.css</code> handles the rest.
     </p>
     <div class="cta-row">
       <a href="#work" class="btn btn-primary" style="text-decoration: none;">Get started</a>
@@ -208,7 +211,7 @@
     <span>See <a class="link" href="DESIGN_SYSTEM.md">DESIGN_SYSTEM.md</a> for tokens, <a class="link" href="preview.html">preview.html</a> for components.</span>
   </footer>
 
-</div>
+</main>
 
 <!-- Light/Dark/Auto toggle — same pattern as preview.html, share localStorage key -->
 <script>
@@ -222,6 +225,9 @@
       if (s === 'auto') root.removeAttribute('data-theme');
       else root.setAttribute('data-theme', s);
       label.textContent = s;
+      requestAnimationFrame(() => {
+        document.querySelector('meta[name="theme-color"]').content = getComputedStyle(document.body).backgroundColor;
+      });
     }
     let current = localStorage.getItem(KEY) || localStorage.getItem('theme-preview') || 'auto';
     if (!order.includes(current)) current = 'auto';

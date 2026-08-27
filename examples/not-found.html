@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F4F4F0">
+  <link rel="canonical" href="https://inkwell.vinny.dev/not-found.html">
   <title>Page not found · Inkwell</title>
   <meta name="description" content="404 page template built with the Inkwell pure-CSS design system — clean editorial empty-state.">
   <meta property="og:type" content="website">
@@ -37,7 +39,8 @@
   </script>
 </head>
 <body>
-  <main class="demo-shell">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main id="main-content" class="demo-shell">
     <div class="wrap">
       <nav class="demo-nav" aria-label="Sample pages">
         <a class="brand" href="index.html">
@@ -71,7 +74,7 @@
         <div class="empty-state-icon" style="background: var(--accent-tint); color: var(--accent); border-color: var(--accent-strong-border); width: 88px; height: 88px;">
           <span style="font: 500 32px/1 var(--serif);">404</span>
         </div>
-        <h3 class="t-h1" style="margin: 0 0 12px;">Page not found</h3>
+        <h1 class="t-h1" style="margin: 0 0 12px;">Page not found</h1>
         <p style="max-width: 48ch; margin: 0 0 var(--sp-5); color: var(--gray-700);">
           We couldn't find what you were looking for. The link may be out of date, or the page may have moved during a recent update.
         </p>
@@ -97,7 +100,7 @@
       <footer class="page-footer t-small" style="margin-top: 80px;">
         Built with the <code>.empty-state</code> component. Token-driven, dark-mode aware, no images.
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.5.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>

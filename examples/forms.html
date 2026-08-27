@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F4F4F0">
+  <link rel="canonical" href="https://inkwell.vinny.dev/forms.html">
   <title>Inkwell Form Patterns Sample</title>
   <meta name="description" content="Form patterns built with the Inkwell pure-CSS design system — inputs, selects, checkboxes, validation, and field groups.">
   <meta property="og:type" content="website">
@@ -37,7 +39,8 @@
   </script>
 </head>
 <body>
-  <main class="demo-shell">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main id="main-content" class="demo-shell">
     <div class="wrap">
       <nav class="demo-nav" aria-label="Sample pages">
         <a class="brand" href="index.html">
@@ -77,19 +80,19 @@
         <div class="card" style="display: grid; gap: 18px;">
           <div class="field">
             <label class="field-label" for="f-name">Workspace name</label>
-            <input class="input" id="f-name" type="text" placeholder="e.g. Acme Editorial" value="Acme Editorial">
+            <input class="input" id="f-name" name="workspace-name" type="text" autocomplete="organization" placeholder="e.g. Acme Editorial" value="Acme Editorial">
             <span class="field-help">Shown to teammates and on shared links.</span>
           </div>
 
           <div class="field">
             <label class="field-label" for="f-slug">URL slug</label>
-            <input class="input is-error" id="f-slug" type="text" value="acme editorial">
-            <span class="field-error">Slugs cannot contain spaces. Try <code>acme-editorial</code>.</span>
+            <input class="input is-error" id="f-slug" name="slug" type="text" value="acme editorial" aria-invalid="true" aria-describedby="f-slug-error">
+            <span class="field-error" id="f-slug-error">Slugs cannot contain spaces. Try <code>acme-editorial</code>.</span>
           </div>
 
           <div class="field">
             <label class="field-label" for="f-region">Default region</label>
-            <select class="select" id="f-region">
+            <select class="select" id="f-region" name="region">
               <option>North America (us-east-1)</option>
               <option>Europe (eu-west-1)</option>
               <option>Asia Pacific (ap-northeast-1)</option>
@@ -99,12 +102,12 @@
 
           <div class="field">
             <label class="field-label" for="f-bio">Description</label>
-            <textarea class="textarea" id="f-bio" placeholder="Tell teammates what this workspace is for."></textarea>
+            <textarea class="textarea" id="f-bio" name="description" placeholder="Tell teammates what this workspace is for."></textarea>
           </div>
 
           <div class="field">
             <label class="field-label" for="f-archived">Archived snapshot</label>
-            <input class="input" id="f-archived" type="text" value="2025-04-12 weekly export" disabled>
+            <input class="input" id="f-archived" name="archived-snapshot" type="text" value="2025-04-12 weekly export" disabled>
             <span class="field-help">Disabled fields use <code>--gray-100</code> background and <code>--gray-500</code> text.</span>
           </div>
         </div>
@@ -115,9 +118,9 @@
         <div class="card" style="display: grid; gap: 18px;">
           <div class="field">
             <span class="field-label">Notifications</span>
-            <label class="checkbox"><input type="checkbox" checked> Weekly digest email</label>
-            <label class="checkbox"><input type="checkbox"> Comment mentions</label>
-            <label class="checkbox"><input type="checkbox" checked> Release announcements</label>
+            <label class="checkbox"><input type="checkbox" name="notifications" value="digest" checked> Weekly digest email</label>
+            <label class="checkbox"><input type="checkbox" name="notifications" value="mentions"> Comment mentions</label>
+            <label class="checkbox"><input type="checkbox" name="notifications" value="releases" checked> Release announcements</label>
           </div>
 
           <div class="field">
@@ -129,9 +132,9 @@
 
           <div class="field">
             <span class="field-label">Workspace flags</span>
-            <label class="switch"><input type="checkbox" checked> Two-factor authentication required</label>
-            <label class="switch"><input type="checkbox"> Public profile page</label>
-            <label class="switch"><input type="checkbox" checked> Quiet hours respect timezone</label>
+            <label class="switch"><input type="checkbox" name="require-2fa" checked> Two-factor authentication required</label>
+            <label class="switch"><input type="checkbox" name="public-profile"> Public profile page</label>
+            <label class="switch"><input type="checkbox" name="timezone-quiet-hours" checked> Quiet hours respect timezone</label>
           </div>
         </div>
       </section>
@@ -186,29 +189,29 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
         <div class="sec-head"><span class="idx">05</span><h2>Confirmation dialog</h2><span class="count">native &lt;dialog&gt;</span></div>
         <div class="card" style="display: flex; gap: 12px; align-items: center;">
           <p class="t-small" style="margin: 0; flex: 1;">Native HTML <code>&lt;dialog&gt;</code> with focus trap, ESC-to-close, and styled <code>::backdrop</code>. Zero JS beyond <code>showModal()</code>.</p>
-          <button class="btn btn-secondary" type="button" id="open-dialog">Open dialog</button>
+          <button class="btn btn-secondary" type="button" id="open-dialog" data-dialog-open="confirm-dialog">Open dialog</button>
         </div>
       </section>
 
       <dialog class="dialog" id="confirm-dialog" aria-labelledby="confirm-title">
         <div class="dialog-head">
           <h2 id="confirm-title">Archive this workspace?</h2>
-          <button class="dialog-close" type="button" aria-label="Close" data-close>×</button>
+          <button class="dialog-close" type="button" aria-label="Close" data-dialog-close>×</button>
         </div>
         <div class="dialog-body">
           <p style="margin: 0 0 8px;">Members will lose access immediately. The data is retained for 30 days, then permanently deleted.</p>
           <p class="t-small" style="margin: 0; color: var(--gray-700);">You can restore the workspace from the recovery dashboard within that window.</p>
         </div>
         <div class="dialog-foot">
-          <button class="btn btn-secondary" type="button" data-close>Cancel</button>
-          <button class="btn btn-danger" type="button" data-close>Archive workspace</button>
+          <button class="btn btn-secondary" type="button" data-dialog-close>Cancel</button>
+          <button class="btn btn-danger" type="button" data-dialog-close>Archive workspace</button>
         </div>
       </dialog>
 
       <footer class="page-footer t-small" style="margin-top: 56px;">
         Built with <code>inkwell.css</code>. Components added in this revision: <code>.field</code>, <code>.input.is-error</code>, <code>.textarea</code>, <code>.select</code>, <code>.radio</code>, <code>.switch</code>, <code>kbd</code>, <code>.alert</code>, <code>.code-block</code>, <code>.dialog</code>.
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.5.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>
@@ -225,11 +228,7 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
 
     </div>
   </main>
+  <script src="inkwell-interactions.js"></script>
   <script src="demo.js"></script>
-  <script>
-    const dlg = document.getElementById('confirm-dialog');
-    document.getElementById('open-dialog').addEventListener('click', () => dlg.showModal());
-    dlg.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => dlg.close()));
-  </script>
 </body>
 </html>

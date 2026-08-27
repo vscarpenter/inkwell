@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F4F4F0">
+  <link rel="canonical" href="https://inkwell.vinny.dev/app-shell.html">
   <title>Inkwell App Shell Sample</title>
   <meta name="description" content="SaaS app shell built with the Inkwell pure-CSS design system — navbar, sidebar, stat cards, scrollable table, tooltips, and busy-state buttons.">
   <meta property="og:type" content="website">
@@ -42,6 +44,7 @@
       gap: var(--sp-5);
       align-items: start;
     }
+    .app-frame > * { min-width: 0; }
     .app-sidebar {
       position: sticky;
       top: 72px;
@@ -81,6 +84,7 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
   <header class="navbar">
     <div class="navbar-inner">
@@ -93,7 +97,7 @@
     </div>
   </header>
 
-  <main class="demo-shell">
+  <main id="main-content" class="demo-shell">
     <div class="wrap-wide">
       <nav class="demo-nav" aria-label="Sample pages">
         <a class="brand" href="index.html">
@@ -136,7 +140,7 @@
         <div>
           <div class="sec-head">
             <span class="idx">01</span>
-            <h2>Customer accounts</h2>
+            <h1>Customer accounts</h1>
             <span class="count">248 active</span>
           </div>
 
@@ -248,7 +252,7 @@
       <footer class="page-footer t-small">
         <a class="link" href="index.html">Back to all examples</a>
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.5.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>

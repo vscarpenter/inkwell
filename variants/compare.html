@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1A1A18">
+<link rel="canonical" href="https://inkwell.vinny.dev/variants/compare.html">
 <script>
   // Apply saved theme before first paint (README: "writes data-theme before paint").
   // KEEP IN SYNC: this snippet is hand-copied across examples/*.html + preview.html.
@@ -38,6 +40,8 @@
     color: #F6F4EE;
     overflow: hidden;
   }
+  .skip-link { position: absolute; left: -9999px; z-index: 100; padding: 10px 16px; color: #1A1A18; background: #F6F4EE; }
+  .skip-link:focus { left: 12px; top: 12px; }
 
   .layout {
     display: flex;
@@ -203,7 +207,8 @@
 </style>
 </head>
 <body>
-<div class="layout">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<main class="layout" id="main-content">
 
   <div class="topbar">
     <h1>Side-by-side</h1>
@@ -290,12 +295,12 @@
   </div>
 
   <footer class="deploy-meta">
-    <a href="../changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+    <a href="../changelog.html" data-inkwell-version>Inkwell v3.5.0</a>
     <span aria-hidden="true">·</span>
     <time data-inkwell-deployed datetime="">Deployment pending</time>
   </footer>
 
-</div>
+</main>
 
 <script>
   // === Variant toggles (show/hide panels) ===

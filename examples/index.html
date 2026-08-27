@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F4F4F0">
+  <link rel="canonical" href="https://inkwell.vinny.dev/">
   <title>Inkwell Sample Pages</title>
   <meta name="description" content="A gallery of sample pages — dashboard, landing, docs, pricing, settings, and more — built with the Inkwell pure-CSS design system.">
   <meta property="og:type" content="website">
@@ -37,7 +39,8 @@
   </script>
 </head>
 <body>
-  <main class="demo-shell">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main id="main-content" class="demo-shell">
     <div class="wrap-wide">
       <nav class="demo-nav" aria-label="Sample pages">
         <a class="brand" href="index.html" aria-current="page">
@@ -70,7 +73,7 @@
           <p class="hero-copy">These pages demonstrate the Inkwell CSS system: serif headings, cool neutral surfaces, indigo accents, 1.5px borders, compact components, and automatic dark mode.</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="dashboard.html">View dashboard sample</a>
-            <a class="btn btn-secondary" href="settings.html">Open form sample</a>
+            <a class="btn btn-secondary" href="components.html">Browse components</a>
           </div>
         </div>
 
@@ -109,7 +112,7 @@
         <div>
           <p class="alert-title">Using Claude/Codex/Devin/Cursor - tell your coding assistant to:</p>
           <p class="alert-body">
-          Read <code>https://raw.githubusercontent.com/vscarpenter/inkwell/main/agent-instructions.md</code> and apply the Inkwell Design System to this web app. Follow the design tokens, CSS classes, typography, spacing, color rules, and component patterns exactly, without introducing a competing styling system.
+          Read <code>https://raw.githubusercontent.com/vscarpenter/inkwell/v3.5.0/agent-instructions.md</code> and apply the Inkwell Design System to this web app. Follow the design tokens, CSS classes, typography, spacing, color rules, and component patterns exactly, without introducing a competing styling system.
           </p>
         </div>
       </div>
@@ -118,9 +121,14 @@
         <div class="sec-head">
           <span class="idx">01</span>
           <h2>Example pages</h2>
-          <span class="count">18 pages</span>
+          <span class="count">20 destinations</span>
         </div>
         <div class="card-grid">
+          <a class="card is-link" href="components.html">
+            <span class="badge badge-accent">Reference</span>
+            <h3 class="t-h3">Component contracts</h3>
+            <p class="t-small">Selectors, anatomy, modifiers, states, accessibility, JavaScript responsibilities, version history, and copyable markup from one generated catalog.</p>
+          </a>
           <a class="card is-link" href="docs.html">
             <span class="badge badge-accent">Start here</span>
             <h3 class="t-h3">Getting started guide</h3>
@@ -144,7 +152,7 @@
           <a class="card is-link" href="tailwind.html">
             <span class="badge badge-neutral">Integration</span>
             <h3 class="t-h3">Tailwind v4 integration</h3>
-            <p class="t-small">Inkwell tokens and components alongside Tailwind utilities — <code>border-hair</code>, <code>dark:</code>, and cascade-order notes.</p>
+            <p class="t-small">Inkwell tokens and components alongside Tailwind utilities — <code>border-inkwell</code>, <code>dark:</code>, and cascade-order notes.</p>
           </a>
           <a class="card is-link" href="settings.html">
             <span class="badge badge-neutral">Forms</span>
@@ -211,7 +219,7 @@
             <h3 class="t-h3">Compare palettes</h3>
             <p class="t-small">Five iframes side-by-side rendering the preview in each palette. Toggle theme in the header to flip all five together.</p>
           </a>
-          <a class="card is-link" href="docs.html#tokens">
+          <a class="card is-link" href="docs.html#theme">
             <span class="badge badge-warning">Tokens</span>
             <h3 class="t-h3">Theme primitives</h3>
             <p class="t-small">Palette, typography, spacing, radius, shadow, motion, and layout variables. Also exported as <code>tokens.json</code>.</p>
@@ -238,16 +246,16 @@
       </section>
 
       <footer class="page-footer t-small">
-        Built with <code>inkwell.css</code>, <code>tokens.css</code>, and demo-only helpers in <code>demo.css</code>.
+        Built with <code>inkwell.css</code>, the optional <code>inkwell-interactions.js</code>, and demo-only helpers in <code>demo.css</code>.
         Need a minimal copy-paste starter? See the <a class="link" href="../index.html">root starter template</a>.
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.0.1</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.5.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>
           <a class="link" href="https://github.com/vscarpenter/inkwell">GitHub</a>
           <span class="sep" aria-hidden="true">·</span>
-          <a class="link" href="https://raw.githubusercontent.com/vscarpenter/inkwell/main/agent-instructions.md">Agent instructions</a>
+          <a class="link" href="https://raw.githubusercontent.com/vscarpenter/inkwell/v3.5.0/agent-instructions.md">Agent instructions</a>
           <span class="sep" aria-hidden="true">·</span>
           <a class="link" href="https://vinny.dev">vinny.dev</a>
         </p>
