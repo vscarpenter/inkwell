@@ -100,6 +100,20 @@
   --gray-500: light-dark(#6F6F75, #9A9AA0); /* WCAG AA: 5.05:1 on --paper, 4.64:1 on --ivory (light) */
   --gray-700: light-dark(#3A3B41, #C0C0C7);
 
+  /* ---------- Semantic color aliases ----------
+     Additive names for intent. The palette-named tokens remain public and
+     variants still override them; these aliases follow the root palette. */
+  --surface-page:    var(--ivory);
+  --surface-panel:   var(--paper);
+  --surface-subtle:  var(--gray-100);
+  --surface-inverse: var(--slate);
+  --text-primary:    var(--slate);
+  --text-secondary:  var(--gray-700);
+  --text-muted:      var(--gray-500);
+  --text-inverse:    var(--ivory);
+  --text-link:       var(--accent-ink);
+  --text-on-accent:  var(--on-accent);
+
   /* ---------- Typography ----------
      Headline serif: leads with platform serifs we've QA'd at display sizes.
      ui-serif was dropped in 1.4.0 — it resolves to wildly variable fonts
@@ -147,7 +161,7 @@
   --border-strong: 1.5px solid var(--slate);
   --border-hair:   1px   solid var(--gray-100);
   --border-rule:   1px   solid var(--gray-300);
-  --control-border: 1.5px solid var(--gray-400);   /* checkbox/radio/switch — functional state boundary, >=3:1 */
+  --control-border: 1.5px solid var(--gray-400);   /* text/selection controls — functional boundary, >=3:1 */
 
   /* ---------- Shadows (warm low-spread in light, deep pure black in dark) ---------- */
   --shadow-sm:         0 1px 2px  light-dark(rgba(20, 20, 19, 0.06), rgba(0, 0, 0, 0.45));

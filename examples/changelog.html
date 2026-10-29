@@ -100,9 +100,35 @@
       <!-- BEGIN GENERATED: releases — edit CHANGELOG.md and run scripts/build-changelog-html.mjs -->
       <article class="release">
         <div class="release-head">
+          <span class="ver">Unreleased</span>
+          <span class="badge badge-accent">Latest</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Added</div>
+          <ul class="change-list">
+            <li><strong>Semantic color aliases.</strong> Ten opt-in <code>--surface-*</code> / <code>--text-*</code> aliases express surface and text intent while retaining all existing palette tokens and component override behavior. Tailwind exposes matching surface/content utilities.</li>
+            <li><strong>Optional DTCG 2025.10 export.</strong> <code>inkwell.tokens.json</code> includes every canonical token, all five palettes, both modes, typed aliases, and shared foundations. A zero-dependency generator and type/reference tests protect the export; the existing <code>tokens.json</code> remains compatible.</li>
+            <li><strong>Complete reference-route browser coverage.</strong> All 20 published pages are checked in light/dark/auto, at desktop/mobile sizes and 640/320px zoom-equivalent widths. Regression tests cover viewport-edge hints, resize, long labels, and semantic aliases. Firefox verification can run in the matching official Linux browser container.</li>
+            <li><strong>Tooltip adoption contract.</strong> The existing tooltip family is now included in the generated catalog, bringing the documented total to 36 without adding a new CSS component.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Fixed</div>
+          <ul class="change-list">
+            <li><strong>Platform-font reflow.</strong> Display headings can break unusually wide words, component-reference headers wrap their permalinks, and the profile activity table scrolls in a named keyboard-reachable region. These close 320px overflow gaps found by Linux CI.</li>
+            <li><strong>Viewport-edge tooltip placement.</strong> Enhanced hints clamp horizontally, flip above/below, and update on resize/scroll. Hidden bubbles no longer expand page scroll areas. Tooltip-bearing examples load the companion and a contract gate enforces that dependency.</li>
+            <li><strong>Reference-page reflow and long labels.</strong> Dashboard/landing/search grid children can shrink, profile headers and carousel indicators wrap, and selection indicators retain their size beside long translated labels. Search headings follow a logical outline; landing copy describes the three-file install.</li>
+            <li><strong>Accessible functional boundaries.</strong> Text inputs, textareas, and selects use the existing 3:1 control border; <code>aria-invalid="true"</code> applies error styling without requiring <code>.is-error</code>.</li>
+            <li><strong>User preference and content resilience.</strong> Native checkbox/radio/switch/select affordances return in forced colors. Buttons, segmented options, and pagination grow with text; card grids fit containers narrower than 280px.</li>
+            <li><strong>Tab and tooltip behavior.</strong> Tabs honor RTL, vertical orientation, disabled options, and nested tablist ownership; panels receive a keyboard stop unless explicitly configured. Tooltip bubbles remain hoverable and respond to contained focus; the optional companion supplies Escape dismissal.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
           <span class="ver">v3.5.0</span>
           <span class="release-date">2026-08-27</span>
-          <span class="badge badge-accent">Latest</span>
         </div>
         <div class="change-block">
           <div class="change-label">Added</div>

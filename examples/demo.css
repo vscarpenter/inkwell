@@ -163,9 +163,12 @@
   gap: var(--sp-5);
   align-items: start;
 }
+.hero > *,
+.split > * { min-width: 0; }
 
 .toolbar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--sp-3);
@@ -230,11 +233,13 @@
 
 .profile-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--sp-4);
 }
 
 .avatar-lg {
+  flex-shrink: 0;
   width: 76px;
   height: 76px;
   font-size: 24px;
@@ -330,7 +335,7 @@
   .demo-nav,
   .hero,
   .split {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .demo-nav {

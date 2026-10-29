@@ -89,7 +89,7 @@
     </h1>
     <p class="t-body" style="color: var(--gray-700); max-width: 60ch; margin: 0;">
       A live tour of Inkwell with its default <strong>Indigo &amp; Cloud</strong> palette. Use the toggle
-      in the top-right to flip between auto / light / dark. Open <code>tokens.css</code> for the source,
+      in the top-right to flip between auto / light / dark. Open <code>inkwell-tokens.css</code> and <code>inkwell-components.css</code> for the source,
       <code>DESIGN_SYSTEM.md</code> for the docs, <code>index.html</code> for a starter template.
     </p>
   </header>
@@ -260,14 +260,17 @@
     <div class="sec-head">
       <span class="idx">07</span><h2>Table</h2>
     </div>
-    <table class="tbl">
-      <thead><tr><th>Item</th><th>Owner</th><th>Status</th><th>Due</th></tr></thead>
-      <tbody>
-        <tr><td>Revamp planner sidebar</td><td>Avery</td><td><span class="badge badge-success">Done</span></td><td><code>Mon</code></td></tr>
-        <tr><td>Migrate auth to OAuth2</td><td>Jordan</td><td><span class="badge badge-accent">In review</span></td><td><code>Wed</code></td></tr>
-        <tr><td>Rate-limit retries</td><td>Sam</td><td><span class="badge badge-warning">At risk</span></td><td><code>Fri</code></td></tr>
-      </tbody>
-    </table>
+    <div class="tbl-scroll" role="region" aria-label="Task status table" tabindex="0">
+      <table class="tbl">
+        <caption class="sr-only">Task ownership and delivery status</caption>
+        <thead><tr><th scope="col">Item</th><th scope="col">Owner</th><th scope="col">Status</th><th scope="col">Due</th></tr></thead>
+        <tbody>
+          <tr><td>Revamp planner sidebar</td><td>Avery</td><td><span class="badge badge-success">Done</span></td><td><code>Mon</code></td></tr>
+          <tr><td>Migrate auth to OAuth2</td><td>Jordan</td><td><span class="badge badge-accent">In review</span></td><td><code>Wed</code></td></tr>
+          <tr><td>Rate-limit retries</td><td>Sam</td><td><span class="badge badge-warning">At risk</span></td><td><code>Fri</code></td></tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <!-- TIMELINE -->
@@ -299,7 +302,7 @@
     <div class="sec-head">
       <span class="idx">09</span><h2>Card grid (link cards)</h2>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px;">
+    <div class="card-grid">
       <a class="card is-link" href="#">
         <div class="t-h3">Three code approaches</div>
         <div class="t-small" style="margin: 6px 0 14px;">Side-by-side comparison of three ways to solve the same problem.</div>
@@ -533,13 +536,14 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
       <span class="count">[data-tooltip]</span>
     </div>
     <div class="stage">
-      <button class="btn btn-secondary tooltip" data-tooltip="Toggles between auto / light / dark" type="button">Theme</button>
+      <button class="btn btn-secondary tooltip" data-tooltip="Toggles between auto / light / dark" aria-label="Theme" aria-describedby="pv-theme-hint" type="button">Theme</button>
+      <span class="sr-only" id="pv-theme-hint">Toggles between auto / light / dark</span>
       <button class="btn btn-ghost tooltip" data-tooltip="Save current draft" aria-label="Save" type="button">⌘S</button>
       <span class="tooltip" data-tooltip="Status: stable">
-        <span class="chip-dot safe"><span class="dot"></span>auth/session.ts</span>
+        <span class="chip-dot safe"><span class="dot"></span>auth/session.ts · Stable</span>
       </span>
     </div>
-    <p class="t-small" style="margin-top: 10px; color: var(--gray-500);">Hover or focus to reveal. Pair with <code>aria-label</code> for screen-reader users — the visual bubble is decorative.</p>
+    <p class="t-small" style="margin-top: 10px; color: var(--gray-500);">Hover or focus to reveal; move onto the bubble to keep reading. Press Escape to dismiss. Keep instructions visible and provide supplemental descriptions with <code>aria-describedby</code>.</p>
   </section>
 
   <!-- BREADCRUMBS -->

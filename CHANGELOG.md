@@ -6,6 +6,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added
+- **Semantic color aliases.** Ten opt-in `--surface-*` / `--text-*` aliases express surface and text intent while retaining all existing palette tokens and component override behavior. Tailwind exposes matching surface/content utilities.
+- **Optional DTCG 2025.10 export.** `inkwell.tokens.json` includes every canonical token, all five palettes, both modes, typed aliases, and shared foundations. A zero-dependency generator and type/reference tests protect the export; the existing `tokens.json` remains compatible.
+- **Complete reference-route browser coverage.** All 20 published pages are checked in light/dark/auto, at desktop/mobile sizes and 640/320px zoom-equivalent widths. Regression tests cover viewport-edge hints, resize, long labels, and semantic aliases. Firefox verification can run in the matching official Linux browser container.
+- **Tooltip adoption contract.** The existing tooltip family is now included in the generated catalog, bringing the documented total to 36 without adding a new CSS component.
+
+### Fixed
+- **Platform-font reflow.** Display headings can break unusually wide words, component-reference headers wrap their permalinks, and the profile activity table scrolls in a named keyboard-reachable region. These close 320px overflow gaps found by Linux CI.
+- **Viewport-edge tooltip placement.** Enhanced hints clamp horizontally, flip above/below, and update on resize/scroll. Hidden bubbles no longer expand page scroll areas. Tooltip-bearing examples load the companion and a contract gate enforces that dependency.
+- **Reference-page reflow and long labels.** Dashboard/landing/search grid children can shrink, profile headers and carousel indicators wrap, and selection indicators retain their size beside long translated labels. Search headings follow a logical outline; landing copy describes the three-file install.
+- **Accessible functional boundaries.** Text inputs, textareas, and selects use the existing 3:1 control border; `aria-invalid="true"` applies error styling without requiring `.is-error`.
+- **User preference and content resilience.** Native checkbox/radio/switch/select affordances return in forced colors. Buttons, segmented options, and pagination grow with text; card grids fit containers narrower than 280px.
+- **Tab and tooltip behavior.** Tabs honor RTL, vertical orientation, disabled options, and nested tablist ownership; panels receive a keyboard stop unless explicitly configured. Tooltip bubbles remain hoverable and respond to contained focus; the optional companion supplies Escape dismissal.
+
 ## [3.5.0] — 2026-08-27
 
 ### Added

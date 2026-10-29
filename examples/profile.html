@@ -117,32 +117,35 @@
           <h2>Recent activity</h2>
           <span class="count">3 rows</span>
         </div>
-        <table class="tbl">
-          <thead>
-            <tr>
-              <th>Project</th>
-              <th>Change</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Inkwell</td>
-              <td>Reviewed palette contrast</td>
-              <td><span class="badge badge-success">Complete</span></td>
-            </tr>
-            <tr>
-              <td>Docs</td>
-              <td>Refined usage examples</td>
-              <td><span class="badge badge-accent">In review</span></td>
-            </tr>
-            <tr>
-              <td>Release</td>
-              <td>Prepared handoff notes</td>
-              <td><span class="badge badge-neutral">Queued</span></td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="tbl-scroll" role="region" aria-label="Recent project activity" tabindex="0">
+          <table class="tbl">
+            <caption class="sr-only">Recent project activity</caption>
+            <thead>
+              <tr>
+                <th scope="col">Project</th>
+                <th scope="col">Change</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Inkwell</td>
+                <td>Reviewed palette contrast</td>
+                <td><span class="badge badge-success">Complete</span></td>
+              </tr>
+              <tr>
+                <td>Docs</td>
+                <td>Refined usage examples</td>
+                <td><span class="badge badge-accent">In review</span></td>
+              </tr>
+              <tr>
+                <td>Release</td>
+                <td>Prepared handoff notes</td>
+                <td><span class="badge badge-neutral">Queued</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <footer class="page-footer t-small">

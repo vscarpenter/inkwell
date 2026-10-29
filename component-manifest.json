@@ -45,8 +45,8 @@
       "since": "1.0.0",
       "anatomy": ["Place a labelled control inside .field.", "Use .textarea for multi-line input and .select on native select."],
       "modifiers": [".is-error and .is-disabled."],
-      "states": ["Focus, disabled, placeholder, and invalid."],
-      "accessibility": ["Every control needs a label and name.", "Invalid controls set aria-invalid=true and reference error copy with aria-describedby."],
+      "states": ["Focus, disabled, placeholder, and invalid via aria-invalid=true or the legacy .is-error class."],
+      "accessibility": ["Every control needs a label and name; functional borders use --control-border.", "Invalid controls set aria-invalid=true and reference visible error copy with aria-describedby.", "Forced colors restores native select appearance."],
       "javascript": "Application validation only.",
       "markup": "<label class=\"field\" for=\"reference-email\">\n  <span class=\"field-label\">Email</span>\n  <input class=\"input\" id=\"reference-email\" name=\"email\" type=\"email\" autocomplete=\"email\">\n</label>"
     },
@@ -129,7 +129,7 @@
       "since": "2.1.0",
       "anatomy": ["Responsive parent for sibling cards."],
       "modifiers": ["Override the minimum column size only when content requires it."],
-      "states": ["Auto-fills from one column upward."],
+      "states": ["Auto-fills from one column upward; the preferred 280px minimum shrinks to fit a narrower container."],
       "accessibility": ["DOM order remains reading order; do not rearrange items visually."],
       "javascript": "None.",
       "markup": "<div class=\"card-grid\"><article class=\"card\">First</article><article class=\"card\">Second</article></div>"
@@ -224,9 +224,9 @@
       "selectors": [".tabs", ".tab", "[data-tabs]"],
       "since": "1.0.0",
       "anatomy": ["A labelled tablist of tabs plus one labelled panel per tab.", "Each tab's aria-controls points to its panel; each panel's aria-labelledby points back."],
-      "modifiers": ["aria-selected=true marks the active tab."],
-      "states": ["Selected, hover, focus-visible, and hidden panels."],
-      "accessibility": ["Use roving tabindex and ArrowLeft/ArrowRight/Home/End navigation.", "Do not use tabs when users need to compare panels simultaneously."],
+      "modifiers": ["aria-selected=true marks the active tab; aria-orientation=vertical selects a vertical list."],
+      "states": ["Selected, hover, focus-visible, disabled/aria-disabled, and hidden panels."],
+      "accessibility": ["Use roving tabindex and Home/End; horizontal arrows follow reading direction, vertical lists use Up/Down.", "The companion skips disabled tabs and makes panels focusable unless an explicit tabindex is supplied.", "Automatic activation requires immediately available panels; do not use tabs when users need to compare panels simultaneously."],
       "javascript": "Load inkwell-interactions.js or reproduce the documented WAI-ARIA behavior.",
       "markup": "<div class=\"tabs\" role=\"tablist\" aria-label=\"Account views\" data-tabs>\n  <button class=\"tab\" id=\"ref-tab-overview\" role=\"tab\" aria-selected=\"true\" aria-controls=\"ref-panel-overview\">Overview</button>\n  <button class=\"tab\" id=\"ref-tab-activity\" role=\"tab\" aria-selected=\"false\" aria-controls=\"ref-panel-activity\" tabindex=\"-1\">Activity</button>\n</div>\n<div id=\"ref-panel-overview\" role=\"tabpanel\" aria-labelledby=\"ref-tab-overview\">Overview content</div>\n<div id=\"ref-panel-activity\" role=\"tabpanel\" aria-labelledby=\"ref-tab-activity\" hidden>Activity content</div>"
     },
@@ -421,6 +421,18 @@
       "accessibility": ["Write the shortcut in surrounding text and use platform-appropriate key names."],
       "javascript": "None.",
       "markup": "<p>Press <kbd>⌘</kbd> <kbd>K</kbd> to search.</p>"
+    },
+    {
+      "id": "tooltip",
+      "name": "Tooltip",
+      "selectors": [".tooltip", "[data-tooltip]"],
+      "since": "1.3.0",
+      "anatomy": ["Apply .tooltip and data-tooltip to a trigger or its wrapper.", "Keep essential instructions visible; the bubble is a supplemental visual hint."],
+      "modifiers": ["No public modifiers."],
+      "states": ["Hover, contained focus, pointer over the bubble, and Escape-dismissed until the next entry or focus.", "The companion clamps the bubble to the viewport and places it below when there is too little room above; active hints reposition on scroll and resize."],
+      "accessibility": ["Provide the hint in an accessible description; CSS generated content alone is not a reliable description.", "Load the companion for viewport placement and Escape dismissal without moving focus.", "Use a disclosure or visible help when instructions must be available on touch devices."],
+      "javascript": "Load inkwell-interactions.js for viewport placement and Escape dismissal; CSS supplies hover/focus presentation.",
+      "markup": "<button class=\"btn btn-secondary tooltip\" type=\"button\" data-tooltip=\"Save your current draft\" aria-label=\"Save\" aria-describedby=\"reference-save-hint\">Save</button>\n<span class=\"sr-only\" id=\"reference-save-hint\">Save your current draft</span>"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Inkwell
 
-A pure-CSS design system for product UI, dashboards, and technical interfaces. Drop-in tokens, 35 documented component families, light + dark mode out of the box. No consumer build step or dependencies — plus an optional interaction file and a **Tailwind v4** theme entry for projects already on Tailwind.
+A pure-CSS design system for product UI, dashboards, and technical interfaces. Drop-in tokens, 36 documented component families, light + dark mode out of the box. No consumer build step or dependencies — plus an optional interaction file and a **Tailwind v4** theme entry for projects already on Tailwind.
 
 Inkwell ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, and a signature 1.5px hairline border. Four alternate palettes (Clay, Sage & Stone, Burgundy & Bone, Azure & Ink) are available as override-only CSS files in `variants/`.
 
@@ -22,7 +22,7 @@ Prefer zero `@import` hops? Link `inkwell-tokens.css` then `inkwell-components.c
 
 To enable theme toggling (auto / light / dark), lift the `<head>` script block from `index.html` verbatim. It writes `data-theme` on `<html>` before paint to avoid a flash.
 
-If the page uses tabs, enhanced carousel controls, or declarative native-dialog triggers, also copy and load the optional dependency-free interaction module:
+If the page uses tabs, enhanced carousel controls, declarative native-dialog triggers, or custom tooltips, also copy and load the optional dependency-free interaction module:
 
 ```html
 <script src="inkwell-interactions.js"></script>
@@ -42,6 +42,16 @@ Inkwell drops in as a Tailwind v4 theme. Keep `inkwell-tokens.css`, `inkwell-com
 That's the whole install — no `tailwind.config.js`, no JS preset. You get Inkwell tokens as Tailwind utilities (`bg-accent`, `text-slate`, `border-accent`, `font-serif`, `text-display`, `border-inkwell`), Inkwell components inside `@layer components`, and a `dark:` variant that honors Inkwell's `[data-theme]` toggle. `tokens.css` and `inkwell.css` are not needed unless you also want the pure-CSS shim alongside.
 
 > Tailwind v3 is not supported — v3 requires a JS preset that conflicts with the no-build pitch. See [`TAILWIND.md`](TAILWIND.md) for the full guide (the `border-inkwell` convention, components-vs-utilities rule, cascade-order check) and [`examples/tailwind.html`](examples/tailwind.html) for a live demo that opens in a browser without a toolchain. The deprecated `border-hair` utility remains through 3.x; the CSS token `--border-hair` still correctly means a 1px internal divider.
+
+## Semantic names and design-tool export
+
+Palette-named tokens remain supported. New color aliases make intent explicit: `--surface-page`, `--surface-panel`, `--surface-subtle`, `--surface-inverse`, `--text-primary`, `--text-secondary`, `--text-muted`, `--text-inverse`, `--text-link`, and `--text-on-accent`. They follow the active root palette in both modes. Adopt them in custom CSS or semantic Tailwind utilities; existing components retain their original token contract, including local primitive overrides.
+
+Tailwind exposes `bg-surface-page`, `bg-surface-panel`, and `text-content-primary` with corresponding surface/content variants. Existing utilities such as `bg-paper` and `text-slate` remain available.
+
+For design-tool exchange, [`inkwell.tokens.json`](inkwell.tokens.json) is an optional DTCG 2025.10 export. It contains shared `foundation` tokens and explicit `palettes.<name>.<light|dark>` groups for all five palettes, preserving typed aliases. It is generated from CSS and is not loaded by browsers or required for installation. The existing `tokens.json` schema and values remain compatible; the aliases are additive.
+
+Maintainers regenerate/check the optional export with `node scripts/build-design-tokens.mjs` / `--check` and verify types/references with `node --test tests/token-export.test.mjs`.
 
 ## Using with an AI coding agent
 
@@ -72,9 +82,9 @@ open examples/tailwind.html  # Tailwind v4 integration demo (no toolchain needed
 - **`inkwell.css`** — the canonical entry: imports the two files above (components into `@layer inkwell`). Link this.
 - **`tokens.css`** — deprecated one-line alias of `inkwell.css`, kept so pre-3.0 consumers keep working. Removal slated for 4.0.
 - **`inkwell-theme.css`** — the Tailwind v4 entry. Aliases Inkwell tokens into `@theme`, wraps components in `@layer components`, and defines the dark variant. See [`TAILWIND.md`](TAILWIND.md). Tailwind consumers still keep this file alongside `inkwell-tokens.css` and `inkwell-components.css`.
-- **`inkwell-interactions.js`** — optional, dependency-free progressive enhancement for tabs, carousel controls, and declarative native-dialog triggers. The CSS core does not require it.
+- **`inkwell-interactions.js`** — optional, dependency-free progressive enhancement for tabs, carousel controls, declarative native-dialog triggers, and tooltip dismissal. The CSS core does not require it.
 - **`tokens.json`** — machine-readable mirror of the token layer for Figma plugins and Style Dictionary. Generated by `scripts/build-tokens-json.mjs` (zero-dependency Node script) — re-run after editing `inkwell-tokens.css`; CI fails the build if it drifts.
-- **`component-manifest.json`** — machine-readable catalog of 35 component families: selectors, anatomy, modifiers, states, accessibility, JavaScript, since-version, and copyable markup.
+- **`component-manifest.json`** — machine-readable catalog of 36 component families: selectors, anatomy, modifiers, states, accessibility, JavaScript, since-version, and copyable markup.
 - **`scripts/build-components-reference.mjs`** — deterministically generates the catalog body in `examples/components.html`; CI fails on drift.
 - **`scripts/check-system-contract.mjs`** — repository-wide release/adoption gate for versions, file mirrors, manifest/CSS parity, page semantics and metadata, form errors, links, and Tailwind aliases.
 - **`scripts/check-contrast.mjs`** — zero-dependency WCAG contrast gate. Parses the shipped CSS and asserts 240 token-pair ratios across all five palettes in both modes; CI fails the build if any pair slips below AA.
@@ -94,13 +104,15 @@ open examples/tailwind.html  # Tailwind v4 integration demo (no toolchain needed
 ## Design principles
 
 - **One accent only.** A second hue for data viz reaches for `--olive` or `--sky`, never a second saturated brand color.
-- **1.5px borders.** The system's signature. Always paired with `--gray-300` via the `--border` token. Designed retina-first. Functional control boundaries (checkbox, radio, switch) use `--control-border` at ≥3:1.
+- **1.5px borders.** The system's signature. Decorative frames use `--border` with `--gray-300`; text and selection controls use `--control-border` at ≥3:1. Designed retina-first.
 - **Lifted dark accents.** Every saturated token is more luminous in dark mode (same hue, more light). Defining a token only in `:root` will look wrong on dark surfaces.
 - **Type families are jobs:** serif → headings (weight 600), stat numbers, editorial primitives (lede, pullquote, byline-author, figure caption); mono → file names, hex codes, byline metadata, `.eyebrow` for product/dashboard contexts; sans → everything else. Editorial contexts get `.eyebrow-serif` instead of mono.
 - **Platform fonts only.** Iowan Old Style → Palatino → Source Serif Pro → Georgia for serif; `system-ui` for sans; `ui-monospace` for mono. Instant load, zero FOUT.
 - **Tokens, never literals.** Component CSS never hardcodes hex values; everything routes through tokens so palettes stay swappable.
 
 See `DESIGN_SYSTEM.md` for the full reasoning behind each rule.
+
+The current accessibility, browser, and token-portability results are recorded in the [completion review](docs/reviews/2026-10-29-completion-review.md), with the [initial review](docs/reviews/2026-10-29-design-system-review.md) preserved for context. Maintainer checks cover Chromium, Firefox, WebKit, and mobile Chromium; normal palette contrast is checked separately from forced-colors emulation. VoiceOver and native Windows checks were skipped at the user's request.
 
 ## Palette switching
 

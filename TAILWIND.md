@@ -41,6 +41,8 @@ Inkwell's tokens are aliased into Tailwind's namespace, so all of these utility 
 
 **Surfaces & text** — `bg-ivory`, `bg-paper`, `bg-slate`, `bg-oat`, `text-slate`, `text-ivory`, `text-paper`
 
+**Semantic surfaces & content** — `bg-surface-page`, `bg-surface-panel`, `bg-surface-subtle`, `bg-surface-inverse`; `text-content-primary`, `text-content-secondary`, `text-content-muted`, `text-content-inverse`, `text-content-link`, and `text-content-on-accent`. These reference the new `--surface-*` / `--text-*` aliases, following the same root palette/mode as the existing utilities. The content prefix distinguishes text-color roles from Tailwind's type-size namespace; no existing utility is renamed.
+
 **Neutrals** — `bg-gray-{100,200,300,400,500,700}`, `text-gray-*`, `border-gray-*` (`border-gray-400` is the functional control-boundary step)
 
 **Accent family** — `bg-accent`, `bg-accent-d` (hover), `bg-accent-tint`, `ring-accent-focus`, `border-accent-strong-border`, `text-accent-ink` (accent as text), `text-on-accent` (labels on accent fills), plus all the `text-*` and `border-*` variants. Alpha tints stay as named tokens, not Tailwind's `/N` opacity scale, so the specific alpha values used throughout Inkwell — e.g. the accent tint's 0.14 light / 0.10 dark — are preserved.

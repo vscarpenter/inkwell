@@ -90,6 +90,16 @@
       --color-paper: var(--paper);
       --color-slate: var(--slate);
       --color-oat:   var(--oat);
+      --color-surface-page: var(--surface-page);
+      --color-surface-panel: var(--surface-panel);
+      --color-surface-subtle: var(--surface-subtle);
+      --color-surface-inverse: var(--surface-inverse);
+      --color-content-primary: var(--text-primary);
+      --color-content-secondary: var(--text-secondary);
+      --color-content-muted: var(--text-muted);
+      --color-content-inverse: var(--text-inverse);
+      --color-content-link: var(--text-link);
+      --color-content-on-accent: var(--text-on-accent);
 
       --color-gray-100: var(--gray-100);
       --color-gray-200: var(--gray-200);
@@ -155,7 +165,7 @@
   <!-- Page-local styles for the theme-toggle pill, nothing Inkwell-specific. -->
   <style>
     .theme-toggle { display: inline-flex; gap: 2px; border: var(--border); border-radius: var(--r-pill); padding: 3px; }
-    .theme-toggle button { padding: 4px 10px; font: 500 11px/1 var(--sans); border: 0; border-radius: var(--r-pill); background: transparent; color: var(--gray-700); cursor: pointer; }
+    .theme-toggle button { padding: 4px 10px; font: 500 var(--t-caption)/1.4 var(--sans); border: 0; border-radius: var(--r-pill); background: transparent; color: var(--gray-700); cursor: pointer; }
     .theme-toggle button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
   </style>
 </head>
@@ -251,7 +261,7 @@
           <div class="text-eyebrow font-mono tracking-wider uppercase text-gray-500 mb-2">Default — <code class="code-inline">border</code> (1px)</div>
           <p class="m-0 text-small text-gray-700">Tailwind's stock 1px border. Used everywhere outside Inkwell-flavored markup.</p>
         </div>
-        <div class="border-inkwell border-solid border-gray-300 rounded-md p-5 bg-paper">
+        <div class="border-inkwell border-solid border-gray-300 rounded-md p-5 bg-surface-panel text-content-primary" data-semantic-token-demo>
           <div class="text-eyebrow font-mono tracking-wider uppercase text-accent mb-2">Inkwell — <code class="code-inline">border-inkwell</code> (1.5px)</div>
           <p class="m-0 text-small text-gray-700">The system's signature, on a retina display. On 1× displays Chrome rounds to 1px and reports 1px in <code class="code-inline">getComputedStyle</code> — that's browser behavior, not a bug.</p>
         </div>

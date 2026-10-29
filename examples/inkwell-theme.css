@@ -59,6 +59,18 @@
   --color-slate: var(--slate);
   --color-oat:   var(--oat);
 
+  /* Semantic surface/content utilities; existing palette utilities remain. */
+  --color-surface-page:    var(--surface-page);
+  --color-surface-panel:   var(--surface-panel);
+  --color-surface-subtle:  var(--surface-subtle);
+  --color-surface-inverse: var(--surface-inverse);
+  --color-content-primary:   var(--text-primary);
+  --color-content-secondary: var(--text-secondary);
+  --color-content-muted:     var(--text-muted);
+  --color-content-inverse:   var(--text-inverse);
+  --color-content-link:      var(--text-link);
+  --color-content-on-accent: var(--text-on-accent);
+
   /* Neutral scale (cool putty) */
   --color-gray-100: var(--gray-100);
   --color-gray-200: var(--gray-200);

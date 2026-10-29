@@ -23,6 +23,8 @@ Use two-space indentation in CSS and HTML. Route component styling through CSS c
 
 ## Testing Guidelines
 
+The optional `inkwell.tokens.json` design-tool export is generated from CSS by `scripts/build-design-tokens.mjs`; it is not a consumer install dependency. Preserve the existing `tokens.json` schema and values when extending it. Run `node scripts/build-design-tokens.mjs --check` and `node --test tests/token-export.test.mjs` alongside the existing gates. Browser checks discover every published HTML route; do not reduce the route inventory to a hand-picked subset.
+
 Run every zero-dependency check (`build-tokens-json --check`, `build-changelog-html --check`, `build-components-reference --check`, `stamp-deployment --check`, `check-contrast`, `check-system-contract`) plus `git diff --check`. Run the ephemeral Playwright suite for HTML/CSS/interaction changes. Then review `preview.html` in light, dark, and auto; `examples/tailwind.html` for Tailwind changes; and `variants/compare.html` for palette changes. Prefer a 2x display because the 1.5px border is retina-first.
 
 ## Commit & Pull Request Guidelines
