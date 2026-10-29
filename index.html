@@ -39,14 +39,14 @@
   .hero { padding: 72px 0 48px; }
   .hero h1 {
     font-family: var(--serif); font-weight: 500;
-    font-size: clamp(36px, 5.4vw, 56px);
+    font-size: clamp(2.25rem, 0.75rem + 4.2vw, 3.5rem);
     line-height: 1.06;
     letter-spacing: -0.018em;
     margin: 14px 0 16px;
     max-width: 18ch;
   }
   .hero .lede {
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.55;
     color: var(--gray-700);
     max-width: 60ch;
@@ -68,7 +68,7 @@
   .card-grid { margin-top: 18px; }
 
   .card-foot {
-    font: 11px var(--mono);
+    font: 0.6875rem var(--mono);
     color: var(--gray-500);
     border-top: var(--border-hair);
     padding-top: 10px;
@@ -82,7 +82,7 @@
     margin-top: 96px;
     padding-top: 28px;
     border-top: var(--border-rule);
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--gray-500);
     display: flex;
     justify-content: space-between;
@@ -113,7 +113,7 @@
       style="padding: 6px 11px; border-radius: 999px;
              border: var(--border); background: var(--paper);
              color: var(--gray-700);
-             font: 600 11px/1 var(--mono); letter-spacing: 0.08em;
+             font: 600 0.6875rem/1 var(--mono); letter-spacing: 0.08em;
              text-transform: uppercase; cursor: pointer;
              display: inline-flex; align-items: center; gap: 7px;">
       <span style="width: 8px; height: 8px; border-radius: 50%;
@@ -163,7 +163,7 @@
         <div class="stat-delta down">▼ priority</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num">99.8<span style="font-size: 22px;">%</span></div>
+        <div class="stat-num">99.8<span style="font-size: 1.375rem;">%</span></div>
         <div class="stat-label">Uptime</div>
         <div class="stat-delta flat">— stable</div>
       </div>
@@ -184,7 +184,7 @@
           Sketch the cutover sequence, identify the riskiest tables, decide on the rollback plan
           before any code lands.
         </p>
-        <div class="card-foot"><span>plan.md</span><span>→</span></div>
+        <div class="card-foot"><span>plan.md</span><span class="icon-directional" aria-hidden="true">→</span></div>
       </a>
 
       <a class="card is-link" href="#">
@@ -192,7 +192,7 @@
         <p class="t-small" style="margin: 6px 0 0;">
           Behind a feature flag for the design partners — collect feedback before the broader rollout.
         </p>
-        <div class="card-foot"><span>editor/</span><span>→</span></div>
+        <div class="card-foot"><span>editor/</span><span class="icon-directional" aria-hidden="true">→</span></div>
       </a>
 
       <a class="card is-link" href="#">
@@ -200,7 +200,7 @@
         <p class="t-small" style="margin: 6px 0 0;">
           Trace IDs through the request path, add the SLO dashboard, wire alerts to oncall.
         </p>
-        <div class="card-foot"><span>infra/</span><span>→</span></div>
+        <div class="card-foot"><span>infra/</span><span class="icon-directional" aria-hidden="true">→</span></div>
       </a>
 
     </div>

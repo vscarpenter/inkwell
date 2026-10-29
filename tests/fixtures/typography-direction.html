@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inkwell typography and direction fixture</title>
+  <link rel="stylesheet" href="/inkwell.css">
+  <script src="/inkwell-interactions.js" defer></script>
+  <style>
+    body { padding: 24px; }
+    main { max-width: 960px; margin-inline: auto; }
+    section { margin-block: 32px; min-width: 0; }
+    .controls { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+    .direction-sample { position: relative; padding: 24px; border: var(--border); margin-block: 24px; }
+    .type-probe { margin: 0; }
+    .nested-island { padding: 16px; margin-block: 16px; background: var(--gray-100); }
+  </style>
+</head>
+<body>
+  <main id="main-content">
+    <form class="controls" aria-label="Fixture display settings">
+      <label class="field">Text size <select class="select" id="fixture-size"><option value="">Browser default</option><option value="20px">20px</option><option value="24px">24px</option><option value="32px">32px (200% of 16px)</option></select></label>
+      <label class="field">Page direction <select class="select" id="fixture-direction"><option value="ltr">Left to right</option><option value="rtl">Right to left</option></select></label>
+      <label class="field">Theme <select class="select" id="fixture-theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+      <output id="fixture-measurement" class="t-small" aria-live="polite"></output>
+    </form>
+    <h1 class="t-display type-probe" data-type="display">Interfaces for every reader</h1>
+    <p class="t-h1 type-probe" data-type="h1">Page heading</p>
+    <p class="t-h2 type-probe" data-type="h2">Section heading</p>
+    <p class="t-h3 type-probe" data-type="h3">Card heading</p>
+    <p class="t-lede type-probe" data-type="lede">A readable editorial introduction.</p>
+    <p class="t-body type-probe" data-type="body">Body text respects the reader's preferred size.</p>
+    <p class="t-small type-probe" data-type="small">Secondary text</p>
+    <p class="t-caption type-probe" data-type="caption">Caption text</p>
+    <p class="eyebrow type-probe" data-type="eyebrow">Reference label</p>
+
+    <section class="controls" aria-label="Growing controls">
+      <label class="field">Workspace <input class="input" value="Reading room" name="workspace"></label>
+      <label class="field">Region <select class="select"><option>Europe and the Middle East</option></select></label>
+      <button class="btn btn-primary">Review notification preferences for every workspace</button>
+      <div class="segmented" role="group" aria-label="Display"><button aria-pressed="true">Comfortable reading</button><button>Compact view</button></div>
+      <label class="checkbox"><input type="checkbox" checked> Benachrichtigungseinstellungen für alle Arbeitsbereiche</label>
+      <p><span class="badge">Notification preferences</span> <kbd>Shift</kbd></p>
+    </section>
+
+    <section class="direction-sample" dir="ltr" lang="en" id="ltr-sample">
+      <h2 class="t-h2">An LTR component</h2>
+      <aside class="callout is-accent"><p class="callout-body">A rule at the reading start.</p></aside>
+      <ol class="timeline" role="list"><li class="tl-entry"><h3 class="t-h3">Draft reviewed</h3><p class="t-small">Today</p></li></ol>
+      <label class="field">Region <select class="select"><option>Europe</option></select></label>
+      <label class="switch"><input type="checkbox" role="switch"> Updates</label>
+      <div class="code-block"><button class="copy" type="button">Copy</button><pre dir="ltr" lang="en"><code>const count = 12;</code></pre></div>
+      <table class="tbl"><thead><tr><th scope="col">Name</th></tr></thead><tbody><tr><td>Ada</td></tr></tbody></table>
+    </section>
+
+    <section class="direction-sample" dir="rtl" lang="ar" id="rtl-sample">
+      <h2 class="t-h2">مساحة للقراءة والعمل</h2>
+      <p class="dropcap">مساحة هادئة للقراءة والعمل.</p>
+      <p>المشروع: <bdi>Inkwell 42</bdi> · البريد: <bdi dir="ltr">ada@example.com</bdi></p>
+      <aside class="callout is-accent"><p class="callout-body">تظهر القاعدة عند بداية اتجاه القراءة.</p></aside>
+      <ol class="timeline" role="list"><li class="tl-entry"><h3 class="t-h3">اكتملت المراجعة</h3><p class="t-small">اليوم</p></li></ol>
+      <label class="field">المنطقة <select class="select"><option>أوروبا والشرق الأوسط</option></select></label>
+      <label class="field">الاسم <input class="input" name="name" autocomplete="name" dir="auto" value="ليلى أحمد"></label>
+      <label class="field">البريد <input class="input" name="email" type="email" autocomplete="email" dir="ltr" value="ada@example.com"></label>
+      <label class="switch"><input type="checkbox" role="switch"> الإشعارات</label>
+      <div class="code-block"><button class="copy" type="button">نسخ</button><pre dir="ltr" lang="en"><code>const count = 12;</code></pre></div>
+      <table class="tbl"><thead><tr><th scope="col">الاسم</th></tr></thead><tbody><tr><td>ليلى</td></tr></tbody></table>
+      <p><span class="icon-directional" aria-hidden="true">→</span> متابعة</p>
+      <div style="display:flex;justify-content:space-between;gap:8px">
+        <button class="btn tooltip" data-tooltip="معلومات إضافية عن مساحة القراءة" aria-label="مساعدة البداية">؟</button>
+        <button class="btn tooltip" data-tooltip="معلومات إضافية عن إعدادات المشروع" aria-label="مساعدة النهاية">؟</button>
+      </div>
+      <button class="btn btn-secondary" data-dialog-open="rtl-dialog">مراجعة الإعدادات</button>
+      <div class="nested-island" dir="ltr" lang="en"><aside class="callout is-accent"><p class="callout-body">An isolated LTR reading context.</p></aside></div>
+    </section>
+    <dialog class="dialog" id="rtl-dialog" dir="rtl" lang="ar" aria-labelledby="rtl-dialog-title">
+      <div class="dialog-head"><h2 id="rtl-dialog-title">مراجعة إعدادات مساحة القراءة</h2><button class="dialog-close" data-dialog-close aria-label="إغلاق">×</button></div>
+      <div class="dialog-body"><p>يمكنك تغيير الإشعارات وإعدادات القراءة.</p></div>
+      <div class="dialog-foot"><button class="btn btn-secondary" data-dialog-close>العودة إلى إعدادات المشروع</button><button class="btn btn-primary" data-dialog-close>حفظ الإعدادات</button></div>
+    </dialog>
+
+    <section dir="rtl" lang="he" aria-label="Hebrew reading context">
+      <h2 class="t-h2">תוכן לכל כיוון קריאה</h2>
+      <p>הפרויקט <bdi>Inkwell 42</bdi> מוכן לבדיקה. כתובת: <bdi dir="ltr">https://example.com/read?chapter=2</bdi></p>
+      <div class="tabs" role="tablist" aria-label="תצוגות" data-tabs>
+        <button class="tab" role="tab" id="he-one" aria-controls="he-panel-one" aria-selected="true">סקירה</button>
+        <button class="tab" role="tab" id="he-two" aria-controls="he-panel-two" aria-selected="false">פעילות</button>
+      </div>
+      <div role="tabpanel" id="he-panel-one" aria-labelledby="he-one">תוכן הסקירה</div>
+      <div role="tabpanel" id="he-panel-two" aria-labelledby="he-two" hidden>פעילות אחרונה</div>
+    </section>
+
+    <section class="carousel" data-carousel dir="rtl" lang="ar" aria-label="قصة من ثلاث شرائح" data-carousel-dot-label="انتقل إلى الشريحة {current} من {total}">
+      <div class="carousel-track" tabindex="0">
+        <article class="carousel-slide" role="group" aria-label="١ من ٣"><h2 class="t-h2">البداية</h2><p>مساحة للقراءة.</p></article>
+        <article class="carousel-slide" role="group" aria-label="٢ من ٣"><h2 class="t-h2">المراجعة</h2><p>تسلسل يمكن الوصول إليه.</p></article>
+        <article class="carousel-slide" role="group" aria-label="٣ من ٣"><h2 class="t-h2">النهاية</h2><p>النص متاح لكل قارئ.</p></article>
+      </div>
+      <div class="carousel-controls" hidden>
+        <button class="carousel-btn" data-carousel-prev aria-label="Previous slide"><span class="icon-directional" aria-hidden="true">←</span></button>
+        <div class="carousel-dots" role="group" aria-label="الشرائح"></div>
+        <button class="carousel-btn" data-carousel-next aria-label="Next slide"><span class="icon-directional" aria-hidden="true">→</span></button>
+      </div>
+    </section>
+  </main>
+  <script>
+    const measuredText = document.querySelector('[data-type="body"]');
+    const textRange = document.createRange();
+    textRange.selectNodeContents(measuredText);
+    const initialGlyphHeight = textRange.getClientRects()[0].height;
+    function updateMeasurement() {
+      const scale = Math.round(100 * textRange.getClientRects()[0].height / initialGlyphHeight);
+      document.getElementById('fixture-measurement').textContent = `Rendered text height: ${scale}% of initial. Computed body font: ${getComputedStyle(measuredText).fontSize}.`;
+    }
+    new ResizeObserver(updateMeasurement).observe(measuredText);
+    updateMeasurement();
+    document.getElementById('fixture-size').addEventListener('change', function () {
+      document.documentElement.style.fontSize = this.value;
+    });
+    document.getElementById('fixture-direction').addEventListener('change', function () {
+      document.documentElement.dir = this.value;
+      window.InkwellInteractions.init();
+    });
+    document.getElementById('fixture-theme').addEventListener('change', function () {
+      document.documentElement.dataset.theme = this.value;
+    });
+  </script>
+</body>
+</html>

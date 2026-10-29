@@ -80,7 +80,10 @@
 
   function initCarousels(root) {
     all(root, "[data-carousel]").forEach(function (carousel) {
-      if (carousel.dataset.inkwellCarouselReady === "true") return;
+      if (carousel.dataset.inkwellCarouselReady === "true") {
+        carousel.__inkwellCarouselRefresh();
+        return;
+      }
       var track = carousel.querySelector(".carousel-track");
       var slides = Array.prototype.slice.call(carousel.querySelectorAll(".carousel-slide"));
       var controls = carousel.querySelector(".carousel-controls");
@@ -93,6 +96,18 @@
       var dots = [];
       var current = 0;
       var target = 0;
+      var navigating = false;
+
+      function labelDots() {
+        var dotLabel = carousel.getAttribute("data-carousel-dot-label") || "Go to slide {current} of {total}";
+        var language = carousel.closest("[lang]");
+        var numbers;
+        try { numbers = new Intl.NumberFormat(language ? language.lang : undefined); }
+        catch (_) { numbers = new Intl.NumberFormat(); }
+        dots.forEach(function (dot, index) {
+          dot.setAttribute("aria-label", dotLabel.replace(/\{current\}/g, numbers.format(index + 1)).replace(/\{total\}/g, numbers.format(slides.length)));
+        });
+      }
 
       if (dotsWrap) {
         dotsWrap.replaceChildren();
@@ -100,7 +115,6 @@
           var dot = document.createElement("button");
           dot.type = "button";
           dot.className = "carousel-dot";
-          dot.setAttribute("aria-label", "Go to slide " + (index + 1) + " of " + slides.length);
           dot.addEventListener("click", function () { goTo(index); });
           dotsWrap.appendChild(dot);
           dots.push(dot);
@@ -126,17 +140,35 @@
       function goTo(index) {
         index = Math.max(0, Math.min(slides.length - 1, index));
         target = index;
+        navigating = true;
         sync(index);
-        track.scrollTo({ left: slides[index].offsetLeft, behavior: reduced.matches ? "auto" : "smooth" });
+        track.scrollTo({ left: track.scrollLeft + distanceFromStart(slides[index]), behavior: reduced.matches ? "auto" : "smooth" });
+      }
+
+      // Viewport geometry works for negative RTL scroll offsets, nested
+      // offset parents, borders, and variable slide widths alike.
+      function distanceFromStart(slide) {
+        var rect = track.getBoundingClientRect();
+        var item = slide.getBoundingClientRect();
+        var style = window.getComputedStyle(track);
+        return style.direction === "rtl"
+          ? item.right - rect.right + parseFloat(style.borderRightWidth)
+          : item.left - rect.left - parseFloat(style.borderLeftWidth);
       }
 
       track.addEventListener("scroll", function () {
-        var index = Math.round(track.scrollLeft / track.clientWidth);
+        var index = slides.reduce(function (nearest, slide, candidate) {
+          return Math.abs(distanceFromStart(slide)) < Math.abs(distanceFromStart(slides[nearest])) ? candidate : nearest;
+        }, 0);
         if (index !== current && index >= 0 && index < slides.length) {
-          target = index;
           sync(index);
         }
+        if (index === target && Math.abs(distanceFromStart(slides[index])) < 2) navigating = false;
+        if (!navigating) target = index;
       }, { passive: true });
+      function manualScroll() { navigating = false; target = current; }
+      track.addEventListener("wheel", manualScroll, { passive: true });
+      track.addEventListener("pointerdown", manualScroll, { passive: true });
 
       if (prev) prev.addEventListener("click", function () { goTo(target - 1); });
       if (next) next.addEventListener("click", function () { goTo(target + 1); });
@@ -144,8 +176,9 @@
       carousel.addEventListener("keydown", function (event) {
         if (event.target.closest("input, textarea, select")) return;
         var destination = null;
-        if (event.key === "ArrowRight") destination = target + 1;
-        else if (event.key === "ArrowLeft") destination = target - 1;
+        var rtl = window.getComputedStyle(track).direction === "rtl";
+        if (event.key === "ArrowRight") destination = target + (rtl ? -1 : 1);
+        else if (event.key === "ArrowLeft") destination = target + (rtl ? 1 : -1);
         else if (event.key === "Home") destination = 0;
         else if (event.key === "End") destination = slides.length - 1;
         if (destination === null) return;
@@ -155,6 +188,16 @@
 
       controls.removeAttribute("hidden");
       sync(0);
+      carousel.__inkwellCarouselRefresh = function () { labelDots(); goTo(target); };
+      // Preserve the selected chapter when font preferences or the viewport
+      // change the track's size; direction switches can call init() again.
+      var trackWidth = track.clientWidth;
+      new ResizeObserver(function () {
+        if (track.clientWidth === trackWidth) return;
+        trackWidth = track.clientWidth;
+        carousel.__inkwellCarouselRefresh();
+      }).observe(track);
+      labelDots();
       carousel.dataset.inkwellCarouselReady = "true";
     });
   }

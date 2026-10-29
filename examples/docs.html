@@ -82,9 +82,9 @@
       <section id="install" class="section">
         <div class="sec-head"><span class="idx">01</span><h2>Install</h2><span class="count">3 required files</span></div>
         <p class="t-body" style="max-width: 65ch;">Copy <code>inkwell.css</code>, <code>inkwell-tokens.css</code>, and <code>inkwell-components.css</code> side by side. Link only the entry file; its imports resolve the other two.</p>
-        <div class="code-block"><pre><code>&lt;link rel="stylesheet" href="inkwell.css"&gt;</code></pre></div>
+        <div class="code-block"><pre dir="ltr" lang="en"><code>&lt;link rel="stylesheet" href="inkwell.css"&gt;</code></pre></div>
         <div class="alert is-info" style="margin-top: var(--sp-4);"><div><p class="alert-title">Optional interactions</p><p class="alert-body">Copy and load <code>inkwell-interactions.js</code> only if you use tabs, enhanced carousel controls, or declarative dialog triggers. Disclosures use native <code>&lt;details&gt;</code> and require no JavaScript.</p></div></div>
-        <div class="code-block" style="margin-top: var(--sp-3);"><pre><code>&lt;script src="inkwell-interactions.js"&gt;&lt;/script&gt;</code></pre></div>
+        <div class="code-block" style="margin-top: var(--sp-3);"><pre dir="ltr" lang="en"><code>&lt;script src="inkwell-interactions.js"&gt;&lt;/script&gt;</code></pre></div>
       </section>
 
       <section id="architecture" class="section">
@@ -108,14 +108,14 @@
       <section id="theme" class="section">
         <div class="sec-head"><span class="idx">03</span><h2>Theme and palette</h2><span class="count">auto · light · dark</span></div>
         <p class="t-body" style="max-width: 65ch;">Color tokens use <code>light-dark()</code>. Auto follows the operating system; set <code>data-theme="light"</code> or <code>data-theme="dark"</code> on <code>&lt;html&gt;</code> for a manual choice. Apply it before first paint when the preference is persisted.</p>
-        <div class="code-block"><pre><code>&lt;script&gt;
+        <div class="code-block"><pre dir="ltr" lang="en"><code>&lt;script&gt;
   const saved = localStorage.getItem("inkwell-theme");
   if (saved === "light" || saved === "dark") {
     document.documentElement.dataset.theme = saved;
   }
 &lt;/script&gt;</code></pre></div>
         <p class="t-body" style="max-width: 65ch;">For Clay, Sage, Burgundy, or Azure, load one override file after <code>inkwell.css</code>. A palette swaps brand-layer tokens and never repeats component CSS.</p>
-        <div class="code-block"><pre><code>&lt;link rel="stylesheet" href="inkwell.css"&gt;
+        <div class="code-block"><pre dir="ltr" lang="en"><code>&lt;link rel="stylesheet" href="inkwell.css"&gt;
 &lt;link rel="stylesheet" href="variants/azure.css"&gt;</code></pre></div>
       </section>
 
@@ -138,16 +138,16 @@
       <section id="tailwind" class="section">
         <div class="sec-head"><span class="idx">06</span><h2>Tailwind v4</h2><span class="count">alternate entry</span></div>
         <p class="t-body" style="max-width: 65ch;">Use <code>inkwell-theme.css</code> instead of <code>inkwell.css</code>. It imports the same canonical token and component sources, maps tokens into <code>@theme</code>, and keeps utilities above components in the cascade.</p>
-        <div class="code-block"><pre><code>@import "tailwindcss";
+        <div class="code-block"><pre dir="ltr" lang="en"><code>@import "tailwindcss";
 @import "./inkwell-theme.css";</code></pre></div>
         <p class="t-small">Use <code>border-inkwell</code> for the 1.5px signature border. The historical <code>border-hair</code> Tailwind alias still works through 3.x, but the CSS token <code>--border-hair</code> means a 1px divider.</p>
-        <a class="link" href="tailwind.html">Open the live Tailwind integration proof →</a>
+        <a class="link" href="tailwind.html">Open the live Tailwind integration proof <span class="icon-directional" aria-hidden="true">→</span></a>
       </section>
 
       <section id="agents" class="section">
         <div class="sec-head"><span class="idx">07</span><h2>Agent adoption</h2><span class="count">one context file</span></div>
         <p class="t-body" style="max-width: 65ch;">Give an implementation agent <code>agent-instructions.md</code>. It contains the pinned 3.5.0 install URLs, component and token rules, interaction responsibilities, accessibility contracts, and the verification checklist. Repository-editing agents should also follow <code>AGENTS.md</code>.</p>
-        <div class="code-block"><pre><code>Read agent-instructions.md before building UI.
+        <div class="code-block"><pre dir="ltr" lang="en"><code>Read agent-instructions.md before building UI.
 Use the existing Inkwell tokens and components.
 Verify light, dark, auto, keyboard, and 375px layout.</code></pre></div>
       </section>

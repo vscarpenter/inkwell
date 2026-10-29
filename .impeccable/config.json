@@ -77,6 +77,15 @@
         ],
         "createdAt": "2026-10-29T16:25:26.912Z",
         "reason": "Agent triage: production browser resolves the profile h1 to 48px and h2 headings to 27px against 16px body. The imported token scale is misread as 16px by the static detector. Preserve the existing profile hierarchy; only this rule on this page is excepted."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "tests/fixtures/typography-direction.html"
+        ],
+        "createdAt": "2026-10-29T17:30:54.635Z",
+        "reason": "Agent triage: imported-token regression fixture resolves to 48/32/24/19px display/headings against 16px body at the default root, and every role scales at 20/24/32px. Cross-engine browser tests verify these exact sizes; static import analysis incorrectly reports all roles as 16px."
       }
     ]
   }

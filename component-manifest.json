@@ -9,8 +9,8 @@
       "since": "1.0.0",
       "anatomy": ["Apply one type class to a semantic heading or text element.", "Keep the HTML heading level independent from the visual class."],
       "modifiers": [".t-display through .t-caption select scale and voice."],
-      "states": ["Responsive display sizing is token-driven."],
-      "accessibility": ["Preserve a logical heading outline; visual size does not determine heading rank."],
+      "states": ["Nine relative type roles follow browser font preferences; the root size remains unset."],
+      "accessibility": ["Preserve a logical heading outline; visual size does not determine heading rank.", "Set HTML lang and dir; Arabic-family and Hebrew labels receive script-aware tracking/leading. Use bdi or direction islands for mixed content."],
       "javascript": "None.",
       "markup": "<h2 class=\"t-h1\">A semantic heading</h2>\n<p class=\"t-lede\">A concise editorial introduction.</p>"
     },
@@ -180,7 +180,7 @@
       "states": ["Chronological static content."],
       "accessibility": ["Use an ordered list when sequence matters and machine-readable time elements for dates."],
       "javascript": "None.",
-      "markup": "<ol class=\"timeline\"><li class=\"tl-entry\"><time class=\"t-caption\" datetime=\"2026-08-27\">Aug 27</time><h3 class=\"t-h3\">Release</h3></li></ol>"
+      "markup": "<ol class=\"timeline\" role=\"list\"><li class=\"tl-entry\"><time class=\"t-caption\" datetime=\"2026-08-27\">Aug 27</time><h3 class=\"t-h3\">Release</h3></li></ol>"
     },
     {
       "id": "tldr",
@@ -274,9 +274,9 @@
       "anatomy": ["Optional label and pre/code pair inside a framed block."],
       "modifiers": ["No public modifiers."],
       "states": ["Scrolls internally when code is wider than its container."],
-      "accessibility": ["Keep commands as selectable text and identify the language in nearby copy when relevant."],
+      "accessibility": ["Keep commands as selectable text; isolate LTR code with HTML dir and lang inside RTL content.", "Copy controls occupy a separate row so long code and localized labels cannot overlap."],
       "javascript": "None; copy buttons are an application enhancement.",
-      "markup": "<div class=\"code-block\"><pre><code>&lt;link rel=\"stylesheet\" href=\"inkwell.css\"&gt;</code></pre></div>"
+      "markup": "<div class=\"code-block\"><pre dir=\"ltr\" lang=\"en\"><code>&lt;link rel=\"stylesheet\" href=\"inkwell.css\"&gt;</code></pre></div>"
     },
     {
       "id": "dialog",
@@ -369,10 +369,10 @@
       "since": "3.2.0",
       "anatomy": ["Named carousel region, focusable snap track, labelled slides, and initially hidden controls."],
       "modifiers": ["No autoplay or visual variants."],
-      "states": ["Current slide, first/last disabled controls, swipe, keyboard, and reduced motion."],
-      "accessibility": ["Name the region and each slide, keep the track keyboard-scrollable, and never autoplay."],
+      "states": ["Native horizontal scroll-snap; enhanced buttons, dots, and keys follow actual slide geometry in LTR or RTL.", "Resize retains selection; repeated init refreshes direction and localized dot labels without duplicate controls."],
+      "accessibility": ["Name the region and each slide, keep the track keyboard-scrollable, and never autoplay.", "Previous/Next follow document slide order; horizontal keys follow reading direction; Home/End reach the first/last slide.", "Authors localize region/slide names, roledescriptions, controls, and the data-carousel-dot-label template. Use {current} and {total}; numbers follow inherited lang."],
       "javascript": "inkwell-interactions.js reveals controls, creates labelled dots, and handles arrows/Home/End. Swipe and scroll work without it.",
-      "markup": "<section class=\"carousel\" data-carousel aria-roledescription=\"carousel\" aria-label=\"Release tour\">\n  <div class=\"carousel-track\" tabindex=\"0\">\n    <article class=\"carousel-slide\" role=\"group\" aria-roledescription=\"slide\" aria-label=\"1 of 2\">First slide</article>\n    <article class=\"carousel-slide\" role=\"group\" aria-roledescription=\"slide\" aria-label=\"2 of 2\">Second slide</article>\n  </div>\n  <div class=\"carousel-controls\" hidden><button class=\"carousel-btn\" type=\"button\" data-carousel-prev aria-label=\"Previous slide\">←</button><div class=\"carousel-dots\"></div><button class=\"carousel-btn\" type=\"button\" data-carousel-next aria-label=\"Next slide\">→</button></div>\n</section>"
+      "markup": "<section class=\"carousel\" data-carousel aria-roledescription=\"carousel\" aria-label=\"Release tour\">\n  <div class=\"carousel-track\" tabindex=\"0\">\n    <article class=\"carousel-slide\" role=\"group\" aria-roledescription=\"slide\" aria-label=\"1 of 2\">First slide</article>\n    <article class=\"carousel-slide\" role=\"group\" aria-roledescription=\"slide\" aria-label=\"2 of 2\">Second slide</article>\n  </div>\n  <div class=\"carousel-controls\" hidden><button class=\"carousel-btn\" type=\"button\" data-carousel-prev aria-label=\"Previous slide\"><span class=\"icon-directional\" aria-hidden=\"true\">←</span></button><div class=\"carousel-dots\"></div><button class=\"carousel-btn\" type=\"button\" data-carousel-next aria-label=\"Next slide\"><span class=\"icon-directional\" aria-hidden=\"true\">→</span></button></div>\n</section>"
     },
     {
       "id": "navbar",
@@ -401,12 +401,12 @@
     {
       "id": "accessibility-utilities",
       "name": "Accessibility utilities",
-      "selectors": [".sr-only", ".skip-link"],
+      "selectors": [".sr-only", ".skip-link", ".icon-directional"],
       "since": "2.1.0",
-      "anatomy": [".sr-only preserves accessible text visually; .skip-link becomes visible on focus."],
+      "anatomy": [".sr-only preserves accessible text visually; .skip-link becomes visible on focus.", ".icon-directional mirrors reading-direction arrows in RTL, including nested scopes."],
       "modifiers": ["No public modifiers."],
       "states": ["Skip link hidden until focus-visible."],
-      "accessibility": ["Every page should place the skip link first in body and target its main landmark."],
+      "accessibility": ["Every page should place the skip link first in body and target its main landmark.", "Hide decorative arrows from assistive technology; never mirror logos, media symbols, numeric deltas, checkmarks, or key diagrams."],
       "javascript": "None.",
       "markup": "<a class=\"skip-link\" href=\"#main-content\">Skip to content</a>\n<main id=\"main-content\">…</main>"
     },

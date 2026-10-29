@@ -41,13 +41,13 @@
     .release { padding: 24px 0 32px; border-bottom: var(--border-hair); }
     .release:last-of-type { border-bottom: none; }
     .release-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
-    .ver { font: 500 14px/1 var(--mono); color: var(--accent); background: var(--accent-tint); padding: 5px 10px; border-radius: var(--r-sm); }
-    .release-date { font: 12px/1 var(--mono); color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; }
+    .ver { font: 500 0.875rem/1 var(--mono); color: var(--accent); background: var(--accent-tint); padding: 5px 10px; border-radius: var(--r-sm); }
+    .release-date { font: 0.75rem/1 var(--mono); color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; }
     .change-note { margin: 0 0 10px; color: var(--gray-700); max-width: 70ch; }
     .change-block .tbl-scroll { margin: 10px 0; }
     .change-block { margin-top: 14px; }
-    .change-label { font: 600 11px/1 var(--mono); color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
-    .change-list { margin: 0; padding-left: 20px; line-height: 1.7; }
+    .change-label { font: 600 0.6875rem/1 var(--mono); color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+    .change-list { margin: 0; padding-inline-start: 20px; line-height: 1.7; }
     .change-list code { font-size: 0.85em; }
   </style>
 </head>
@@ -106,6 +106,8 @@
         <div class="change-block">
           <div class="change-label">Added</div>
           <ul class="change-list">
+            <li><strong>Relative type and bidirectional contract.</strong> Nine type tokens and component/example text use <code>rem</code>; browser root preferences remain untouched. Logical layout, script-aware Arabic/Hebrew tracking/leading, <code>.icon-directional</code>, mixed-content guidance, and localized carousel dot templates support page-level and nested RTL. Legacy JSON pixel references remain compatible with additive CSS values; DTCG exports actual <code>rem</code> dimensions.</li>
+            <li><strong>Typography/direction regression matrix.</strong> Real Firefox default-font preferences, all 20 routes at 16/20/24/32px roots and 1280/640/320px in both directions, Arabic/Hebrew across all palettes/modes, and nested scope/interaction checks.</li>
             <li><strong>Semantic color aliases.</strong> Ten opt-in <code>--surface-*</code> / <code>--text-*</code> aliases express surface and text intent while retaining all existing palette tokens and component override behavior. Tailwind exposes matching surface/content utilities.</li>
             <li><strong>Optional DTCG 2025.10 export.</strong> <code>inkwell.tokens.json</code> includes every canonical token, all five palettes, both modes, typed aliases, and shared foundations. A zero-dependency generator and type/reference tests protect the export; the existing <code>tokens.json</code> remains compatible.</li>
             <li><strong>Complete reference-route browser coverage.</strong> All 20 published pages are checked in light/dark/auto, at desktop/mobile sizes and 640/320px zoom-equivalent widths. Regression tests cover viewport-edge hints, resize, long labels, and semantic aliases. Firefox verification can run in the matching official Linux browser container.</li>
@@ -115,6 +117,8 @@
         <div class="change-block">
           <div class="change-label">Fixed</div>
           <ul class="change-list">
+            <li><strong>RTL carousel navigation.</strong> Slide geometry replaces positive-scroll/offset assumptions; buttons, dots, keys, manual scroll, and resize agree on the selected slide. Reinitialization refreshes direction and localized dot labels without duplicating controls.</li>
+            <li><strong>Enlarged text reflow.</strong> Badges, keyboard chips, copy/close/carousel controls grow; example grids and long labels shrink/wrap; select values remain within their native single-line field; palette comparison skip links no longer create RTL overflow. Fluid type combines relative and viewport sizing within relative bounds.</li>
             <li><strong>Platform-font reflow.</strong> Display headings can break unusually wide words, component-reference headers wrap their permalinks, and the profile activity table scrolls in a named keyboard-reachable region. These close 320px overflow gaps found by Linux CI.</li>
             <li><strong>Viewport-edge tooltip placement.</strong> Enhanced hints clamp horizontally, flip above/below, and update on resize/scroll. Hidden bubbles no longer expand page scroll areas. Tooltip-bearing examples load the companion and a contract gate enforces that dependency.</li>
             <li><strong>Reference-page reflow and long labels.</strong> Dashboard/landing/search grid children can shrink, profile headers and carousel indicators wrap, and selection indicators retain their size beside long translated labels. Search headings follow a logical outline; landing copy describes the three-file install.</li>

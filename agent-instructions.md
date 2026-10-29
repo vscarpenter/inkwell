@@ -250,6 +250,12 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 
 For typography in markup, also use the utility classes that are defined in `inkwell-components.css`: `.t-display`, `.t-h1`, `.t-h2`, `.t-h3`, `.t-lede`, `.t-body`, `.t-small`, `.t-caption`.
 
+Type tokens and component text use `rem` relative to the browser default. Never pin `html` / `:root` font size or introduce pixel text sizes. Preserve optical pixel borders, structural spacing, and radii. `tokens.json` numeric `px` typography fields are 16px references; use the additive `css` values for CSS. DTCG exports actual `rem` dimensions, and Tailwind's existing aliases follow those tokens.
+
+Declare language and direction in HTML (`lang="ar" dir="rtl"`, or `lang="he" dir="rtl"`), including nested opposite-direction components. Use logical properties and keep meaningful DOM order. Use `bdi` for unknown runtime names, `dir="auto"` for free-text controls, and explicit LTR language/direction islands for code/email/URLs when their format requires it. Arabic-family/Hebrew labels receive script-aware tracking and leading through `lang`; the system does not translate content.
+
+Wrap reading-direction arrows with `.icon-directional` and `aria-hidden="true"`; never mirror logos, media controls, numeric deltas, checkmarks, or keyboard-key diagrams. Direct SVG children of `.carousel-btn` mirror automatically. Carousel arrows follow track direction, Home/End follow document slide order, and Previous/Next follow sequence. Localize dot labels with `data-carousel-dot-label="Chapter {current} of {total}"`; authors localize all other names/roles in markup. Call `InkwellInteractions.init(carousel)` after changing direction, language, or the template to refresh alignment/labels.
+
 When a component is missing, build it with tokens — never with hardcoded values. Consult `examples/components.html` for the public contract and copyable markup; use `preview.html` for visual-state review.
 
 ### Optional shared interactions
@@ -355,6 +361,8 @@ From `DESIGN_SYSTEM.md` §4. If you catch yourself doing any of these, stop:
 - **Warm grays / beige neutrals.** Inkwell's neutrals are *cool putty*. A warm beige will orphan the indigo accent.
 - **Multiple saturated accent colors.** One indigo. Use `--olive` or `--sky` for a second data-viz hue.
 - **1px or 2px borders.** Stick to 1.5px on outer frames.
+- **Fixed root or pixel text sizes.** Preserve browser font preferences with relative text units and flexible text-bearing controls.
+- **CSS-only direction or reversed source order.** Use HTML `dir` / `lang`, logical start/end layout, and isolated mixed-direction text.
 - **Sans-serif headings.** Serifs do the editorial work; replacing them collapses the personality into "generic SaaS."
 - **Heavy drop shadows.** Light mode shadows stay under 12% opacity; dark under 55%. No floaty Material Design lifts.
 - **Emoji icons.** Use inline SVG strokes.

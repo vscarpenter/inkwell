@@ -30,6 +30,14 @@ If the page uses tabs, enhanced carousel controls, declarative native-dialog tri
 
 It auto-initializes and exposes `window.InkwellInteractions.init(root)` for dynamically added markup. Disclosures use native `<details>` and need no JavaScript.
 
+### Reader preferences and RTL
+
+Type tokens and component text use `rem`, retaining their original sizes at a 16px browser default. Leave the root font size unset so larger browser font preferences apply. Text controls grow; tables and code scroll within their containers. Existing `tokens.json` pixel fields remain 16px references, with additive `css` values and `typography.reference_root_px`; DTCG exports the actual `rem` dimensions.
+
+Use HTML `lang` and `dir` on the page or a component, such as `<html lang="ar" dir="rtl">`. Layout and horizontal keyboard navigation follow reading direction, including nested LTR islands. Use `<bdi>` for unknown names, `dir="auto"` for free-text inputs, and explicit LTR islands for code/email when appropriate. Authors supply translations and accessible names. `.icon-directional` mirrors reading-direction arrows; other icons keep their meaning. Carousels accept `data-carousel-dot-label="Chapter {current} of {total}"`; call `InkwellInteractions.init(carousel)` after changing direction or its localized label template.
+
+See [the direction and typography contract](DESIGN_SYSTEM.md#reading-direction-and-language) and [the implementation spec](docs/specs/2026-10-29-relative-type-and-rtl-design.md). The test-only [Arabic/Hebrew fixture](tests/fixtures/typography-direction.html) demonstrates mixed-direction content without adding a public page.
+
 ### Using Tailwind v4?
 
 Inkwell drops in as a Tailwind v4 theme. Keep `inkwell-tokens.css`, `inkwell-components.css`, and `inkwell-theme.css` side by side, then in your Tailwind entry CSS:
