@@ -6,7 +6,7 @@ Inkwell ships with the **Indigo & Cloud** palette — cool stone background, dee
 
 ## Live demo
 
-See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — 20 published pages built from the system. Start with the [getting-started guide](https://inkwell.vinny.dev/docs.html), use the generated [component reference](https://inkwell.vinny.dev/components.html) for copyable contracts, use the [full preview](https://inkwell.vinny.dev/preview.html) for visual review, and verify the alternate path in the [Tailwind v4 demo](https://inkwell.vinny.dev/tailwind.html). The gallery also includes product, editorial, marketing, form, search, error, release-note, carousel, and palette-comparison patterns. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`. Every deployed footer identifies the semantic release, commit-derived build number, and UTC deployment date (for example, `v3.5.0+build.N · Deployed Aug 27, 2026`).
+See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — 20 published pages built from the system. Start with the [getting-started guide](https://inkwell.vinny.dev/docs.html), use the generated [component reference](https://inkwell.vinny.dev/components.html) for copyable contracts, use the [full preview](https://inkwell.vinny.dev/preview.html) for visual review, and verify the alternate path in the [Tailwind v4 demo](https://inkwell.vinny.dev/tailwind.html). The gallery also includes product, editorial, marketing, form, search, error, release-note, carousel, and palette-comparison patterns. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`. Every deployed footer identifies the semantic release, commit-derived build number, and UTC deployment date (for example, `v3.6.0+build.N · Deployed Oct 29, 2026`).
 
 ## Quick start
 
@@ -66,7 +66,7 @@ Maintainers regenerate/check the optional export with `node scripts/build-design
 Point Claude Code, Codex, Cursor, or any other LLM coding tool at [`agent-instructions.md`](agent-instructions.md) — a self-contained brief that walks the agent through fetching the right CSS files, the hard rules (1.5px borders, one accent, tokens-not-literals), palette switching, and the anti-patterns before it writes any markup.
 
 ```
-https://raw.githubusercontent.com/vscarpenter/inkwell/v3.5.0/agent-instructions.md
+https://raw.githubusercontent.com/vscarpenter/inkwell/v3.6.0/agent-instructions.md
 ```
 
 Suggested prompt: *"Read the file at the URL above and use the Inkwell design system in this project."*

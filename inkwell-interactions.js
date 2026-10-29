@@ -1,6 +1,6 @@
 /* =====================================================================
    Inkwell — optional interaction recipes.
-   Version: 3.5.0
+   Version: 3.6.0
 
    Dependency-free progressive enhancement for the components whose
    behavior cannot live in CSS alone: tabs, carousel controls,

@@ -6,6 +6,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [3.6.0] — 2026-10-29
+
 ### Added
 - **Relative type and bidirectional contract.** Nine type tokens and component/example text use `rem`; browser root preferences remain untouched. Logical layout, script-aware Arabic/Hebrew tracking/leading, `.icon-directional`, mixed-content guidance, and localized carousel dot templates support page-level and nested RTL. Legacy JSON pixel references remain compatible with additive CSS values; DTCG exports actual `rem` dimensions.
 - **Typography/direction regression matrix.** Real Firefox default-font preferences, all 20 routes at 16/20/24/32px roots and 1280/640/320px in both directions, Arabic/Hebrew across all palettes/modes, and nested scope/interaction checks.
