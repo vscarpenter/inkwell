@@ -1,5 +1,9 @@
 # Inkwell follow-up completion review
 
+Deployment follow-up, 2026-10-29: the user merged [PR #7](https://github.com/vscarpenter/inkwell/pull/7), including the additional platform-font heading, permalink, and profile-table reflow fixes found by Linux CI. The [main-branch system checks](https://github.com/vscarpenter/inkwell/actions/runs/40910906181) and [Pages deployment](https://github.com/vscarpenter/inkwell/actions/runs/40910906136) passed for implementation revision `787a367`. All four browser projects passed together on Linux: 154 passed, six expected skips. Production at [inkwell.vinny.dev](https://inkwell.vinny.dev/) served `v3.5.0+build.116`, dated Oct 29, 2026, and all six published CSS/JavaScript files matched the merged source byte for byte. The local checkout was synchronized to `main`. The no-deployment statements below describe the earlier review checkpoint.
+
+The final profile-page detector warning was also a confirmed imported-token false positive: production resolves the h1 to 48px and section h2 headings to 27px against 16px body. A narrow `flat-type-hierarchy` exception covers only that page. No additional design warnings were suppressed globally.
+
 Reviewed 2026-10-29. The approved verification, resilience, and token-portability work is implemented locally on `codex/improve-design-system-resilience`. This report supersedes the open follow-up items in the [initial review](2026-10-29-design-system-review.md). VoiceOver and Windows testing were explicitly skipped at the user's request.
 
 ## Result

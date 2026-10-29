@@ -68,6 +68,15 @@
         ],
         "createdAt": "2026-10-29T16:03:51.234Z",
         "reason": "Agent triage: the visible t-h1 resolves to 32px against 17px result titles and 16px body. New visually hidden h2 headings repair the document outline; they are not visual size roles. The detector incorrectly resolves imported h1 typography to 16px."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "examples/profile.html"
+        ],
+        "createdAt": "2026-10-29T16:25:26.912Z",
+        "reason": "Agent triage: production browser resolves the profile h1 to 48px and h2 headings to 27px against 16px body. The imported token scale is misread as 16px by the static detector. Preserve the existing profile hierarchy; only this rule on this page is excepted."
       }
     ]
   }
