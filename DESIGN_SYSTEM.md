@@ -1,6 +1,6 @@
 # Inkwell
 
-A reusable design system for product UI, dashboards, and technical interfaces. Drop-in CSS tokens, 35 documented component families, light + dark mode out of the box.
+A reusable design system for product UI, dashboards, and technical interfaces. Drop-in CSS tokens, 36 documented component families, light + dark mode out of the box.
 
 **Inkwell** ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, hairline 1.5px borders. Reads as Linear/Stripe/Notion-adjacent without being a clone of any of them.
 
@@ -121,7 +121,7 @@ Every panel uses **1.5px** borders, not 1px. This is the system's most distincti
 
 Hairline dividers inside panels drop to 1px (`--gray-100`) so the outer frame stays dominant.
 
-Functional control boundaries are the exception: `--control-border` (1.5px `--gray-400`) carries checkbox, radio, and switch — state boundaries must clear WCAG 1.4.11's 3:1, unlike decorative panel hairlines.
+Functional control boundaries are the exception: `--control-border` (1.5px `--gray-400`) carries text inputs, textareas, selects, checkboxes, and radios; the switch uses the same `--gray-400` step for its off-track. Boundaries needed to identify a control must clear WCAG 1.4.11's 3:1, unlike decorative panel hairlines.
 
 ### 1.6 Shadows
 
@@ -192,12 +192,12 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 
 ## 3. Components
 
-`inkwell-components.css` ships 35 documented component families (the table below). Use `examples/components.html` for the generated adoption contract and copyable markup; use `preview.html` for a visual tour in light, dark, auto, and every palette. `component-manifest.json` is the machine-readable source for the component reference.
+`inkwell-components.css` ships 36 documented component families (the table below). Use `examples/components.html` for the generated adoption contract and copyable markup; use `preview.html` for a visual tour in light, dark, auto, and every palette. `component-manifest.json` is the machine-readable source for the component reference.
 
 | Class | Purpose |
 |---|---|
 | `.btn` (+ `-primary` / `-secondary` / `-ghost` / `-danger`; `:disabled` / `:active` / `.btn-sm` / `aria-busy`) | Buttons across all intents, with disabled, pressed, small, and loading-spinner states. Pair `aria-busy="true"` with `disabled` from JS — CSS only blocks pointer events, not keyboard activation. |
-| `.input` / `.textarea` / `.select` (+ `.is-error` / `:disabled`) | Form controls with accent focus halo, rust error border, and muted disabled state |
+| `.input` / `.textarea` / `.select` (+ `.is-error` / `[aria-invalid="true"]` / `:disabled`) | Form controls with functional contrast borders, accent focus halo, rust error border, and muted disabled state |
 | `.field` (+ `.field-label` / `.field-help` / `.field-error`) | Vertical field group: label + control + helper or error text |
 | `.field-row` | Inline form row — wrapping flex of controls with centered alignment |
 | `.checkbox` / `.radio` / `.switch` | Selection controls with accent fill (checkbox/radio) and pill-track toggle (switch) |
@@ -215,8 +215,8 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 | `.tldr` | Inverted callout — dark in light mode, light in dark mode |
 | `.code-block` | Multi-line `<pre><code>` panel with optional `.copy` button slot |
 | `.dialog` | Styling for native `<dialog>` with backdrop blur; `inkwell-interactions.js` can wire `data-dialog-open="id"` and `data-dialog-close` with focus restoration |
-| `.tabs` (+ `.tab` / `.tab-panel`) | Underline-style tab nav; `inkwell-interactions.js` wires `aria-selected`, roving tabindex, panel visibility, and Arrow/Home/End keys. |
-| `.tooltip` (with `[data-tooltip]`) | CSS-only tooltip bubble on hover/focus — pair with `aria-label` for SR |
+| `.tabs` (+ `.tab` / `.tab-panel`) | Tab nav; the companion handles selected state, roving focus, reachable panels, disabled tabs, RTL, and vertical Up/Down navigation with `aria-orientation="vertical"`. |
+| `.tooltip` (with `[data-tooltip]`) | Hoverable hint on hover or contained focus. Load the companion for Escape dismissal; provide the text in an accessible name or `aria-describedby` target. |
 | `.breadcrumbs` | `<ol>` list with `/` separators; `aria-current="page"` for the leaf |
 | `.pagination` | Numbered page list with prev/next; `aria-current="page"` for the active page |
 | `.skeleton` (+ `.is-text` / `.is-title` / `.is-block` / `.is-circle`) | Shimmer placeholder; reduced-motion-safe |
@@ -230,7 +230,7 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 | `.sec-head` | Numbered section header (mono index + serif title + count pill). Use the numbered index only when the sequence carries meaning (steps, ordered specs); as default scaffolding on every section it reads as generated filler. |
 | `.toc` | Pill-shaped link list with optional mono numerals |
 | `.navbar` (+ `.navbar-inner` / `.brand`) | Sticky top bar: brand mark + nav links on the ivory surface |
-| `.card-grid` | Responsive card grid — `auto-fill` columns at a 280px minimum |
+| `.card-grid` | Responsive card grid — `auto-fill` columns with a 280px preferred minimum, capped to the container width |
 | `.sr-only` | Visually hidden, screen-reader-available text |
 | `.skip-link` | Off-screen "skip to content" link that appears on `:focus-visible` |
 
@@ -260,6 +260,9 @@ These will break the look — avoid them:
 - **Gradients on surfaces.** Surfaces are flat.
 - **Saturated semantic colors.** Olive/rust/warning are deliberately desaturated to sit on the cool palette without screaming.
 - **Hardcoded hex values in component CSS.** Always reference tokens. Adding a new variant later (or theming for a customer) is trivial when everything is tokenized — painful when literals are scattered.
+- **Decorative hairlines on text controls.** Use `--control-border` for edges that identify an input, textarea, select, checkbox, or radio.
+- **Fixed heights on text-bearing controls.** Use minimum heights and padding so translated, resized, or spaced text can grow the control.
+- **Essential information only in a tooltip.** Keep labels and instructions visible; generated tooltip text is not a reliable accessible description. Custom hints need hover persistence and Escape dismissal.
 
 ---
 
@@ -269,20 +272,24 @@ Inkwell ships with WCAG-conscious defaults. The notable choices:
 
 - **Body text contrast.** `--gray-700` (`#3A3B41`) on `--paper` reads at ~10.9:1 — well past AA. `--gray-500` (`#6F6F75`) on `--paper` reads at 5.05:1, on `--ivory` at 4.64:1 — both clear AA's 4.5:1 for normal text. (An earlier `#85858A` value sat at 3.44:1 on paper; if you fork an older snapshot, bump `--gray-500` to clear AA.)
 - **Focus rings are accent ink.** `*:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }` is global. Canonical indigo reads at 7.9:1 (light) and 5.2:1 (dark) on its respective surface — well past WCAG 1.4.11's 3:1 for non-text UI — and because the ring follows `--accent-ink`, variants whose accent is too light (clay, sage) get an AA-passing ring automatically.
-- **Functional control boundaries clear 3:1.** Checkbox, radio, and the switch off-track were 1.56:1 on `--paper` — below WCAG 1.4.11's 3:1 for boundaries that communicate state. They now use `--control-border` (1.5px `--gray-400`, 3.2:1+ on both surfaces). Decorative panel hairlines deliberately stay below 3:1 — see the next bullet.
+- **Functional control boundaries clear 3:1.** Text controls, checkboxes, and radios use `--control-border` (1.5px `--gray-400`, 3.2:1+ on both surfaces); the switch off-track uses the same neutral step. Decorative panel hairlines deliberately stay below 3:1 — see the next bullet.
 - **The 1.5px hairline border is *deliberately* below WCAG 3:1.** `--gray-300` on `--paper` is ~1.57:1 in light mode and ~1.45:1 in dark. This is the system's letterpress-quiet signature — a stronger border would read as wireframe or Material. Visual separation is achieved through the *combination* of border, surface tone shift (`--paper` vs `--ivory`), and shadow. Use `--border-strong` (1.5px solid `--slate`) when a panel genuinely needs to stand off the page.
 - **Reduced motion is honored.** `@media (prefers-reduced-motion: reduce)` shortens animations and transitions to ~0ms. The dialog pop, loading spinner, skeleton shimmer, and switch-knob slide all degrade gracefully.
 - **Color is never the only signal.** Status chips pair color with an explicit dot or label; alerts pair color with a serif title; form errors pair the `--rust` border with an explicit `.field-error` text node. Don't introduce a "danger" state that only changes a hue.
 - **Native semantics first.** `<dialog>` for modals (focus trap, ESC, `::backdrop` for free), real `<input type="checkbox">` and `<input type="radio">` for selection (preserving keyboard interaction), `<kbd>` for keyboard chips. The components style native elements rather than rebuilding them.
 - **Reference pages demonstrate the full contract.** Every published page has one visible `h1`, one `main` landmark, a working skip link, canonical and theme-color metadata, and no page-level horizontal overflow at 375px. Wide tables scroll inside `.tbl-scroll`.
-- **Invalid state is programmatic.** `.is-error` is visual only; invalid controls must also set `aria-invalid="true"` and reference visible `.field-error` copy with `aria-describedby`.
+- **Invalid state is programmatic.** `aria-invalid="true"` applies error styling directly; `.is-error` remains a visual compatibility class. Invalid controls must reference visible `.field-error` copy with `aria-describedby`; set the state when validation supplies an actual error.
+- **Forced colors retain native affordances.** Checkbox, radio, switch, and select return to native appearance. System colors preserve focus, selected tabs, and the active carousel indicator. The system does not opt out of the user's palette with `forced-color-adjust: none`.
+- **Text can grow controls.** Buttons, segmented options, and pagination use minimum heights with padding. `.card-grid` shrinks below its preferred 280px column minimum when its container is narrower.
+- **Tabs respect orientation and availability.** Horizontal arrows follow the reading direction; vertical lists use Up/Down. Disabled and `aria-disabled="true"` tabs are skipped. Panels default to `tabindex="0"` unless the author explicitly supplies a value. Automatic activation is suitable for panels available without loading latency.
+- **Tooltips persist and dismiss.** The bubble stays open while hovered or while its trigger/wrapper has focus. Load `inkwell-interactions.js` for Escape dismissal without moving focus. Generated `data-tooltip` text supplements an accessible name or description; it never replaces one.
 - **Touch targets stay compact where appropriate.** Desktop controls preserve Inkwell's dense rhythm; under `pointer: coarse`, interactive components reach a minimum 44×44 CSS pixels.
 - **`::selection` is slate-on-oat.** Selected text gets `--oat` behind `--slate` — the accent tint was too faint to register as a selection highlight.
 - **Print always renders light.** The manual dark theme (`[data-theme="dark"]` blocks) is wrapped in `@media screen`, so a dark-toggled page still prints on the light palette.
 
 All five palettes pass `scripts/check-contrast.mjs` — a zero-dependency WCAG gate asserting 240 token-pair ratios (text at 4.5:1, non-text at 3:1) across both modes — and CI runs it alongside the tokens.json drift check.
 
-If you extend the system, the rule is: any new colored token must clear 3:1 for non-text and 4.5:1 for normal text against the surface it ships on, *unless* it's pairing with another signal.
+If you extend the system, normal text must clear 4.5:1 against its surface; large text and visual information needed to identify controls or states must clear 3:1. Redundant icons or labels do not waive applicable contrast requirements. Decorative and inactive elements have different requirements. These defaults and automated checks do not establish whole-page WCAG conformance; verify keyboard, screen reader, zoom, and user-preference behavior in context.
 
 ---
 
@@ -314,7 +321,7 @@ Copy three files — `inkwell.css`, `inkwell-tokens.css`, and `inkwell-component
 </html>
 ```
 
-For a fuller starting point, copy `index.html` — it includes the navbar, layout shell, sample components, and a working light/dark/auto toggle. Load `inkwell-interactions.js` only for tabs, carousel controls, or declarative dialogs. Use `examples/components.html` for the comprehensive adoption reference and `preview.html` for visual review.
+For a fuller starting point, copy `index.html` — it includes the navbar, layout shell, sample components, and a working light/dark/auto toggle. Load `inkwell-interactions.js` for tabs, carousel controls, declarative dialogs, or tooltip dismissal. Use `examples/components.html` for the comprehensive adoption reference and `preview.html` for visual review.
 
 ---
 
@@ -331,7 +338,7 @@ inkwell/
 ├── inkwell-components.css  ← source: base reset, components, layout helpers, a11y
 ├── inkwell-theme.css       ← Tailwind v4 entry — imports the two source files,
 │                             declares @theme aliases + @custom-variant dark
-├── inkwell-interactions.js ← optional tabs, carousel, and dialog behavior
+├── inkwell-interactions.js ← optional tabs, carousel, dialog, and tooltip behavior
 ├── tokens.json             ← machine-readable mirror for Figma plugins / Style Dictionary
 ├── component-manifest.json ← machine-readable public component contract
 ├── index.html              ← starter template (copy as seed of a new project)

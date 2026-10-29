@@ -23,7 +23,7 @@ Do not apply `CLAUDE.md` editing rules when consuming Inkwell in another project
 
 ## 1. What Inkwell is
 
-A pure-CSS design system. **No build step. No package manager. No JS framework. No dependencies.** The core deliverable is three CSS files plus reference HTML. An optional dependency-free JavaScript file supplies portable behavior for tabs, carousels, and native-dialog triggers; static styles do not depend on it.
+A pure-CSS design system. **No build step. No package manager. No JS framework. No dependencies.** The core deliverable is three CSS files plus reference HTML. An optional dependency-free JavaScript file supplies portable behavior for tabs, carousels, native-dialog triggers, and tooltip dismissal; static styles do not depend on it.
 
 Inkwell ships with the **Indigo & Cloud** palette: cool stone background (`--ivory`), deep indigo accent (`--accent`), serif headlines at weight 600, monospace eyebrows for product/dashboard contexts (italic-serif `.eyebrow-serif` for editorial), and a signature **1.5px hairline border** that is the system's most recognizable feature.
 
@@ -77,7 +77,7 @@ Full Tailwind setup guide and conventions: [`TAILWIND.md`](TAILWIND.md) in the r
 | File | When to fetch |
 |---|---|
 | `tokens.json` | User wants tokens for Style Dictionary or a Figma plugin |
-| `inkwell-interactions.js` | User uses tabs, enhanced carousel controls, or declarative native-dialog triggers |
+| `inkwell-interactions.js` | Page uses tabs, enhanced carousel controls, declarative native-dialog triggers, or custom tooltips |
 | `component-manifest.json` | User or tooling needs the machine-readable public component contract |
 | `index.html` | User wants a starter template with navbar + theme toggle |
 | `preview.html` | User wants the full component showcase page |
@@ -128,7 +128,7 @@ For framework apps, prefer a global load path. Inkwell defines global tokens and
 
 These are not stylistic preferences. They are the system. Breaking any of them produces something that is not Inkwell.
 
-1. **Borders are `1.5px`, never `1px` or `2px`.** Always use the `--border` token. The 1.5px is retina-first by design — on non-retina displays it will render as 1px and `getComputedStyle` will report 1px. That is browser behavior, not a bug. Do not "fix" it with `box-shadow` workarounds.
+1. **Outer frames are `1.5px`.** Use `--border` for decorative panels and `--control-border` for functional text/selection controls; internal dividers use the documented 1px tokens. The 1.5px is retina-first by design — on non-retina displays it will render as 1px and `getComputedStyle` will report 1px. That is browser behavior, not a bug. Do not "fix" it with `box-shadow` workarounds.
 2. **One accent only.** `--accent` is the single saturated brand hue. If a chart or data viz needs a second color, use `--olive` or `--sky`. Never introduce a second saturated accent.
 3. **Tokens, never literal hex codes.** Component CSS must reference CSS custom properties. If you find yourself typing `#3B4A8C` in a stylesheet, stop and use `var(--accent)` instead. This rule is what makes palette swapping trivial.
 4. **Type families have jobs, not preferences:**
@@ -154,6 +154,8 @@ These show up often when agents integrate Inkwell without reading the full file:
 - **Renaming Inkwell classes instead of using modifiers.** Keep `.btn`, `.card`, etc. verbatim; extend with modifier classes (`.btn-sm`, `.is-link`) or thin token-driven page CSS.
 - **Adding webfonts "for polish".** Platform stacks only — no Google Fonts, no `@font-face`. Webfonts break the zero-FOUT install story.
 - **Using separate dark-mode token blocks instead of `light-dark()`.** Every color token is one declaration with both mode values. Alpha tints derive via `color-mix()` from their base — do not hand-roll `@media (prefers-color-scheme: dark)` color overrides.
+- **Fixing text-bearing controls to a height.** Use minimum heights and padding; enlarged text and translated labels must be able to grow the control.
+- **Using tooltip text as the only label or instruction.** Supply a visible label and accessible description; load the companion for Escape dismissal. Use visible help or disclosures for touch-critical instructions.
 
 ---
 
@@ -185,7 +187,7 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 - `--border-strong` (1.5px solid `--slate`)
 - `--border-hair` (1px solid `--gray-100`) — internal dividers inside a `--border` panel. This CSS token is distinct from Tailwind's deprecated `border-hair` class; use `border-inkwell` for a 1.5px Tailwind border.
 - `--border-rule` (1px solid `--gray-300`) — horizontal section rules
-- `--control-border` (1.5px solid `--gray-400`) — checkbox/radio/switch boundaries; functional state edges must clear 3:1, unlike decorative hairlines
+- `--control-border` (1.5px solid `--gray-400`) — text and selection control boundaries; functional edges must clear 3:1, unlike decorative hairlines
 - `--r-xs`, `--r-sm`, `--r-md`, `--r-lg`, `--r-xl`, `--r-pill` — radii
 
 **Layout**
@@ -217,10 +219,10 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 | `.tldr` | Inverted callout (dark in light mode, light in dark) |
 | `.code-block` | Multi-line `<pre><code>` panel |
 | `.dialog` | Native `<dialog>` styling; `inkwell-interactions.js` can wire `data-dialog-open="id"` triggers and `data-dialog-close` controls with focus restoration |
-| `.tabs` (`.tab`, `.tab-panel`) | Underline tab nav; `inkwell-interactions.js` wires `aria-selected`, roving tabindex, panel visibility, and Arrow/Home/End keys |
+| `.tabs` (`.tab`, `.tab-panel`) | Tab nav; companion handles roving focus, reachable panels, disabled options, RTL arrows, and vertical Up/Down with `aria-orientation="vertical"` |
 | `.disclosure` | Native `<details>` disclosure/accordion item; no JavaScript |
 | `.segmented` (`aria-pressed` / `.is-active`) | Pill-shaped group of mutually-exclusive options (theme toggle, view modes, density) |
-| `.tooltip` (`[data-tooltip]`) | CSS-only hover/focus tooltip |
+| `.tooltip` (`[data-tooltip]`) | Hoverable hint on hover or contained focus; load `inkwell-interactions.js` for Escape dismissal. Provide an accessible name/description separately. |
 | `.breadcrumbs` | `<ol>` with `/` separators |
 | `.pagination` | Numbered page list |
 | `.skeleton` (`.is-text`, `.is-title`, `.is-block`, `.is-circle`) | Loading shimmer |
@@ -235,7 +237,7 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 | `.navbar` (`.navbar-inner`, `.brand`) | Sticky top navigation shell |
 | `.wrap` / `.wrap-narrow` / `.wrap-wide` | Centered page shell with `--content-*` max-width and `--page-pad-x` padding |
 | `.field-row` | Inline form row — wrapping flex of controls |
-| `.card-grid` | Responsive card grid (`auto-fill`, 280px minimum) |
+| `.card-grid` | Responsive card grid (`auto-fill`, 280px preferred minimum capped to its container) |
 | `.sr-only` | Visually hidden, screen-reader-available text |
 | `.skip-link` | Off-screen "skip to content" link, visible on `:focus-visible` |
 | **Editorial:** `.dropcap` / `.pullquote` / `.byline` (+ `.author`) / `figure.figure` | Long-form/magazine primitives — use inside serif-body prose contexts |
@@ -246,7 +248,7 @@ When a component is missing, build it with tokens — never with hardcoded value
 
 ### Optional shared interactions
 
-Load the companion after component markup when the page uses tabs, enhanced carousel controls, or declarative dialogs:
+Load the companion after component markup when the page uses tabs, enhanced carousel controls, declarative dialogs, or custom tooltips:
 
 ```html
 <script src="/path/to/inkwell-interactions.js"></script>

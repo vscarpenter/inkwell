@@ -33,6 +33,15 @@ for (const path of criticalPages) {
   });
 }
 
+test("critical reference pages reflow at 320 CSS pixels", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 812 });
+  for (const path of criticalPages) {
+    await page.goto(path);
+    const width = await page.evaluate(() => ({ scroll: document.documentElement.scrollWidth, client: document.documentElement.clientWidth }));
+    expect(width.scroll, `${path} overflows at 320px`).toBeLessThanOrEqual(width.client);
+  }
+});
+
 test("shared interactions maintain keyboard and ARIA state", async ({ page }) => {
   await page.goto("/examples/preview.html");
 

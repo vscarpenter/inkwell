@@ -16,3 +16,7 @@
 
 # Claude Code session-local files (settings, screenshots, scratch artifacts)
 .claude/
+
+# Browser verification artifacts
+test-results/
+playwright-report/

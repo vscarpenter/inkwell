@@ -100,9 +100,30 @@
       <!-- BEGIN GENERATED: releases — edit CHANGELOG.md and run scripts/build-changelog-html.mjs -->
       <article class="release">
         <div class="release-head">
+          <span class="ver">Unreleased</span>
+          <span class="badge badge-accent">Latest</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Fixed</div>
+          <ul class="change-list">
+            <li><strong>Accessible functional boundaries.</strong> Text inputs, textareas, and selects use the existing 3:1 control border; <code>aria-invalid="true"</code> applies error styling without requiring <code>.is-error</code>.</li>
+            <li><strong>User preference and content resilience.</strong> Native checkbox/radio/switch/select affordances return in forced colors. Buttons, segmented options, and pagination grow with text; card grids fit containers narrower than 280px.</li>
+            <li><strong>Tab and tooltip behavior.</strong> Tabs honor RTL, vertical orientation, disabled options, and nested tablist ownership; panels receive a keyboard stop unless explicitly configured. Tooltip bubbles remain hoverable and respond to contained focus; the optional companion supplies Escape dismissal.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Added</div>
+          <ul class="change-list">
+            <li><strong>Cross-engine regression coverage.</strong> Firefox and WebKit join desktop/mobile Chromium; component tests exercise contrast wiring, forced colors, enlarged text, narrow containers, tab keys, and tooltips. Review evidence and follow-up recommendations are recorded in <code>docs/reviews/2026-10-29-design-system-review.md</code>.</li>
+            <li><strong>Tooltip adoption contract.</strong> The existing tooltip family is now included in the generated catalog, bringing the documented total to 36 without adding a new CSS component.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
           <span class="ver">v3.5.0</span>
           <span class="release-date">2026-08-27</span>
-          <span class="badge badge-accent">Latest</span>
         </div>
         <div class="change-block">
           <div class="change-label">Added</div>

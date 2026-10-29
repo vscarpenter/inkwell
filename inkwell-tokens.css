@@ -147,7 +147,7 @@
   --border-strong: 1.5px solid var(--slate);
   --border-hair:   1px   solid var(--gray-100);
   --border-rule:   1px   solid var(--gray-300);
-  --control-border: 1.5px solid var(--gray-400);   /* checkbox/radio/switch — functional state boundary, >=3:1 */
+  --control-border: 1.5px solid var(--gray-400);   /* text/selection controls — functional boundary, >=3:1 */
 
   /* ---------- Shadows (warm low-spread in light, deep pure black in dark) ---------- */
   --shadow-sm:         0 1px 2px  light-dark(rgba(20, 20, 19, 0.06), rgba(0, 0, 0, 0.45));

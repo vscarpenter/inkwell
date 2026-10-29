@@ -17,7 +17,7 @@ inkwell.css              Canonical entry: imports tokens unlayered + components
 tokens.css               DEPRECATED one-line alias of inkwell.css (removal: 4.0)
 inkwell-theme.css        Tailwind v4 entry: imports inkwell-tokens.css + inkwell-components.css,
                          declares @theme aliases + @custom-variant dark
-inkwell-interactions.js  Optional, dependency-free tabs/carousel/dialog behavior
+inkwell-interactions.js  Optional, dependency-free tabs/carousel/dialog/tooltip behavior
 component-manifest.json  Public component contract; generates examples/components.html
 ```
 
@@ -25,6 +25,7 @@ The split exists for layering: both entries (`inkwell.css` and `inkwell-theme.cs
 
 When editing tokens (variables, colors): edit `inkwell-tokens.css`. Every color token is ONE declaration — both mode values inside `light-dark(light, dark)`; alpha tints derive from their base via `color-mix()` and are declared explicitly only where the contrast gate forces a hand-tuned alpha. Never add a separate dark block for token values — the only dark-selector rules in that file are the `color-scheme` machinery and the `.select` chevron override (a background-image, which `light-dark()` can't carry).
 When editing components, base reset, type styles, layout helpers, or a11y rules: edit `inkwell-components.css`.
+Use `--control-border` for functional text and selection control boundaries; keep decorative frames on `--border`. Text-bearing controls use minimum heights so text can grow. Preserve native forced-colors affordances and test changes to tabs/tooltips with the optional companion.
 **Do not edit `tokens.css` or `inkwell.css`** beyond `inkwell.css`'s import list. If you need to add a third source file, add it to `inkwell.css`'s `@import` list (decide layered vs. unlayered) and to `inkwell-theme.css` if it's component-shaped (so it gets layered correctly for Tailwind users).
 
 `TAILWIND.md` is user-facing docs for the Tailwind v4 integration. The Tailwind path is supported for v4 only — v3 is explicitly out of scope. For Tailwind entry CSS, import only `@import "tailwindcss"; @import "./inkwell-theme.css";`. Keep `inkwell-tokens.css`, `inkwell-components.css`, and `inkwell-theme.css` side by side; do not also load `tokens.css` or `inkwell.css` in that Tailwind entry file.
@@ -57,6 +58,8 @@ cp variants/clay.css variants/sage.css variants/burgundy.css variants/azure.css 
 If you add a new source CSS file at the repo root, also add it to the workflow's `cp` step.
 
 After editing `component-manifest.json`, run `node scripts/build-components-reference.mjs` and commit `examples/components.html`. Before every commit, run `node scripts/check-system-contract.mjs`; it verifies mirrors, versions, manifest selectors, page landmarks/metadata, error relationships, and local links.
+
+For HTML/CSS/interaction changes, run `npx --yes --package=playwright@1.62.1 -- sh scripts/run-browser-smoke.sh` after installing the matching Chromium, Firefox, and WebKit runtimes. The suite includes mobile targets and component resilience checks for forced colors, narrow containers, enlarged text, tab navigation, and tooltip dismissal. Forced-colors emulation runs in Chromium; native assistive-technology testing remains a separate review.
 
 ### After editing CHANGELOG.md
 

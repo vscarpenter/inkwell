@@ -6,6 +6,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Fixed
+- **Accessible functional boundaries.** Text inputs, textareas, and selects use the existing 3:1 control border; `aria-invalid="true"` applies error styling without requiring `.is-error`.
+- **User preference and content resilience.** Native checkbox/radio/switch/select affordances return in forced colors. Buttons, segmented options, and pagination grow with text; card grids fit containers narrower than 280px.
+- **Tab and tooltip behavior.** Tabs honor RTL, vertical orientation, disabled options, and nested tablist ownership; panels receive a keyboard stop unless explicitly configured. Tooltip bubbles remain hoverable and respond to contained focus; the optional companion supplies Escape dismissal.
+
+### Added
+- **Cross-engine regression coverage.** Firefox and WebKit join desktop/mobile Chromium; component tests exercise contrast wiring, forced colors, enlarged text, narrow containers, tab keys, and tooltips. Review evidence and follow-up recommendations are recorded in `docs/reviews/2026-10-29-design-system-review.md`.
+- **Tooltip adoption contract.** The existing tooltip family is now included in the generated catalog, bringing the documented total to 36 without adding a new CSS component.
+
 ## [3.5.0] — 2026-08-27
 
 ### Added

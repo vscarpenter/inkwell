@@ -3,8 +3,8 @@
    Version: 3.5.0
 
    Dependency-free progressive enhancement for the components whose
-   behavior cannot live in CSS alone: tabs, carousel controls, and
-   declarative native-dialog triggers. Static component styles do not
+   behavior cannot live in CSS alone: tabs, carousel controls,
+   declarative native-dialog triggers, and tooltip dismissal. Static styles do not
    depend on this file.
 
    Auto-initializes the document and exposes:
@@ -22,17 +22,28 @@
   function initTabs(root) {
     all(root, "[data-tabs]").forEach(function (tablist) {
       if (tablist.dataset.inkwellTabsReady === "true") return;
-      var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+      var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]')).filter(function (tab) {
+        return tab.closest('[role="tablist"]') === tablist;
+      });
       if (!tabs.length) return;
 
+      function available(tab) {
+        return !tab.disabled && tab.getAttribute("aria-disabled") !== "true";
+      }
+
       function activate(tab, moveFocus) {
+        if (!available(tab)) return;
         tabs.forEach(function (candidate) {
           var selected = candidate === tab;
           candidate.setAttribute("aria-selected", String(selected));
           candidate.tabIndex = selected ? 0 : -1;
           var panelId = candidate.getAttribute("aria-controls");
           var panel = panelId ? candidate.ownerDocument.getElementById(panelId) : null;
-          if (panel) panel.hidden = !selected;
+          if (panel) {
+            panel.hidden = !selected;
+            // Text-only panels need a Tab stop; preserve author choices.
+            if (!panel.hasAttribute("tabindex")) panel.tabIndex = 0;
+          }
         });
         if (moveFocus) tab.focus();
       }
@@ -40,21 +51,29 @@
       tabs.forEach(function (tab) {
         tab.addEventListener("click", function () { activate(tab, false); });
         tab.addEventListener("keydown", function (event) {
-          var index = tabs.indexOf(tab);
+          if (event.target !== tab || !available(tab)) return;
+          var enabled = tabs.filter(available);
+          var index = enabled.indexOf(tab);
+          var vertical = tablist.getAttribute("aria-orientation") === "vertical";
+          var rtl = window.getComputedStyle(tablist).direction === "rtl";
+          var forward = vertical ? "ArrowDown" : rtl ? "ArrowLeft" : "ArrowRight";
+          var backward = vertical ? "ArrowUp" : rtl ? "ArrowRight" : "ArrowLeft";
           var next = null;
-          if (event.key === "ArrowRight") next = tabs[(index + 1) % tabs.length];
-          else if (event.key === "ArrowLeft") next = tabs[(index - 1 + tabs.length) % tabs.length];
-          else if (event.key === "Home") next = tabs[0];
-          else if (event.key === "End") next = tabs[tabs.length - 1];
+          if (event.key === forward) next = enabled[(index + 1) % enabled.length];
+          else if (event.key === backward) next = enabled[(index - 1 + enabled.length) % enabled.length];
+          else if (event.key === "Home") next = enabled[0];
+          else if (event.key === "End") next = enabled[enabled.length - 1];
           if (!next) return;
           event.preventDefault();
           activate(next, true);
         });
       });
 
-      activate(tabs.find(function (tab) {
-        return tab.getAttribute("aria-selected") === "true";
-      }) || tabs[0], false);
+      var initial = tabs.find(function (tab) {
+        return available(tab) && tab.getAttribute("aria-selected") === "true";
+      }) || tabs.find(available);
+      if (initial) activate(initial, false);
+      else tabs.forEach(function (tab) { tab.tabIndex = -1; });
       tablist.dataset.inkwellTabsReady = "true";
     });
   }
@@ -170,11 +189,31 @@
     });
   }
 
+  function initTooltips(root) {
+    all(root, ".tooltip[data-tooltip]").forEach(function (tooltip) {
+      if (tooltip.dataset.inkwellTooltipReady === "true") return;
+      function reset() { tooltip.removeAttribute("data-inkwell-tooltip-dismissed"); }
+      tooltip.addEventListener("pointerenter", reset);
+      tooltip.addEventListener("focusin", reset);
+      tooltip.dataset.inkwellTooltipReady = "true";
+    });
+  }
+
+  // Escape also works for pointer-opened hints without moving focus. Do not
+  // consume the event: native dialogs retain their normal Escape behavior.
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Escape") return;
+    all(document, ".tooltip[data-tooltip]").forEach(function (tooltip) {
+      if (tooltip.matches(":hover, :focus-within")) tooltip.setAttribute("data-inkwell-tooltip-dismissed", "");
+    });
+  });
+
   function init(root) {
     root = root || document;
     initTabs(root);
     initCarousels(root);
     initDialogs(root);
+    initTooltips(root);
   }
 
   window.InkwellInteractions = { init: init };

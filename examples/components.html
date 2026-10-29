@@ -165,8 +165,8 @@
         <div class="reference-contract">
           <section><h3 class="t-h3">Anatomy</h3><ul><li>Place a labelled control inside .field.</li><li>Use .textarea for multi-line input and .select on native select.</li></ul></section>
           <section><h3 class="t-h3">Modifiers</h3><ul><li>.is-error and .is-disabled.</li></ul></section>
-          <section><h3 class="t-h3">States</h3><ul><li>Focus, disabled, placeholder, and invalid.</li></ul></section>
-          <section><h3 class="t-h3">Accessibility</h3><ul><li>Every control needs a label and name.</li><li>Invalid controls set aria-invalid=true and reference error copy with aria-describedby.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Focus, disabled, placeholder, and invalid via aria-invalid=true or the legacy .is-error class.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Every control needs a label and name; functional borders use --control-border.</li><li>Invalid controls set aria-invalid=true and reference visible error copy with aria-describedby.</li><li>Forced colors restores native select appearance.</li></ul></section>
         </div>
         <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">Application validation only.</p></div></div>
         <div class="code-block">
@@ -329,7 +329,7 @@
         <div class="reference-contract">
           <section><h3 class="t-h3">Anatomy</h3><ul><li>Responsive parent for sibling cards.</li></ul></section>
           <section><h3 class="t-h3">Modifiers</h3><ul><li>Override the minimum column size only when content requires it.</li></ul></section>
-          <section><h3 class="t-h3">States</h3><ul><li>Auto-fills from one column upward.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Auto-fills from one column upward; the preferred 280px minimum shrinks to fit a narrower container.</li></ul></section>
           <section><h3 class="t-h3">Accessibility</h3><ul><li>DOM order remains reading order; do not rearrange items visually.</li></ul></section>
         </div>
         <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
@@ -504,9 +504,9 @@
         <p class="reference-selectors"><code>.tabs</code> <code>.tab</code> <code>[data-tabs]</code></p>
         <div class="reference-contract">
           <section><h3 class="t-h3">Anatomy</h3><ul><li>A labelled tablist of tabs plus one labelled panel per tab.</li><li>Each tab's aria-controls points to its panel; each panel's aria-labelledby points back.</li></ul></section>
-          <section><h3 class="t-h3">Modifiers</h3><ul><li>aria-selected=true marks the active tab.</li></ul></section>
-          <section><h3 class="t-h3">States</h3><ul><li>Selected, hover, focus-visible, and hidden panels.</li></ul></section>
-          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use roving tabindex and ArrowLeft/ArrowRight/Home/End navigation.</li><li>Do not use tabs when users need to compare panels simultaneously.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>aria-selected=true marks the active tab; aria-orientation=vertical selects a vertical list.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Selected, hover, focus-visible, disabled/aria-disabled, and hidden panels.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use roving tabindex and Home/End; horizontal arrows follow reading direction, vertical lists use Up/Down.</li><li>The companion skips disabled tabs and makes panels focusable unless an explicit tabindex is supplied.</li><li>Automatic activation requires immediately available panels; do not use tabs when users need to compare panels simultaneously.</li></ul></section>
         </div>
         <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">Load inkwell-interactions.js or reproduce the documented WAI-ARIA behavior.</p></div></div>
         <div class="code-block">
@@ -881,6 +881,29 @@
         <div class="code-block">
           <button class="copy" type="button" data-copy-code="component-code-keyboard-chip">Copy markup</button>
           <pre><code id="component-code-keyboard-chip">&lt;p&gt;Press &lt;kbd&gt;⌘&lt;/kbd&gt; &lt;kbd&gt;K&lt;/kbd&gt; to search.&lt;/p&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="tooltip">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">36 · Since 1.3.0</span>
+            <h2 class="t-h2">Tooltip</h2>
+          </div>
+          <a class="link t-small" href="#tooltip">#tooltip</a>
+        </header>
+        <p class="reference-selectors"><code>.tooltip</code> <code>[data-tooltip]</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Apply .tooltip and data-tooltip to a trigger or its wrapper.</li><li>Keep essential instructions visible; the bubble is a supplemental visual hint.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>No public modifiers.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Hover, contained focus, pointer over the bubble, and Escape-dismissed until the next entry or focus.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Provide the hint in an accessible description; CSS generated content alone is not a reliable description.</li><li>Load the companion for Escape dismissal without moving focus.</li><li>Use a disclosure or visible help when instructions must be available on touch devices.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">Load inkwell-interactions.js for Escape dismissal; CSS supplies hover/focus presentation.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-tooltip">Copy markup</button>
+          <pre><code id="component-code-tooltip">&lt;button class=&quot;btn btn-secondary tooltip&quot; type=&quot;button&quot; data-tooltip=&quot;Save your current draft&quot; aria-label=&quot;Save&quot; aria-describedby=&quot;reference-save-hint&quot;&gt;Save&lt;/button&gt;
+&lt;span class=&quot;sr-only&quot; id=&quot;reference-save-hint&quot;&gt;Save your current draft&lt;/span&gt;</code></pre>
         </div>
       </article>
       <!-- END GENERATED COMPONENT REFERENCE -->
