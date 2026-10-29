@@ -28,9 +28,9 @@ async function render(page, { dir = "ltr", palette = "indigo", theme = "light", 
 
 // Sample rendered pixels, not just computed vendor pseudo-element styles:
 // Chromium can report styled meter fills even when its inner element is hidden.
-async function pixel(page, locator, fraction) {
+async function pixel(page, locator, fraction, heightFraction = 0.5) {
   const box = await locator.boundingBox();
-  return page.screenshot({ clip: { x: Math.floor(box.x + box.width * fraction), y: Math.floor(box.y + box.height / 2), width: 1, height: 1 } });
+  return page.screenshot({ clip: { x: Math.floor(box.x + box.width * fraction), y: Math.floor(box.y + box.height * heightFraction), width: 1, height: 1 } });
 }
 
 test("native labels, ranges, and value updates work without JavaScript enhancement", async ({ page }) => {
@@ -69,6 +69,8 @@ for (const dir of ["ltr", "rtl"]) {
       const start = await pixel(page, control, dir === "ltr" ? 0.25 : 0.75);
       const end = await pixel(page, control, dir === "ltr" ? 0.75 : 0.25);
       expect(start.equals(end), `${selector} must distinguish used from remaining`).toBe(false);
+      const upperFill = await pixel(page, control, dir === "ltr" ? 0.25 : 0.75, 0.3);
+      expect(upperFill.equals(start), `${selector} fills the track's inner height`).toBe(true);
       // Meter changes its range color as well as its value; compare with the
       // same range at 50 rather than the 100 (least-good) reference.
       expect(end.equals(empty), `${selector} remaining track`).toBe(true);
@@ -130,6 +132,9 @@ test("indeterminate progress moves normally and mirrors within a nested RTL scop
   // Freeze at a deliberate point in the cycle to compare direction without
   // depending on screenshot timing or the speed of a particular browser.
   await page.addStyleTag({ content: "progress.progress { --_progress-play-state: paused; --_progress-delay: -.3s; }" });
+  // A fresh element starts its paused animation at zero. Pausing the existing
+  // one retains elapsed time, which would make this sample timing-dependent.
+  await progress.evaluate((el) => el.replaceWith(el.cloneNode(true)));
   const ltrStart = await pixel(page, progress, 0.1);
   const ltrEnd = await pixel(page, progress, 0.9);
   expect(ltrStart.equals(ltrEnd)).toBe(false);

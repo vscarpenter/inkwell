@@ -1051,6 +1051,8 @@ meter.meter { appearance: auto; }
 }
 meter.meter::-webkit-meter-bar {
   block-size: 100%;
+  /* Blink's native inner grid otherwise reserves half the height for air. */
+  grid-row: 1 / -1;
   border: 0;
   border-radius: var(--r-pill);
   background: transparent;
