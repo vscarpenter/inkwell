@@ -128,15 +128,15 @@
   --mono:  ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
 
   /* Type scale */
-  --t-display: 48px;
-  --t-h1:      32px;
-  --t-h2:      24px;
-  --t-h3:      19px;
-  --t-lede:    20px;  /* deck/intro paragraph — sits between h3 and body */
-  --t-body:    16px;
-  --t-small:   14px;
-  --t-caption: 12px;
-  --t-eyebrow: 11px;
+  --t-display: 3rem;
+  --t-h1:      2rem;
+  --t-h2:      1.5rem;
+  --t-h3:      1.1875rem;
+  --t-lede:    1.25rem;  /* deck/intro paragraph — sits between h3 and body */
+  --t-body:    1rem;
+  --t-small:   0.875rem;
+  --t-caption: 0.75rem;
+  --t-eyebrow: 0.6875rem;
 
   /* ---------- Spacing (8px base, 4px micro) ---------- */
   --sp-1:  4px;

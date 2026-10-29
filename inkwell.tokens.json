@@ -60,8 +60,8 @@
     "t-display": {
       "$type": "dimension",
       "$value": {
-        "value": 48,
-        "unit": "px"
+        "value": 3,
+        "unit": "rem"
       },
       "$extensions": {
         "dev.vinny.inkwell": {
@@ -72,8 +72,8 @@
     "t-h1": {
       "$type": "dimension",
       "$value": {
-        "value": 32,
-        "unit": "px"
+        "value": 2,
+        "unit": "rem"
       },
       "$extensions": {
         "dev.vinny.inkwell": {
@@ -84,8 +84,8 @@
     "t-h2": {
       "$type": "dimension",
       "$value": {
-        "value": 24,
-        "unit": "px"
+        "value": 1.5,
+        "unit": "rem"
       },
       "$extensions": {
         "dev.vinny.inkwell": {
@@ -96,8 +96,8 @@
     "t-h3": {
       "$type": "dimension",
       "$value": {
-        "value": 19,
-        "unit": "px"
+        "value": 1.1875,
+        "unit": "rem"
       },
       "$extensions": {
         "dev.vinny.inkwell": {
@@ -108,8 +108,8 @@
     "t-lede": {
       "$type": "dimension",
       "$value": {
-        "value": 20,
-        "unit": "px"
+        "value": 1.25,
+        "unit": "rem"
       },
       "$extensions": {
         "dev.vinny.inkwell": {
@@ -120,8 +120,8 @@
     "t-body": {
       "$type": "dimension",
       "$value": {
-        "value": 16,
-        "unit": "px"
+        "value": 1,
+        "unit": "rem"
       },
       "$extensions": {
         "dev.vinny.inkwell": {
@@ -132,8 +132,8 @@
     "t-small": {
       "$type": "dimension",
       "$value": {
-        "value": 14,
-        "unit": "px"
+        "value": 0.875,
+        "unit": "rem"
       },
       "$extensions": {
         "dev.vinny.inkwell": {
@@ -144,8 +144,8 @@
     "t-caption": {
       "$type": "dimension",
       "$value": {
-        "value": 12,
-        "unit": "px"
+        "value": 0.75,
+        "unit": "rem"
       },
       "$extensions": {
         "dev.vinny.inkwell": {
@@ -156,8 +156,8 @@
     "t-eyebrow": {
       "$type": "dimension",
       "$value": {
-        "value": 11,
-        "unit": "px"
+        "value": 0.6875,
+        "unit": "rem"
       },
       "$extensions": {
         "dev.vinny.inkwell": {

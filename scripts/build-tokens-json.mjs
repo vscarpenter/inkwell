@@ -293,14 +293,20 @@ function buildJson({ vars, version }) {
     console.warn(`warning: CSS vars defined in :root but not surfaced in tokens.json:\n  ${orphans.join("\n  ")}`);
   }
 
+  for (const [role, entry] of Object.entries(json.typography.size)) {
+    entry.css = light(`--t-${role}`);
+  }
+  json.typography.reference_root_px = 16;
+
   return json;
 }
 
 function pxOf(cssValue) {
-  // "16px" → 16. The type scale is always px in this system.
-  const m = cssValue.match(/^(\d+)px$/);
-  if (!m) throw new Error(`expected Npx, got: ${cssValue}`);
-  return Number(m[1]);
+  // Preserve the legacy numeric reference at a 16px root; the CSS value is
+  // exported alongside it so relative sizing remains explicit to consumers.
+  const m = cssValue.match(/^([\d.]+)(px|rem)$/);
+  if (!m) throw new Error(`expected px or rem dimension, got: ${cssValue}`);
+  return Number(m[1]) * (m[2] === "rem" ? 16 : 1);
 }
 
 // ---------------------------------------------------------------------------
