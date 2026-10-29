@@ -143,6 +143,10 @@ const CHECKS = [
   ["focus outline vs paper (non-text)",     "--accent-ink",   "--paper",        3.0],
   ["control border vs paper (non-text)",    "--gray-400",     "--paper",        3.0],
   ["control border vs ivory (non-text)",    "--gray-400",     "--ivory",        3.0],
+  ["progress fill vs track (non-text)",     "--accent-ink",   "--gray-100",     3.0],
+  ["meter optimum vs track (non-text)",     "--olive-dark",   "--gray-100",     3.0],
+  ["meter suboptimum vs track (non-text)",  "--warning-dark", "--gray-100",     3.0],
+  ["meter least-good vs track (non-text)",  "--rust",         "--gray-100",     3.0],
 ];
 
 const palettes = ["indigo", "clay", "sage", "burgundy", "azure"];

@@ -6,7 +6,8 @@ const { expect, test } = require("playwright/test");
 async function render(page, { dir = "ltr", palette = "indigo", theme = "light", root = 16 } = {}) {
   await page.goto("/inkwell.css");
   await page.setContent(`<!doctype html><html lang="en" dir="${dir}" data-theme="${theme}">
-    <head><link rel="stylesheet" href="/inkwell.css">
+    <head><meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/inkwell.css">
     ${palette === "indigo" ? "" : `<link rel="stylesheet" href="/variants/${palette}.css">`}
     <style>html { font-size: ${root}px; } body { padding: 16px; } main { inline-size: 240px; max-inline-size: 100%; } .field + .field { margin-block-start: 24px; }</style></head>
     <body><main>
@@ -120,16 +121,35 @@ test("indeterminate progress retains a visible stationary segment under reduced 
   expect((await pixel(page, progress, 0.5)).equals(await pixel(page, progress, 0.05))).toBe(false);
 });
 
+test("indeterminate progress moves normally and mirrors within a nested RTL scope", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await render(page);
+  const progress = page.locator("#preparing");
+  const firstFrame = await progress.screenshot();
+  await expect.poll(async () => (await progress.screenshot()).equals(firstFrame)).toBe(false);
+  // Freeze at a deliberate point in the cycle to compare direction without
+  // depending on screenshot timing or the speed of a particular browser.
+  await page.addStyleTag({ content: "progress.progress { --_progress-play-state: paused; --_progress-delay: -.3s; }" });
+  const ltrStart = await pixel(page, progress, 0.1);
+  const ltrEnd = await pixel(page, progress, 0.9);
+  expect(ltrStart.equals(ltrEnd)).toBe(false);
+  await progress.locator("..").evaluate((el) => el.setAttribute("dir", "rtl"));
+  expect((await pixel(page, progress, 0.1)).equals(ltrEnd)).toBe(true);
+  expect((await pixel(page, progress, 0.9)).equals(ltrStart)).toBe(true);
+});
+
 test("forced colors restores native progress and meter rendering", async ({ page, browserName }) => {
   test.skip(browserName !== "chromium", "Forced-colors emulation is checked in Chromium.");
   await page.emulateMedia({ forcedColors: "active" });
-  await render(page);
-  for (const selector of ["#upload", "#storage"]) {
-    const control = page.locator(selector);
-    await expect(control).toHaveCSS("appearance", "auto");
-    await control.evaluate((el) => { el.value = 0; });
-    const empty = await control.screenshot();
-    await control.evaluate((el) => { el.value = 100; });
-    expect((await control.screenshot()).equals(empty)).toBe(false);
+  for (const theme of ["light", "dark"]) {
+    await render(page, { theme });
+    for (const selector of ["#upload", "#storage"]) {
+      const control = page.locator(selector);
+      await expect(control).toHaveCSS("appearance", "auto");
+      await control.evaluate((el) => { el.value = 0; });
+      const empty = await control.screenshot();
+      await control.evaluate((el) => { el.value = 100; });
+      expect((await control.screenshot()).equals(empty), `${selector} native forced-color fill in ${theme}`).toBe(false);
+    }
   }
 });

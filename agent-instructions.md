@@ -232,6 +232,8 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 | `.breadcrumbs` | `<ol>` with `/` separators |
 | `.pagination` | Numbered page list |
 | `.skeleton` (`.is-text`, `.is-title`, `.is-block`, `.is-circle`) | Loading shimmer |
+| `progress.progress` | Native task completion. Label it, keep visible value/status outside it, set `value` (zero is determinate), or omit `value` while discovering the total. No `role` or tab stop; announce completion through a separate polite status. |
+| `meter.meter` | Native bounded measurement, not task progress. Set `min`/`max`/`value` and optional `low`/`high`/`optimum`; include units and threshold meaning in visible text and, when useful, `aria-valuetext`. Update both with the data. |
 | `.empty-state` (`.empty-state-icon`) | No-data panel |
 | `.pill` (severity / resolved / neutral) | Status pill |
 | `.timeline` (`.tl-entry`) | Vertical event timeline |

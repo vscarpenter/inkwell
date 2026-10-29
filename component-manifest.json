@@ -291,6 +291,30 @@
       "markup": "<button class=\"btn btn-secondary\" type=\"button\" data-dialog-open=\"reference-dialog\">Open dialog</button>\n<dialog class=\"dialog\" id=\"reference-dialog\" aria-labelledby=\"reference-dialog-title\">\n  <div class=\"dialog-head\"><h2 id=\"reference-dialog-title\">Confirm</h2><button class=\"dialog-close\" type=\"button\" aria-label=\"Close\" data-dialog-close>×</button></div>\n  <div class=\"dialog-body\">Continue with this change?</div>\n  <div class=\"dialog-foot\"><button class=\"btn btn-secondary\" type=\"button\" data-dialog-close>Cancel</button></div>\n</dialog>"
     },
     {
+      "id": "progress",
+      "name": "Progress",
+      "selectors": ["progress.progress"],
+      "since": "Unreleased",
+      "anatomy": ["Native progress.progress with an associated label and adjacent visible value or status."],
+      "modifiers": ["Set max for a scale other than 0–1; omit value only while the total is unknown."],
+      "states": ["Zero, partial, complete, and indeterminate. Fill starts at inline start in LTR and RTL.", "Reduced motion and print pause a visible indeterminate segment; forced colors restores native rendering."],
+      "accessibility": ["Use label/for, aria-labelledby, or aria-label. Inner text is not an accessible label; keep value/status copy outside the bar.", "Keep native range semantics; do not add role, aria-valuenow, or tabindex. A progress bar is not a live region.", "Announce completion with an adjacent polite status without moving focus. Use indeterminate bars for a temporary unknown total, not indefinite background activity."],
+      "javascript": "None for rendering. Application code updates value, adjacent copy, and a polite completion status; remove value to return to indeterminate.",
+      "markup": "<div class=\"field\">\n  <label class=\"field-label\" for=\"reference-upload\">Uploading report</label>\n  <progress class=\"progress\" id=\"reference-upload\" max=\"100\" value=\"64\" aria-describedby=\"reference-upload-status\"></progress>\n  <span class=\"field-help\" id=\"reference-upload-status\">64% uploaded</span>\n</div>\n<p class=\"t-small\" role=\"status\"></p>\n<!-- Omit value while discovering the total; keep status text visible. -->\n<div class=\"field\">\n  <label class=\"field-label\" for=\"reference-preparing\">Preparing upload</label>\n  <progress class=\"progress\" id=\"reference-preparing\" aria-describedby=\"reference-preparing-status\"></progress>\n  <span class=\"field-help\" id=\"reference-preparing-status\">Discovering files…</span>\n</div>"
+    },
+    {
+      "id": "meter",
+      "name": "Meter",
+      "selectors": ["meter.meter"],
+      "since": "Unreleased",
+      "anatomy": ["Native meter.meter with label, numeric range, and adjacent measurement and threshold interpretation."],
+      "modifiers": ["Native min, max, low, high, and optimum define the scale and which range is preferable; no state classes required."],
+      "states": ["Optimum uses olive-dark, suboptimum warning-dark, and least-good rust. Native attributes select the state, including when higher values are preferable.", "Empty/full and RTL use native range geometry; forced colors restores native rendering."],
+      "accessibility": ["Use a label and visible value with units. Describe threshold meaning in text so color is supplemental.", "Use aria-valuetext when units or interpretation need a more useful spoken value. Keep the native meter role and avoid tabindex.", "Use progress for task completion; meter has no indeterminate state."],
+      "javascript": "None for rendering. Applications update native value/range attributes, visible copy, and aria-valuetext together when data changes.",
+      "markup": "<div class=\"field\">\n  <label class=\"field-label\" for=\"reference-storage\">Storage used</label>\n  <meter class=\"meter\" id=\"reference-storage\" min=\"0\" max=\"100\" low=\"60\" high=\"85\" optimum=\"20\" value=\"70\" aria-valuetext=\"70 of 100 GB used; nearing capacity\"></meter>\n  <span class=\"field-help\">70 GB of 100 GB · Nearing capacity</span>\n</div>"
+    },
+    {
       "id": "skeleton",
       "name": "Skeleton",
       "selectors": [".skeleton", ".skeleton.is-text", ".skeleton.is-title", ".skeleton.is-block", ".skeleton.is-circle"],

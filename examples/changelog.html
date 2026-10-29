@@ -100,9 +100,28 @@
       <!-- BEGIN GENERATED: releases — edit CHANGELOG.md and run scripts/build-changelog-html.mjs -->
       <article class="release">
         <div class="release-head">
+          <span class="ver">Unreleased</span>
+          <span class="badge badge-accent">Latest</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Added</div>
+          <ul class="change-list">
+            <li><strong>Native progress and meter.</strong> <code>progress.progress</code> styles task completion (zero, partial, complete, and indeterminate); <code>meter.meter</code> styles bounded measurements with native <code>low</code>/<code>high</code>/<code>optimum</code> range colors. Both require no JavaScript for rendering, follow RTL, retain a visible static indeterminate segment under reduced motion and print, and return to native rendering in forced colors. Visible labels, values, units, and status guidance are included in the showcase and generated catalog, now 38 component families.</li>
+            <li><strong>Indicator regression coverage.</strong> Browser tests check native semantics, value updates, actual painted fills and direction, all palettes/modes, narrow containers, enlarged text, and user preferences. The contrast gate now checks 280 pairs, including all four indicator fills against their track.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Changed</div>
+          <ul class="change-list">
+            <li><strong>Backlog triage.</strong> Removed the DTCG export completed in 3.6.0 and the implemented progress/meter work; split container queries from popover menus, retained compatibility requirements, and updated the select-chevron rationale for five palettes.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
           <span class="ver">v3.6.0</span>
           <span class="release-date">2026-10-29</span>
-          <span class="badge badge-accent">Latest</span>
         </div>
         <div class="change-block">
           <div class="change-label">Added</div>

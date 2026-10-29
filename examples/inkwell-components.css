@@ -974,6 +974,107 @@ pre.code-block { margin: 0; font: inherit; color: inherit; white-space: pre; }
   cursor: default;
 }
 
+/* ---------- Native progress and meter ----------
+   Use <progress class="progress"> for tasks and <meter class="meter">
+   for measurements. Keep labels and value/status text outside the bar.
+   These are read-only indicators, not keyboard stops. */
+progress.progress,
+meter.meter {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  block-size: 0.75rem;
+  box-sizing: border-box;
+  padding: 0;
+  border: var(--control-border);
+  border-radius: var(--r-pill);
+  background: var(--gray-100);
+  overflow: clip;
+}
+progress.progress {
+  appearance: none;
+  container-type: inline-size;
+  --progress-bar-indeterminate-size: 30%;
+  --progress-bar-indeterminate-duration: 1.5s;
+  --_progress-animation: none;
+  --_progress-play-state: running;
+  --_progress-delay: 0s;
+}
+progress.progress:indeterminate {
+  --_progress-animation: inkwell-progress var(--progress-bar-indeterminate-duration) linear infinite;
+}
+progress.progress:dir(rtl) { --_progress-direction: reverse; }
+progress.progress::-webkit-progress-bar { background: transparent; }
+/* Keep engine pseudo-elements separate: an unknown one invalidates a list. */
+progress.progress::-webkit-progress-value {
+  background: var(--accent-ink);
+  border-radius: var(--r-pill);
+  animation: var(--_progress-animation);
+  animation-direction: var(--_progress-direction, normal);
+  animation-play-state: var(--_progress-play-state);
+  animation-delay: var(--_progress-delay);
+}
+progress.progress::-moz-progress-bar {
+  background: var(--accent-ink);
+  border-radius: var(--r-pill);
+  animation: var(--_progress-animation);
+  animation-direction: var(--_progress-direction, normal);
+  animation-play-state: var(--_progress-play-state);
+  animation-delay: var(--_progress-delay);
+}
+@keyframes inkwell-progress {
+  from, to {
+    inline-size: var(--progress-bar-indeterminate-size);
+    /* Physical origin before translate; logical margins jump in RTL. */
+    margin-right: auto;
+  }
+  from { translate: -100%; }
+  to { translate: 100cqi; }
+}
+/* Pausing midway keeps Chromium's otherwise zero-width indeterminate fill
+   visible, without continuing motion or claiming a numeric completion. */
+@media (prefers-reduced-motion: reduce), print {
+  progress.progress:indeterminate {
+    --_progress-play-state: paused;
+    --_progress-delay: calc(var(--progress-bar-indeterminate-duration) / -2);
+  }
+}
+/* Blink requires native appearance to keep the meter's inner box painted.
+   Firefox and Safari require none for custom fills. Feature queries keep
+   that engine difference in CSS, without a script or user-agent sniff. */
+meter.meter { appearance: auto; }
+@supports selector(::-moz-meter-bar) {
+  meter.meter { appearance: none; }
+}
+@supports (-webkit-touch-callout: none) {
+  meter.meter { appearance: none; }
+}
+meter.meter::-webkit-meter-bar {
+  block-size: 100%;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  box-shadow: none;
+}
+meter.meter::-webkit-meter-optimum-value {
+  background: var(--olive-dark);
+  border-radius: var(--r-pill);
+}
+meter.meter::-webkit-meter-suboptimum-value {
+  background: var(--warning-dark);
+  border-radius: var(--r-pill);
+}
+meter.meter::-webkit-meter-even-less-good-value {
+  background: var(--rust);
+  border-radius: var(--r-pill);
+}
+meter.meter::-moz-meter-bar {
+  background: var(--olive-dark);
+  border-radius: var(--r-pill);
+}
+meter.meter:-moz-meter-sub-optimum::-moz-meter-bar { background: var(--warning-dark); }
+meter.meter:-moz-meter-sub-sub-optimum::-moz-meter-bar { background: var(--rust); }
+
 /* ---------- Skeleton loader ---------- */
 .skeleton {
   display: block;
@@ -1338,6 +1439,25 @@ hr.rule       { border: none; border-top: var(--border-rule); margin: 0 0 22px; 
   .radio input,
   .switch input,
   .select { appearance: auto; }
+  progress.progress,
+  meter.meter {
+    all: revert;
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 0;
+    block-size: 0.75rem;
+    appearance: auto;
+  }
+  progress.progress::-webkit-progress-bar { all: revert; }
+  progress.progress::-webkit-progress-value { all: revert; }
+  progress.progress::-moz-progress-bar { all: revert; }
+  meter.meter::-webkit-meter-bar { all: revert; }
+  meter.meter::-webkit-meter-optimum-value { all: revert; }
+  meter.meter::-webkit-meter-suboptimum-value { all: revert; }
+  meter.meter::-webkit-meter-even-less-good-value { all: revert; }
+  meter.meter::-moz-meter-bar { all: revert; }
+  meter.meter:-moz-meter-sub-optimum::-moz-meter-bar { all: revert; }
+  meter.meter:-moz-meter-sub-sub-optimum::-moz-meter-bar { all: revert; }
   .checkbox input,
   .radio input,
   .switch input { background: revert; }
