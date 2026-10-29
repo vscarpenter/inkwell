@@ -1,5 +1,7 @@
 # Inkwell design system review
 
+Historical first-pass report. The approved follow-up is recorded in the [completion review](2026-10-29-completion-review.md), including resolved Firefox/tooltip gaps and user-requested testing skips.
+
 Reviewed 2026-10-29. Changes are local and unreleased on `codex/improve-design-system-resilience`.
 
 ## Verdict

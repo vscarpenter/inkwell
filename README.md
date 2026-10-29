@@ -112,7 +112,7 @@ open examples/tailwind.html  # Tailwind v4 integration demo (no toolchain needed
 
 See `DESIGN_SYSTEM.md` for the full reasoning behind each rule.
 
-The current accessibility and browser review is recorded in [`docs/reviews/2026-10-29-design-system-review.md`](docs/reviews/2026-10-29-design-system-review.md). Maintainer checks cover Chromium, Firefox, WebKit, and mobile Chromium; normal palette contrast is checked separately from forced-colors emulation.
+The current accessibility, browser, and token-portability results are recorded in the [completion review](docs/reviews/2026-10-29-completion-review.md), with the [initial review](docs/reviews/2026-10-29-design-system-review.md) preserved for context. Maintainer checks cover Chromium, Firefox, WebKit, and mobile Chromium; normal palette contrast is checked separately from forced-colors emulation. VoiceOver and native Windows checks were skipped at the user's request.
 
 ## Palette switching
 
