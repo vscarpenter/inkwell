@@ -13,6 +13,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - **Tooltip adoption contract.** The existing tooltip family is now included in the generated catalog, bringing the documented total to 36 without adding a new CSS component.
 
 ### Fixed
+- **Platform-font reflow.** Display headings can break unusually wide words, component-reference headers wrap their permalinks, and the profile activity table scrolls in a named keyboard-reachable region. These close 320px overflow gaps found by Linux CI.
 - **Viewport-edge tooltip placement.** Enhanced hints clamp horizontally, flip above/below, and update on resize/scroll. Hidden bubbles no longer expand page scroll areas. Tooltip-bearing examples load the companion and a contract gate enforces that dependency.
 - **Reference-page reflow and long labels.** Dashboard/landing/search grid children can shrink, profile headers and carousel indicators wrap, and selection indicators retain their size beside long translated labels. Search headings follow a logical outline; landing copy describes the three-file install.
 - **Accessible functional boundaries.** Text inputs, textareas, and selects use the existing 3:1 control border; `aria-invalid="true"` applies error styling without requiring `.is-error`.
