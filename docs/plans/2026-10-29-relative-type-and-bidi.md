@@ -1,5 +1,7 @@
 # Relative type and bidirectional support: measurement plan
 
+**Implemented October 29:** see the [completion review and measurements](../reviews/2026-10-29-relative-type-and-rtl-review.md), [approved design](../specs/2026-10-29-relative-type-and-rtl-design.md), and [implementation plan](2026-10-29-relative-type-and-rtl-implementation.md). The original baseline plan is retained below as history.
+
 This records the remaining measurement work recommended by the October 29 review. The current follow-up adds long-label resilience and tests RTL tabs; it does not change the established pixel scale or advertise full RTL support. VoiceOver and Windows testing remain skipped for this review at the user's request.
 
 ## Relative type

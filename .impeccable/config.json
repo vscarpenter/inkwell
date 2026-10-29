@@ -86,6 +86,39 @@
         ],
         "createdAt": "2026-10-29T17:30:54.635Z",
         "reason": "Agent triage: imported-token regression fixture resolves to 48/32/24/19px display/headings against 16px body at the default root, and every role scales at 20/24/32px. Cross-engine browser tests verify these exact sizes; static import analysis incorrectly reports all roles as 16px."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "examples/docs.html",
+          "examples/forms.html",
+          "examples/not-found.html"
+        ],
+        "createdAt": "2026-10-29T17:41:28.333Z",
+        "reason": "Agent triage: final browser inspection resolves docs/forms h1 to 48px and h2 to 27px, and not-found h1 to 32px and h2 to 19px, all against 16px body. Static imported-token analysis reports 16px throughout. Preserve these verified heading roles; the enlarged-type route matrix also passes in all four browser projects."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "examples/carousel.html",
+          "examples/dashboard.html",
+          "examples/index.html",
+          "examples/roadmap.html",
+          "examples/settings.html"
+        ],
+        "createdAt": "2026-10-29T17:42:55.396Z",
+        "reason": "Agent triage: browser inspection resolves the index hero h1 to 62px, and carousel/dashboard/roadmap/settings h1 to 48px, against 16px body. The static scanner cannot resolve their imported token/helper styles. Preserve the measured hierarchy; all routes pass enlarged-type and direction reflow checks."
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "examples/index.html"
+        ],
+        "createdAt": "2026-10-29T17:42:55.426Z",
+        "reason": "Agent triage: all eight palette swatches resolve in the browser to 12px padding on every side and 1.5px borders. The static scanner incorrectly treats padding var(--sp-3) from imported demo.css as zero. This preserves the existing swatch specimen rather than altering its spacing."
       }
     ]
   }
