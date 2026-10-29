@@ -189,14 +189,59 @@
     });
   }
 
+  function positionTooltip(tooltip) {
+    var viewport = window.visualViewport;
+    var leftEdge = viewport ? viewport.offsetLeft : 0;
+    var topEdge = viewport ? viewport.offsetTop : 0;
+    var width = viewport ? viewport.width : window.innerWidth;
+    var height = viewport ? viewport.height : window.innerHeight;
+    var margin = 16;
+    tooltip.style.setProperty("--_tooltip-max-width", Math.max(1, width - margin * 2) + "px");
+    var style = window.getComputedStyle(tooltip, "::after");
+    var bubbleWidth = parseFloat(style.width);
+    var bubbleHeight = parseFloat(style.height);
+    if (!Number.isFinite(bubbleWidth) || !Number.isFinite(bubbleHeight)) return;
+    var rect = tooltip.getBoundingClientRect();
+    var centered = rect.left + rect.width / 2 - bubbleWidth / 2;
+    var clamped = Math.max(leftEdge + margin, Math.min(centered, leftEdge + width - margin - bubbleWidth));
+    // Position directly: translating a centered bubble back into the viewport
+    // can retain its original overflow area in mobile Chromium.
+    var borderLeft = parseFloat(window.getComputedStyle(tooltip).borderLeftWidth) || 0;
+    tooltip.style.setProperty("--_tooltip-left", (clamped - rect.left - borderLeft) + "px");
+    tooltip.style.setProperty("--_tooltip-transform", "none");
+    var above = rect.top - topEdge - margin;
+    var below = topEdge + height - rect.bottom - margin;
+    tooltip.dataset.inkwellTooltipSide = bubbleHeight > above && below > above ? "below" : "above";
+  }
+
   function initTooltips(root) {
     all(root, ".tooltip[data-tooltip]").forEach(function (tooltip) {
       if (tooltip.dataset.inkwellTooltipReady === "true") return;
-      function reset() { tooltip.removeAttribute("data-inkwell-tooltip-dismissed"); }
+      function reset() {
+        tooltip.removeAttribute("data-inkwell-tooltip-dismissed");
+        positionTooltip(tooltip);
+      }
       tooltip.addEventListener("pointerenter", reset);
       tooltip.addEventListener("focusin", reset);
       tooltip.dataset.inkwellTooltipReady = "true";
     });
+  }
+
+  var tooltipFrame = null;
+  function repositionTooltips() {
+    if (tooltipFrame !== null) return;
+    tooltipFrame = window.requestAnimationFrame(function () {
+      all(document, ".tooltip[data-tooltip]").forEach(function (tooltip) {
+        if (tooltip.matches(":hover, :focus-within")) positionTooltip(tooltip);
+      });
+      tooltipFrame = null;
+    });
+  }
+  window.addEventListener("resize", repositionTooltips);
+  document.addEventListener("scroll", repositionTooltips, { capture: true, passive: true });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", repositionTooltips);
+    window.visualViewport.addEventListener("scroll", repositionTooltips);
   }
 
   // Escape also works for pointer-opened hints without moving focus. Do not

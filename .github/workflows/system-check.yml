@@ -15,6 +15,10 @@ jobs:
           node-version: '20'
       - name: Verify generated token data
         run: node scripts/build-tokens-json.mjs --check
+      - name: Verify optional DTCG export and typed references
+        run: |
+          node scripts/build-design-tokens.mjs --check
+          node --test tests/token-export.test.mjs
       - name: Verify generated changelog and version stamps
         run: node scripts/build-changelog-html.mjs --check
       - name: Verify generated component reference

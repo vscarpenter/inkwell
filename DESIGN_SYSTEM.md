@@ -51,6 +51,27 @@ A small palette (12 hues) with one accent doing all the work. Neutrals are *cool
 
 **Why the dark accent is *lifted***: `#3B4A8C` against a near-black background reads as a hole punched in the page rather than an accent. The dark variant `#7A8AD1` (periwinkle) restores the sense of a "highlighted element" by retaining hue while gaining luminance. This pattern — saturated in light, lifted in dark — applies to all colored tokens.
 
+### Semantic color aliases
+
+Use these intent-based aliases for new page and panel styling. Palette-named tokens remain public, and variants continue to override them. Existing components retain their original token contract, including local primitive overrides; adoption is opt-in through custom CSS or semantic Tailwind utilities.
+
+| Alias | Existing token | Role |
+|---|---|---|
+| `--surface-page` | `--ivory` | Page background |
+| `--surface-panel` | `--paper` | Cards and panels |
+| `--surface-subtle` | `--gray-100` | Subtle inset surfaces |
+| `--surface-inverse` | `--slate` | Inverted surfaces |
+| `--text-primary` | `--slate` | Primary text |
+| `--text-secondary` | `--gray-700` | Secondary text |
+| `--text-muted` | `--gray-500` | Muted text |
+| `--text-inverse` | `--ivory` | Text on inverted surfaces |
+| `--text-link` | `--accent-ink` | Link text |
+| `--text-on-accent` | `--on-accent` | Text on accent fills |
+
+Aliases resolve on `:root`, following the active root palette and mode. Put page-wide overrides on `:root`; a descendant that uses an alias and overrides a primitive locally must also override the relevant semantic alias. Setting `--surface-panel` directly changes surfaces that opt into it without redefining `--paper` or changing existing `.card` styling.
+
+Tailwind exposes surface/content utilities: `bg-surface-page`, `bg-surface-panel`, `bg-surface-subtle`, `bg-surface-inverse`, `text-content-primary`, `text-content-secondary`, `text-content-muted`, `text-content-inverse`, `text-content-link`, and `text-content-on-accent`.
+
 ### 1.2 Typography
 
 Three font families, each with a clear job. No custom fonts — platform stacks for instant load and zero FOUT.
@@ -216,7 +237,7 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 | `.code-block` | Multi-line `<pre><code>` panel with optional `.copy` button slot |
 | `.dialog` | Styling for native `<dialog>` with backdrop blur; `inkwell-interactions.js` can wire `data-dialog-open="id"` and `data-dialog-close` with focus restoration |
 | `.tabs` (+ `.tab` / `.tab-panel`) | Tab nav; the companion handles selected state, roving focus, reachable panels, disabled tabs, RTL, and vertical Up/Down navigation with `aria-orientation="vertical"`. |
-| `.tooltip` (with `[data-tooltip]`) | Hoverable hint on hover or contained focus. Load the companion for Escape dismissal; provide the text in an accessible name or `aria-describedby` target. |
+| `.tooltip` (with `[data-tooltip]`) | Hoverable hint on hover or contained focus. Load the companion for viewport placement and Escape dismissal; provide the text in an accessible name or `aria-describedby` target. |
 | `.breadcrumbs` | `<ol>` list with `/` separators; `aria-current="page"` for the leaf |
 | `.pagination` | Numbered page list with prev/next; `aria-current="page"` for the active page |
 | `.skeleton` (+ `.is-text` / `.is-title` / `.is-block` / `.is-circle`) | Shimmer placeholder; reduced-motion-safe |
@@ -277,12 +298,13 @@ Inkwell ships with WCAG-conscious defaults. The notable choices:
 - **Reduced motion is honored.** `@media (prefers-reduced-motion: reduce)` shortens animations and transitions to ~0ms. The dialog pop, loading spinner, skeleton shimmer, and switch-knob slide all degrade gracefully.
 - **Color is never the only signal.** Status chips pair color with an explicit dot or label; alerts pair color with a serif title; form errors pair the `--rust` border with an explicit `.field-error` text node. Don't introduce a "danger" state that only changes a hue.
 - **Native semantics first.** `<dialog>` for modals (focus trap, ESC, `::backdrop` for free), real `<input type="checkbox">` and `<input type="radio">` for selection (preserving keyboard interaction), `<kbd>` for keyboard chips. The components style native elements rather than rebuilding them.
-- **Reference pages demonstrate the full contract.** Every published page has one visible `h1`, one `main` landmark, a working skip link, canonical and theme-color metadata, and no page-level horizontal overflow at 375px. Wide tables scroll inside `.tbl-scroll`.
+- **Reference pages demonstrate the full contract.** Every published page has one visible `h1`, one `main` landmark, a working skip link, canonical and theme-color metadata, and no page-level horizontal overflow at 375px and 320px. Wide tables scroll inside `.tbl-scroll`.
 - **Invalid state is programmatic.** `aria-invalid="true"` applies error styling directly; `.is-error` remains a visual compatibility class. Invalid controls must reference visible `.field-error` copy with `aria-describedby`; set the state when validation supplies an actual error.
 - **Forced colors retain native affordances.** Checkbox, radio, switch, and select return to native appearance. System colors preserve focus, selected tabs, and the active carousel indicator. The system does not opt out of the user's palette with `forced-color-adjust: none`.
 - **Text can grow controls.** Buttons, segmented options, and pagination use minimum heights with padding. `.card-grid` shrinks below its preferred 280px column minimum when its container is narrower.
 - **Tabs respect orientation and availability.** Horizontal arrows follow the reading direction; vertical lists use Up/Down. Disabled and `aria-disabled="true"` tabs are skipped. Panels default to `tabindex="0"` unless the author explicitly supplies a value. Automatic activation is suitable for panels available without loading latency.
 - **Tooltips persist and dismiss.** The bubble stays open while hovered or while its trigger/wrapper has focus. Load `inkwell-interactions.js` for Escape dismissal without moving focus. Generated `data-tooltip` text supplements an accessible name or description; it never replaces one.
+- **Enhanced hints stay inside the viewport.** The companion measures the bubble on entry/focus, clamps horizontal placement, and flips it below a trigger when there is more room there. Resize and scroll updates preserve focused hints. Hidden bubbles do not expand the page's scroll area. Keep hints concise; use visible help or a disclosure for long instructions and touch-critical content.
 - **Touch targets stay compact where appropriate.** Desktop controls preserve Inkwell's dense rhythm; under `pointer: coarse`, interactive components reach a minimum 44×44 CSS pixels.
 - **`::selection` is slate-on-oat.** Selected text gets `--oat` behind `--slate` — the accent tint was too faint to register as a selection highlight.
 - **Print always renders light.** The manual dark theme (`[data-theme="dark"]` blocks) is wrapped in `@media screen`, so a dark-toggled page still prints on the light palette.
@@ -340,6 +362,7 @@ inkwell/
 │                             declares @theme aliases + @custom-variant dark
 ├── inkwell-interactions.js ← optional tabs, carousel, dialog, and tooltip behavior
 ├── tokens.json             ← machine-readable mirror for Figma plugins / Style Dictionary
+├── inkwell.tokens.json     ← optional typed DTCG 2025.10 export, all palettes/modes
 ├── component-manifest.json ← machine-readable public component contract
 ├── index.html              ← starter template (copy as seed of a new project)
 ├── preview.html            ← comprehensive component showcase
@@ -361,6 +384,12 @@ inkwell/
 The split between `inkwell-tokens.css` and `inkwell-components.css` exists so both entries can wrap components inside a cascade layer while keeping `:root` tokens unlayered — `inkwell.css` uses `@layer inkwell` (your unlayered CSS always overrides Inkwell components), `inkwell-theme.css` uses `@layer components` (Tailwind utilities override them). Link `inkwell.css` and the whole tree resolves; link `inkwell-theme.css` from Tailwind v4 entry CSS and the same source files do double duty.
 
 To switch palettes, load the relevant `variants/*.css` file after `inkwell.css`. Each variant overrides only the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) — the structural layer stays untouched. Tailwind v4 users load the variant after the Tailwind build output so the `:root` overrides win the cascade; see [`TAILWIND.md`](TAILWIND.md) for cascade-order guidance.
+
+### Optional design-token interchange
+
+`inkwell.tokens.json` follows the stable [DTCG Format and Color modules, 2025.10](https://www.designtokens.org/TR/2025.10/format/). Shared dimensions, font stacks, durations, easing curves, and z-index values live under `foundation`; palette-dependent values live under `palettes.<indigo|clay|sage|burgundy|azure>.<light|dark>`. These are ordinary groups, not a proprietary modes extension. Colors use typed sRGB components and alpha, borders/shadows use composite values, and aliases remain typed references.
+
+The export is optional and never loaded by the CSS. Generate it with `node scripts/build-design-tokens.mjs`, verify drift with `--check`, and validate type/reference contracts with `node --test tests/token-export.test.mjs`. `tokens.json` remains the existing Inkwell-specific mirror, with additive semantic alias entries. Both derive from canonical CSS; never hand-edit either JSON file.
 
 ### Palettes
 

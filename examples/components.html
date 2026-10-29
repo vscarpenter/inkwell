@@ -76,11 +76,12 @@
         <span class="eyebrow">Adoption reference · v3.5.0</span>
         <h1 class="t-display" style="margin: var(--sp-3) 0;">Components, with the contract attached.</h1>
         <p class="t-lede reference-intro">Copy the markup, then read the anatomy and accessibility notes before adapting it. This page is generated from <code>component-manifest.json</code>, so agents, maintainers, and humans share one inventory.</p>
+        <p class="reference-intro">New custom surfaces can opt into <code>--surface-panel</code> and <code>--text-primary</code>. Existing components keep their palette-token overrides. The optional <code>inkwell.tokens.json</code> export carries typed tokens for design tools.</p>
       </header>
 
       <aside class="callout is-accent">
         <div class="callout-label">Install first</div>
-        <p class="callout-body">Link <code>inkwell.css</code>. Add <code>inkwell-interactions.js</code> only for tabs, carousel controls, or declarative dialogs.</p>
+        <p class="callout-body">Link <code>inkwell.css</code>. Add <code>inkwell-interactions.js</code> for tabs, carousel controls, declarative dialogs, or viewport-aware, dismissible tooltips.</p>
       </aside>
 
       <nav class="reference-index" aria-label="Component index" id="component-index"></nav>
@@ -896,10 +897,10 @@
         <div class="reference-contract">
           <section><h3 class="t-h3">Anatomy</h3><ul><li>Apply .tooltip and data-tooltip to a trigger or its wrapper.</li><li>Keep essential instructions visible; the bubble is a supplemental visual hint.</li></ul></section>
           <section><h3 class="t-h3">Modifiers</h3><ul><li>No public modifiers.</li></ul></section>
-          <section><h3 class="t-h3">States</h3><ul><li>Hover, contained focus, pointer over the bubble, and Escape-dismissed until the next entry or focus.</li></ul></section>
-          <section><h3 class="t-h3">Accessibility</h3><ul><li>Provide the hint in an accessible description; CSS generated content alone is not a reliable description.</li><li>Load the companion for Escape dismissal without moving focus.</li><li>Use a disclosure or visible help when instructions must be available on touch devices.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Hover, contained focus, pointer over the bubble, and Escape-dismissed until the next entry or focus.</li><li>The companion clamps the bubble to the viewport and places it below when there is too little room above; active hints reposition on scroll and resize.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Provide the hint in an accessible description; CSS generated content alone is not a reliable description.</li><li>Load the companion for viewport placement and Escape dismissal without moving focus.</li><li>Use a disclosure or visible help when instructions must be available on touch devices.</li></ul></section>
         </div>
-        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">Load inkwell-interactions.js for Escape dismissal; CSS supplies hover/focus presentation.</p></div></div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">Load inkwell-interactions.js for viewport placement and Escape dismissal; CSS supplies hover/focus presentation.</p></div></div>
         <div class="code-block">
           <button class="copy" type="button" data-copy-code="component-code-tooltip">Copy markup</button>
           <pre><code id="component-code-tooltip">&lt;button class=&quot;btn btn-secondary tooltip&quot; type=&quot;button&quot; data-tooltip=&quot;Save your current draft&quot; aria-label=&quot;Save&quot; aria-describedby=&quot;reference-save-hint&quot;&gt;Save&lt;/button&gt;

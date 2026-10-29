@@ -69,6 +69,14 @@ Every HTML page in the Pages artifact also carries a `data-inkwell-deployed` `<t
 
 ## Architecture: one token layer, five palettes
 
+### Semantic aliases and optional export
+
+The `--surface-*` / `--text-*` color aliases are additive. Variants continue overriding the original palette tokens; aliases resolve on `:root`. Existing components retain original tokens and local primitive overrides; semantic adoption is opt-in through custom CSS or Tailwind utilities. Expose new semantic color aliases in `inkwell-theme.css` and its inline demo mapping in `examples/tailwind.html`.
+
+Keep the original `tokens.json` schema compatible. Run `node scripts/build-tokens-json.mjs` for its additive alias entries. `node scripts/build-design-tokens.mjs` generates the optional `inkwell.tokens.json` DTCG 2025.10 export from CSS; `--check` verifies drift and `node --test tests/token-export.test.mjs` checks coverage, types, aliases, and palette/mode resolution. CI runs all three. Do not hand-edit either JSON file or introduce consumer tooling for these maintainer exports.
+
+Browser coverage discovers every published HTML page from `examples/` and `examples/variants/`, checks light/dark/auto and 640/320px layout-equivalent zoom widths, and tests tooltip dismissal on pages that ship hints. Tooltip pages must load the companion. Linux Firefox can run in the matching official Playwright container when the macOS runtime cannot start; use a read-only immutable source snapshot and write test artifacts outside it.
+
 Inkwell has one token layer (`inkwell-tokens.css`) and one component layer (`inkwell-components.css`). The five palettes — **Indigo & Cloud** (canonical), **Clay**, **Sage & Stone**, **Burgundy & Bone**, **Azure & Ink** — share both layers; variants are override-only stylesheets that redefine the brand-layer tokens (`--accent`, `--ivory`, `--slate`, `--oat`, neutral scale) as single `light-dark()` declarations in `:root`; they inherit canonical's `color-mix()` derived tints unless the contrast gate forced a different alpha.
 
 Variant files (`variants/clay.css`, `variants/sage.css`, `variants/burgundy.css`, `variants/azure.css`) are ~50 lines each. Load them **after** `inkwell.css` to switch the brand layer:

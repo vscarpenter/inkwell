@@ -429,9 +429,9 @@
       "since": "1.3.0",
       "anatomy": ["Apply .tooltip and data-tooltip to a trigger or its wrapper.", "Keep essential instructions visible; the bubble is a supplemental visual hint."],
       "modifiers": ["No public modifiers."],
-      "states": ["Hover, contained focus, pointer over the bubble, and Escape-dismissed until the next entry or focus."],
-      "accessibility": ["Provide the hint in an accessible description; CSS generated content alone is not a reliable description.", "Load the companion for Escape dismissal without moving focus.", "Use a disclosure or visible help when instructions must be available on touch devices."],
-      "javascript": "Load inkwell-interactions.js for Escape dismissal; CSS supplies hover/focus presentation.",
+      "states": ["Hover, contained focus, pointer over the bubble, and Escape-dismissed until the next entry or focus.", "The companion clamps the bubble to the viewport and places it below when there is too little room above; active hints reposition on scroll and resize."],
+      "accessibility": ["Provide the hint in an accessible description; CSS generated content alone is not a reliable description.", "Load the companion for viewport placement and Escape dismissal without moving focus.", "Use a disclosure or visible help when instructions must be available on touch devices."],
+      "javascript": "Load inkwell-interactions.js for viewport placement and Escape dismissal; CSS supplies hover/focus presentation.",
       "markup": "<button class=\"btn btn-secondary tooltip\" type=\"button\" data-tooltip=\"Save your current draft\" aria-label=\"Save\" aria-describedby=\"reference-save-hint\">Save</button>\n<span class=\"sr-only\" id=\"reference-save-hint\">Save your current draft</span>"
     }
   ]

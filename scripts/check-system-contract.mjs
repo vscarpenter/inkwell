@@ -129,6 +129,10 @@ for (const file of htmlFiles) {
   // Validate actual local asset/navigation targets. Ignore fragments, schemes,
   // generated code examples, and remote canonical/social links.
   const markupOnly = html.replace(/<pre\b[\s\S]*?<\/pre>/gi, "");
+  if (/<[^>]+class=["'][^"']*\btooltip\b[^"']*["']/i.test(markupOnly)
+      && !/<script\b[^>]*src=["'][^"']*inkwell-interactions\.js["']/i.test(html)) {
+    fail(file, "custom tooltips must load the companion for Escape dismissal");
+  }
   for (const match of markupOnly.matchAll(/<(?:a|link|script|img|iframe)\b[^>]*(?:href|src)=["']([^"']+)["'][^>]*>/gi)) {
     const target = match[1];
     if (!target || /^(?:#|[a-z]+:|\/\/)/i.test(target)) continue;

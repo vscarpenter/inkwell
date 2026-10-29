@@ -6,6 +6,7 @@ const { expect, test } = require("playwright/test");
 async function render(page, markup) {
   await page.goto("/inkwell.css");
   await page.setContent(`<!doctype html><html lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/inkwell.css">
     <style>body { padding: 24px; } main { max-width: 640px; }</style>
     </head><body><main>${markup}</main></body></html>`);
@@ -148,4 +149,107 @@ test("pointer users can move onto a tooltip and dismiss it with Escape", async (
   await expect.poll(() => tooltip.evaluate((el) => getComputedStyle(el, "::after").opacity)).toBe("1");
   await page.keyboard.press("Escape");
   await expect.poll(() => tooltip.evaluate((el) => getComputedStyle(el, "::after").opacity)).toBe("0");
+});
+
+async function tooltipBounds(tooltip) {
+  return tooltip.evaluate((el) => {
+    const host = el.getBoundingClientRect();
+    const style = getComputedStyle(el, "::after");
+    const parent = getComputedStyle(el);
+    const extra = (axis) => style.boxSizing === "border-box" ? 0 : axis === "x"
+      ? parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth)
+      : parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
+    const width = parseFloat(style.width) + extra("x");
+    const height = parseFloat(style.height) + extra("y");
+    const transform = new DOMMatrixReadOnly(style.transform === "none" ? undefined : style.transform);
+    const left = host.left + parseFloat(parent.borderLeftWidth) + parseFloat(style.left) + transform.m41;
+    const top = style.top !== "auto"
+      ? host.top + parseFloat(parent.borderTopWidth) + parseFloat(style.top) + transform.m42
+      : host.bottom - parseFloat(parent.borderBottomWidth) - parseFloat(style.bottom) - height + transform.m42;
+    return { left, top, right: left + width, bottom: top + height };
+  });
+}
+
+test("long tooltips stay inside every viewport corner", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 480 });
+  for (const position of ["left: 0; top: 0", "right: 0; top: 0", "left: 0; bottom: 0", "right: 0; bottom: 0"]) {
+    await render(page, `<button class="btn tooltip" style="position: fixed; ${position}" data-tooltip="A longer translated hint with enough words to wrap onto several readable lines without clipping at the viewport boundary." aria-label="Save">Save</button>`);
+    const tooltip = page.locator(".tooltip");
+    await tooltip.focus();
+    await expect.poll(async () => {
+      const box = await tooltipBounds(tooltip);
+      return box.left >= 0 && box.top >= 0 && box.right <= 320 && box.bottom <= 480;
+    }, { message: `Tooltip must fit at ${position}` }).toBe(true);
+  }
+});
+
+test("focused tooltip placement follows viewport resize", async ({ page }) => {
+  await page.setViewportSize({ width: 800, height: 600 });
+  await render(page, `<button class="btn tooltip" style="position: fixed; right: 0; top: 12px" data-tooltip="Save your current draft before leaving this workspace." aria-label="Save">Save</button>`);
+  const tooltip = page.locator(".tooltip");
+  await tooltip.focus();
+  await page.setViewportSize({ width: 320, height: 480 });
+  await expect.poll(async () => {
+    const box = await tooltipBounds(tooltip);
+    return box.left >= 0 && box.top >= 0 && box.right <= 320 && box.bottom <= 480;
+  }).toBe(true);
+  await expect(tooltip).toBeFocused();
+});
+
+test("focused tooltip changes side when scrolling leaves too little room above", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 480 });
+  await render(page, `<div style="height: 1600px"><button class="btn tooltip" style="margin-top: 250px" data-tooltip="Save your current draft before leaving this workspace." aria-label="Save">Save</button></div>`);
+  const tooltip = page.locator(".tooltip");
+  await tooltip.focus();
+  await expect(tooltip).toHaveAttribute("data-inkwell-tooltip-side", "above");
+  await page.evaluate(() => scrollTo(0, 264));
+  await expect(tooltip).toHaveAttribute("data-inkwell-tooltip-side", "below");
+  const box = await tooltipBounds(tooltip);
+  expect(box.top).toBeGreaterThanOrEqual(0);
+  expect(box.bottom).toBeLessThanOrEqual(480);
+  await expect(tooltip).toBeFocused();
+});
+
+test("long translated labels wrap without hiding selection controls", async ({ page }) => {
+  await render(page, `<div id="narrow" style="width: 240px">
+    <button class="btn btn-secondary" style="width: 100%">Benachrichtigungseinstellungen</button>
+    <div class="segmented"><button>Benachrichtigungseinstellungen</button><button>Übersicht</button></div>
+    <label class="checkbox"><input type="checkbox"><span>Benachrichtigungseinstellungen für alle Arbeitsbereiche</span></label>
+    <label class="radio"><input type="radio"><span>Benachrichtigungseinstellungen für alle Arbeitsbereiche</span></label>
+    <label class="switch"><input type="checkbox"><span>Benachrichtigungseinstellungen für alle Arbeitsbereiche</span></label>
+    </div>`);
+  const size = await page.locator("#narrow").evaluate((el) => ({ width: el.clientWidth, scroll: el.scrollWidth }));
+  expect(size.scroll).toBeLessThanOrEqual(size.width);
+  for (const selector of [".checkbox input", ".radio input", ".switch input"]) {
+    const box = await page.locator(selector).boundingBox();
+    expect(box.width + 0.01).toBeGreaterThanOrEqual(selector.startsWith(".switch") ? 36 : 18);
+  }
+});
+
+test("semantic aliases follow all palettes and allow additive consumer overrides", async ({ page }) => {
+  const aliases = {
+    "surface-page": "ivory", "surface-panel": "paper", "surface-subtle": "gray-100", "surface-inverse": "slate",
+    "text-primary": "slate", "text-secondary": "gray-700", "text-muted": "gray-500", "text-inverse": "ivory",
+    "text-link": "accent-ink", "text-on-accent": "on-accent",
+  };
+  const probes = Object.entries(aliases).map(([alias, original]) => `<span data-alias="${alias}" style="color: var(--${alias})">Alias</span><span data-original="${original}" style="color: var(--${original})">Original</span>`).join("");
+  for (const palette of ["indigo", "clay", "sage", "burgundy", "azure"]) {
+    await render(page, probes);
+    if (palette !== "indigo") await page.addStyleTag({ url: `/variants/${palette}.css` });
+    for (const mode of ["light", "dark"]) {
+      await page.evaluate((mode) => document.documentElement.setAttribute("data-theme", mode), mode);
+      const colors = await page.evaluate((pairs) => pairs.map(([alias, original]) => ({
+        alias, value: getComputedStyle(document.querySelector(`[data-alias="${alias}"]`)).color,
+        original: getComputedStyle(document.querySelector(`[data-original="${original}"]`)).color,
+      })), Object.entries(aliases));
+      for (const pair of colors) expect(pair.value, `${palette}/${mode}/${pair.alias}`).toBe(pair.original);
+    }
+  }
+  await render(page, `<article class="consumer-panel" style="background: var(--surface-panel)">Consumer panel</article><article class="card">Existing card</article><span id="paper" style="color: var(--paper)">Original</span>`);
+  const original = await page.locator("#paper").evaluate((el) => getComputedStyle(el).color);
+  await page.addStyleTag({ content: ":root { --surface-panel: var(--oat); }" });
+  const background = await page.locator(".consumer-panel").evaluate((el) => getComputedStyle(el).backgroundColor);
+  expect(background).not.toBe(original);
+  await expect(page.locator(".card")).toHaveCSS("background-color", original);
+  await expect(page.locator("#paper")).toHaveCSS("color", original);
 });

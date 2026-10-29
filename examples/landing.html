@@ -38,7 +38,10 @@
     })();
   </script>
   <style>
-    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .landing-hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr); gap: var(--sp-7); align-items: center; margin: 32px 0 80px; }
+    .landing-hero > * { min-width: 0; }
+    @media (max-width: 860px) { .landing-hero { grid-template-columns: minmax(0, 1fr); gap: var(--sp-5); } }
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
     .feature-card { padding: 22px; }
     .feature-icon { width: 36px; height: 36px; border-radius: var(--r-sm); display: inline-grid; place-items: center; background: var(--accent-tint); color: var(--accent); margin-bottom: 14px; }
   </style>
@@ -75,14 +78,14 @@
         </div>
       </nav>
 
-      <section style="display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr); gap: 48px; align-items: center; margin: 32px 0 80px;">
+      <section class="landing-hero">
         <div>
-          <span class="eyebrow">Design system · v1.2</span>
+          <span class="eyebrow">Design system</span>
           <h1 class="t-display" style="font-size: clamp(38px, 5.4vw, 62px); margin: 16px 0 18px; max-width: 14ch;">
             A design system that <em class="accent">reads like a magazine.</em>
           </h1>
           <p class="t-body" style="max-width: 56ch; color: var(--gray-700); margin: 0 0 28px; font-size: 17px;">
-            Inkwell is a pure-CSS toolkit for product UI, dashboards, and editorial interfaces. Two files, no build step, light and dark modes out of the box, and a serif-led typography system that makes ordinary product screens feel considered.
+            Inkwell is a pure-CSS toolkit for product UI, dashboards, and editorial interfaces. Three CSS files, no build step, light and dark modes out of the box, and a serif-led typography system that makes ordinary product screens feel considered.
           </p>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <a class="btn btn-primary" href="docs.html" style="height: 42px; padding: 0 22px; font-size: 15px;">Get started</a>
@@ -111,7 +114,7 @@
           <div class="card feature-card">
             <span class="feature-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 14V4h12v10M3 14l4-3 3 2 5-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             <h3 class="t-h3" style="margin: 0 0 8px;">Pure CSS, zero deps</h3>
-            <p class="t-small" style="margin: 0;">No bundler, no preprocessor, no runtime. Two files you copy in. Tokens are visible, editable, and grep-able.</p>
+            <p class="t-small" style="margin: 0;">No bundler or preprocessor. Three CSS files you copy in, plus an optional interaction companion. Tokens are visible, editable, and grep-able.</p>
           </div>
           <div class="card feature-card">
             <span class="feature-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5"/></svg></span>
@@ -143,7 +146,7 @@
 
       <section style="margin: 80px auto; padding: 0 24px; max-width: 640px;">
         <blockquote class="pullquote">
-          The only design system that ships in two files and still looks like it took a year.
+          A design system that ships in three CSS files and still looks like it took a year.
         </blockquote>
         <p class="t-caption" style="text-align: center; margin-top: 16px; text-transform: uppercase; letter-spacing: 0.06em;">— a designer who actually reads CSS</p>
       </section>
@@ -156,7 +159,7 @@
         </details>
         <details class="disclosure">
           <summary>Can I use this in React, Vue, or Svelte?</summary>
-          <p>Yes — Inkwell is framework-agnostic. Link <code>inkwell.css</code> from your <code>&lt;head&gt;</code> (or import it from your app entry), then use the class names in your JSX/templates. There's no JavaScript runtime to integrate.</p>
+          <p>Yes — Inkwell is framework-agnostic. Link <code>inkwell.css</code> from your <code>&lt;head&gt;</code> (or import it from your app entry), then use the class names in your JSX/templates. Load the optional dependency-free companion for tabs, enhanced carousel controls, dialogs, and tooltip dismissal.</p>
         </details>
         <details class="disclosure">
           <summary>How do I add a new color palette?</summary>
@@ -202,5 +205,6 @@
     </div>
   </main>
   <script src="demo.js"></script>
+  <script src="inkwell-interactions.js"></script>
 </body>
 </html>

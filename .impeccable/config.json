@@ -22,6 +22,52 @@
         ],
         "createdAt": "2026-10-29T15:04:19.061Z",
         "reason": "Agent triage: intentional type-scale specimen documented in DESIGN_SYSTEM.md section 1.2. Browser-resolved display/h1/h2/h3 sizes are 48/32/24/19px against 16px body; the detector incorrectly resolves every imported CSS token role to 16px. Applies only to the canonical showcase and its deployed mirror."
+      },
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          "examples/tailwind.html"
+        ],
+        "createdAt": "2026-10-29T16:01:19.215Z",
+        "reason": "Agent triage: DESIGN_SYSTEM.md section 1.2 defines 11px eyebrow metadata. Browser inspection confirms only short text-eyebrow labels use 11px; body is 16px, explanatory copy 14px, and theme actions use the 12px caption token. This is an intentional token demonstration."
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "examples/components.html"
+        ],
+        "createdAt": "2026-10-29T16:01:19.320Z",
+        "reason": "Agent triage: browser-resolved reference-contract sections have 16px padding on every side and 1.5px borders. Static scanning fails to resolve padding var(--sp-4); all 144 reports refer to these generated contract sections."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "examples/components.html",
+          "examples/landing.html"
+        ],
+        "createdAt": "2026-10-29T16:01:19.401Z",
+        "reason": "Agent triage: imported type tokens resolve in the browser to 38px responsive landing h1, 27px section h2, and 19px h3 against 16px body; component reference resolves to 48/24/19px against 16px body. The static detector resolves imported roles to 16px. Preserve the documented serif type scale."
+      },
+      {
+        "rule": "all-caps-body",
+        "value": "*",
+        "files": [
+          "examples/landing.html"
+        ],
+        "createdAt": "2026-10-29T16:01:19.479Z",
+        "reason": "Agent triage: browser inspection identifies two short 12px t-caption metadata lines (license/install metadata and quote credit), not body passages. This is the documented caption treatment; paragraphs remain mixed case."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "examples/search.html"
+        ],
+        "createdAt": "2026-10-29T16:03:51.234Z",
+        "reason": "Agent triage: the visible t-h1 resolves to 32px against 17px result titles and 16px body. New visually hidden h2 headings repair the document outline; they are not visual size roles. The detector incorrectly resolves imported h1 typography to 16px."
       }
     ]
   }

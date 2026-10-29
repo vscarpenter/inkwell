@@ -43,6 +43,16 @@ That's the whole install — no `tailwind.config.js`, no JS preset. You get Inkw
 
 > Tailwind v3 is not supported — v3 requires a JS preset that conflicts with the no-build pitch. See [`TAILWIND.md`](TAILWIND.md) for the full guide (the `border-inkwell` convention, components-vs-utilities rule, cascade-order check) and [`examples/tailwind.html`](examples/tailwind.html) for a live demo that opens in a browser without a toolchain. The deprecated `border-hair` utility remains through 3.x; the CSS token `--border-hair` still correctly means a 1px internal divider.
 
+## Semantic names and design-tool export
+
+Palette-named tokens remain supported. New color aliases make intent explicit: `--surface-page`, `--surface-panel`, `--surface-subtle`, `--surface-inverse`, `--text-primary`, `--text-secondary`, `--text-muted`, `--text-inverse`, `--text-link`, and `--text-on-accent`. They follow the active root palette in both modes. Adopt them in custom CSS or semantic Tailwind utilities; existing components retain their original token contract, including local primitive overrides.
+
+Tailwind exposes `bg-surface-page`, `bg-surface-panel`, and `text-content-primary` with corresponding surface/content variants. Existing utilities such as `bg-paper` and `text-slate` remain available.
+
+For design-tool exchange, [`inkwell.tokens.json`](inkwell.tokens.json) is an optional DTCG 2025.10 export. It contains shared `foundation` tokens and explicit `palettes.<name>.<light|dark>` groups for all five palettes, preserving typed aliases. It is generated from CSS and is not loaded by browsers or required for installation. The existing `tokens.json` schema and values remain compatible; the aliases are additive.
+
+Maintainers regenerate/check the optional export with `node scripts/build-design-tokens.mjs` / `--check` and verify types/references with `node --test tests/token-export.test.mjs`.
+
 ## Using with an AI coding agent
 
 Point Claude Code, Codex, Cursor, or any other LLM coding tool at [`agent-instructions.md`](agent-instructions.md) — a self-contained brief that walks the agent through fetching the right CSS files, the hard rules (1.5px borders, one accent, tokens-not-literals), palette switching, and the anti-patterns before it writes any markup.

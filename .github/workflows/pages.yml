@@ -33,6 +33,8 @@ jobs:
       - name: Verify generated files and public contract
         run: |
           node scripts/build-tokens-json.mjs --check
+          node scripts/build-design-tokens.mjs --check
+          node --test tests/token-export.test.mjs
           node scripts/build-changelog-html.mjs --check
           node scripts/build-components-reference.mjs --check
           node scripts/stamp-deployment.mjs --check

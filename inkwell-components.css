@@ -126,6 +126,7 @@ body {
 }
 .byline {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 12px;
   font: 12px var(--mono);          /* mono earns its place HERE — actual metadata */
@@ -184,12 +185,15 @@ code, .code-inline {
   align-items: center;
   justify-content: center;
   min-height: 38px;
+  min-width: 0;
+  max-width: 100%;
   padding: 8px 16px;
   font-family: var(--sans);
   font-size: 14px;
   font-weight: 500;
   line-height: 1.4;
   text-align: center;
+  overflow-wrap: anywhere;
   border-radius: var(--r-sm);
   border: 1.5px solid transparent;
   cursor: pointer;
@@ -236,6 +240,8 @@ code, .code-inline {
 .input,
 .textarea,
 .select {
+  min-width: 0;
+  max-width: 100%;
   padding: 0 12px;
   font: 14px var(--sans);
   color: var(--slate);
@@ -366,6 +372,15 @@ code, .code-inline {
 }
 .switch input:checked { background: var(--accent); }
 .switch input:checked::after { left: 18px; }
+
+/* Long translations must wrap beside the control without shrinking its
+   visible state indicator or creating a page-level overflow. */
+.checkbox,
+.radio,
+.switch { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+.checkbox input,
+.radio input,
+.switch input { flex-shrink: 0; }
 
 /* ---------- Keyboard chip (<kbd>) ---------- */
 kbd, .kbd {
@@ -770,6 +785,7 @@ pre.code-block { margin: 0; font: inherit; color: inherit; white-space: pre; }
    .is-active. Use for 2–4 short labels: theme toggle, view modes, filters. */
 .segmented {
   display: inline-flex;
+  max-width: 100%;
   align-items: center;
   background: var(--paper);
   border: var(--border);
@@ -785,6 +801,7 @@ pre.code-block { margin: 0; font: inherit; color: inherit; white-space: pre; }
   min-height: 30px;
   min-width: 0;
   padding: 6px 12px;
+  overflow-wrap: anywhere;
   font: 500 13px/1.2 var(--sans);
   color: var(--gray-700);
   background: transparent;
@@ -805,12 +822,15 @@ pre.code-block { margin: 0; font: inherit; color: inherit; white-space: pre; }
 /* ---------- Tooltip ([data-tooltip] on any element) ---------- */
 .tooltip { position: relative; display: inline-flex; }
 .tooltip[data-tooltip]::after {
+  box-sizing: border-box;
+  /* An invisible off-screen bubble must not expand the page's scroll area. */
+  display: none;
   content: attr(data-tooltip);
   content: attr(data-tooltip) / "";
   position: absolute;
   bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: var(--_tooltip-left, 50%);
+  transform: var(--_tooltip-transform, translateX(-50%));
   background: var(--slate);
   background-clip: padding-box;
   /* Transparent border bridges the hover gap without taking ::before,
@@ -821,7 +841,7 @@ pre.code-block { margin: 0; font: inherit; color: inherit; white-space: pre; }
   padding: 5px 9px;
   border-radius: var(--r-xs);
   width: max-content;
-  max-width: min(32ch, calc(100vw - 32px));
+  max-width: min(32ch, var(--_tooltip-max-width, calc(100vw - 32px)));
   white-space: normal;
   overflow-wrap: anywhere;
   pointer-events: none;
@@ -830,8 +850,14 @@ pre.code-block { margin: 0; font: inherit; color: inherit; white-space: pre; }
   z-index: var(--z-overlay);
 }
 .tooltip[data-tooltip]:hover::after,
-.tooltip[data-tooltip]:focus-within::after { opacity: 1; pointer-events: auto; }
-.tooltip[data-tooltip][data-inkwell-tooltip-dismissed]::after { opacity: 0; pointer-events: none; }
+.tooltip[data-tooltip]:focus-within::after { display: block; opacity: 1; pointer-events: auto; }
+.tooltip[data-tooltip][data-inkwell-tooltip-dismissed]::after { display: none; opacity: 0; pointer-events: none; }
+.tooltip[data-inkwell-tooltip-side="below"]::after {
+  top: 100%;
+  bottom: auto;
+  border-bottom: none;
+  border-top: 6px solid transparent;
+}
 
 /* ---------- Breadcrumbs ---------- */
 .breadcrumbs {
@@ -1089,6 +1115,9 @@ pre.code-block { margin: 0; font: inherit; color: inherit; white-space: pre; }
 }
 .carousel-dots {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-width: 0;
   align-items: center;
   gap: var(--sp-1);
 }

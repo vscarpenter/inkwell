@@ -155,7 +155,7 @@ These show up often when agents integrate Inkwell without reading the full file:
 - **Adding webfonts "for polish".** Platform stacks only — no Google Fonts, no `@font-face`. Webfonts break the zero-FOUT install story.
 - **Using separate dark-mode token blocks instead of `light-dark()`.** Every color token is one declaration with both mode values. Alpha tints derive via `color-mix()` from their base — do not hand-roll `@media (prefers-color-scheme: dark)` color overrides.
 - **Fixing text-bearing controls to a height.** Use minimum heights and padding; enlarged text and translated labels must be able to grow the control.
-- **Using tooltip text as the only label or instruction.** Supply a visible label and accessible description; load the companion for Escape dismissal. Use visible help or disclosures for touch-critical instructions.
+- **Using tooltip text as the only label or instruction.** Supply a visible label and accessible description; load the companion for viewport placement and Escape dismissal. Use visible help or disclosures for touch-critical instructions.
 
 ---
 
@@ -177,6 +177,12 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 - `--olive-dark` — olive as text or solid fill (badge-success, stat deltas)
 - `--rust` — danger / deletions
 - `--sky` — alternate info / second data-viz hue
+
+**Semantic color aliases (additive)**
+- `--surface-page`, `--surface-panel`, `--surface-subtle`, `--surface-inverse` — surfaces following the active root palette
+- `--text-primary`, `--text-secondary`, `--text-muted`, `--text-inverse`, `--text-link`, `--text-on-accent` — text roles
+- Existing components retain palette-named tokens and local primitive overrides. Use semantic aliases in new custom CSS or opt-in Tailwind utilities. Keep page-wide primitive/semantic overrides on `:root`.
+- Tailwind exposes `bg-surface-*` and `text-content-*`. The optional `inkwell.tokens.json` DTCG export is for design tools, not a browser install dependency; `tokens.json` remains compatible.
 
 **Type**
 - `--serif`, `--sans`, `--mono` — font stacks (platform-only; serif stack details in hard rule 5)
@@ -368,7 +374,7 @@ From `DESIGN_SYSTEM.md` §4. If you catch yourself doing any of these, stop:
 6. Compose with the component classes in §5. For unique layouts, write thin per-page CSS that *only references tokens*.
 7. Use `--content-default` (920px) as the default max-width; reach for `--content-narrow` for prose, `--content-wide` for dashboards.
 8. Give the page one visible `h1`, one `main` landmark, and a skip link to that landmark. Add canonical and theme-color metadata.
-9. Verify auto, light, and dark at desktop and 375px. Check keyboard behavior and confirm no page-level horizontal overflow. Coarse-pointer targets should reach 44 by 44 CSS pixels.
+9. Verify auto, light, and dark at desktop, 375px, and 640/320px layout-equivalent zoom widths. Check keyboard behavior and confirm no page-level horizontal overflow. Coarse-pointer targets should reach 44 by 44 CSS pixels.
 10. If you add custom colored tokens or tints, put both mode values in one `light-dark(light, dark)` declaration with a lifted dark value. Prefer `color-mix()` from an existing base token for alpha tints — do not hand-write separate `rgba()` values per mode or add `@media (prefers-color-scheme: dark)` color blocks.
 
 ---
@@ -401,7 +407,7 @@ Before declaring the integration done:
 - Run the app's existing lint, test, typecheck, and build commands when they exist. Do not invent new commands.
 - Open the changed page or app locally and check at least one desktop and one mobile viewport.
 - Verify light, dark, and auto theme behavior.
-- Confirm one visible `h1`, one `main`, a working skip link, canonical/theme-color metadata, and no page-level horizontal overflow at 375px.
+- Confirm one visible `h1`, one `main`, a working skip link, canonical/theme-color metadata, and no page-level horizontal overflow at 375px and 320px.
 - Confirm invalid fields use `aria-invalid="true"` and reference visible error copy with `aria-describedby`.
 - Check focus, hover, disabled, loading, empty, validation/error, dialog, tab, and navigation states that appear in the changed surface.
 - Confirm there are no new console errors, broken routes, missing CSS files, or layout shifts caused by loading `inkwell.css`.
