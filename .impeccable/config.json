@@ -1,0 +1,28 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "files": [
+          "examples/inkwell-tokens.css",
+          "inkwell-tokens.css"
+        ],
+        "createdAt": "2026-10-29T15:04:18.987Z",
+        "reason": "Agent triage: preserve the pre-existing slight-overshoot token documented in DESIGN_SYSTEM.md section 1.7; used for the 150ms native-dialog reveal from scale 0.96, with reduced-motion overrides. No motion redesign was requested."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "examples/preview.html",
+          "preview.html"
+        ],
+        "createdAt": "2026-10-29T15:04:19.061Z",
+        "reason": "Agent triage: intentional type-scale specimen documented in DESIGN_SYSTEM.md section 1.2. Browser-resolved display/h1/h2/h3 sizes are 48/32/24/19px against 16px body; the detector incorrectly resolves every imported CSS token role to 16px. Applies only to the canonical showcase and its deployed mirror."
+      }
+    ]
+  }
+}

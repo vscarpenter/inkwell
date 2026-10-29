@@ -55,3 +55,12 @@ The first eight component regression tests failed against the original implement
 4. **Plan a measured relative-type and internationalization pass.** Test browser font preferences and translated labels before migrating the pixel-based type scale to relative units. Audit physical properties, select arrows, and carousel scroll coordinates before advertising full RTL support. The tab fix alone does not establish that support.
 
 These are recommendations, not implemented features. The highest-leverage remaining step is native accessibility verification; a broad visual redesign is not needed for the issues found in this review.
+
+## Design-hook follow-up
+
+Two hook warnings were reviewed against current source, the baseline commit, and browser-resolved values. Neither required a visual change:
+
+- `bounce-easing`: the existing `--ease-pop` value is explicitly documented as a slight overshoot in §1.7 of `DESIGN_SYSTEM.md`, used for the 150ms native dialog reveal, and covered by the reduced-motion override. Its exact value is excepted only in the canonical token file and its example mirror.
+- `flat-type-hierarchy`: the detector reported every heading as 16px, while the browser resolves display/h1/h2/h3 to 48/32/24/19px against a 16px body. This is a false positive on the intentional typography specimen. Only this rule is excepted in the canonical preview and its example mirror.
+
+The exceptions were persisted through Impeccable's `hooks ignore-value` command in `.impeccable/config.json`. The follow-up scan has no warnings; an advisory about em-dash frequency remains unsuppressed. No copy changes or broader rule/file exclusions were made.
