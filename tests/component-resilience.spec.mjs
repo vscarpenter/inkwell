@@ -21,12 +21,17 @@ test("text controls use functional borders and expose ARIA invalid styling", asy
     <label>Choice <select class="select"><option>One</option></select></label>
     <input class="input is-error" aria-label="Legacy error">
     <input class="input" aria-label="ARIA error" aria-invalid="true" aria-describedby="error">
-    <p id="error" class="field-error">Enter a valid value.</p>`);
-  const border = await page.locator(".checkbox input").evaluate((el) => getComputedStyle(el).borderColor);
-  for (const selector of ["input[type=email]", ".textarea", ".select"]) {
+    <p id="error" class="field-error">Enter a valid value.</p>
+    <span id="boundary-probe" style="border: var(--control-border)"></span>
+    <span id="error-probe" style="border-color: var(--rust)"></span>`);
+  // Reference non-animated probes: Firefox may still be transitioning the
+  // checkbox's initial border when the stylesheet first becomes available.
+  const border = await page.locator("#boundary-probe").evaluate((el) => getComputedStyle(el).borderColor);
+  for (const selector of [".checkbox input", "input[type=email]", ".textarea", ".select"]) {
     await expect(page.locator(selector)).toHaveCSS("border-color", border);
   }
-  const errorBorder = await page.locator(".is-error").evaluate((el) => getComputedStyle(el).borderColor);
+  const errorBorder = await page.locator("#error-probe").evaluate((el) => getComputedStyle(el).borderColor);
+  await expect(page.getByLabel("Legacy error")).toHaveCSS("border-color", errorBorder);
   await expect(page.getByLabel("ARIA error")).toHaveCSS("border-color", errorBorder);
 });
 
