@@ -5,6 +5,7 @@ import { buildDtcg } from "../scripts/build-design-tokens.mjs";
 import { parseSource, parseDeclarations, extractBlock, stripComments } from "../scripts/build-tokens-json.mjs";
 
 const document = buildDtcg();
+const legacy = JSON.parse(readFileSync(new URL("../tokens.json", import.meta.url), "utf8"));
 const tokens = new Map();
 function collect(group, path = []) {
   for (const [name, entry] of Object.entries(group)) {
@@ -37,6 +38,16 @@ function color(value) {
   assert.equal(value.components.length, 3);
   for (const channel of [...value.components, value.alpha]) assert.ok(Number.isFinite(channel) && channel >= 0 && channel <= 1);
 }
+
+test("relative typography keeps legacy pixel references and typed rem dimensions", () => {
+  const baseline = {display:48,h1:32,h2:24,h3:19,lede:20,body:16,small:14,caption:12,eyebrow:11};
+  assert.equal(legacy.typography.reference_root_px, 16);
+  for (const [role, px] of Object.entries(baseline)) {
+    assert.equal(legacy.typography.size[role].px, px);
+    assert.equal(legacy.typography.size[role].css, `${px / 16}rem`);
+    assert.deepEqual(document.foundation[`t-${role}`].$value, {value:px / 16,unit:"rem"});
+  }
+});
 
 test("every CSS token is present for every palette and mode", () => {
   const canonical = parseSource().vars;

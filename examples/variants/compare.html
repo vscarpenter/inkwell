@@ -40,8 +40,8 @@
     color: #F6F4EE;
     overflow: hidden;
   }
-  .skip-link { position: absolute; left: -9999px; z-index: 100; padding: 10px 16px; color: #1A1A18; background: #F6F4EE; }
-  .skip-link:focus { left: 12px; top: 12px; }
+  .skip-link { position: absolute; inset-inline-start: 12px; top: 12px; max-width: calc(100% - 24px); clip-path: inset(50%); z-index: 100; padding: 10px 16px; color: #1A1A18; background: #F6F4EE; }
+  .skip-link:focus { clip-path: none; }
 
   .layout {
     display: flex;
@@ -56,12 +56,12 @@
     align-items: center;
     gap: 14px;
     border-bottom: 1px solid #2C2C29;
-    font-size: 13px;
+    font-size: 0.8125rem;
     flex-wrap: wrap;
   }
   .topbar h1 {
     margin: 0;
-    font: 600 14px/1 ui-sans-serif, system-ui;
+    font: 600 0.875rem/1 ui-sans-serif, system-ui;
     letter-spacing: 0.01em;
   }
   .topbar .sep { color: #67645d; }
@@ -71,7 +71,7 @@
     flex-wrap: wrap;
   }
   .topbar .toolbar-right {
-    margin-left: auto;
+    margin-inline-start: auto;
     display: flex;
     align-items: center;
     gap: 18px;
@@ -83,7 +83,7 @@
     gap: 8px;
   }
   .topbar .topbar-label {
-    font: 600 10px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    font: 600 0.75rem/1 ui-monospace, "SF Mono", Menlo, monospace;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: #87867F;
@@ -93,7 +93,7 @@
     background: #2C2C29;
     color: #F6F4EE;
     border: 1px solid transparent;
-    font: 600 11px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    font: 600 0.6875rem/1 ui-monospace, "SF Mono", Menlo, monospace;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     padding: 6px 11px;
@@ -106,7 +106,7 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    margin-right: 6px;
+    margin-inline-end: 6px;
     vertical-align: middle;
   }
   .topbar .toggle[aria-pressed="true"] {
@@ -133,13 +133,13 @@
     min-width: 0;
     background: #fff;
   }
-  .panel + .panel { border-left: 1px solid #2C2C29; }
+  .panel + .panel { border-inline-start: 1px solid #2C2C29; }
   .panel[hidden] { display: none; }
 
   .label {
     flex: 0 0 auto;
     padding: 10px 16px;
-    font: 600 11px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    font: 600 0.6875rem/1 ui-monospace, "SF Mono", Menlo, monospace;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     border-bottom: 1.5px solid currentColor;
@@ -179,7 +179,7 @@
     border-top: 1px solid #2C2C29;
     color: #87867F;
     background: #1A1A18;
-    font: 500 10px/1.2 ui-monospace, "SF Mono", Menlo, monospace;
+    font: 500 0.75rem/1.2 ui-monospace, "SF Mono", Menlo, monospace;
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
@@ -199,7 +199,7 @@
       overflow-x: visible;
     }
     .panel + .panel {
-      border-left: 0;
+      border-inline-start: 0;
       border-top: 1px solid #2C2C29;
     }
     iframe { height: 75vh; }
@@ -295,7 +295,7 @@
   </div>
 
   <footer class="deploy-meta">
-    <a href="../changelog.html" data-inkwell-version>Inkwell v3.5.0</a>
+    <a href="../changelog.html" data-inkwell-version>Inkwell v3.6.0</a>
     <span aria-hidden="true">·</span>
     <time data-inkwell-deployed datetime="">Deployment pending</time>
   </footer>

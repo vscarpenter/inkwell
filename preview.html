@@ -42,8 +42,8 @@
   .grid-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
   .swatch { display: flex; flex-direction: column; gap: 6px; }
   .swatch .chip { height: 64px; border-radius: var(--r-sm); border: var(--border); }
-  .swatch .hex { font: 12px var(--mono); color: var(--gray-700); }
-  .swatch .tok { font: 11px var(--mono); color: var(--gray-500); }
+  .swatch .hex { font: 0.75rem var(--mono); color: var(--gray-700); }
+  .swatch .tok { font: 0.6875rem var(--mono); color: var(--gray-500); }
   .stage {
     background: var(--paper); border: var(--border);
     border-radius: var(--r-md); padding: 24px;
@@ -58,15 +58,15 @@
     background: var(--paper);
     position: fixed;
     top: 14px;
-    right: 76px;  /* sits left of #theme-toggle (which is at right: 14px) */
+    inset-inline-end: 76px;  /* sits left of #theme-toggle (which is at right: 14px) */
     z-index: 50;
     max-width: calc(100vw - 104px);
     overflow-x: auto;
   }
   .palette-toggle .btn {
-    height: 28px;
+    min-height: 28px;
     padding: 0 10px;
-    font-size: 12px;
+    font-size: 0.75rem;
   }
   .palette-toggle .is-active {
     background: var(--accent);
@@ -152,8 +152,8 @@
       <button class="btn btn-danger" type="button">Delete</button>
     </div>
     <div class="stage" style="margin-top: 14px;">
-      <input class="input" type="text" placeholder="Search tasks…">
-      <input class="input" type="text" value="Weekly planning">
+      <div class="field"><label class="field-label" for="preview-search">Search tasks</label><input id="preview-search" class="input" type="text" placeholder="Search tasks…" autocomplete="off"></div>
+      <div class="field"><label class="field-label" for="preview-project">Project name</label><input id="preview-project" class="input" type="text" value="Weekly planning" autocomplete="off"></div>
       <label class="checkbox"><input type="checkbox"> Notify assignees</label>
       <label class="checkbox"><input type="checkbox" checked> Archive on complete</label>
     </div>
@@ -237,7 +237,7 @@
         <div class="stat-delta down">▼ needs attention</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num">98<span style="font-size: 22px;">%</span></div>
+        <div class="stat-num">98<span style="font-size: 1.375rem;">%</span></div>
         <div class="stat-label">Test coverage</div>
         <div class="stat-delta up">▲ 1.2pp</div>
       </div>
@@ -280,17 +280,17 @@
     </div>
     <div class="timeline">
       <div class="tl-entry">
-        <div style="font: 11px var(--mono); color: var(--gray-500);">14:02 UTC</div>
+        <div style="font: 0.6875rem var(--mono); color: var(--gray-500);">14:02 UTC</div>
         <div class="t-h3">Deploy of v3.4.1 lands</div>
         <div class="t-small">Routine release of the planner refactor — no flags toggled.</div>
       </div>
       <div class="tl-entry">
-        <div style="font: 11px var(--mono); color: var(--gray-500);">14:09 UTC</div>
+        <div style="font: 0.6875rem var(--mono); color: var(--gray-500);">14:09 UTC</div>
         <div class="t-h3">First 502s observed</div>
         <div class="t-small">Pager fires. Error rate climbs from baseline 0.01% to 4.2% within 90 seconds.</div>
       </div>
       <div class="tl-entry">
-        <div style="font: 11px var(--mono); color: var(--gray-500);">14:29 UTC</div>
+        <div style="font: 0.6875rem var(--mono); color: var(--gray-500);">14:29 UTC</div>
         <div class="t-h3">Mitigated</div>
         <div class="t-small">Rolling restart applied; error rate returns to baseline within 4 minutes.</div>
       </div>
@@ -306,22 +306,22 @@
       <a class="card is-link" href="#">
         <div class="t-h3">Three code approaches</div>
         <div class="t-small" style="margin: 6px 0 14px;">Side-by-side comparison of three ways to solve the same problem.</div>
-        <div style="font: 11px var(--mono); color: var(--gray-500); border-top: var(--border-hair); padding-top: 10px; display: flex; justify-content: space-between;">
-          <span>01-exploration.html</span><span>→</span>
+        <div style="font: 0.6875rem var(--mono); color: var(--gray-500); border-top: var(--border-hair); padding-top: 10px; display: flex; justify-content: space-between;">
+          <span>01-exploration.html</span><span class="icon-directional" aria-hidden="true">→</span>
         </div>
       </a>
       <a class="card is-link" href="#">
         <div class="t-h3">Visual design directions</div>
         <div class="t-small" style="margin: 6px 0 14px;">A handful of layout and palette options rendered live.</div>
-        <div style="font: 11px var(--mono); color: var(--gray-500); border-top: var(--border-hair); padding-top: 10px; display: flex; justify-content: space-between;">
-          <span>02-visual.html</span><span>→</span>
+        <div style="font: 0.6875rem var(--mono); color: var(--gray-500); border-top: var(--border-hair); padding-top: 10px; display: flex; justify-content: space-between;">
+          <span>02-visual.html</span><span class="icon-directional" aria-hidden="true">→</span>
         </div>
       </a>
       <a class="card is-link" href="#">
         <div class="t-h3">Implementation plan</div>
         <div class="t-small" style="margin: 6px 0 14px;">Milestones on a timeline, data-flow diagram, risk table.</div>
-        <div style="font: 11px var(--mono); color: var(--gray-500); border-top: var(--border-hair); padding-top: 10px; display: flex; justify-content: space-between;">
-          <span>16-plan.html</span><span>→</span>
+        <div style="font: 0.6875rem var(--mono); color: var(--gray-500); border-top: var(--border-hair); padding-top: 10px; display: flex; justify-content: space-between;">
+          <span>16-plan.html</span><span class="icon-directional" aria-hidden="true">→</span>
         </div>
       </a>
     </div>
@@ -422,13 +422,13 @@
     <div class="stage" style="flex-direction: column; align-items: stretch; gap: 14px;">
       <div>
         <label class="radio"><input type="radio" name="pv-theme" checked> Match system</label>
-        <label class="radio" style="margin-left: 14px;"><input type="radio" name="pv-theme"> Always light</label>
-        <label class="radio" style="margin-left: 14px;"><input type="radio" name="pv-theme"> Always dark</label>
+        <label class="radio" style="margin-inline-start: 14px;"><input type="radio" name="pv-theme"> Always light</label>
+        <label class="radio" style="margin-inline-start: 14px;"><input type="radio" name="pv-theme"> Always dark</label>
       </div>
       <div>
         <label class="switch"><input type="checkbox" checked> Two-factor required</label>
-        <label class="switch" style="margin-left: 14px;"><input type="checkbox"> Public profile</label>
-        <label class="switch" style="margin-left: 14px;"><input type="checkbox" checked> Quiet hours respect timezone</label>
+        <label class="switch" style="margin-inline-start: 14px;"><input type="checkbox"> Public profile</label>
+        <label class="switch" style="margin-inline-start: 14px;"><input type="checkbox" checked> Quiet hours respect timezone</label>
       </div>
     </div>
   </section>
@@ -469,7 +469,7 @@
     </div>
     <div class="code-block">
       <button class="copy" type="button" onclick="navigator.clipboard?.writeText(this.nextElementSibling.innerText)">Copy</button>
-      <pre><code>const dialog = document.querySelector('#confirm');
+      <pre dir="ltr" lang="en"><code>const dialog = document.querySelector('#confirm');
 document.querySelector('#open').addEventListener('click', () =&gt; {
   dialog.showModal();
 });</code></pre>
@@ -512,7 +512,7 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
         <button class="tab" role="tab" id="pv-tab-overview" aria-selected="true" aria-controls="pv-panel-overview" type="button">Overview</button>
         <button class="tab" role="tab" id="pv-tab-members" aria-selected="false" aria-controls="pv-panel-members" type="button" tabindex="-1">Members</button>
         <button class="tab" role="tab" id="pv-tab-billing" aria-selected="false" aria-controls="pv-panel-billing" type="button" tabindex="-1">Billing</button>
-        <button class="tab" role="tab" id="pv-tab-activity" aria-selected="false" aria-controls="pv-panel-activity" type="button" tabindex="-1">Activity <span style="color: var(--gray-500); font: 11px var(--mono); margin-left: 6px;">12</span></button>
+        <button class="tab" role="tab" id="pv-tab-activity" aria-selected="false" aria-controls="pv-panel-activity" type="button" tabindex="-1">Activity <span style="color: var(--gray-500); font: 0.6875rem var(--mono); margin-inline-start: 6px;">12</span></button>
       </div>
       <div class="tab-panel" role="tabpanel" id="pv-panel-overview" aria-labelledby="pv-tab-overview" tabindex="0">
         <p class="t-small" style="margin: 0; color: var(--gray-700);">Tab panels are unstyled containers. The reference script synchronizes <code>aria-selected</code>, roving tabindex, keyboard navigation, and <code>[hidden]</code>.</p>
@@ -567,14 +567,14 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
       <span class="count">aria-current="page"</span>
     </div>
     <ol class="pagination">
-      <li><a href="#" aria-label="Previous">←</a></li>
+      <li><a href="#" aria-label="Previous"><span class="icon-directional" aria-hidden="true">←</span></a></li>
       <li><a aria-current="page" href="#">1</a></li>
       <li><a href="#">2</a></li>
       <li><a href="#">3</a></li>
       <li><a href="#">4</a></li>
       <li><span class="ellipsis">…</span></li>
       <li><a href="#">12</a></li>
-      <li><a href="#" aria-label="Next">→</a></li>
+      <li><a href="#" aria-label="Next"><span class="icon-directional" aria-hidden="true">→</span></a></li>
     </ol>
   </section>
 
@@ -838,11 +838,11 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
 <!-- Light/Dark/Auto toggle -->
 <button class="btn btn-ghost" id="theme-toggle" type="button"
   aria-label="Cycle theme: auto, light, dark"
-  style="position: fixed; top: 14px; right: 14px; z-index: 50;
+  style="position: fixed; top: 14px; inset-inline-end: 14px; z-index: 50;
          padding: 7px 12px; border-radius: 999px;
          border: 1.5px solid var(--gray-300);
          background: var(--paper); color: var(--gray-700);
-         font: 600 11px/1 var(--mono); letter-spacing: 0.08em;
+         font: 600 0.6875rem/1 var(--mono); letter-spacing: 0.08em;
          text-transform: uppercase; cursor: pointer;
          display: inline-flex; align-items: center; gap: 8px;
          transition: border-color 0.12s, color 0.12s, background 0.12s;">
@@ -953,7 +953,7 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
         Made with hairlines and serifs by <a class="link" href="https://vinny.dev">Vinny Carpenter</a>. The 1.5px is on purpose.
       </p>
       <footer class="t-caption" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 8px; margin: -8px 0 24px; font-family: var(--mono);">
-        <a class="link" href="https://inkwell.vinny.dev/changelog.html" data-inkwell-version>Inkwell v3.5.0</a>
+        <a class="link" href="https://inkwell.vinny.dev/changelog.html" data-inkwell-version>Inkwell v3.6.0</a>
         <span aria-hidden="true">·</span>
         <time data-inkwell-deployed datetime="">Deployment pending</time>
       </footer>

@@ -51,6 +51,8 @@ Inkwell's tokens are aliased into Tailwind's namespace, so all of these utility 
 
 **Type** — `font-serif`, `font-sans`, `font-mono`, plus `text-display`, `text-h1`, `text-h2`, `text-h3`, `text-lede`, `text-body`, `text-small`, `text-caption`, `text-eyebrow`. Each bundles line-height, letter-spacing, and font-weight, so a single utility like `text-h1` produces the same rendering as the `.t-h1` class. **Note:** Tailwind v4's `--text-*` modifier set doesn't include `font-style`, so `text-lede` ships size/line-height/weight only. The pure-CSS `.t-lede` class is italic; in Tailwind markup, pair the utility with `italic` — `class="font-serif text-lede italic text-gray-700"`.
 
+Type aliases resolve to Inkwell's `rem` tokens. Leave the root font size unset, avoid pixel-size utility overrides, and use HTML `lang` / `dir` for RTL or nested direction scopes. Prefer logical Tailwind utilities (`ms-*`, `me-*`, `ps-*`, `pe-*`, `text-start`) in custom layouts. The shared components already follow start/end; `.icon-directional` mirrors reading-direction arrows only.
+
 **Radii** — `rounded-xs`, `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl`, `rounded-full`
 
 **The 1.5px border signature** — `border-inkwell` (see the next section)

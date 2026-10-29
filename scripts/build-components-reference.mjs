@@ -45,7 +45,7 @@ function render(component, index) {
         <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">${escapeHtml(component.javascript)}</p></div></div>
         <div class="code-block">
           <button class="copy" type="button" data-copy-code="${codeId}">Copy markup</button>
-          <pre><code id="${codeId}">${escapeHtml(component.markup)}</code></pre>
+          <pre dir="ltr" lang="en"><code id="${codeId}">${escapeHtml(component.markup)}</code></pre>
         </div>
       </article>`;
 }

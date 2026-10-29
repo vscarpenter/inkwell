@@ -91,27 +91,31 @@ The serif stack drops `ui-serif` (which resolves to wildly different fonts acros
 | **Sans** (system-ui) | Body text, buttons, labels. The default. |
 | **Mono** | File names, hex codes, code chips, byline metadata, table-numeric cells. Anything that signals "technical metadata." Also used by `.eyebrow` for product/dashboard contexts; editorial contexts get `.eyebrow-serif` instead. |
 
-Type scale (use the `.t-*` classes shipped in `inkwell-components.css`):
+Type scale (use the `.t-*` classes shipped in `inkwell-components.css`). Sizes are `rem`; the pixel equivalents below use the browser's usual 16px root. Leave `html` / `:root` font size unset so the reader's default font preference controls the scale. Local type overrides must use relative units too. Optical borders, spacing, and radii retain their existing pixel values.
 
-| Class | Family | Size | Line-height | Weight | Tracking |
+| Class | Family | Size (16px reference) | Line-height | Weight | Tracking |
 |---|---|---|---|---|---|
-| `.t-display` | serif | 48px | 1.05 | 600 | -0.025em |
-| `.t-h1` | serif | 32px | 1.2 | 600 | -0.018em |
-| `.t-h2` | serif | 24px | 1.3 | 600 | -0.012em |
-| `.t-h3` | serif | 19px | 1.22 | 600 | -0.01em |
-| `.t-lede` | serif italic | 20px | 1.5 | 400 | — |
-| `.t-body` | sans | 16px | 1.55 | 430 | — |
-| `.t-small` | sans | 14px | 1.5 | 430 | — |
-| `.t-caption` | sans | 12px | 1.4 | 500 | — |
-| `.eyebrow` | mono | 11px | 1 | 500 | 0.12em, UPPERCASE |
-| `.eyebrow-serif` | serif italic | 13px | — | 400 | 0.02em |
+| `.t-display` | serif | 3rem (48px) | 1.05 | 600 | -0.025em |
+| `.t-h1` | serif | 2rem (32px) | 1.2 | 600 | -0.018em |
+| `.t-h2` | serif | 1.5rem (24px) | 1.3 | 600 | -0.012em |
+| `.t-h3` | serif | 1.1875rem (19px) | 1.22 | 600 | -0.01em |
+| `.t-lede` | serif italic | 1.25rem (20px) | 1.5 | 400 | — |
+| `.t-body` | sans | 1rem (16px) | 1.55 | 430 | — |
+| `.t-small` | sans | 0.875rem (14px) | 1.5 | 430 | — |
+| `.t-caption` | sans | 0.75rem (12px) | 1.4 | 500 | — |
+| `.eyebrow` | mono | 0.6875rem (11px) | 1 | 500 | 0.12em, UPPERCASE |
+| `.eyebrow-serif` | serif italic | 0.8125rem (13px) | — | 400 | 0.02em |
 
 Headlines run weight 600 — anything lighter loses its serifs to anti-aliasing on screen and the system reads as "sans with bumps" rather than confident editorial. `.t-lede` is the deck/intro paragraph that sits between a headline and the body in long-form prose. `.eyebrow-serif` is the magazine-kicker alternative to the mono `.eyebrow`: use mono for product/dashboard contexts, serif for editorial.
 
 Heading hero pattern uses `clamp()` for fluid scaling:
 ```css
-font-size: clamp(38px, 5.4vw, 62px);
+font-size: clamp(2.375rem, 0.75rem + 4.2vw, 3.875rem);
 ```
+
+Fluid text combines a relative preferred size with viewport scaling and relative bounds. It grows with font preferences without promising the same proportional increase at every viewport. The nine fixed type roles scale directly with the root. Copy buttons occupy their own row above code, so translated labels and enlarged text cannot obscure it.
+
+`tokens.json` retains its numeric typography `px` fields as 16px-reference values for existing consumers, adds each role's `css` value, and declares `typography.reference_root_px: 16`. Do not treat those reference numbers as browser-computed sizes. The optional DTCG export records the actual `rem` dimensions; Tailwind's existing `text-*` aliases follow the same CSS tokens.
 
 ### 1.3 Spacing
 
@@ -260,7 +264,7 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 | Class | Purpose |
 |---|---|
 | `.dropcap` | First-letter ornament — 4.2em serif, floated, accent-colored. Apply to a paragraph. |
-| `.pullquote` | Indented serif-italic block with a 1.5px accent left-rule — magazine-style pulled quote |
+| `.pullquote` | Indented serif-italic block with a 1.5px accent rule at reading start — magazine-style pulled quote |
 | `.byline` (+ `.author`) | Dateline + author block — mono caps for the metadata, italic serif for the author's name |
 | `figure.figure` (+ `figcaption`) | Image/video wrapper with bordered media and italic-serif rule-anchored caption |
 
@@ -283,6 +287,8 @@ These will break the look — avoid them:
 - **Hardcoded hex values in component CSS.** Always reference tokens. Adding a new variant later (or theming for a customer) is trivial when everything is tokenized — painful when literals are scattered.
 - **Decorative hairlines on text controls.** Use `--control-border` for edges that identify an input, textarea, select, checkbox, or radio.
 - **Fixed heights on text-bearing controls.** Use minimum heights and padding so translated, resized, or spaced text can grow the control.
+- **Fixed root or pixel text sizes.** Leave the browser root alone; use `--t-*`, `rem`, or contextual `em`. Keep optical pixel borders and structural dimensions deliberate.
+- **Direction through CSS or reversed source order.** Declare HTML `dir`; use logical start/end properties and preserve meaningful DOM order. Mirror only icons whose meaning follows reading direction.
 - **Essential information only in a tooltip.** Keep labels and instructions visible; generated tooltip text is not a reliable accessible description. Custom hints need hover persistence and Escape dismissal.
 
 ---
@@ -311,6 +317,27 @@ Inkwell ships with WCAG-conscious defaults. The notable choices:
 - **Print always renders light.** The manual dark theme (`[data-theme="dark"]` blocks) is wrapped in `@media screen`, so a dark-toggled page still prints on the light palette.
 
 All five palettes pass `scripts/check-contrast.mjs` — a zero-dependency WCAG gate asserting 240 token-pair ratios (text at 4.5:1, non-text at 3:1) across both modes — and CI runs it alongside the tokens.json drift check.
+
+### Reading direction and language
+
+Set `<html lang="ar" dir="rtl">` or `<html lang="he" dir="rtl">` for an RTL page. A nested component can set its own `dir` and `lang`; do not use CSS `direction` as the document's language/direction declaration. Component borders, padding, alignment, switch travel, and copy/close affordances follow logical start/end. No row-reversal override is needed.
+
+```html
+<section lang="ar" dir="rtl">
+  <h2 class="t-h2">مساحة للقراءة</h2>
+  <p>المشروع <bdi>Inkwell 42</bdi> · البريد <bdi dir="ltr">ada@example.com</bdi></p>
+  <label class="field">الاسم <input class="input" dir="auto" name="name"></label>
+  <div lang="en" dir="ltr"><code>const count = 12;</code></div>
+</section>
+```
+
+Use `<bdi>` for runtime names/identifiers whose direction is unknown, `dir="auto"` for free text, and explicit LTR islands for code, email, and URLs when their format requires it. Authors provide localized labels, slide names, `aria-label`, and `aria-roledescription`; Inkwell does not translate content. `lang` enables script-aware tracking and leading: Arabic, Persian, Urdu, and Hebrew labels avoid Latin tracking/uppercase; Arabic-family headings have extra leading. Platform glyph fallback still varies by OS.
+
+Wrap reading-direction arrows in `<span class="icon-directional" aria-hidden="true">→</span>`. The utility mirrors in RTL; direct SVG children of `.carousel-btn` mirror automatically. Do not apply it to logos, checkmarks, numeric deltas, media-play symbols, or keyboard-key diagrams. Select chevron placement and tooltip viewport coordinates deliberately retain physical geometry internally.
+
+Carousel Previous/Next and dots follow document slide order. Left/Right keys follow the track's direction, while Home/End reach the first/last document slide. Geometry handles negative RTL scroll offsets; resizing preserves selection. After changing `dir`, call `InkwellInteractions.init(carousel)` again to realign the selected slide. Set `data-carousel-dot-label="انتقل إلى الشريحة {current} من {total}"` on the carousel to localize generated dot labels; numbers use its inherited `lang`. Supply all other accessible text in markup. Reinitialize after changing language/template to refresh dot labels too.
+
+The regression fixture is `tests/fixtures/typography-direction.html`. Tests cover root sizes 16/20/24/32 at 1280/640/320px, both directions on every published page, nested scopes, Arabic/Hebrew, all palettes/modes, and real Firefox font preferences. This is a layout and interaction contract, not certification of every language, translation, OS text-scaling setting, or assistive technology.
 
 If you extend the system, normal text must clear 4.5:1 against its surface; large text and visual information needed to identify controls or states must clear 3:1. Redundant icons or labels do not waive applicable contrast requirements. Decorative and inactive elements have different requirements. These defaults and automated checks do not establish whole-page WCAG conformance; verify keyboard, screen reader, zoom, and user-preference behavior in context.
 

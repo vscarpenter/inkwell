@@ -6,7 +6,7 @@ Inkwell ships with the **Indigo & Cloud** palette — cool stone background, dee
 
 ## Live demo
 
-See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — 20 published pages built from the system. Start with the [getting-started guide](https://inkwell.vinny.dev/docs.html), use the generated [component reference](https://inkwell.vinny.dev/components.html) for copyable contracts, use the [full preview](https://inkwell.vinny.dev/preview.html) for visual review, and verify the alternate path in the [Tailwind v4 demo](https://inkwell.vinny.dev/tailwind.html). The gallery also includes product, editorial, marketing, form, search, error, release-note, carousel, and palette-comparison patterns. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`. Every deployed footer identifies the semantic release, commit-derived build number, and UTC deployment date (for example, `v3.5.0+build.N · Deployed Aug 27, 2026`).
+See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — 20 published pages built from the system. Start with the [getting-started guide](https://inkwell.vinny.dev/docs.html), use the generated [component reference](https://inkwell.vinny.dev/components.html) for copyable contracts, use the [full preview](https://inkwell.vinny.dev/preview.html) for visual review, and verify the alternate path in the [Tailwind v4 demo](https://inkwell.vinny.dev/tailwind.html). The gallery also includes product, editorial, marketing, form, search, error, release-note, carousel, and palette-comparison patterns. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`. Every deployed footer identifies the semantic release, commit-derived build number, and UTC deployment date (for example, `v3.6.0+build.N · Deployed Oct 29, 2026`).
 
 ## Quick start
 
@@ -29,6 +29,14 @@ If the page uses tabs, enhanced carousel controls, declarative native-dialog tri
 ```
 
 It auto-initializes and exposes `window.InkwellInteractions.init(root)` for dynamically added markup. Disclosures use native `<details>` and need no JavaScript.
+
+### Reader preferences and RTL
+
+Type tokens and component text use `rem`, retaining their original sizes at a 16px browser default. Leave the root font size unset so larger browser font preferences apply. Text controls grow; tables and code scroll within their containers. Existing `tokens.json` pixel fields remain 16px references, with additive `css` values and `typography.reference_root_px`; DTCG exports the actual `rem` dimensions.
+
+Use HTML `lang` and `dir` on the page or a component, such as `<html lang="ar" dir="rtl">`. Layout and horizontal keyboard navigation follow reading direction, including nested LTR islands. Use `<bdi>` for unknown names, `dir="auto"` for free-text inputs, and explicit LTR islands for code/email when appropriate. Authors supply translations and accessible names. `.icon-directional` mirrors reading-direction arrows; other icons keep their meaning. Carousels accept `data-carousel-dot-label="Chapter {current} of {total}"`; call `InkwellInteractions.init(carousel)` after changing direction or its localized label template.
+
+See [the direction and typography contract](DESIGN_SYSTEM.md#reading-direction-and-language) and [the implementation spec](docs/specs/2026-10-29-relative-type-and-rtl-design.md). The test-only [Arabic/Hebrew fixture](tests/fixtures/typography-direction.html) demonstrates mixed-direction content without adding a public page.
 
 ### Using Tailwind v4?
 
@@ -58,7 +66,7 @@ Maintainers regenerate/check the optional export with `node scripts/build-design
 Point Claude Code, Codex, Cursor, or any other LLM coding tool at [`agent-instructions.md`](agent-instructions.md) — a self-contained brief that walks the agent through fetching the right CSS files, the hard rules (1.5px borders, one accent, tokens-not-literals), palette switching, and the anti-patterns before it writes any markup.
 
 ```
-https://raw.githubusercontent.com/vscarpenter/inkwell/v3.5.0/agent-instructions.md
+https://raw.githubusercontent.com/vscarpenter/inkwell/v3.6.0/agent-instructions.md
 ```
 
 Suggested prompt: *"Read the file at the URL above and use the Inkwell design system in this project."*

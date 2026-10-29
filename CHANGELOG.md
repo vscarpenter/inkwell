@@ -6,13 +6,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [3.6.0] — 2026-10-29
+
 ### Added
+- **Relative type and bidirectional contract.** Nine type tokens and component/example text use `rem`; browser root preferences remain untouched. Logical layout, script-aware Arabic/Hebrew tracking/leading, `.icon-directional`, mixed-content guidance, and localized carousel dot templates support page-level and nested RTL. Legacy JSON pixel references remain compatible with additive CSS values; DTCG exports actual `rem` dimensions.
+- **Typography/direction regression matrix.** Real Firefox default-font preferences, all 20 routes at 16/20/24/32px roots and 1280/640/320px in both directions, Arabic/Hebrew across all palettes/modes, and nested scope/interaction checks.
 - **Semantic color aliases.** Ten opt-in `--surface-*` / `--text-*` aliases express surface and text intent while retaining all existing palette tokens and component override behavior. Tailwind exposes matching surface/content utilities.
 - **Optional DTCG 2025.10 export.** `inkwell.tokens.json` includes every canonical token, all five palettes, both modes, typed aliases, and shared foundations. A zero-dependency generator and type/reference tests protect the export; the existing `tokens.json` remains compatible.
 - **Complete reference-route browser coverage.** All 20 published pages are checked in light/dark/auto, at desktop/mobile sizes and 640/320px zoom-equivalent widths. Regression tests cover viewport-edge hints, resize, long labels, and semantic aliases. Firefox verification can run in the matching official Linux browser container.
 - **Tooltip adoption contract.** The existing tooltip family is now included in the generated catalog, bringing the documented total to 36 without adding a new CSS component.
 
 ### Fixed
+- **RTL carousel navigation.** Slide geometry replaces positive-scroll/offset assumptions; buttons, dots, keys, manual scroll, and resize agree on the selected slide. Reinitialization refreshes direction and localized dot labels without duplicating controls.
+- **Enlarged text reflow.** Badges, keyboard chips, copy/close/carousel controls grow; example grids and long labels shrink/wrap; select values remain within their native single-line field; palette comparison skip links no longer create RTL overflow. Fluid type combines relative and viewport sizing within relative bounds.
 - **Platform-font reflow.** Display headings can break unusually wide words, component-reference headers wrap their permalinks, and the profile activity table scrolls in a named keyboard-reachable region. These close 320px overflow gaps found by Linux CI.
 - **Viewport-edge tooltip placement.** Enhanced hints clamp horizontally, flip above/below, and update on resize/scroll. Hidden bubbles no longer expand page scroll areas. Tooltip-bearing examples load the companion and a contract gate enforces that dependency.
 - **Reference-page reflow and long labels.** Dashboard/landing/search grid children can shrink, profile headers and carousel indicators wrap, and selection indicators retain their size beside long translated labels. Search headings follow a logical outline; landing copy describes the three-file install.
