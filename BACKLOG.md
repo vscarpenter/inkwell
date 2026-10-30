@@ -6,7 +6,7 @@ Move completed work into the relevant documentation and `CHANGELOG.md` under Unr
 
 ## Next
 
-No additional component work is scheduled. The action menu is complete in current source and tracked under Unreleased in `CHANGELOG.md`.
+No additional component work is scheduled. The action menu shipped in 3.9.0; see `CHANGELOG.md` for the completed work.
 
 ## Needs a demonstrated use case
 

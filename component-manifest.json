@@ -1,6 +1,6 @@
 {
   "name": "Inkwell",
-  "version": "3.8.1",
+  "version": "3.9.0",
   "components": [
     {
       "id": "type-styles",
@@ -336,7 +336,7 @@
       "states": ["Container-level horizontal scroll on narrow screens."],
       "accessibility": ["Provide a caption, use th with scope, and keep page-level scrolling vertical."],
       "javascript": "None.",
-      "markup": "<div class=\"tbl-scroll\"><table class=\"tbl\"><caption class=\"sr-only\">Release status</caption><thead><tr><th scope=\"col\">Version</th><th scope=\"col\">Status</th></tr></thead><tbody><tr><td>3.8.1</td><td>Ready</td></tr></tbody></table></div>"
+      "markup": "<div class=\"tbl-scroll\"><table class=\"tbl\"><caption class=\"sr-only\">Release status</caption><thead><tr><th scope=\"col\">Version</th><th scope=\"col\">Status</th></tr></thead><tbody><tr><td>3.9.0</td><td>Ready</td></tr></tbody></table></div>"
     },
     {
       "id": "toc",
@@ -457,7 +457,7 @@
         "[data-menu]",
         "[data-menu-trigger]"
       ],
-      "since": "Unreleased",
+      "since": "3.9.0",
       "anatomy": [
         "A .menu[data-menu] with a direct, initially hidden native button[data-menu-trigger], followed by a visible .menu-panel.",
         "Use native buttons or real links with .menu-item and optional hr.menu-separator. No authored popover/menu roles/tabindex; the companion supplies them."

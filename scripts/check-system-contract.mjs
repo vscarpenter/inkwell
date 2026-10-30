@@ -7,7 +7,7 @@ import { dirname, extname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const VERSION = "3.8.1";
+const VERSION = "3.9.0";
 const failures = [];
 
 function fail(scope, message) {
@@ -41,7 +41,7 @@ for (const file of ["inkwell.css", "tokens.css", "inkwell-tokens.css", "inkwell-
 }
 
 const changelog = read("CHANGELOG.md");
-if (!changelog.includes(`## [${VERSION}] — 2026-10-29`)) fail("CHANGELOG.md", `missing ${VERSION} release section`);
+if (!changelog.includes(`## [${VERSION}] — 2026-10-30`)) fail("CHANGELOG.md", `missing ${VERSION} release section`);
 
 const agentInstructions = read("agent-instructions.md");
 if (!agentInstructions.includes(`/inkwell/v${VERSION}/inkwell.css`)) fail("agent-instructions.md", `raw install URL must pin v${VERSION}`);

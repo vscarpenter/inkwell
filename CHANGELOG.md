@@ -6,6 +6,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [3.9.0] — 2026-10-30
+
 ### Added
 - **Popover action menu.** `.menu[data-menu]`, `.menu-panel`, `.menu-item`, and `.menu-separator` add a single-level command menu through the optional companion. Keyboard entry, wrapping arrows, Home/End, localized typeahead, disabled-item rules, Escape/Tab exits, outside dismissal, and dialog focus restoration share one contract. Native popovers, command invokers, and logical CSS anchors are feature-detected; manual placement/dismissal supports older browsers, nested RTL, clipped hosts, enlarged text, and visual-viewport edges. Without the companion, the action list remains visible as ordinary buttons/links.
 - **Menu adoption and regression coverage.** English/Arabic showcase examples, a workspace-action example, a gallery link, and the generated component contract bring the current-source catalog to 39 families. Browser checks exercise native and forced-fallback paths, no-script behavior, focus, geometry, touch, forced colors, and print. The completed menu item has been removed from the backlog.
