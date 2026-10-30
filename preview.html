@@ -39,7 +39,7 @@
   .wrap-wide { padding-top: 64px; padding-bottom: 120px; }
   section { margin-top: 56px; }
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-  .grid-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: var(--sp-4); }
   .swatch { display: flex; flex-direction: column; gap: 6px; }
   .swatch .chip { height: 64px; border-radius: var(--r-sm); border: var(--border); }
   .swatch .hex { font: 0.75rem var(--mono); color: var(--gray-700); }
@@ -80,9 +80,6 @@
   .palette-toggle .is-active {
     background: var(--accent);
     color: var(--paper);
-  }
-  @media (max-width: 640px) {
-    .grid-stats { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -225,7 +222,7 @@
   </section>
 
   <!-- STAT CARDS -->
-  <section>
+  <section id="stat-cards">
     <div class="sec-head">
       <span class="idx">05</span><h2>Stat cards</h2>
     </div>
@@ -250,6 +247,14 @@
         <div class="stat-label">Test coverage</div>
         <div class="stat-delta up">▲ 1.2pp</div>
       </div>
+    </div>
+    <div id="stat-card-narrow" style="inline-size: 14rem; max-inline-size: 100%; margin-block-start: var(--sp-5);">
+      <p class="t-small">A long value in a narrow host. The number responds to the card width; text can still grow and wrap.</p>
+      <article class="stat-card">
+        <div class="stat-num">1,248,320</div>
+        <div class="stat-label">Processed events</div>
+        <div class="stat-delta up">Up 12,408 since the previous release</div>
+      </article>
     </div>
   </section>
 
@@ -1071,7 +1076,7 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
         Made with hairlines and serifs by <a class="link" href="https://vinny.dev">Vinny Carpenter</a>. The 1.5px is on purpose.
       </p>
       <footer class="t-caption" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 8px; margin: -8px 0 24px; font-family: var(--mono);">
-        <a class="link" href="https://inkwell.vinny.dev/changelog.html" data-inkwell-version>Inkwell v3.10.0</a>
+        <a class="link" href="https://inkwell.vinny.dev/changelog.html" data-inkwell-version>Inkwell v3.11.0</a>
         <span aria-hidden="true">·</span>
         <time data-inkwell-deployed datetime="">Deployment pending</time>
       </footer>

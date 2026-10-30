@@ -234,7 +234,7 @@ The one surviving piece of the old Pattern B duplication is the `.select` chevro
 | `.alert` (+ `.is-info` / `.is-success` / `.is-warning` / `.is-danger`) | Flat-tinted system message; title stays slate, tinted bg + border carry the semantic |
 | `.callout` (+ `.is-accent`) | Two-tier contrast block; neutral base states the reality now, `.is-accent` marks the target. Serif body, accent left spine |
 | `.card` (+ `.is-link`) | Generic card; the `.is-link` variant adds a calm border-color hover shift — no lift, no shadow swap |
-| `.stat-card` (+ `.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a full 1.5px accent border |
+| `.stat-card` (+ `.is-primary`) | Container-aware metric tile; local value sizing, wrapping, and a full 1.5px accent border for primary emphasis |
 | `.findings` / `.finding` | Rule-divided cited stats; each finding adapts to its own available width, including standalone and nested use |
 | `.carousel` (+ `.carousel-track` / `.carousel-slide` / `.carousel-controls`) | Editorial swipeable series on CSS scroll-snap — the core needs zero JS; `inkwell-interactions.js` progressively enhances prev/next, dots, and arrow keys. No autoplay. |
 | `.tbl` | Table with sans header labels and hairline row dividers |
@@ -274,6 +274,14 @@ The one surviving piece of the old Pattern B duplication is the `.select` chevro
 | `figure.figure` (+ `figcaption`) | Image/video wrapper with bordered media and italic-serif rule-anchored caption |
 
 ---
+
+### Container-aware stat cards
+
+Each `.stat-card` supplies a local `inkwell-stat` inline-size context. A direct `.stat-num` child uses card-relative `cqi` sizing bounded at 2–2.75rem; its original 2.75rem declaration remains the fallback. Values and deltas use tabular numerals. Values, labels, and comparison text can wrap without clipping or silently abbreviating the data. Root font preferences remain in control, and the card's block height grows with its content. Keep value units alongside the number, and use `dir="ltr"` or `<bdi>` for mixed-direction numeric content when the domain requires it.
+
+The existing anatomy and `.is-primary` emphasis are unchanged. Put `.stat-num`, `.stat-label`, and optional `.stat-delta` directly inside the card to get local adaptation. A standalone `.stat-num` outside a stat card retains its existing size. Supply available inline space through ordinary block layout, stretched grid/flex tracks, or an explicit width for shrink-to-fit hosts; inline-size containment cannot infer the card's width from its children. Do not apply containment to unrelated page wrappers.
+
+The example-only `.metric-grid` in `examples/demo.css` uses intrinsic columns with a 14rem preferred minimum, capped at its host width. It naturally reflows from three columns to two or one as space or font preferences change, without a viewport breakpoint. This helper is demonstration layout, not an additional public component family. See `examples/dashboard.html` for wide and panel groups, `preview.html#stat-cards` for a narrow long-value card, and `tests/container-metrics.spec.mjs` for the compatibility matrix.
 
 ### Container-aware findings
 

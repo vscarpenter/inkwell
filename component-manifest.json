@@ -1,6 +1,6 @@
 {
   "name": "Inkwell",
-  "version": "3.10.0",
+  "version": "3.11.0",
   "components": [
     {
       "id": "type-styles",
@@ -139,10 +139,10 @@
       "name": "Stat card",
       "selectors": [".stat-card", ".stat-label", ".stat-num", ".stat-delta"],
       "since": "1.0.0",
-      "anatomy": ["Label, prominent value, and optional directional delta."],
+      "anatomy": ["Direct stat-label, stat-num, and optional stat-delta children retain their source order.", "The card supplies an inline-size context; direct values scale within 2–2.75rem while text wraps and block height grows."],
       "modifiers": [".is-primary changes the full border to accent; .up and .down color deltas."],
       "states": ["Default and primary emphasis."],
-      "accessibility": ["Write the direction in text or accessible copy; arrows and color are supplemental."],
+      "accessibility": ["Write the direction in text or accessible copy; arrows and color are supplemental.", "Keep values and units explicit; do not clip or silently abbreviate long metrics. Use bidi isolation where mixed-direction content requires it.", "Supply available width through block/grid/flex layout or an explicitly sized intrinsic host. Honor browser font preferences."],
       "javascript": "None.",
       "markup": "<article class=\"stat-card is-primary\"><div class=\"stat-label\">Adoption</div><div class=\"stat-num\">68%</div><div class=\"stat-delta up\">Up 12%</div></article>"
     },

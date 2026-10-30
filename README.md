@@ -6,7 +6,7 @@ Inkwell ships with the **Indigo & Cloud** palette — cool stone background, dee
 
 ## Live demo
 
-See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — 20 published pages built from the system. Start with the [getting-started guide](https://inkwell.vinny.dev/docs.html), use the generated [component reference](https://inkwell.vinny.dev/components.html) for copyable contracts, use the [full preview](https://inkwell.vinny.dev/preview.html) for visual review, and verify the alternate path in the [Tailwind v4 demo](https://inkwell.vinny.dev/tailwind.html). The gallery also includes product, editorial, marketing, form, search, error, release-note, carousel, and palette-comparison patterns. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`. Every deployed footer identifies the semantic release, commit-derived build number, and UTC deployment date (for example, `v3.10.0+build.N · Deployed Oct 30, 2026`).
+See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — 20 published pages built from the system. Start with the [getting-started guide](https://inkwell.vinny.dev/docs.html), use the generated [component reference](https://inkwell.vinny.dev/components.html) for copyable contracts, use the [full preview](https://inkwell.vinny.dev/preview.html) for visual review, and verify the alternate path in the [Tailwind v4 demo](https://inkwell.vinny.dev/tailwind.html). The gallery also includes product, editorial, marketing, form, search, error, release-note, carousel, and palette-comparison patterns. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`. Every deployed footer identifies the semantic release, commit-derived build number, and UTC deployment date (for example, `v3.11.0+build.N · Deployed Oct 30, 2026`).
 
 The 3.10.0 homepage, [`examples/index.html`](examples/index.html), introduces the system through a working specimen, CSS/agent setup, and a complete example directory. Its page-specific `home.css` / `home.js` are demonstration assets, separate from the consumer files below. The repository-root `index.html` remains the starter template.
 
@@ -35,6 +35,8 @@ It auto-initializes and exposes `window.InkwellInteractions.init(root)` for dyna
 ### Reader preferences and RTL
 
 Type tokens and component text use `rem`, retaining their original sizes at a 16px browser default. Leave the root font size unset so larger browser font preferences apply. Text controls grow; tables and code scroll within their containers. Existing `tokens.json` pixel fields remain 16px references, with additive `css` values and `typography.reference_root_px`; DTCG exports the actual `rem` dimensions.
+
+Stat cards adapt their values to the card's own width and wrap long metrics. The [dashboard source](examples/dashboard.html) demonstrates the same metric group in wide and narrow spaces using an intrinsic example grid. See [container-aware stat cards](DESIGN_SYSTEM.md#container-aware-stat-cards) for markup, sizing responsibilities, and fallback behavior.
 
 Use HTML `lang` and `dir` on the page or a component, such as `<html lang="ar" dir="rtl">`. Layout and horizontal keyboard navigation follow reading direction, including nested LTR islands. Use `<bdi>` for unknown names, `dir="auto"` for free-text inputs, and explicit LTR islands for code/email when appropriate. Authors supply translations and accessible names. `.icon-directional` mirrors reading-direction arrows; other icons keep their meaning. Carousels accept `data-carousel-dot-label="Chapter {current} of {total}"`; call `InkwellInteractions.init(carousel)` after changing direction or its localized label template.
 
@@ -97,7 +99,7 @@ Maintainers regenerate/check the optional export with `node scripts/build-design
 Point Claude Code, Codex, Cursor, or any other LLM coding tool at [`agent-instructions.md`](agent-instructions.md) — a self-contained brief that walks the agent through fetching the right CSS files, the hard rules (1.5px borders, one accent, tokens-not-literals), palette switching, and the anti-patterns before it writes any markup.
 
 ```
-https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0/agent-instructions.md
+https://raw.githubusercontent.com/vscarpenter/inkwell/v3.11.0/agent-instructions.md
 ```
 
 Suggested prompt: *"Read the file at the URL above and use the Inkwell design system in this project."*

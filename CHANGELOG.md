@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [3.11.0] — 2026-10-30
+
+### Changed
+- **Container-aware metric layouts.** Stat cards now size direct value text from their own inline width within 2–2.75rem, retain tabular numerals, and wrap long values, labels, and comparisons. The example metric grid uses intrinsic columns with a root-relative preferred minimum instead of viewport breakpoints. Dashboard wide/panel examples and a narrow showcase card demonstrate reuse without new markup requirements, JavaScript, or a public component family.
+- **Actionable backlog.** Completed metric work is tracked here. Dashboard status colors remain a comparison experiment; the mono/editorial eyebrow split and one-interactive-accent policy are standing decisions with explicit reopening criteria. Further container work still requires a demonstrated use case.
+
 ## [3.10.0] — 2026-10-30
 
 ### Changed

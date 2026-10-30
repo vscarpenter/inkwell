@@ -350,10 +350,10 @@
         </header>
         <p class="reference-selectors"><code>.stat-card</code> <code>.stat-label</code> <code>.stat-num</code> <code>.stat-delta</code></p>
         <div class="reference-contract">
-          <section><h3 class="t-h3">Anatomy</h3><ul><li>Label, prominent value, and optional directional delta.</li></ul></section>
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Direct stat-label, stat-num, and optional stat-delta children retain their source order.</li><li>The card supplies an inline-size context; direct values scale within 2–2.75rem while text wraps and block height grows.</li></ul></section>
           <section><h3 class="t-h3">Modifiers</h3><ul><li>.is-primary changes the full border to accent; .up and .down color deltas.</li></ul></section>
           <section><h3 class="t-h3">States</h3><ul><li>Default and primary emphasis.</li></ul></section>
-          <section><h3 class="t-h3">Accessibility</h3><ul><li>Write the direction in text or accessible copy; arrows and color are supplemental.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Write the direction in text or accessible copy; arrows and color are supplemental.</li><li>Keep values and units explicit; do not clip or silently abbreviate long metrics. Use bidi isolation where mixed-direction content requires it.</li><li>Supply available width through block/grid/flex layout or an explicitly sized intrinsic host. Honor browser font preferences.</li></ul></section>
         </div>
         <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
         <div class="code-block">
@@ -1002,7 +1002,7 @@
       <footer class="page-footer t-small" style="margin-top: var(--sp-7);">
         Generated from <code>component-manifest.json</code>. Treat the manifest and shipped CSS as the public contract.
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.10.0</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.11.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>

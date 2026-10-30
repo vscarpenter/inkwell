@@ -1,19 +1,21 @@
 # Inkwell — Backlog
 
-Things explicitly deferred, not yet decided, or worth exploring next. Items are grouped by readiness: the next substantial feature, ideas that need a demonstrated consumer benefit, and future-major exploration.
+Things explicitly deferred, not yet decided, or worth exploring next. Separate the next experiment, conditional work, standing design decisions, and future-major exploration.
 
 Move completed work into the relevant documentation and `CHANGELOG.md` under Unreleased until a release is published. The retired standalone Audit document's remaining follow-ups are tracked here directly.
 
-## Next
+## Next experiment
 
-No additional work is scheduled. The homepage redesign and appearance-control contrast fix are included in 3.10.0 in `CHANGELOG.md`.
+- **Compare dashboard status treatments** — prototype an opt-in treatment on the existing dashboard before adding `*-strong` tokens. Existing `--olive-dark`, `--warning-dark`, and `--rust` already provide readable status colors. Keep the muted defaults and text/icon cues; add alternatives only if the comparison demonstrates a useful distinction. A decision to retain the existing treatment is a valid outcome.
 
 ## Needs a demonstrated use case
 
-- **Further container-aware components** — `.finding` shipped in 3.8.0. Apply the same approach elsewhere only when a concrete narrow-host case demonstrates a benefit; keep containment local and verify intrinsic sizing, enlarged text, and nested contexts.
-- **Stronger dashboard status colors** — prototype an opt-in treatment on a real dashboard before adding `*-strong` tokens. Existing `--olive-dark`, `--warning-dark`, and `--rust` already provide readable status colors. Add alternatives only when the comparison demonstrates a useful distinction, retaining muted editorial defaults and text/icon cues for meaning.
-- **Replace mono `.eyebrow` entirely** — retain the existing mono product/dashboard role and `.eyebrow-serif` editorial alternative. Revisit only if consumer feedback shows the two-role approach is insufficient. This was option A of the retired audit's item #1; option B already shipped.
-- **Promote `--sky` to secondary interactive** — require a concrete secondary-action need and a full text/fill/focus/state contrast contract before introducing a second interactive hue. The existing `--accent`, `--accent-ink`, and `--on-accent` already separate fill, text, and label jobs; preserve the one-brand-accent principle.
+- **Further container-aware components** — `.finding` shipped in 3.8.0; stat cards and intrinsic metric groups ship in 3.11.0. Choose another component only when a concrete narrow-host case demonstrates a benefit. Prefer intrinsic layout when sufficient; keep containment local and verify sizing, enlarged text, and nested contexts.
+
+## Standing design decisions
+
+- **Keep both eyebrow roles** — `.eyebrow` serves mono product/dashboard metadata; `.eyebrow-serif` serves editorial kickers. Reopen the proposal to replace mono entirely only if consumer feedback demonstrates that the two-role approach is insufficient. The editorial alternative (option B of the retired audit's item #1) already shipped.
+- **Keep one interactive brand accent** — `--accent`, `--accent-ink`, and `--on-accent` separate fill, text, and label jobs. Keep `--sky` informational. Reopen a secondary interactive hue only for a demonstrated secondary-action need, with a complete text/fill/focus/state contrast contract.
 
 ## Future major
 

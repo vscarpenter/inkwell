@@ -1,6 +1,6 @@
 /* =====================================================================
    Inkwell — component CSS, base reset, layout helpers, accessibility.
-   Version: 3.10.0
+   Version: 3.11.0
 
    This file contains everything EXCEPT custom-property declarations
    and the dark-mode cascade (which live in inkwell-tokens.css).
@@ -456,15 +456,21 @@ kbd, .kbd {
 
 /* ---------- Stat card ---------- */
 .stat-card {
+  container: inkwell-stat / inline-size;
+  min-inline-size: 0;
   background: var(--paper);
   border: var(--border);
   border-radius: var(--r-md);
   padding: 20px 22px 18px;
 }
+.stat-card > * { min-inline-size: 0; overflow-wrap: anywhere; }
 .stat-card.is-primary { border-color: var(--accent); }
-.stat-num   { font: 600 2.75rem/1 var(--serif); margin-bottom: 8px; color: var(--slate); letter-spacing: -0.018em; }
+.stat-num   { font: 600 2.75rem/1 var(--serif); margin-bottom: var(--sp-2); color: var(--slate); letter-spacing: -0.018em; font-variant-numeric: tabular-nums; }
+/* The preceding font remains the fallback. Keep local sizing on direct
+   children so unrelated stat-number markup does not acquire viewport units. */
+.stat-card > .stat-num { font-size: clamp(2rem, 1.25rem + 9cqi, 2.75rem); }
 .stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-500); }
-.stat-delta { font-family: var(--mono); font-size: 0.6875rem; margin-top: 6px; }
+.stat-delta { font-family: var(--mono); font-size: 0.6875rem; margin-top: 6px; font-variant-numeric: tabular-nums; }
 .stat-delta.up   { color: var(--olive-dark); }
 .stat-delta.down { color: var(--rust); }
 .stat-delta.flat { color: var(--gray-500); }
