@@ -6,7 +6,7 @@ Status: proposed direction following the 3.9.0 release. This document records th
 
 Reimagine the public homepage at `https://inkwell.vinny.dev/`, owned by `examples/index.html`. The repository-root `index.html` remains the copyable starter. GitHub Pages publishes `examples/`; changing the root starter alone would not change the public landing page.
 
-The proposed primary outcome is that a developer or coding agent understands Inkwell and can start using it. This follows the existing project brief; the user has been asked whether adoption, example browsing, or reference lookup should lead. Until steered otherwise, adoption is the working recommendation.
+The user confirmed the primary outcome: **understand Inkwell and get started**. Developers and coding agents remain the audience from the existing project brief. The page should lead with adoption, while component reference and example browsing support that path.
 
 Inkwell's defining constraints remain: platform serif/sans/mono roles, cool neutral surfaces, one brand accent, 1.5px frames, five palettes, explicit light/dark/auto support, relative typography, RTL, and a dependency-free consumer install.
 
