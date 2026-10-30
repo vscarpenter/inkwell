@@ -6,7 +6,7 @@ Move completed work into the relevant documentation and `CHANGELOG.md` under Unr
 
 ## Next
 
-No additional work is scheduled. The homepage redesign and appearance-control contrast fix are complete in current source and tracked under Unreleased in `CHANGELOG.md`.
+No additional work is scheduled. The homepage redesign and appearance-control contrast fix are included in 3.10.0 in `CHANGELOG.md`.
 
 ## Needs a demonstrated use case
 

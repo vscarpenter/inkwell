@@ -62,7 +62,7 @@ test("copy actions report success and rejection without losing focus", async ({ 
   expect(await page.evaluate(() => window.copied[0])).toBe('<link rel="stylesheet" href="inkwell.css">');
   await page.getByRole("button",{name:"Copy agent prompt",exact:true}).click();
   await expect(page.locator("#agent-copy-status")).toHaveText("Agent prompt copied.");
-  expect(await page.evaluate(() => window.copied[1])).toContain("/v3.9.0/agent-instructions.md");
+  expect(await page.evaluate(() => window.copied[1])).toContain("/v3.10.0/agent-instructions.md");
   await page.evaluate(() => { window.denyCopy=true; });
   await html.click();
   await expect(page.locator("#html-copy-status")).toContainText("Select the snippet and copy it manually");

@@ -2,7 +2,7 @@
   "$description": "Inkwell design tokens, generated from canonical CSS and palette overrides. DTCG Format/Color 2025.10. Palette and mode names are ordinary groups, not a custom mode syntax.",
   "$extensions": {
     "dev.vinny.inkwell": {
-      "version": "3.9.0",
+      "version": "3.10.0",
       "source": "inkwell-tokens.css",
       "specification": "https://www.designtokens.org/TR/2025.10/format/"
     }

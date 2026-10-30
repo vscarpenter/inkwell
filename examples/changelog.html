@@ -100,7 +100,8 @@
       <!-- BEGIN GENERATED: releases — edit CHANGELOG.md and run scripts/build-changelog-html.mjs -->
       <article class="release">
         <div class="release-head">
-          <span class="ver">Unreleased</span>
+          <span class="ver">v3.10.0</span>
+          <span class="release-date">2026-10-30</span>
           <span class="badge badge-accent">Latest</span>
         </div>
         <div class="change-block">
@@ -114,6 +115,7 @@
           <div class="change-label">Fixed</div>
           <ul class="change-list">
             <li><strong>Readable appearance-control labels.</strong> Shared demo theme/palette selections now use <code>--on-accent</code> instead of <code>--paper</code>, correcting the Clay light-mode control's 3.19:1 text contrast. Browser checks verify the active labels across all five palettes and manual/automatic modes on the homepage and an existing dashboard example.</li>
+            <li><strong>Complete release-footer generation.</strong> The changelog generator now stamps the canonical showcase and palette-comparison sources alongside their deployed mirrors, so copying those sources during deployment cannot restore an older release number.</li>
           </ul>
         </div>
       </article>
@@ -615,7 +617,7 @@
       <footer class="page-footer t-small" style="margin-top: 56px;">
         The real release history — generated from <code>CHANGELOG.md</code> by <code>scripts/build-changelog-html.mjs</code>. Demonstrates: <code>.breadcrumbs</code>, version pills, <code>.tbl</code> for migration tables, native <code>&lt;article&gt;</code> semantics throughout.
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.9.0</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.10.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>

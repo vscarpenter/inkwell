@@ -67,7 +67,7 @@ For HTML/CSS/interaction changes, run `npx --yes --package=playwright@1.62.1 -- 
 
 ### After editing CHANGELOG.md
 
-The releases section of `examples/changelog.html` AND the `Inkwell vX.Y.Z` footer stamp on every example page (the `data-inkwell-version` anchor) are generated from `CHANGELOG.md`. Re-run `node scripts/build-changelog-html.mjs` and commit the regenerated pages in the same change — CI runs `--check` and fails on drift. Edit the changelog page only outside its BEGIN/END markers; never hand-edit the version stamp text.
+The releases section of `examples/changelog.html` AND the `Inkwell vX.Y.Z` footer stamp on every example page (the `data-inkwell-version` anchor), including the canonical `preview.html` and `variants/compare.html` sources and their deployed mirrors, are generated from `CHANGELOG.md`. Re-run `node scripts/build-changelog-html.mjs` and commit the regenerated pages in the same change — CI runs `--check` and fails on drift. Edit the changelog page only outside its BEGIN/END markers; never hand-edit the version stamp text.
 
 Every HTML page in the Pages artifact also carries a `data-inkwell-deployed` `<time>` placeholder. Checked-in pages must retain `Deployment pending` and an empty `datetime`; verify them with `node scripts/stamp-deployment.mjs --check`. The Pages workflow runs on every push to `main`, checks out full history, derives `+build.N` from the commit count, and stamps only its disposable artifact copy with the UTC deployment date. Never run the stamping form against checked-in `examples/`.
 
