@@ -17,7 +17,7 @@ inkwell.css              Canonical entry: imports tokens unlayered + components
 tokens.css               DEPRECATED one-line alias of inkwell.css (removal: 4.0)
 inkwell-theme.css        Tailwind v4 entry: imports inkwell-tokens.css + inkwell-components.css,
                          declares @theme aliases + @custom-variant dark
-inkwell-interactions.js  Optional, dependency-free tabs/carousel/dialog/tooltip behavior
+inkwell-interactions.js  Optional, dependency-free tabs/carousel/dialog/tooltip/menu behavior
 component-manifest.json  Public component contract; generates examples/components.html
 ```
 
@@ -25,7 +25,9 @@ The split exists for layering: both entries (`inkwell.css` and `inkwell-theme.cs
 
 When editing tokens (variables, colors): edit `inkwell-tokens.css`. Every color token is ONE declaration — both mode values inside `light-dark(light, dark)`; alpha tints derive from their base via `color-mix()` and are declared explicitly only where the contrast gate forces a hand-tuned alpha. Never add a separate dark block for token values — the only dark-selector rules in that file are the `color-scheme` machinery and the `.select` chevron override (a background-image, which `light-dark()` can't carry).
 When editing components, base reset, type styles, layout helpers, or a11y rules: edit `inkwell-components.css`.
-Use `--control-border` for functional text and selection control boundaries; keep decorative frames on `--border`. Text-bearing controls use minimum heights so text can grow. Preserve native forced-colors affordances and test changes to tabs/tooltips with the optional companion.
+Use `--control-border` for functional text and selection control boundaries; keep decorative frames on `--border`. Text-bearing controls use minimum heights so text can grow. Preserve native forced-colors affordances and test changes to tabs/tooltips/menus with the optional companion.
+
+Menus start with a hidden trigger and visible native actions; the companion owns menu roles and roving focus after enhancement. Preserve the single-level keyboard contract, native link/form defaults, and the bubbling `inkwell-menu-select` notification on the original wrapper. The missing-Popover fallback temporarily portals panels to body/open dialog; preserve tokens/direction and restore DOM on close. Run `tests/menu.spec.mjs` for native, missing-Popover, missing-invoker/anchor, no-script, RTL, focus, and viewport coverage.
 Leave the browser root font size unset. Text sizes use `rem` / contextual `em`, with unitless leading; optical borders and structural dimensions keep their pixel units. Legacy JSON typography `px` fields remain 16px-reference values, additive `css` values reflect source units, and DTCG dimensions retain `rem`. Do not freeze relative type in the Tailwind aliases.
 Use HTML `lang` / `dir` and logical start/end layout for RTL, including nested LTR islands. Keep tooltip viewport coordinates and centered artwork physical. `.icon-directional` mirrors only reading-direction symbols. Carousel geometry handles RTL scrolling; `init(carousel)` refreshes alignment and localized dot labels after direction/language changes. Run `tests/typography-direction.spec.mjs` for relative-type or direction changes, including real Firefox default-font preferences in a working Firefox environment.
 **Do not edit `tokens.css` or `inkwell.css`** beyond `inkwell.css`'s import list. If you need to add a third source file, add it to `inkwell.css`'s `@import` list (decide layered vs. unlayered) and to `inkwell-theme.css` if it's component-shaped (so it gets layered correctly for Tailwind users).

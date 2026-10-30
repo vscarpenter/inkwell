@@ -139,6 +139,7 @@ const CHECKS = [
   ["pill sev (on-accent on accent)",        "--on-accent",    "--accent",       4.5],
   ["field-error (rust on ivory)",           "--rust",         "--ivory",        4.5],
   ["table header (gray-700 on gray-100)",   "--gray-700",     "--gray-100",     4.5],
+  ["menu focus text (slate on gray-100)",   "--slate",        "--gray-100",     4.5],
   ["focus outline vs ivory (non-text)",     "--accent-ink",   "--ivory",        3.0],
   ["focus outline vs paper (non-text)",     "--accent-ink",   "--paper",        3.0],
   ["control border vs paper (non-text)",    "--gray-400",     "--paper",        3.0],

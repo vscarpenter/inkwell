@@ -100,9 +100,23 @@
       <!-- BEGIN GENERATED: releases — edit CHANGELOG.md and run scripts/build-changelog-html.mjs -->
       <article class="release">
         <div class="release-head">
+          <span class="ver">v3.9.0</span>
+          <span class="release-date">2026-10-30</span>
+          <span class="badge badge-accent">Latest</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Added</div>
+          <ul class="change-list">
+            <li><strong>Popover action menu.</strong> <code>.menu[data-menu]</code>, <code>.menu-panel</code>, <code>.menu-item</code>, and <code>.menu-separator</code> add a single-level command menu through the optional companion. Keyboard entry, wrapping arrows, Home/End, localized typeahead, disabled-item rules, Escape/Tab exits, outside dismissal, and dialog focus restoration share one contract. Native popovers, command invokers, and logical CSS anchors are feature-detected; manual placement/dismissal supports older browsers, nested RTL, clipped hosts, enlarged text, and visual-viewport edges. Without the companion, the action list remains visible as ordinary buttons/links.</li>
+            <li><strong>Menu adoption and regression coverage.</strong> English/Arabic showcase examples, a workspace-action example, a gallery link, and the generated component contract bring the current-source catalog to 39 families. Browser checks exercise native and forced-fallback paths, no-script behavior, focus, geometry, touch, forced colors, and print. The completed menu item has been removed from the backlog.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
           <span class="ver">v3.8.1</span>
           <span class="release-date">2026-10-29</span>
-          <span class="badge badge-accent">Latest</span>
         </div>
         <div class="change-block">
           <div class="change-label">Fixed</div>
@@ -582,7 +596,7 @@
       <footer class="page-footer t-small" style="margin-top: 56px;">
         The real release history — generated from <code>CHANGELOG.md</code> by <code>scripts/build-changelog-html.mjs</code>. Demonstrates: <code>.breadcrumbs</code>, version pills, <code>.tbl</code> for migration tables, native <code>&lt;article&gt;</code> semantics throughout.
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.8.1</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.9.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>

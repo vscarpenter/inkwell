@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menu behavior fixture</title>
+  <link rel="stylesheet" href="../../inkwell.css">
+  <style>
+    body { padding: 24px; }
+    main { max-inline-size: 44rem; }
+    #host { margin-block: 24px; }
+    #outside { position: fixed; top: 16px; inset-inline-end: 16px; }
+    #secondary-menu { position: fixed; top: 80px; inset-inline-end: 16px; }
+  </style>
+  <script src="../../inkwell-interactions.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1 class="t-h1">Project actions</h1>
+    <a class="link" id="before" href="#after">Before menu</a>
+    <div id="host">
+      <div class="menu" data-menu id="primary-menu">
+        <button class="btn btn-secondary" type="button" data-menu-trigger id="actions" hidden>Project actions</button>
+        <div class="menu-panel" id="action-list" aria-labelledby="actions">
+          <button class="menu-item" type="button" data-action="rename">Rename project</button>
+          <button class="menu-item" type="button" data-action="duplicate">Duplicate project</button>
+          <button class="menu-item" type="button" aria-disabled="true" data-action="export">Export report (unavailable)</button>
+          <a class="menu-item" href="#after" data-action="docs">View documentation</a>
+          <button class="menu-item" type="button" disabled>Publish update</button>
+          <hr class="menu-separator">
+          <button class="menu-item" type="button" data-action="dialog" data-dialog-open="settings">Review settings…</button>
+          <button class="menu-item" type="button" data-action="archive">Archive project</button>
+        </div>
+      </div>
+    </div>
+    <a class="link" id="after" href="#before">After menu</a>
+    <p><button class="btn" id="outside" type="button">Outside action</button></p>
+    <div class="menu" data-menu id="secondary-menu">
+      <button class="btn btn-secondary" type="button" data-menu-trigger hidden>More actions</button>
+      <div class="menu-panel">
+        <button class="menu-item" type="button">Second menu item</button>
+      </div>
+    </div>
+    <p id="result" role="status">No action selected.</p>
+    <dialog class="dialog" id="settings" aria-label="Settings">
+      <div class="dialog-body"><label>Project name <input class="input" id="dialog-input" value="Weekly planning"></label></div>
+      <div class="dialog-foot"><button class="btn" type="button" data-dialog-close>Close settings</button></div>
+    </dialog>
+  </main>
+  <script>
+    window.menuSelections = 0;
+    document.addEventListener("inkwell-menu-select", function (event) {
+      window.menuSelections++;
+      document.getElementById("result").textContent = event.detail.item.textContent.trim();
+    });
+  </script>
+</body>
+</html>

@@ -6,7 +6,7 @@ Move completed work into the relevant documentation and `CHANGELOG.md` under Unr
 
 ## Next
 
-- **Popover-based menu** — the next substantial feature to design. Define keyboard navigation, focus entry/restoration, dismissal, edge positioning, and RTL behavior before implementation. The Firefox 120 floor predates native popovers (125), and CSS anchor positioning also needs fallbacks at the supported floor. Preserve the browser policy and dependency-free install. Native `<details>` disclosures already cover simple expandable content.
+No additional component work is scheduled. The action menu shipped in 3.9.0; see `CHANGELOG.md` for the completed work.
 
 ## Needs a demonstrated use case
 

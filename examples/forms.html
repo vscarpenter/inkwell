@@ -193,6 +193,25 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
         </div>
       </section>
 
+      <section id="action-menu" style="margin-top: 48px;" aria-labelledby="action-menu-title">
+        <div class="sec-head"><span class="idx">06</span><h2 id="action-menu-title">Workspace actions</h2><span class="count">keyboard menu</span></div>
+        <div class="card" style="padding: var(--sp-5);">
+          <p class="t-small" style="margin-top: 0;">Archive opens the confirmation dialog; settings opens the settings page. Rename and Duplicate demonstrate selection feedback.</p>
+          <div class="menu" data-menu data-menu-result="workspace-action-result">
+            <button class="btn btn-secondary" type="button" data-menu-trigger id="workspace-actions" hidden>Workspace actions <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m3 4.5 3 3 3-3"/></svg></button>
+            <div class="menu-panel" id="workspace-action-list" aria-labelledby="workspace-actions">
+              <button class="menu-item" type="button">Rename workspace</button>
+              <button class="menu-item" type="button">Duplicate workspace</button>
+              <a class="menu-item" href="settings.html">Open workspace settings</a>
+              <button class="menu-item" type="button" aria-disabled="true">Export data (unavailable)</button>
+              <hr class="menu-separator">
+              <button class="menu-item" type="button" data-dialog-open="confirm-dialog">Archive workspace…</button>
+            </div>
+          </div>
+          <p class="t-small" id="workspace-action-result" role="status" style="margin-bottom: 0;">Choose a workspace action.</p>
+        </div>
+      </section>
+
       <dialog class="dialog" id="confirm-dialog" aria-labelledby="confirm-title">
         <div class="dialog-head">
           <h2 id="confirm-title">Archive this workspace?</h2>
@@ -209,9 +228,9 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
       </dialog>
 
       <footer class="page-footer t-small" style="margin-top: 56px;">
-        Built with <code>inkwell.css</code>. Components added in this revision: <code>.field</code>, <code>.input.is-error</code>, <code>.textarea</code>, <code>.select</code>, <code>.radio</code>, <code>.switch</code>, <code>kbd</code>, <code>.alert</code>, <code>.code-block</code>, <code>.dialog</code>.
+        Built with <code>inkwell.css</code>. Components added in this revision: <code>.field</code>, <code>.input.is-error</code>, <code>.textarea</code>, <code>.select</code>, <code>.radio</code>, <code>.switch</code>, <code>kbd</code>, <code>.alert</code>, <code>.code-block</code>, <code>.dialog</code>, <code>.menu</code>.
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.8.1</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.9.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>

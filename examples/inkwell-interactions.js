@@ -1,10 +1,10 @@
 /* =====================================================================
    Inkwell — optional interaction recipes.
-   Version: 3.8.1
+   Version: 3.9.0
 
    Dependency-free progressive enhancement for the components whose
    behavior cannot live in CSS alone: tabs, carousel controls,
-   declarative native-dialog triggers, and tooltip dismissal. Static styles do not
+   declarative native-dialog triggers, tooltip dismissal, and action menus. Static styles do not
    depend on this file.
 
    Auto-initializes the document and exposes:
@@ -210,7 +210,8 @@
       if (!dialog || dialog.nodeName !== "DIALOG") return;
 
       trigger.addEventListener("click", function () {
-        dialog.__inkwellTrigger = trigger;
+        var menuPanel = trigger.closest(".menu-panel");
+        dialog.__inkwellTrigger = menuPanel && menuPanel.__inkwellMenuTrigger || trigger;
         if (!dialog.open) dialog.showModal();
       });
       trigger.dataset.inkwellDialogReady = "true";
@@ -296,12 +297,385 @@
     });
   });
 
+  var activeMenu = null;
+  var menuSequence = 0;
+  var menuFrame = null;
+  var menuTokens = ["--paper", "--slate", "--gray-100", "--gray-300", "--gray-500", "--accent-ink", "--border", "--border-hair", "--r-xs", "--r-sm", "--sp-1", "--sp-2", "--sp-3", "--sans", "--z-overlay"];
+
+  function initMenus(root) {
+    all(root, "[data-menu]").forEach(function (menu) {
+      if (menu.__inkwellMenu) { menu.__inkwellMenu.refresh(); return; }
+      var children = Array.prototype.slice.call(menu.children);
+      var trigger = children.find(function (el) { return el.matches("button[data-menu-trigger]"); });
+      var panel = children.find(function (el) { return el.matches(".menu-panel"); });
+      if (!trigger || !panel) return;
+
+      function menuItems() {
+        return Array.prototype.slice.call(panel.querySelectorAll("button.menu-item, a.menu-item[href]")).filter(function (item) {
+          return item.closest(".menu-panel") === panel;
+        });
+      }
+      function items() {
+        return menuItems().filter(function (item) {
+          if (item.disabled) return false;
+          for (var node = item; node && node !== panel; node = node.parentElement) {
+            if (node.hidden || node.inert || window.getComputedStyle(node).display === "none") return false;
+          }
+          return window.getComputedStyle(item).visibility !== "hidden";
+        });
+      }
+      if (!items().length) return;
+
+      function identify(el) {
+        if (!el.id) {
+          do { el.id = "inkwell-menu-" + (++menuSequence); } while (document.getElementById(el.id) !== el);
+        }
+      }
+      identify(trigger);
+      identify(panel);
+      var nativePopover = "popover" in window.HTMLElement.prototype && typeof panel.showPopover === "function";
+      var nativeInvoker = nativePopover && "commandForElement" in window.HTMLButtonElement.prototype;
+      var anchor = nativePopover && window.CSS && window.CSS.supports("anchor-name", "--inkwell-menu")
+        && window.CSS.supports("position-area", "block-end span-inline-end") && window.CSS.supports("position-try-fallbacks", "flip-block");
+      var pendingFocus = null;
+      var typeBuffer = "";
+      var lastTyped = 0;
+      var marker = null;
+      var originalStyle = null;
+      var originalLanguage = null;
+      var localTokens = {};
+      var portaledForms = [];
+      var resizeObserver = window.ResizeObserver ? new window.ResizeObserver(repositionMenu) : null;
+      var anchorName = "--inkwell-menu-" + (++menuSequence);
+      var useAnchor = anchor;
+
+      function isOpen() { return nativePopover ? panel.matches(":popover-open") : !panel.hidden; }
+      function contains(target) { return menu.contains(target) || panel.contains(target); }
+      function disabled(item) { return item.disabled || item.getAttribute("aria-disabled") === "true"; }
+      function lowercase(value) {
+        var language = menu.closest("[lang]");
+        try { return value.toLocaleLowerCase(language && language.lang || undefined); }
+        catch (error) { return value.toLocaleLowerCase(); }
+      }
+
+      function inheritPortal() {
+        var style = window.getComputedStyle(menu);
+        menuTokens.forEach(function (name) { panel.style.setProperty(name, localTokens[name] || style.getPropertyValue(name)); });
+        panel.style.direction = panel.getAttribute("dir") || style.direction;
+        panel.style.colorScheme = style.colorScheme;
+        var language = menu.closest("[lang]");
+        if (originalLanguage === null && language) panel.lang = language.lang;
+      }
+
+      function mount() {
+        originalStyle = panel.getAttribute("style");
+        originalLanguage = panel.getAttribute("lang");
+        menuTokens.forEach(function (name) { localTokens[name] = panel.style.getPropertyValue(name); });
+        portaledForms = [];
+        panel.querySelectorAll("button").forEach(function (item) {
+          if (!item.form || item.hasAttribute("form")) return;
+          identify(item.form);
+          var id = item.form.id;
+          item.setAttribute("form", id);
+          portaledForms.push({ item: item, id: id });
+        });
+        // Capture inherited values before moving out of a potentially clipped host.
+        marker = document.createComment("Inkwell menu position");
+        panel.before(marker);
+        var host = trigger.closest("dialog[open]") || document.body;
+        host.appendChild(panel);
+        inheritPortal();
+      }
+
+      function unmount() {
+        if (!marker) return;
+        if (marker.parentNode) marker.parentNode.insertBefore(panel, marker);
+        marker.remove();
+        marker = null;
+        portaledForms.forEach(function (entry) {
+          if (entry.item.getAttribute("form") === entry.id) entry.item.removeAttribute("form");
+        });
+        portaledForms = [];
+        if (originalStyle === null) panel.removeAttribute("style");
+        else panel.setAttribute("style", originalStyle);
+        if (originalLanguage === null) panel.removeAttribute("lang");
+        else panel.setAttribute("lang", originalLanguage);
+      }
+
+      function reset() {
+        trigger.setAttribute("aria-expanded", "false");
+        menuItems().forEach(function (item) { item.tabIndex = -1; });
+        pendingFocus = null;
+        typeBuffer = "";
+        if (resizeObserver) resizeObserver.disconnect();
+        if (activeMenu === controller) activeMenu = null;
+      }
+
+      function close(restoreFocus) {
+        var restore = restoreFocus && (panel.contains(document.activeElement) || document.activeElement === trigger);
+        reset();
+        if (restore && trigger.isConnected && !trigger.disabled) trigger.focus({ preventScroll: true });
+        if (nativePopover) {
+          if (isOpen()) panel.hidePopover();
+        } else {
+          panel.hidden = true;
+          unmount();
+        }
+      }
+
+      function position() {
+        if (!isOpen()) return;
+        if (!trigger.isConnected || !panel.isConnected) { close(false); return; }
+        if (marker) inheritPortal();
+        var viewport = window.visualViewport;
+        var left = viewport ? viewport.offsetLeft : 0;
+        var top = viewport ? viewport.offsetTop : 0;
+        var width = viewport ? viewport.width : window.innerWidth;
+        var height = viewport ? viewport.height : window.innerHeight;
+        var margin = 8;
+        var gap = 8;
+        var rect = trigger.getBoundingClientRect();
+        if (rect.bottom <= top || rect.top >= top + height || rect.right <= left || rect.left >= left + width) { close(false); return; }
+        var above = Math.max(1, rect.top - top - margin - gap);
+        var below = Math.max(1, top + height - margin - rect.bottom - gap);
+        panel.style.setProperty("--_menu-max-inline", Math.max(1, width - margin * 2) + "px");
+        panel.style.setProperty("--_menu-max-block", Math.max(above, below) + "px");
+        if (useAnchor) {
+          panel.dataset.inkwellMenuPosition = "anchor";
+          var anchored = panel.getBoundingClientRect();
+          var logicalX = window.getComputedStyle(menu).direction === "rtl" ? rect.right - anchored.width : rect.left;
+          logicalX = Math.max(left + margin, Math.min(logicalX, left + width - margin - anchored.width));
+          if (anchored.left >= left + margin && anchored.right <= left + width - margin
+            && anchored.top >= top + margin && anchored.bottom <= top + height - margin
+            && Math.abs(anchored.left - logicalX) < 2 && (anchored.bottom <= rect.top || anchored.top >= rect.bottom)) return;
+          useAnchor = false;
+        }
+        // Also covers visual-viewport constraints that an anchor tactic cannot fit.
+        panel.dataset.inkwellMenuPosition = "manual";
+        var box = panel.getBoundingClientRect();
+        var down = box.height <= below || below >= above;
+        panel.style.setProperty("--_menu-max-block", (down ? below : above) + "px");
+        box = panel.getBoundingClientRect();
+        var rtl = window.getComputedStyle(menu).direction === "rtl";
+        var x = rtl ? rect.right - box.width : rect.left;
+        var y = down ? rect.bottom + gap : rect.top - gap - box.height;
+        panel.style.setProperty("--_menu-left", Math.max(left + margin, Math.min(x, left + width - margin - box.width)) + "px");
+        panel.style.setProperty("--_menu-top", Math.max(top + margin, Math.min(y, top + height - margin - box.height)) + "px");
+      }
+
+      function focusItem(item, pointer) {
+        if (!item) return;
+        items().forEach(function (candidate) { candidate.tabIndex = candidate === item ? 0 : -1; });
+        item.focus({ preventScroll: true, focusVisible: !pointer });
+        var box = item.getBoundingClientRect();
+        var bounds = panel.getBoundingClientRect();
+        var start = bounds.top + panel.clientTop;
+        var end = start + panel.clientHeight;
+        if (box.top < start) panel.scrollTop -= start - box.top;
+        else if (box.bottom > end) panel.scrollTop += box.bottom - end;
+      }
+
+      function entered() {
+        position();
+        if (!isOpen()) return;
+        if (resizeObserver) { resizeObserver.observe(trigger); resizeObserver.observe(panel); }
+        repositionMenu();
+        var available = items();
+        if (pendingFocus) focusItem(pendingFocus === "last" ? available[available.length - 1] : available[0]);
+        else if (!panel.contains(document.activeElement)) trigger.focus({ preventScroll: true, focusVisible: false });
+        pendingFocus = null;
+      }
+
+      function prepare() {
+        if (activeMenu && activeMenu !== controller) activeMenu.close(false);
+      }
+
+      function show() {
+        prepare();
+        useAnchor = anchor;
+        if (nativePopover) panel.showPopover();
+        else {
+          mount();
+          panel.hidden = false;
+          trigger.setAttribute("aria-expanded", "true");
+          activeMenu = controller;
+          entered();
+        }
+      }
+
+      function refresh() {
+        menuItems().forEach(function (item) { item.setAttribute("role", "menuitem"); item.tabIndex = item === document.activeElement ? 0 : -1; });
+        trigger.hidden = !items().length;
+        if (!items().length || disabled(trigger)) close(true);
+        else if (isOpen()) position();
+      }
+
+      function keys(event) {
+        if (!isOpen() || event.isComposing || event.altKey || event.ctrlKey || event.metaKey) return;
+        if (event.key === "Escape" || event.key === "Tab") {
+          if (event.key === "Escape") { event.preventDefault(); event.stopPropagation(); }
+          close(true);
+          return;
+        }
+        var available = items();
+        if (!available.length) { close(true); return; }
+        var index = available.indexOf(document.activeElement);
+        var next = null;
+        if (event.key === "ArrowDown") next = available[(index + 1) % available.length];
+        else if (event.key === "ArrowUp") next = available[(index - 1 + available.length) % available.length];
+        else if (event.key === "Home") next = available[0];
+        else if (event.key === "End") next = available[available.length - 1];
+        else if ((event.key === "Enter" || event.key === " ") && index !== -1) {
+          event.preventDefault();
+          event.stopPropagation();
+          if (!disabled(available[index])) available[index].click();
+          return;
+        } else if (event.key.length === 1 && event.key !== " ") {
+          event.preventDefault();
+          event.stopPropagation();
+          var now = Date.now();
+          typeBuffer = now - lastTyped > 700 ? event.key : typeBuffer + event.key;
+          lastTyped = now;
+          var query = lowercase(typeBuffer);
+          var repeated = Array.from(query).every(function (character) { return character === query[0]; });
+          if (repeated) query = query[0];
+          for (var i = query.length > 1 ? 0 : 1; i <= available.length; i++) {
+            var candidate = available[(index + i + available.length) % available.length];
+            var label = lowercase((candidate.getAttribute("aria-label") || candidate.textContent).trim());
+            if (label.startsWith(query)) { next = candidate; break; }
+          }
+        }
+        if (!next) return;
+        event.preventDefault();
+        event.stopPropagation();
+        pendingFocus = null;
+        focusItem(next);
+      }
+
+      var controller = { close: close, contains: contains, position: position, refresh: refresh };
+      menu.__inkwellMenu = controller;
+      panel.__inkwellMenuTrigger = trigger;
+      panel.setAttribute("role", "menu");
+      panel.setAttribute("aria-labelledby", panel.getAttribute("aria-labelledby") || trigger.id);
+      trigger.type = "button";
+      trigger.setAttribute("aria-haspopup", "menu");
+      trigger.setAttribute("aria-controls", panel.id);
+      trigger.setAttribute("aria-expanded", "false");
+      trigger.setAttribute("commandfor", panel.id);
+      trigger.setAttribute("command", "toggle-popover");
+      panel.dataset.inkwellMenuReady = "true";
+      menu.dataset.inkwellMenuReady = "true";
+      if (anchor) {
+        var names = window.getComputedStyle(trigger).getPropertyValue("anchor-name").trim();
+        trigger.style.setProperty("anchor-name", names && names !== "none" ? names + ", " + anchorName : anchorName);
+        panel.style.setProperty("position-anchor", anchorName);
+      }
+      if (nativePopover) {
+        panel.setAttribute("popover", "auto");
+        panel.addEventListener("beforetoggle", function (event) {
+          if (event.newState === "closed") {
+            if (panel.contains(document.activeElement) && trigger.isConnected && !trigger.disabled) trigger.focus({ preventScroll: true });
+            reset();
+          } else {
+            useAnchor = anchor;
+            panel.dataset.inkwellMenuPosition = "pending";
+            trigger.setAttribute("aria-expanded", "true");
+            // Track opening immediately: focus may leave before the queued toggle event.
+            activeMenu = controller;
+          }
+        });
+        panel.addEventListener("toggle", function () {
+          if (!isOpen()) { reset(); return; }
+          prepare();
+          activeMenu = controller;
+          entered();
+        });
+      } else panel.hidden = true;
+
+      trigger.addEventListener("keydown", function (event) {
+        if (disabled(trigger)) return;
+        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+          event.preventDefault();
+          event.stopPropagation();
+          var edge = event.key === "ArrowUp" ? "last" : "first";
+          if (isOpen() && panel.dataset.inkwellMenuPosition !== "pending") {
+            pendingFocus = null;
+            var available = items();
+            focusItem(edge === "last" ? available[available.length - 1] : available[0]);
+          } else {
+            pendingFocus = edge;
+            if (!isOpen()) trigger.click();
+          }
+        } else if (event.key === "Enter" || event.key === " ") pendingFocus = "first";
+        else keys(event);
+      });
+      trigger.addEventListener("click", function (event) {
+        if (disabled(trigger)) { event.preventDefault(); return; }
+        if (!isOpen()) {
+          prepare();
+          if (event.detail === 0 && !pendingFocus) pendingFocus = "first";
+        }
+        if (!nativeInvoker) {
+          event.preventDefault();
+          if (isOpen()) close(true);
+          else show();
+        }
+      });
+      panel.addEventListener("keydown", keys);
+      function itemFor(event) {
+        var item = event.target.closest(".menu-item");
+        return item && item.closest(".menu-panel") === panel ? item : null;
+      }
+      function blockDisabled(event) {
+        var item = itemFor(event);
+        if (item && disabled(item)) { event.preventDefault(); event.stopImmediatePropagation(); }
+      }
+      panel.addEventListener("click", blockDisabled, true);
+      panel.addEventListener("auxclick", blockDisabled, true);
+      panel.addEventListener("click", function (event) {
+        var item = itemFor(event);
+        if (!item || disabled(item)) return;
+        menu.dispatchEvent(new window.CustomEvent("inkwell-menu-select", { bubbles: true, detail: { item: item, trigger: trigger, originalEvent: event } }));
+        close(true);
+      });
+      panel.addEventListener("pointermove", function (event) {
+        if (event.pointerType !== "mouse" || !window.matchMedia("(hover: hover)").matches) return;
+        var item = itemFor(event);
+        if (item && items().includes(item) && document.activeElement !== item) focusItem(item, true);
+      });
+      refresh();
+    });
+  }
+
+  function repositionMenu() {
+    if (!activeMenu || menuFrame !== null) return;
+    menuFrame = window.requestAnimationFrame(function () {
+      menuFrame = null;
+      if (activeMenu) activeMenu.position();
+    });
+  }
+  document.addEventListener("pointerdown", function (event) {
+    if (activeMenu && !activeMenu.contains(event.target)) activeMenu.close(true);
+  });
+  document.addEventListener("focusin", function (event) {
+    if (activeMenu && !activeMenu.contains(event.target)) activeMenu.close(false);
+  });
+  document.addEventListener("scroll", repositionMenu, { capture: true, passive: true });
+  window.addEventListener("resize", repositionMenu);
+  window.addEventListener("blur", function () { if (activeMenu) activeMenu.close(false); });
+  window.addEventListener("beforeprint", function () { if (activeMenu) activeMenu.close(false); });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", repositionMenu);
+    window.visualViewport.addEventListener("scroll", repositionMenu);
+  }
+
   function init(root) {
     root = root || document;
     initTabs(root);
     initCarousels(root);
     initDialogs(root);
     initTooltips(root);
+    initMenus(root);
   }
 
   window.InkwellInteractions = { init: init };
