@@ -49,6 +49,15 @@
     border-radius: var(--r-md); padding: 24px;
     display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
   }
+  .indicator-examples.stage {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-6);
+    align-items: start;
+  }
+  @media (max-width: 640px) {
+    .indicator-examples.stage { grid-template-columns: 1fr; }
+  }
   .palette-toggle {
     display: flex;
     gap: 4px;
@@ -826,6 +835,55 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
   </section>
 
 </div>
+  <!-- PROGRESS AND METER -->
+  <section id="progress-meter" aria-labelledby="progress-meter-title">
+    <div class="sec-head">
+      <span class="idx">29</span><h2 id="progress-meter-title">Progress and meter</h2>
+      <span class="count">native · no JavaScript</span>
+    </div>
+    <p class="t-small" style="margin-bottom: var(--sp-5);">Progress tracks a task; meter describes a measurement within a known range. These examples show the available states.</p>
+    <div class="indicator-examples stage">
+      <div style="display: grid; gap: var(--sp-5); min-inline-size: 0;">
+        <div class="field">
+          <label class="field-label" for="pv-progress-zero">Queued report</label>
+          <progress class="progress" id="pv-progress-zero" max="100" value="0" aria-describedby="pv-progress-zero-value"></progress>
+          <span class="field-help" id="pv-progress-zero-value">0% uploaded</span>
+        </div>
+        <div class="field">
+          <label class="field-label" for="pv-progress-partial">Uploading report</label>
+          <progress class="progress" id="pv-progress-partial" max="100" value="64" aria-describedby="pv-progress-partial-value"></progress>
+          <span class="field-help" id="pv-progress-partial-value">64% uploaded</span>
+        </div>
+        <div class="field">
+          <label class="field-label" for="pv-progress-complete">Report uploaded</label>
+          <progress class="progress" id="pv-progress-complete" max="100" value="100" aria-describedby="pv-progress-complete-value"></progress>
+          <span class="field-help" id="pv-progress-complete-value">100% · Complete</span>
+        </div>
+        <div class="field">
+          <label class="field-label" for="pv-progress-unknown">Preparing upload</label>
+          <progress class="progress" id="pv-progress-unknown" aria-describedby="pv-progress-unknown-value"></progress>
+          <span class="field-help" id="pv-progress-unknown-value">Discovering files…</span>
+        </div>
+      </div>
+      <div style="display: grid; gap: var(--sp-5); align-content: start; min-inline-size: 0;">
+        <div class="field">
+          <label class="field-label" for="pv-meter-optimum">Storage used · Within capacity</label>
+          <meter class="meter" id="pv-meter-optimum" min="0" max="100" low="60" high="85" optimum="20" value="40" aria-valuetext="40 of 100 GB used; within capacity"></meter>
+          <span class="field-help">40 GB of 100 GB</span>
+        </div>
+        <div class="field">
+          <label class="field-label" for="pv-meter-warning">Storage used · Nearing capacity</label>
+          <meter class="meter" id="pv-meter-warning" min="0" max="100" low="60" high="85" optimum="20" value="70" aria-valuetext="70 of 100 GB used; nearing capacity"></meter>
+          <span class="field-help">70 GB of 100 GB</span>
+        </div>
+        <div class="field">
+          <label class="field-label" for="pv-meter-danger">Storage used · Almost full</label>
+          <meter class="meter" id="pv-meter-danger" min="0" max="100" low="60" high="85" optimum="20" value="95" aria-valuetext="95 of 100 GB used; almost full"></meter>
+          <span class="field-help">95 GB of 100 GB</span>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <div class="palette-toggle" role="group" aria-label="Palette">
@@ -953,7 +1011,7 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
         Made with hairlines and serifs by <a class="link" href="https://vinny.dev">Vinny Carpenter</a>. The 1.5px is on purpose.
       </p>
       <footer class="t-caption" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 8px; margin: -8px 0 24px; font-family: var(--mono);">
-        <a class="link" href="https://inkwell.vinny.dev/changelog.html" data-inkwell-version>Inkwell v3.6.0</a>
+        <a class="link" href="https://inkwell.vinny.dev/changelog.html" data-inkwell-version>Inkwell v3.7.0</a>
         <span aria-hidden="true">·</span>
         <time data-inkwell-deployed datetime="">Deployment pending</time>
       </footer>

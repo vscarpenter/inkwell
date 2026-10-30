@@ -73,7 +73,7 @@
       </nav>
 
       <header style="margin-bottom: var(--sp-6);">
-        <span class="eyebrow">Adoption reference · v3.6.0</span>
+        <span class="eyebrow">Adoption reference · v3.7.0</span>
         <h1 class="t-display" style="margin: var(--sp-3) 0;">Components, with the contract attached.</h1>
         <p class="t-lede reference-intro">Copy the markup, then read the anatomy and accessibility notes before adapting it. This page is generated from <code>component-manifest.json</code>, so agents, maintainers, and humans share one inventory.</p>
         <p class="reference-intro">New custom surfaces can opt into <code>--surface-panel</code> and <code>--text-primary</code>. Existing components keep their palette-token overrides. The optional <code>inkwell.tokens.json</code> export carries typed tokens for design tools.</p>
@@ -636,10 +636,69 @@
         </div>
       </article>
 
+      <article class="reference-entry" id="progress">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">25 · Since 3.7.0</span>
+            <h2 class="t-h2">Progress</h2>
+          </div>
+          <a class="link t-small" href="#progress">#progress</a>
+        </header>
+        <p class="reference-selectors"><code>progress.progress</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Native progress.progress with an associated label and adjacent visible value or status.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Set max for a scale other than 0–1; omit value only while the total is unknown.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Zero, partial, complete, and indeterminate. Fill starts at inline start in LTR and RTL.</li><li>Reduced motion and print pause a visible indeterminate segment; forced colors restores native rendering.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use label/for, aria-labelledby, or aria-label. Inner text is not an accessible label; keep value/status copy outside the bar.</li><li>Keep native range semantics; do not add role, aria-valuenow, or tabindex. A progress bar is not a live region.</li><li>Announce completion with an adjacent polite status without moving focus. Use indeterminate bars for a temporary unknown total, not indefinite background activity.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None for rendering. Application code updates value, adjacent copy, and a polite completion status; remove value to return to indeterminate.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-progress">Copy markup</button>
+          <pre dir="ltr" lang="en"><code id="component-code-progress">&lt;div class=&quot;field&quot;&gt;
+  &lt;label class=&quot;field-label&quot; for=&quot;reference-upload&quot;&gt;Uploading report&lt;/label&gt;
+  &lt;progress class=&quot;progress&quot; id=&quot;reference-upload&quot; max=&quot;100&quot; value=&quot;64&quot; aria-describedby=&quot;reference-upload-status&quot;&gt;&lt;/progress&gt;
+  &lt;span class=&quot;field-help&quot; id=&quot;reference-upload-status&quot;&gt;64% uploaded&lt;/span&gt;
+&lt;/div&gt;
+&lt;p class=&quot;t-small&quot; role=&quot;status&quot;&gt;&lt;/p&gt;
+&lt;!-- Omit value while discovering the total; keep status text visible. --&gt;
+&lt;div class=&quot;field&quot;&gt;
+  &lt;label class=&quot;field-label&quot; for=&quot;reference-preparing&quot;&gt;Preparing upload&lt;/label&gt;
+  &lt;progress class=&quot;progress&quot; id=&quot;reference-preparing&quot; aria-describedby=&quot;reference-preparing-status&quot;&gt;&lt;/progress&gt;
+  &lt;span class=&quot;field-help&quot; id=&quot;reference-preparing-status&quot;&gt;Discovering files…&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="reference-entry" id="meter">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">26 · Since 3.7.0</span>
+            <h2 class="t-h2">Meter</h2>
+          </div>
+          <a class="link t-small" href="#meter">#meter</a>
+        </header>
+        <p class="reference-selectors"><code>meter.meter</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>Native meter.meter with label, numeric range, and adjacent measurement and threshold interpretation.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>Native min, max, low, high, and optimum define the scale and which range is preferable; no state classes required.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Optimum uses olive-dark, suboptimum warning-dark, and least-good rust. Native attributes select the state, including when higher values are preferable.</li><li>Empty/full and RTL use native range geometry; forced colors restores native rendering.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Use a label and visible value with units. Describe threshold meaning in text so color is supplemental.</li><li>Use aria-valuetext when units or interpretation need a more useful spoken value. Keep the native meter role and avoid tabindex.</li><li>Use progress for task completion; meter has no indeterminate state.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None for rendering. Applications update native value/range attributes, visible copy, and aria-valuetext together when data changes.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-meter">Copy markup</button>
+          <pre dir="ltr" lang="en"><code id="component-code-meter">&lt;div class=&quot;field&quot;&gt;
+  &lt;label class=&quot;field-label&quot; for=&quot;reference-storage&quot;&gt;Storage used&lt;/label&gt;
+  &lt;meter class=&quot;meter&quot; id=&quot;reference-storage&quot; min=&quot;0&quot; max=&quot;100&quot; low=&quot;60&quot; high=&quot;85&quot; optimum=&quot;20&quot; value=&quot;70&quot; aria-valuetext=&quot;70 of 100 GB used; nearing capacity&quot;&gt;&lt;/meter&gt;
+  &lt;span class=&quot;field-help&quot;&gt;70 GB of 100 GB · Nearing capacity&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+
       <article class="reference-entry" id="skeleton">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">25 · Since 1.0.0</span>
+            <span class="eyebrow">27 · Since 1.0.0</span>
             <h2 class="t-h2">Skeleton</h2>
           </div>
           <a class="link t-small" href="#skeleton">#skeleton</a>
@@ -661,7 +720,7 @@
       <article class="reference-entry" id="table">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">26 · Since 1.0.0</span>
+            <span class="eyebrow">28 · Since 1.0.0</span>
             <h2 class="t-h2">Table</h2>
           </div>
           <a class="link t-small" href="#table">#table</a>
@@ -676,14 +735,14 @@
         <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
         <div class="code-block">
           <button class="copy" type="button" data-copy-code="component-code-table">Copy markup</button>
-          <pre dir="ltr" lang="en"><code id="component-code-table">&lt;div class=&quot;tbl-scroll&quot;&gt;&lt;table class=&quot;tbl&quot;&gt;&lt;caption class=&quot;sr-only&quot;&gt;Release status&lt;/caption&gt;&lt;thead&gt;&lt;tr&gt;&lt;th scope=&quot;col&quot;&gt;Version&lt;/th&gt;&lt;th scope=&quot;col&quot;&gt;Status&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;3.6.0&lt;/td&gt;&lt;td&gt;Ready&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;</code></pre>
+          <pre dir="ltr" lang="en"><code id="component-code-table">&lt;div class=&quot;tbl-scroll&quot;&gt;&lt;table class=&quot;tbl&quot;&gt;&lt;caption class=&quot;sr-only&quot;&gt;Release status&lt;/caption&gt;&lt;thead&gt;&lt;tr&gt;&lt;th scope=&quot;col&quot;&gt;Version&lt;/th&gt;&lt;th scope=&quot;col&quot;&gt;Status&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;3.7.0&lt;/td&gt;&lt;td&gt;Ready&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;</code></pre>
         </div>
       </article>
 
       <article class="reference-entry" id="toc">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">27 · Since 1.0.0</span>
+            <span class="eyebrow">29 · Since 1.0.0</span>
             <h2 class="t-h2">Table of contents</h2>
           </div>
           <a class="link t-small" href="#toc">#toc</a>
@@ -705,7 +764,7 @@
       <article class="reference-entry" id="pagination">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">28 · Since 1.0.0</span>
+            <span class="eyebrow">30 · Since 1.0.0</span>
             <h2 class="t-h2">Pagination</h2>
           </div>
           <a class="link t-small" href="#pagination">#pagination</a>
@@ -727,7 +786,7 @@
       <article class="reference-entry" id="empty-state">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">29 · Since 1.0.0</span>
+            <span class="eyebrow">31 · Since 1.0.0</span>
             <h2 class="t-h2">Empty state</h2>
           </div>
           <a class="link t-small" href="#empty-state">#empty-state</a>
@@ -749,7 +808,7 @@
       <article class="reference-entry" id="disclosure">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">30 · Since 3.5.0</span>
+            <span class="eyebrow">32 · Since 3.5.0</span>
             <h2 class="t-h2">Disclosure</h2>
           </div>
           <a class="link t-small" href="#disclosure">#disclosure</a>
@@ -771,7 +830,7 @@
       <article class="reference-entry" id="carousel">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">31 · Since 3.2.0</span>
+            <span class="eyebrow">33 · Since 3.2.0</span>
             <h2 class="t-h2">Editorial carousel</h2>
           </div>
           <a class="link t-small" href="#carousel">#carousel</a>
@@ -799,7 +858,7 @@
       <article class="reference-entry" id="navbar">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">32 · Since 2.1.0</span>
+            <span class="eyebrow">34 · Since 2.1.0</span>
             <h2 class="t-h2">Navbar</h2>
           </div>
           <a class="link t-small" href="#navbar">#navbar</a>
@@ -821,7 +880,7 @@
       <article class="reference-entry" id="layout-wraps">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">33 · Since 1.0.0</span>
+            <span class="eyebrow">35 · Since 1.0.0</span>
             <h2 class="t-h2">Layout wraps</h2>
           </div>
           <a class="link t-small" href="#layout-wraps">#layout-wraps</a>
@@ -843,7 +902,7 @@
       <article class="reference-entry" id="accessibility-utilities">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">34 · Since 2.1.0</span>
+            <span class="eyebrow">36 · Since 2.1.0</span>
             <h2 class="t-h2">Accessibility utilities</h2>
           </div>
           <a class="link t-small" href="#accessibility-utilities">#accessibility-utilities</a>
@@ -866,7 +925,7 @@
       <article class="reference-entry" id="keyboard-chip">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">35 · Since 1.3.0</span>
+            <span class="eyebrow">37 · Since 1.3.0</span>
             <h2 class="t-h2">Keyboard chip</h2>
           </div>
           <a class="link t-small" href="#keyboard-chip">#keyboard-chip</a>
@@ -888,7 +947,7 @@
       <article class="reference-entry" id="tooltip">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">36 · Since 1.3.0</span>
+            <span class="eyebrow">38 · Since 1.3.0</span>
             <h2 class="t-h2">Tooltip</h2>
           </div>
           <a class="link t-small" href="#tooltip">#tooltip</a>
@@ -912,7 +971,7 @@
       <footer class="page-footer t-small" style="margin-top: var(--sp-7);">
         Generated from <code>component-manifest.json</code>. Treat the manifest and shipped CSS as the public contract.
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.6.0</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.7.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>

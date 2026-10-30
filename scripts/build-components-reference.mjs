@@ -30,7 +30,7 @@ function render(component, index) {
   return `      <article class="reference-entry" id="${escapeHtml(component.id)}">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">${String(index + 1).padStart(2, "0")} · Since ${escapeHtml(component.since)}</span>
+            <span class="eyebrow">${String(index + 1).padStart(2, "0")} · ${component.since === "Unreleased" ? "Unreleased" : `Since ${escapeHtml(component.since)}`}</span>
             <h2 class="t-h2">${escapeHtml(component.name)}</h2>
           </div>
           <a class="link t-small" href="#${escapeHtml(component.id)}">#${escapeHtml(component.id)}</a>

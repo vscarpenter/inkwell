@@ -1,6 +1,6 @@
 # Inkwell
 
-A reusable design system for product UI, dashboards, and technical interfaces. Drop-in CSS tokens, 36 documented component families, light + dark mode out of the box.
+A reusable design system for product UI, dashboards, and technical interfaces. Drop-in CSS tokens, 38 documented component families, light + dark mode out of the box.
 
 **Inkwell** ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, hairline 1.5px borders. Reads as Linear/Stripe/Notion-adjacent without being a clone of any of them.
 
@@ -217,7 +217,7 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 
 ## 3. Components
 
-`inkwell-components.css` ships 36 documented component families (the table below). Use `examples/components.html` for the generated adoption contract and copyable markup; use `preview.html` for a visual tour in light, dark, auto, and every palette. `component-manifest.json` is the machine-readable source for the component reference.
+`inkwell-components.css` ships 38 documented component families (the table below). Use `examples/components.html` for the generated adoption contract and copyable markup; use `preview.html` for a visual tour in light, dark, auto, and every palette. `component-manifest.json` is the machine-readable source for the component reference.
 
 | Class | Purpose |
 |---|---|
@@ -245,6 +245,8 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 | `.breadcrumbs` | `<ol>` list with `/` separators; `aria-current="page"` for the leaf |
 | `.pagination` | Numbered page list with prev/next; `aria-current="page"` for the active page |
 | `.skeleton` (+ `.is-text` / `.is-title` / `.is-block` / `.is-circle`) | Shimmer placeholder; reduced-motion-safe |
+| `progress.progress` | Native task completion, including zero, partial, complete, and indeterminate states; no JavaScript required for rendering |
+| `meter.meter` | Native bounded measurement; `low`, `high`, and `optimum` select the semantic range fill |
 | `.empty-state` (+ `.empty-state-icon`) | Centered no-data panel with icon slot, headline, body, action |
 | `.disclosure` | Native `<details>` disclosure/accordion item with styled `<summary>`; no JavaScript |
 | `.pill` (+ sev / resolved / neutral) | Severity / status pill |
@@ -267,6 +269,20 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 | `.pullquote` | Indented serif-italic block with a 1.5px accent rule at reading start — magazine-style pulled quote |
 | `.byline` (+ `.author`) | Dateline + author block — mono caps for the metadata, italic serif for the author's name |
 | `figure.figure` (+ `figcaption`) | Image/video wrapper with bordered media and italic-serif rule-anchored caption |
+
+---
+
+### Progress and meter
+
+Use `<progress class="progress">` for a task's completion. Set `value` and optionally `max` (default 1); `value="0"` is a determinate empty bar. Omit `value` only when the total is temporarily unknown. Use `<meter class="meter">` for a measurement within a known range, such as storage or battery capacity. Set `min`, `max`, and `value`; optional `low`, `high`, and `optimum` let the browser select optimum (olive-dark), suboptimum (warning-dark), or least-good (rust). Higher values are not inherently better; set `optimum` for the actual domain.
+
+Associate each bar with a visible `<label for="id">` and keep value/status text outside it. For measurements, include units and the threshold meaning in visible text; `aria-valuetext` can supply the same interpretation to assistive technology. Native elements expose their own roles and ranges. Do not add `role`, redundant ARIA range values, or `tabindex`. Applications must update visible copy and `aria-valuetext` when values change. A progress bar is not a live region: announce completion through a separate polite status and preserve focus.
+
+Both bars fill from inline start, use a 0.75rem height, pill radius, gray-100 track, and `--control-border`. Progress uses `--accent-ink` for a contrasting fill across all five palettes. Meter's three fills and the progress fill clear 3:1 against the track. Their native vendor pseudo-elements deliberately remain separate; meter appearance differs between Blink, WebKit, and Firefox.
+
+Indeterminate progress uses a 30% moving segment. Reduced motion and print pause that segment midway rather than hiding it or claiming a numeric completion; visible status copy carries its meaning. Component-scoped `--progress-bar-indeterminate-size` and `--progress-bar-indeterminate-duration` can customize the segment and timing. Forced colors restores native appearance and paints. Rendering needs no companion script; JavaScript belongs to the application supplying real data.
+
+The showcase covers all progress states and three meter ranges. `tests/progress-meter.spec.mjs` checks native semantics, value updates, rendered fill direction and colors, narrow containers and enlarged text, reduced motion, print, and forced colors. These are automated checks, not screen-reader certification.
 
 ---
 
@@ -316,7 +332,7 @@ Inkwell ships with WCAG-conscious defaults. The notable choices:
 - **`::selection` is slate-on-oat.** Selected text gets `--oat` behind `--slate` — the accent tint was too faint to register as a selection highlight.
 - **Print always renders light.** The manual dark theme (`[data-theme="dark"]` blocks) is wrapped in `@media screen`, so a dark-toggled page still prints on the light palette.
 
-All five palettes pass `scripts/check-contrast.mjs` — a zero-dependency WCAG gate asserting 240 token-pair ratios (text at 4.5:1, non-text at 3:1) across both modes — and CI runs it alongside the tokens.json drift check.
+All five palettes pass `scripts/check-contrast.mjs` — a zero-dependency WCAG gate asserting 280 token-pair ratios (text at 4.5:1, non-text at 3:1) across both modes — and CI runs it alongside the tokens.json drift check.
 
 ### Reading direction and language
 

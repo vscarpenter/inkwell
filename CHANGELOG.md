@@ -6,6 +6,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [3.7.0] — 2026-10-29
+
+### Added
+- **Native progress and meter.** `progress.progress` styles task completion (zero, partial, complete, and indeterminate); `meter.meter` styles bounded measurements with native `low`/`high`/`optimum` range colors. Both require no JavaScript for rendering, follow RTL, retain a visible static indeterminate segment under reduced motion and print, and return to native rendering in forced colors. Visible labels, values, units, and status guidance are included in the showcase and generated catalog, now 38 component families.
+- **Indicator regression coverage.** Browser tests check native semantics, value updates, actual painted fills and direction, all palettes/modes, narrow containers, enlarged text, and user preferences. The contrast gate now checks 280 pairs, including all four indicator fills against their track.
+
+### Changed
+- **Backlog triage.** Removed the DTCG export completed in 3.6.0 and the implemented progress/meter work; split container queries from popover menus, retained compatibility requirements, and updated the select-chevron rationale for five palettes.
+
 ## [3.6.0] — 2026-10-29
 
 ### Added

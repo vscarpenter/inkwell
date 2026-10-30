@@ -1,12 +1,12 @@
 # Inkwell
 
-A pure-CSS design system for product UI, dashboards, and technical interfaces. Drop-in tokens, 36 documented component families, light + dark mode out of the box. No consumer build step or dependencies — plus an optional interaction file and a **Tailwind v4** theme entry for projects already on Tailwind.
+A pure-CSS design system for product UI, dashboards, and technical interfaces. Drop-in tokens, 38 documented component families, light + dark mode out of the box. No consumer build step or dependencies — plus an optional interaction file and a **Tailwind v4** theme entry for projects already on Tailwind.
 
 Inkwell ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, and a signature 1.5px hairline border. Four alternate palettes (Clay, Sage & Stone, Burgundy & Bone, Azure & Ink) are available as override-only CSS files in `variants/`.
 
 ## Live demo
 
-See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — 20 published pages built from the system. Start with the [getting-started guide](https://inkwell.vinny.dev/docs.html), use the generated [component reference](https://inkwell.vinny.dev/components.html) for copyable contracts, use the [full preview](https://inkwell.vinny.dev/preview.html) for visual review, and verify the alternate path in the [Tailwind v4 demo](https://inkwell.vinny.dev/tailwind.html). The gallery also includes product, editorial, marketing, form, search, error, release-note, carousel, and palette-comparison patterns. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`. Every deployed footer identifies the semantic release, commit-derived build number, and UTC deployment date (for example, `v3.6.0+build.N · Deployed Oct 29, 2026`).
+See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — 20 published pages built from the system. Start with the [getting-started guide](https://inkwell.vinny.dev/docs.html), use the generated [component reference](https://inkwell.vinny.dev/components.html) for copyable contracts, use the [full preview](https://inkwell.vinny.dev/preview.html) for visual review, and verify the alternate path in the [Tailwind v4 demo](https://inkwell.vinny.dev/tailwind.html). The gallery also includes product, editorial, marketing, form, search, error, release-note, carousel, and palette-comparison patterns. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`. Every deployed footer identifies the semantic release, commit-derived build number, and UTC deployment date (for example, `v3.7.0+build.N · Deployed Oct 29, 2026`).
 
 ## Quick start
 
@@ -51,6 +51,23 @@ That's the whole install — no `tailwind.config.js`, no JS preset. You get Inkw
 
 > Tailwind v3 is not supported — v3 requires a JS preset that conflicts with the no-build pitch. See [`TAILWIND.md`](TAILWIND.md) for the full guide (the `border-inkwell` convention, components-vs-utilities rule, cascade-order check) and [`examples/tailwind.html`](examples/tailwind.html) for a live demo that opens in a browser without a toolchain. The deprecated `border-hair` utility remains through 3.x; the CSS token `--border-hair` still correctly means a 1px internal divider.
 
+## Progress and measurements
+
+Progress and meter controls use native HTML and need no interaction script:
+
+```html
+<label class="field-label" for="upload">Uploading report</label>
+<progress class="progress" id="upload" max="100" value="64" aria-describedby="upload-status"></progress>
+<p class="field-help" id="upload-status">64% uploaded</p>
+
+<label class="field-label" for="storage">Storage used</label>
+<meter class="meter" id="storage" min="0" max="100" low="60" high="85" optimum="20" value="70"
+  aria-valuetext="70 of 100 GB used; nearing capacity"></meter>
+<p class="field-help">70 GB of 100 GB · Nearing capacity</p>
+```
+
+Use progress for tasks; omit `value` for a temporarily unknown total. Use meter for bounded measurements; its range attributes choose the semantic fill. Keep labels and values visible, and update the copy alongside the native value. Announce task completion through a separate polite status without moving focus. Both follow RTL, reduced motion, and forced colors. See the [component reference](examples/components.html#progress) and [showcase](preview.html#progress-meter) for the complete contract.
+
 ## Semantic names and design-tool export
 
 Palette-named tokens remain supported. New color aliases make intent explicit: `--surface-page`, `--surface-panel`, `--surface-subtle`, `--surface-inverse`, `--text-primary`, `--text-secondary`, `--text-muted`, `--text-inverse`, `--text-link`, and `--text-on-accent`. They follow the active root palette in both modes. Adopt them in custom CSS or semantic Tailwind utilities; existing components retain their original token contract, including local primitive overrides.
@@ -66,7 +83,7 @@ Maintainers regenerate/check the optional export with `node scripts/build-design
 Point Claude Code, Codex, Cursor, or any other LLM coding tool at [`agent-instructions.md`](agent-instructions.md) — a self-contained brief that walks the agent through fetching the right CSS files, the hard rules (1.5px borders, one accent, tokens-not-literals), palette switching, and the anti-patterns before it writes any markup.
 
 ```
-https://raw.githubusercontent.com/vscarpenter/inkwell/v3.6.0/agent-instructions.md
+https://raw.githubusercontent.com/vscarpenter/inkwell/v3.7.0/agent-instructions.md
 ```
 
 Suggested prompt: *"Read the file at the URL above and use the Inkwell design system in this project."*
@@ -92,10 +109,10 @@ open examples/tailwind.html  # Tailwind v4 integration demo (no toolchain needed
 - **`inkwell-theme.css`** — the Tailwind v4 entry. Aliases Inkwell tokens into `@theme`, wraps components in `@layer components`, and defines the dark variant. See [`TAILWIND.md`](TAILWIND.md). Tailwind consumers still keep this file alongside `inkwell-tokens.css` and `inkwell-components.css`.
 - **`inkwell-interactions.js`** — optional, dependency-free progressive enhancement for tabs, carousel controls, declarative native-dialog triggers, and tooltip dismissal. The CSS core does not require it.
 - **`tokens.json`** — machine-readable mirror of the token layer for Figma plugins and Style Dictionary. Generated by `scripts/build-tokens-json.mjs` (zero-dependency Node script) — re-run after editing `inkwell-tokens.css`; CI fails the build if it drifts.
-- **`component-manifest.json`** — machine-readable catalog of 36 component families: selectors, anatomy, modifiers, states, accessibility, JavaScript, since-version, and copyable markup.
+- **`component-manifest.json`** — machine-readable catalog of 38 component families: selectors, anatomy, modifiers, states, accessibility, JavaScript, since-version, and copyable markup.
 - **`scripts/build-components-reference.mjs`** — deterministically generates the catalog body in `examples/components.html`; CI fails on drift.
 - **`scripts/check-system-contract.mjs`** — repository-wide release/adoption gate for versions, file mirrors, manifest/CSS parity, page semantics and metadata, form errors, links, and Tailwind aliases.
-- **`scripts/check-contrast.mjs`** — zero-dependency WCAG contrast gate. Parses the shipped CSS and asserts 240 token-pair ratios across all five palettes in both modes; CI fails the build if any pair slips below AA.
+- **`scripts/check-contrast.mjs`** — zero-dependency WCAG contrast gate. Parses the shipped CSS and asserts 280 token-pair ratios across all five palettes in both modes; CI fails the build if any pair slips below AA.
 - **`scripts/build-changelog-html.mjs`** — generates the release notes on [inkwell.vinny.dev/changelog.html](https://inkwell.vinny.dev/changelog.html) from `CHANGELOG.md`, so the live what's-new page can't drift from the written record. CI fails the build if it's stale.
 - **`scripts/stamp-deployment.mjs`** — validates every deployed page's footer metadata, then stamps the Pages artifact with the current semantic release, commit-derived build number, and deployment date. It never modifies checked-in source pages.
 - **`index.html`** — minimal starter (navbar, hero, theme toggle).

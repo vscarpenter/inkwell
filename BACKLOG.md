@@ -12,9 +12,9 @@ Promote an item by deleting it from here and writing it up in the relevant doc +
 
 ### Deferred from the 3.0 design pass
 
+- **Container-aware component layouts** — next additive 3.x candidate. Start with `.finding`, whose stacking currently follows viewport width even inside a narrow column. Size container queries fit the existing browser floor; introduce containment only where a component needs it.
+- **Popover-based menu** — define the keyboard, focus, dismissal, edge positioning, and RTL contract before implementation. The Firefox 120 floor predates native popovers (125), and CSS anchor positioning also needs fallbacks at the supported floor. Preserve the browser policy and dependency-free install. Native `<details>` disclosures already cover simple expandable content.
 - **Relative color syntax for lifted dark accents** (`oklch(from var(--accent) …)`) — rejected for 3.0 because deriving dark values would change the hand-tuned 2.1.0 contrast work; candidate for a future major with a fresh contrast pass.
-- **Popover-based menu, `progress`/`meter`, container queries** — additive 3.x candidates; re-verify anchor-positioning Baseline status before committing. Native `<details>` disclosures shipped as `.disclosure` in 3.5.0.
-- **W3C Design Tokens format for `tokens.json`** — schema stability was 3.0's safety gate; revisit separately.
 
 ### Audit Tier-2 items left for a 3.x
 
@@ -27,5 +27,5 @@ Carried forward from the retired 1.4.0 audit notes as "discuss," not "do":
 
 ## Post-2.1 follow-ups
 
-- **Light-mode `.select` chevron still uses canonical cool gray (`#6F6F75`) in all variants.** The dark-mode parity fix (2.1.0) applies only to dark; barely visible at 12px, but the same argument applies. The `mask-image` strategy becomes worth it if a 4th palette lands — and as of 3.0 the chevron is the *only* surviving Pattern B duplication (`light-dark()` can't carry a `background-image`), so the mask strategy would also retire the last dark-selector block.
+- **Light-mode `.select` chevron still uses canonical cool gray (`#6F6F75`) in all five palettes.** The dark-mode parity fix (2.1.0) applies only to dark. This is palette coherence, not a current contrast defect. Preserve the drop-in `.select` markup when evaluating a fix; applying a mask directly to the select would mask the entire control. The SVG chevron remains the only Pattern B duplication because `light-dark()` cannot carry a `background-image`.
 - **Clay dark-mode hover darkens toward the label** (passes 4.95:1) while every other palette/mode hover now moves *away* from the label color — coherence, not compliance; revisit if hover styling gets reworked.
