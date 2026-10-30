@@ -8,6 +8,8 @@ Inkwell ships with the **Indigo & Cloud** palette — cool stone background, dee
 
 See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — 20 published pages built from the system. Start with the [getting-started guide](https://inkwell.vinny.dev/docs.html), use the generated [component reference](https://inkwell.vinny.dev/components.html) for copyable contracts, use the [full preview](https://inkwell.vinny.dev/preview.html) for visual review, and verify the alternate path in the [Tailwind v4 demo](https://inkwell.vinny.dev/tailwind.html). The gallery also includes product, editorial, marketing, form, search, error, release-note, carousel, and palette-comparison patterns. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`. Every deployed footer identifies the semantic release, commit-derived build number, and UTC deployment date (for example, `v3.9.0+build.N · Deployed Oct 30, 2026`).
 
+The current-source homepage redesign is Unreleased: [`examples/index.html`](examples/index.html) introduces the system through a working specimen, CSS/agent setup, and a complete example directory. Its page-specific `home.css` / `home.js` are demonstration assets, separate from the consumer files below. The repository-root `index.html` remains the starter template.
+
 ## Quick start
 
 Copy `inkwell.css`, `inkwell-tokens.css`, and `inkwell-components.css` into your project and link `inkwell.css` from your `<head>`:

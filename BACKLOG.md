@@ -6,7 +6,7 @@ Move completed work into the relevant documentation and `CHANGELOG.md` under Unr
 
 ## Next
 
-- **Reimagine the public homepage** — the next priority requested by the user. Rebuild `examples/index.html` as Inkwell's introduction and adoption path, with a working component specimen, clear documentation/component links, compact access to every example, and a short CSS/coding-agent setup section. Preserve the root `index.html` starter, all existing routes, five palettes, light/dark/auto, and the dependency-free browser contract. Correct the selected appearance-control contrast found during the review. The proposed section map and acceptance criteria are in `docs/specs/2026-10-30-homepage-redesign-proposal.md`; final composition and copy remain design decisions.
+No additional work is scheduled. The homepage redesign and appearance-control contrast fix are complete in current source and tracked under Unreleased in `CHANGELOG.md`.
 
 ## Needs a demonstrated use case
 

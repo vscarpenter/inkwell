@@ -100,9 +100,28 @@
       <!-- BEGIN GENERATED: releases — edit CHANGELOG.md and run scripts/build-changelog-html.mjs -->
       <article class="release">
         <div class="release-head">
+          <span class="ver">Unreleased</span>
+          <span class="badge badge-accent">Latest</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Changed</div>
+          <ul class="change-list">
+            <li><strong>An adoption-first homepage.</strong> The public <code>examples/index.html</code> now introduces Inkwell, offers a working component specimen, and provides separate CSS and coding-agent setup paths. Featured product/editorial/form examples and a compact grouped directory preserve direct access to all 20 published pages and existing deep links. The root <code>index.html</code> remains the copyable starter. Page layout and demonstrations are scoped to <code>examples/home.css</code> and <code>examples/home.js</code>; the public component API and consumer install are unchanged.</li>
+            <li><strong>Progressive homepage interactions.</strong> The specimen previews field changes, validates blank names, and resets through a keyboard-operable action menu. Copy actions report success only after completion and provide manual instructions when clipboard access fails. Adoption snippets and reference links remain usable without JavaScript; theme/palette controls, enlarged text, RTL, and native contrast modes are covered by browser regressions.</li>
+          </ul>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Fixed</div>
+          <ul class="change-list">
+            <li><strong>Readable appearance-control labels.</strong> Shared demo theme/palette selections now use <code>--on-accent</code> instead of <code>--paper</code>, correcting the Clay light-mode control's 3.19:1 text contrast. Browser checks verify the active labels across all five palettes and manual/automatic modes on the homepage and an existing dashboard example.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
           <span class="ver">v3.9.0</span>
           <span class="release-date">2026-10-30</span>
-          <span class="badge badge-accent">Latest</span>
         </div>
         <div class="change-block">
           <div class="change-label">Added</div>

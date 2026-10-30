@@ -23,3 +23,8 @@ A consumer can copy documented markup, link the CSS, and operate its controls us
 - Framework wrappers, package metadata, and consumer build tooling.
 - Webfonts or a new brand direction.
 - Publishing or deploying this review.
+
+## Fold classes used
+
+- `split` — the former public sample-gallery homepage.
+- `stacked` — the approved October 30, 2026 adoption homepage: short introduction above a full-width, working component specimen.

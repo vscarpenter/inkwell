@@ -67,7 +67,7 @@
 
 .theme-toggle .is-active {
   background: var(--accent);
-  color: var(--paper);
+  color: var(--on-accent);
 }
 
 .palette-toggle {
@@ -88,7 +88,7 @@
 
 .palette-toggle .is-active {
   background: var(--accent);
-  color: var(--paper);
+  color: var(--on-accent);
 }
 
 .hero {

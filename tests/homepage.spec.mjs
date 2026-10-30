@@ -13,6 +13,10 @@ test("homepage leads to adoption and keeps the complete example directory", asyn
   await page.goto(home);
   await expect(page).toHaveTitle("Inkwell — Build interfaces with character");
   await expect(page.getByRole("heading", {level:1})).toHaveText("Build interfaces with character.");
+  expect(await page.evaluate(() => {
+    const intro=document.querySelector('.home-intro').getBoundingClientRect(), specimen=document.querySelector('.home-stage').getBoundingClientRect();
+    return intro.bottom<=specimen.top+1 && specimen.width>=intro.width*.95;
+  })).toBe(true);
   await page.getByRole("link", {name:"Start building",exact:true}).first().click();
   await expect(page).toHaveURL(/#get-started$/);
   await expect(page.getByRole("heading", {name:"Three files. Your next interface.",exact:true})).toBeInViewport();
@@ -25,6 +29,10 @@ test("homepage leads to adoption and keeps the complete example directory", asyn
 
 test("live specimen previews changes and resets through the keyboard menu", async ({ page }) => {
   await page.goto(home);
+  await page.getByLabel("Project name",{exact:true}).fill("   ");
+  await page.getByRole("button",{name:"Preview changes",exact:true}).click();
+  expect(await page.getByLabel("Project name",{exact:true}).evaluate(el=>el.validity.valid)).toBe(false);
+  await expect(page.getByLabel("Project name",{exact:true})).toBeFocused();
   await page.getByLabel("Project name",{exact:true}).fill("A project with مساحة للكتابة");
   await page.getByLabel("Send updates",{exact:true}).uncheck();
   await page.getByRole("button",{name:"Preview changes",exact:true}).click();
@@ -87,12 +95,15 @@ test("homepage fits enlarged type, RTL, and narrow screens with reachable contro
   await page.goto(home);
   for (const dir of ["ltr","rtl"]) {
     await page.evaluate(dir => { document.documentElement.dir=dir; document.documentElement.style.fontSize="32px"; },dir);
+    await expect(page.locator("html")).toHaveCSS("font-size","32px");
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth<=document.documentElement.clientWidth)).toBe(true);
     await page.getByLabel("Project name",{exact:true}).fill("Long project name with العربية and averylongunbreakableidentifier");
     await page.getByRole("button",{name:"Preview changes",exact:true}).click();
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth<=document.documentElement.clientWidth)).toBe(true);
     await expect(page.locator("#html-install")).toHaveCSS("direction","ltr");
     const trigger=page.getByRole("button",{name:"Specimen actions",exact:true});
+    await trigger.scrollIntoViewIfNeeded();
+    await expect(trigger).toBeInViewport();
     await trigger.press("ArrowDown");
     await expect(page.getByRole("menuitem",{name:"Reset example",exact:true})).toBeFocused();
     await page.keyboard.press("Escape");
