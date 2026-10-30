@@ -12,7 +12,7 @@ Promote an item by deleting it from here and writing it up in the relevant doc +
 
 ### Deferred from the 3.0 design pass
 
-- **Further container-aware components** — `.finding` is implemented in the unreleased work. Apply the same approach elsewhere only when a concrete narrow-host case demonstrates a benefit; keep containment local and verify intrinsic sizing, enlarged text, and nested contexts.
+- **Further container-aware components** — `.finding` shipped in 3.8.0. Apply the same approach elsewhere only when a concrete narrow-host case demonstrates a benefit; keep containment local and verify intrinsic sizing, enlarged text, and nested contexts.
 - **Popover-based menu** — define the keyboard, focus, dismissal, edge positioning, and RTL contract before implementation. The Firefox 120 floor predates native popovers (125), and CSS anchor positioning also needs fallbacks at the supported floor. Preserve the browser policy and dependency-free install. Native `<details>` disclosures already cover simple expandable content.
 - **Relative color syntax for lifted dark accents** (`oklch(from var(--accent) …)`) — rejected for 3.0 because deriving dark values would change the hand-tuned 2.1.0 contrast work; candidate for a future major with a fresh contrast pass.
 
