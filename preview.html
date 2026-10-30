@@ -718,10 +718,11 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
   </section>
 
   <!-- Cited findings -->
-  <section>
+  <section id="findings" aria-labelledby="findings-title">
     <div class="sec-head">
-      <span class="idx">27</span><h2>Cited findings</h2>
+      <span class="idx">27</span><h2 id="findings-title">Cited findings</h2>
     </div>
+    <p class="t-small" style="margin-bottom: var(--sp-5);">Each finding responds to its own available width. Compare the reading column with the narrow example below.</p>
     <div class="findings">
       <div class="finding">
         <div class="finding-num">96%</div>
@@ -736,6 +737,15 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
         </p>
       </div>
     </div>
+    <aside class="card" style="max-inline-size: 320px; margin-block-start: var(--sp-5);" aria-label="Narrow finding example">
+      <h3 class="t-h3" style="margin: 0 0 var(--sp-4);">Narrow column</h3>
+      <div class="finding">
+        <div class="finding-num">≤320</div>
+        <p class="finding-text">A panel up to 320px wide gives the finding less room, even on a large screen. Its statistic stacks above the explanation.
+          <span class="finding-src">Inkwell layout demonstration</span>
+        </p>
+      </div>
+    </aside>
   </section>
 
   <!-- Editorial carousel -->
@@ -1011,7 +1021,7 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
         Made with hairlines and serifs by <a class="link" href="https://vinny.dev">Vinny Carpenter</a>. The 1.5px is on purpose.
       </p>
       <footer class="t-caption" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 8px; margin: -8px 0 24px; font-family: var(--mono);">
-        <a class="link" href="https://inkwell.vinny.dev/changelog.html" data-inkwell-version>Inkwell v3.7.0</a>
+        <a class="link" href="https://inkwell.vinny.dev/changelog.html" data-inkwell-version>Inkwell v3.8.0</a>
         <span aria-hidden="true">·</span>
         <time data-inkwell-deployed datetime="">Deployment pending</time>
       </footer>

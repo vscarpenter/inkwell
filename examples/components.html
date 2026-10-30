@@ -73,7 +73,7 @@
       </nav>
 
       <header style="margin-bottom: var(--sp-6);">
-        <span class="eyebrow">Adoption reference · v3.7.0</span>
+        <span class="eyebrow">Adoption reference · v3.8.0</span>
         <h1 class="t-display" style="margin: var(--sp-3) 0;">Components, with the contract attached.</h1>
         <p class="t-lede reference-intro">Copy the markup, then read the anatomy and accessibility notes before adapting it. This page is generated from <code>component-manifest.json</code>, so agents, maintainers, and humans share one inventory.</p>
         <p class="reference-intro">New custom surfaces can opt into <code>--surface-panel</code> and <code>--text-primary</code>. Existing components keep their palette-token overrides. The optional <code>inkwell.tokens.json</code> export carries typed tokens for design tools.</p>
@@ -575,9 +575,9 @@
         </header>
         <p class="reference-selectors"><code>.findings</code> <code>.finding</code> <code>.finding-num</code> <code>.finding-text</code> <code>.finding-src</code></p>
         <div class="reference-contract">
-          <section><h3 class="t-h3">Anatomy</h3><ul><li>A list of numbered findings, each with statement and source.</li></ul></section>
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>A list of cited findings; each .finding has two direct children: .finding-num and its explanation/source (a paragraph or wrapper).</li><li>Standalone .finding uses the same markup; its host supplies available inline space through block layout, stretched flex, or a defined grid track.</li></ul></section>
           <section><h3 class="t-h3">Modifiers</h3><ul><li>No public modifiers.</li></ul></section>
-          <section><h3 class="t-h3">States</h3><ul><li>Stacks on narrow screens.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>Each finding stacks at up to 35rem of its own width and uses a 150px statistic column above that. Root-relative breakpoints allow more room for enlarged text.</li><li>Bounded statistic type follows local container width, not the viewport. Named queries isolate nested instances and unrelated outer containers.</li><li>Long metrics and sources wrap. Intrinsically sized/shrink-to-fit hosts need an explicit available width because inline-size containment ignores child width.</li></ul></section>
           <section><h3 class="t-h3">Accessibility</h3><ul><li>Use an ordered list when numbering communicates order; source links need descriptive labels.</li></ul></section>
         </div>
         <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
@@ -735,7 +735,7 @@
         <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">None.</p></div></div>
         <div class="code-block">
           <button class="copy" type="button" data-copy-code="component-code-table">Copy markup</button>
-          <pre dir="ltr" lang="en"><code id="component-code-table">&lt;div class=&quot;tbl-scroll&quot;&gt;&lt;table class=&quot;tbl&quot;&gt;&lt;caption class=&quot;sr-only&quot;&gt;Release status&lt;/caption&gt;&lt;thead&gt;&lt;tr&gt;&lt;th scope=&quot;col&quot;&gt;Version&lt;/th&gt;&lt;th scope=&quot;col&quot;&gt;Status&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;3.7.0&lt;/td&gt;&lt;td&gt;Ready&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;</code></pre>
+          <pre dir="ltr" lang="en"><code id="component-code-table">&lt;div class=&quot;tbl-scroll&quot;&gt;&lt;table class=&quot;tbl&quot;&gt;&lt;caption class=&quot;sr-only&quot;&gt;Release status&lt;/caption&gt;&lt;thead&gt;&lt;tr&gt;&lt;th scope=&quot;col&quot;&gt;Version&lt;/th&gt;&lt;th scope=&quot;col&quot;&gt;Status&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;3.8.0&lt;/td&gt;&lt;td&gt;Ready&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;</code></pre>
         </div>
       </article>
 
@@ -971,7 +971,7 @@
       <footer class="page-footer t-small" style="margin-top: var(--sp-7);">
         Generated from <code>component-manifest.json</code>. Treat the manifest and shipped CSS as the public contract.
         <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.7.0</a>
+          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.8.0</a>
           <span class="sep" aria-hidden="true">·</span>
           <time data-inkwell-deployed datetime="">Deployment pending</time>
           <span class="sep" aria-hidden="true">·</span>

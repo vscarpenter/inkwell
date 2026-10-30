@@ -6,7 +6,7 @@ Inkwell ships with the **Indigo & Cloud** palette — cool stone background, dee
 
 ## Live demo
 
-See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — 20 published pages built from the system. Start with the [getting-started guide](https://inkwell.vinny.dev/docs.html), use the generated [component reference](https://inkwell.vinny.dev/components.html) for copyable contracts, use the [full preview](https://inkwell.vinny.dev/preview.html) for visual review, and verify the alternate path in the [Tailwind v4 demo](https://inkwell.vinny.dev/tailwind.html). The gallery also includes product, editorial, marketing, form, search, error, release-note, carousel, and palette-comparison patterns. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`. Every deployed footer identifies the semantic release, commit-derived build number, and UTC deployment date (for example, `v3.7.0+build.N · Deployed Oct 29, 2026`).
+See it in use at **[inkwell.vinny.dev](https://inkwell.vinny.dev/)** — 20 published pages built from the system. Start with the [getting-started guide](https://inkwell.vinny.dev/docs.html), use the generated [component reference](https://inkwell.vinny.dev/components.html) for copyable contracts, use the [full preview](https://inkwell.vinny.dev/preview.html) for visual review, and verify the alternate path in the [Tailwind v4 demo](https://inkwell.vinny.dev/tailwind.html). The gallery also includes product, editorial, marketing, form, search, error, release-note, carousel, and palette-comparison patterns. Source lives in [`examples/`](examples/) and deploys automatically on every push to `main`. Every deployed footer identifies the semantic release, commit-derived build number, and UTC deployment date (for example, `v3.8.0+build.N · Deployed Oct 29, 2026`).
 
 ## Quick start
 
@@ -51,6 +51,12 @@ That's the whole install — no `tailwind.config.js`, no JS preset. You get Inkw
 
 > Tailwind v3 is not supported — v3 requires a JS preset that conflicts with the no-build pitch. See [`TAILWIND.md`](TAILWIND.md) for the full guide (the `border-inkwell` convention, components-vs-utilities rule, cascade-order check) and [`examples/tailwind.html`](examples/tailwind.html) for a live demo that opens in a browser without a toolchain. The deprecated `border-hair` utility remains through 3.x; the CSS token `--border-hair` still correctly means a 1px internal divider.
 
+## Container-aware findings
+
+Findings respond to their own available space: they stack at up to 35rem, with a statistic/text split above that width. The statistic's bounded type scale follows the component width, and enlarged text increases the stacking threshold. Existing `.findings` / `.finding` markup continues to work, including standalone findings. Normal block/flex/grid layouts supply the available width; shrink-to-fit hosts need an explicit width. See the [wide and narrow showcase](preview.html#findings).
+
+Both [the root starter](index.html#examples) and [the published gallery](examples/index.html#components) link to every example page. Static and browser checks compare their links against the filesystem inventory so new pages cannot be silently omitted.
+
 ## Progress and measurements
 
 Progress and meter controls use native HTML and need no interaction script:
@@ -83,7 +89,7 @@ Maintainers regenerate/check the optional export with `node scripts/build-design
 Point Claude Code, Codex, Cursor, or any other LLM coding tool at [`agent-instructions.md`](agent-instructions.md) — a self-contained brief that walks the agent through fetching the right CSS files, the hard rules (1.5px borders, one accent, tokens-not-literals), palette switching, and the anti-patterns before it writes any markup.
 
 ```
-https://raw.githubusercontent.com/vscarpenter/inkwell/v3.7.0/agent-instructions.md
+https://raw.githubusercontent.com/vscarpenter/inkwell/v3.8.0/agent-instructions.md
 ```
 
 Suggested prompt: *"Read the file at the URL above and use the Inkwell design system in this project."*
