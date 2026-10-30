@@ -219,6 +219,7 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 | `.alert` (`.is-info`, `.is-success`, `.is-warning`, `.is-danger`) | Flat-tinted system messages |
 | `.card` (`.is-link`) | Generic card; `.is-link` shifts only the border on hover — no lift, no shadow swap |
 | `.stat-card` (`.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a full 1.5px accent border |
+| `.findings` / `.finding` | Cited statistics. Each finding's two direct children are `.finding-num` and an explanation/source paragraph or wrapper. It stacks at up to 35rem of its own width; statistic type scales locally. The host supplies width through normal block/flex/grid layout; give shrink-to-fit hosts an explicit width. |
 | `.tbl` | Table with sans headers and hairline rows |
 | `.tbl-scroll` | Overflow wrapper for `.tbl` — horizontal scroll on narrow viewports |
 | `.carousel` (`.carousel-track`, `.carousel-slide`, `.carousel-controls`) | Editorial swipeable series on CSS scroll-snap; core works with zero JS, controls are enhanced by `inkwell-interactions.js`. No autoplay. |

@@ -233,7 +233,7 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 | `.callout` (+ `.is-accent`) | Two-tier contrast block; neutral base states the reality now, `.is-accent` marks the target. Serif body, accent left spine |
 | `.card` (+ `.is-link`) | Generic card; the `.is-link` variant adds a calm border-color hover shift — no lift, no shadow swap |
 | `.stat-card` (+ `.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a full 1.5px accent border |
-| `.findings` / `.finding` | Rule-divided list of oversized cited stats; the editorial counterpart to `.stat-card` |
+| `.findings` / `.finding` | Rule-divided cited stats; each finding adapts to its own available width, including standalone and nested use |
 | `.carousel` (+ `.carousel-track` / `.carousel-slide` / `.carousel-controls`) | Editorial swipeable series on CSS scroll-snap — the core needs zero JS; `inkwell-interactions.js` progressively enhances prev/next, dots, and arrow keys. No autoplay. |
 | `.tbl` | Table with sans header labels and hairline row dividers |
 | `.tbl-scroll` | Overflow wrapper for `.tbl` — horizontal scroll on narrow viewports |
@@ -271,6 +271,14 @@ The one surviving piece of the old Pattern B duplication is the dark `.select` c
 | `figure.figure` (+ `figcaption`) | Image/video wrapper with bordered media and italic-serif rule-anchored caption |
 
 ---
+
+### Container-aware findings
+
+Each `.finding` is a named `inkwell-finding` inline-size query container. At up to 35rem of local width, its two direct children stack with an 8px row gap. Above that width, they occupy the existing 150px statistic column and flexible text column with a 24px column gap. The root-relative threshold increases with font preferences; page width is not the deciding factor. Keep `.finding-num` and the paragraph or explanation wrapper as direct children, with the citation inside the explanation. No additional markup or JavaScript is needed.
+
+The container query styles the children, since a size container cannot query itself. Statistic type uses local `cqi` units bounded by the existing 2.75–4rem range; the earlier viewport-based declaration remains a fallback. Long metrics and source URLs can wrap. An unsupported browser receives the usable stacked default. Containment stays on findings, rather than being added to page wrappers or unrelated components.
+
+The host must supply available inline space: normal block layout, stretched flex items, or a defined grid track do that naturally. An intrinsically sized/shrink-to-fit host needs an explicit width; inline-size containment cannot derive its width from the finding's children. Block height still grows with the content. See `preview.html#findings` for wide and narrow uses on the same page and `tests/container-findings.spec.mjs` for layout, nesting, resizing, text growth, and navigation coverage.
 
 ### Progress and meter
 

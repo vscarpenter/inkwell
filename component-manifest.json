@@ -259,9 +259,9 @@
       "name": "Cited findings",
       "selectors": [".findings", ".finding", ".finding-num", ".finding-text", ".finding-src"],
       "since": "3.1.0",
-      "anatomy": ["A list of numbered findings, each with statement and source."],
+      "anatomy": ["A list of cited findings; each .finding has two direct children: .finding-num and its explanation/source (a paragraph or wrapper).", "Standalone .finding uses the same markup; its host supplies available inline space through block layout, stretched flex, or a defined grid track."],
       "modifiers": ["No public modifiers."],
-      "states": ["Stacks on narrow screens."],
+      "states": ["Each finding stacks at up to 35rem of its own width and uses a 150px statistic column above that. Root-relative breakpoints allow more room for enlarged text.", "Bounded statistic type follows local container width, not the viewport. Named queries isolate nested instances and unrelated outer containers.", "Long metrics and sources wrap. Intrinsically sized/shrink-to-fit hosts need an explicit available width because inline-size containment ignores child width."],
       "accessibility": ["Use an ordered list when numbering communicates order; source links need descriptive labels."],
       "javascript": "None.",
       "markup": "<ol class=\"findings\"><li class=\"finding\"><span class=\"finding-num\">01</span><p class=\"finding-text\">Reference pages reduce adoption uncertainty. <cite class=\"finding-src\">Repository review</cite></p></li></ol>"

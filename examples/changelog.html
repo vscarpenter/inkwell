@@ -100,9 +100,22 @@
       <!-- BEGIN GENERATED: releases — edit CHANGELOG.md and run scripts/build-changelog-html.mjs -->
       <article class="release">
         <div class="release-head">
+          <span class="ver">Unreleased</span>
+          <span class="badge badge-accent">Latest</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Changed</div>
+          <ul class="change-list">
+            <li><strong>Container-aware cited findings.</strong> Each <code>.finding</code> adapts to its own available width instead of the viewport: up to 35rem it stacks, above that it retains the statistic/text split. Bounded statistic type uses container units, long metrics/sources wrap, and the existing two-child markup supports standalone and nested instances. The showcase includes a narrow-column example.</li>
+            <li><strong>Complete example navigation.</strong> The root starter includes an Examples link and a compact directory linking all 20 published pages. The public gallery retains every route and adds a direct link to the finding demonstration. Static and browser checks derive the route inventory from the filesystem to prevent omissions.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
           <span class="ver">v3.7.0</span>
           <span class="release-date">2026-10-29</span>
-          <span class="badge badge-accent">Latest</span>
         </div>
         <div class="change-block">
           <div class="change-label">Added</div>

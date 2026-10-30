@@ -475,15 +475,25 @@ kbd, .kbd {
    convention; set .finding-src to var(--accent-ink) for an accent citation. */
 .findings { display: flex; flex-direction: column; }
 .finding {
+  container: inkwell-finding / inline-size;
   display: grid;
-  grid-template-columns: minmax(0, 150px) 1fr;
-  gap: var(--sp-5);
+  grid-template-columns: minmax(0, 150px) minmax(0, 1fr);
+  column-gap: var(--sp-5);
+  row-gap: var(--sp-2);
   align-items: start;
   padding: var(--sp-5) 0;
   border-top: var(--border-rule);
 }
+/* Query children rather than the container itself. The stacked default
+   also remains usable below the supported container-query browser floor. */
+.finding > * { grid-column: 1 / -1; min-inline-size: 0; overflow-wrap: anywhere; }
+@container inkwell-finding (width > 35rem) {
+  .finding > * { grid-column: auto; }
+}
 .finding:first-child { border-top: none; padding-top: 0; }
 .finding-num { font: 600 clamp(2.75rem, 1rem + 5vw, 4rem)/0.95 var(--serif); letter-spacing: -0.02em; color: var(--accent-ink); }
+/* The preceding font is the safe fallback if cqi is unavailable. */
+.finding > .finding-num { font-size: clamp(2.75rem, 1rem + 8cqi, 4rem); }
 .finding-text { font: 400 var(--t-lede)/1.45 var(--sans); color: var(--slate); text-wrap: pretty; margin: 0; }
 .finding-text strong { font-weight: 600; }
 .finding-src {
@@ -494,7 +504,6 @@ kbd, .kbd {
   letter-spacing: 0.1em;
   color: var(--gray-500);
 }
-@media (max-width: 560px) { .finding { grid-template-columns: 1fr; gap: var(--sp-2); } }
 
 /* ---------- Table ---------- */
 .tbl {

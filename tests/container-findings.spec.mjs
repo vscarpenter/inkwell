@@ -61,6 +61,18 @@ test("finding typography follows container width and remains stable across viewp
   expect((await geometry(page, "standalone")).font).toBeCloseTo(first.font, 2);
 });
 
+test("the local breakpoint switches just above 35rem", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await render(page);
+  const host = page.locator("#standalone").locator("..");
+  await host.evaluate(el => { el.style.inlineSize = "560px"; });
+  const atBoundary = await geometry(page, "standalone");
+  expect(atBoundary.text.y - atBoundary.number.bottom).toBeCloseTo(8, 0);
+  await host.evaluate(el => { el.style.inlineSize = "561px"; });
+  const aboveBoundary = await geometry(page, "standalone");
+  expect(aboveBoundary.text.y).toBeCloseTo(aboveBoundary.number.y, 0);
+});
+
 test("nested findings measure themselves and ignore unrelated query containers", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await render(page);
@@ -106,6 +118,27 @@ test("long metrics, source URLs, and all palettes fit narrow containers", async 
   }
 });
 
+test("standalone findings use available grid/flex width and grow in print", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  for (const layout of ["grid", "flex"]) {
+    await render(page);
+    await page.locator("#standalone").locator("..").evaluate((el, layout) => {
+      el.style.display = layout;
+      if (layout === "grid") el.style.gridTemplateColumns = "minmax(0, 1fr)";
+      else el.firstElementChild.style.flex = "1 1 0";
+    }, layout);
+    const result = await geometry(page, "standalone");
+    expect(result.width).toBe(320);
+    expect(result.text.y - result.number.bottom).toBeCloseTo(8, 0);
+  }
+  await page.emulateMedia({ media: "print" });
+  const containment = await page.locator("#standalone").evaluate(el => ({
+    bottom: el.getBoundingClientRect().bottom,
+    children: [...el.children].map(child => child.getBoundingClientRect().bottom),
+  }));
+  expect(Math.max(...containment.children)).toBeLessThanOrEqual(containment.bottom);
+});
+
 for (const path of ["/index.html", "/examples/index.html"]) {
   test(`${path} links directly to every published example`, async ({ page }) => {
     await page.goto(path);
@@ -120,3 +153,16 @@ for (const path of ["/index.html", "/examples/index.html"]) {
     expect(routes.filter(route => !links.includes(route))).toEqual([]);
   });
 }
+
+test("both indexes reflow at 320px with enlarged text and either direction", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 900 });
+  for (const path of ["/index.html", "/examples/index.html"]) {
+    for (const dir of ["ltr", "rtl"]) {
+      await page.goto(path);
+      await page.evaluate(dir => { document.documentElement.dir = dir; document.documentElement.style.fontSize = "32px"; }, dir);
+      if (path === "/index.html") await page.locator("#examples summary").click();
+      const size = await page.evaluate(() => ({ width: document.documentElement.clientWidth, scroll: document.documentElement.scrollWidth }));
+      expect(size.scroll, `${path}/${dir}`).toBeLessThanOrEqual(size.width);
+    }
+  }
+});

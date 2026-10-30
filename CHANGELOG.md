@@ -6,6 +6,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Changed
+- **Container-aware cited findings.** Each `.finding` adapts to its own available width instead of the viewport: up to 35rem it stacks, above that it retains the statistic/text split. Bounded statistic type uses container units, long metrics/sources wrap, and the existing two-child markup supports standalone and nested instances. The showcase includes a narrow-column example.
+- **Complete example navigation.** The root starter includes an Examples link and a compact directory linking all 20 published pages. The public gallery retains every route and adds a direct link to the finding demonstration. Static and browser checks derive the route inventory from the filesystem to prevent omissions.
+
 ## [3.7.0] — 2026-10-29
 
 ### Added

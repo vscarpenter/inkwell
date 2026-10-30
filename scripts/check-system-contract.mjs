@@ -97,6 +97,22 @@ const htmlFiles = existsSync(resolve(ROOT, "examples"))
     ].sort()
   : [];
 
+// Both entry points must expose the actual published route inventory.
+// Ignore anchors/query strings so focused demos still count for their page.
+for (const indexFile of ["index.html", "examples/index.html"]) {
+  const indexHtml = read(indexFile).replace(/<pre\b[\s\S]*?<\/pre>/gi, "");
+  const targets = new Set([...indexHtml.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)]
+    .map(match => match[1])
+    .filter(href => href && !/^(?:#|[a-z]+:|\/\/)/i.test(href))
+    .map(href => resolve(ROOT, dirname(indexFile), href.split(/[?#]/)[0])));
+  for (const page of htmlFiles) {
+    if (!targets.has(resolve(ROOT, page))) fail(indexFile, `must link directly to ${page}`);
+  }
+  if (indexFile === "index.html" && !indexHtml.includes(`Browse all ${htmlFiles.length} example pages`)) {
+    fail(indexFile, `example directory must identify ${htmlFiles.length} pages`);
+  }
+}
+
 for (const file of htmlFiles) {
   const html = read(file);
   const route = relative(resolve(ROOT, "examples"), resolve(ROOT, file)).replaceAll("\\", "/");

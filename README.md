@@ -51,6 +51,12 @@ That's the whole install — no `tailwind.config.js`, no JS preset. You get Inkw
 
 > Tailwind v3 is not supported — v3 requires a JS preset that conflicts with the no-build pitch. See [`TAILWIND.md`](TAILWIND.md) for the full guide (the `border-inkwell` convention, components-vs-utilities rule, cascade-order check) and [`examples/tailwind.html`](examples/tailwind.html) for a live demo that opens in a browser without a toolchain. The deprecated `border-hair` utility remains through 3.x; the CSS token `--border-hair` still correctly means a 1px internal divider.
 
+## Container-aware findings
+
+In the unreleased development version, findings respond to their own available space: they stack at up to 35rem, with a statistic/text split above that width. The statistic's bounded type scale follows the component width, and enlarged text increases the stacking threshold. Existing `.findings` / `.finding` markup continues to work, including standalone findings. Normal block/flex/grid layouts supply the available width; shrink-to-fit hosts need an explicit width. See the [wide and narrow showcase](preview.html#findings).
+
+Both [the root starter](index.html#examples) and [the published gallery](examples/index.html#components) link to every example page. Static and browser checks compare their links against the filesystem inventory so new pages cannot be silently omitted.
+
 ## Progress and measurements
 
 Progress and meter controls use native HTML and need no interaction script:
