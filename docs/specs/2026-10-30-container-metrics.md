@@ -32,3 +32,9 @@ Implemented locally on October 30, 2026, on `codex/container-metrics`; the relea
 - Local screenshot evidence is in the ignored `.claude/screenshots/` directory: `container-metrics-comparison.jpg`, `container-metrics-dashboard-light.jpg`, `container-metrics-dashboard-dark.jpg`, and `container-metrics-showcase-light.jpg`. The dashboard preview remains open.
 
 The backlog now lists status-treatment comparison as the next experiment, further container work as conditional, eyebrow/sky policies as standing decisions, and relative dark-accent derivation as future-major exploration. This review record is the only change after the tested runtime commit.
+
+## Release follow-up: 3.11.0
+
+The user subsequently authorized pushing and deploying the completed work as 3.11.0. The earlier local-only/Unreleased statements describe the implementation phase. Release preparation promotes these changelog entries and updates the six distributable headers and mirrors, component manifest, generated token exports and page footers, install/agent pins, homepage copy regression, and completed-work wording in the backlog. The approved layout and palette behavior are unchanged from `938105c`.
+
+All generated-file, typed token-export, contrast, repository-contract, deployment-placeholder, and whitespace checks passed for release preparation. The implementation's detector baseline and visual review remain recorded above; no suppressions or unrelated changes were added. Release publication requires successful branch CI, followed by verification of the deployed pages, pinned files, and post-merge CI.

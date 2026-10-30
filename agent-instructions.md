@@ -5,7 +5,7 @@ You are an AI coding agent (Claude Code, Codex, Cursor, etc.) and the user has a
 - **Repo:** https://github.com/vscarpenter/inkwell
 - **Live demo:** https://inkwell.vinny.dev/
 - **License:** MIT
-- **Targets:** Inkwell 3.10.0 — if the repo's `CHANGELOG.md` shows a newer release, re-fetch this file before proceeding. Inkwell 3.x requires Chrome/Edge 123+, Firefox 120+, Safari 17.5+ (mid-2024); pin the `v2.1.0` tag in raw URLs if the project must support older browsers.
+- **Targets:** Inkwell 3.11.0 — if the repo's `CHANGELOG.md` shows a newer release, re-fetch this file before proceeding. Inkwell 3.x requires Chrome/Edge 123+, Firefox 120+, Safari 17.5+ (mid-2024); pin the `v2.1.0` tag in raw URLs if the project must support older browsers.
 
 Read this file end-to-end before writing any HTML or CSS. The "Hard rules" and "Anti-patterns" sections are non-negotiable — Inkwell has a deliberate, opinionated look and breaking these rules will produce something that does not look like Inkwell.
 
@@ -37,9 +37,9 @@ Download three canonical CSS files into the user's project. Use raw GitHub URLs:
 
 | File | Raw URL | Where to put it |
 |---|---|---|
-| `inkwell.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0/inkwell.css` | Project static/CSS folder |
-| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0/inkwell-tokens.css` | Same folder as `inkwell.css` |
-| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0/inkwell-components.css` | Same folder |
+| `inkwell.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.11.0/inkwell.css` | Project static/CSS folder |
+| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.11.0/inkwell-tokens.css` | Same folder as `inkwell.css` |
+| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.11.0/inkwell-components.css` | Same folder |
 
 All three files must live side-by-side. `inkwell.css` `@import`s `inkwell-tokens.css` (unlayered) and `inkwell-components.css` (into `@layer inkwell`, so the user's own CSS always overrides Inkwell components). `tokens.css` is a deprecated alias of `inkwell.css` — only fetch it if the project already links that filename. Link `inkwell.css` from your `<head>`:
 
@@ -55,9 +55,9 @@ If the user's project uses **Tailwind v4 (October 2024 or later)**, fetch the Ta
 
 | File | Raw URL |
 |---|---|
-| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0/inkwell-tokens.css` |
-| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0/inkwell-components.css` |
-| `inkwell-theme.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0/inkwell-theme.css` |
+| `inkwell-tokens.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.11.0/inkwell-tokens.css` |
+| `inkwell-components.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.11.0/inkwell-components.css` |
+| `inkwell-theme.css` | `https://raw.githubusercontent.com/vscarpenter/inkwell/v3.11.0/inkwell-theme.css` |
 
 Keep the three files side by side, then add two lines to the user's Tailwind entry CSS (typically `app.css`, `globals.css`, or whatever their build points at), in this order:
 
@@ -96,7 +96,7 @@ If the user wants a non-default palette, also fetch the relevant variant file fr
 ```bash
 # Default install (pure CSS, no Tailwind) — three files
 mkdir -p public/css
-BASE=https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0
+BASE=https://raw.githubusercontent.com/vscarpenter/inkwell/v3.11.0
 curl -sSLo public/css/inkwell.css           $BASE/inkwell.css
 curl -sSLo public/css/inkwell-tokens.css    $BASE/inkwell-tokens.css
 curl -sSLo public/css/inkwell-components.css $BASE/inkwell-components.css

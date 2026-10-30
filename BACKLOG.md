@@ -10,7 +10,7 @@ Move completed work into the relevant documentation and `CHANGELOG.md` under Unr
 
 ## Needs a demonstrated use case
 
-- **Further container-aware components** — `.finding` shipped in 3.8.0; stat cards and intrinsic metric groups are completed in current source under Unreleased. Choose another component only when a concrete narrow-host case demonstrates a benefit. Prefer intrinsic layout when sufficient; keep containment local and verify sizing, enlarged text, and nested contexts.
+- **Further container-aware components** — `.finding` shipped in 3.8.0; stat cards and intrinsic metric groups ship in 3.11.0. Choose another component only when a concrete narrow-host case demonstrates a benefit. Prefer intrinsic layout when sufficient; keep containment local and verify sizing, enlarged text, and nested contexts.
 
 ## Standing design decisions
 
