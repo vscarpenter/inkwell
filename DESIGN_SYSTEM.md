@@ -51,6 +51,8 @@ A small palette (12 hues) with one accent doing all the work. Neutrals are *cool
 
 **Why the dark accent is *lifted***: `#3B4A8C` against a near-black background reads as a hole punched in the page rather than an accent. The dark variant `#7A8AD1` (periwinkle) restores the sense of a "highlighted element" by retaining hue while gaining luminance. This pattern — saturated in light, lifted in dark — applies to all colored tokens.
 
+Primary-button hover and pressed fills move away from the label color to increase contrast. Clay uses dark labels in both modes, so both hover fills lighten: its dark `--accent-d` is `#E99B80`, increasing label contrast from 6.49:1 at rest to 7.59:1 on hover/press.
+
 ### Semantic color aliases
 
 Use these intent-based aliases for new page and panel styling. Palette-named tokens remain public, and variants continue to override them. Existing components retain their original token contract, including local primitive overrides; adoption is opt-in through custom CSS or semantic Tailwind utilities.
@@ -211,7 +213,7 @@ Because `color-scheme` is declared on `:root`, native UI (scrollbars, form contr
 
 **Derive vs. declare (the 3.0 tint rule):** alpha tints (`*-tint`, `*-focus-ring`, `*-strong-border`) derive from their base token via `color-mix(in srgb, var(--base) P%, transparent)`, so a palette that overrides `--accent` gets correct tints for free. A token is declared explicitly wherever the contrast gate (`scripts/check-contrast.mjs`) forced a hand-tuned value — e.g. clay and sage redeclare `--accent-tint` because their dark alpha (18%) differs from canonical's tuned 10%. Derive by default; declare where the gate demands. When adding a new colored token, put both mode values in one `light-dark()` declaration — a dark block redeclaration is now an anti-pattern.
 
-The one surviving piece of the old Pattern B duplication is the dark `.select` chevron override: `light-dark()` only accepts colors, and the chevron is a `background-image` data URI, so it keeps explicit dark-active selectors in canonical and each variant.
+The one surviving piece of the old Pattern B duplication is the `.select` chevron: `light-dark()` only accepts colors, and the chevron is a `background-image` data URI that cannot inherit CSS variables. The base image matches Indigo's light `--gray-500`; each variant supplies its own light image, and canonical/variant files keep explicit dark-active screen overrides. Each arrow matches its palette's `--gray-500` in manual and automatic themes, including the forced-light print palette, without changing the native select markup or picker. RTL placement and native forced-colors affordances remain shared component rules.
 
 ---
 

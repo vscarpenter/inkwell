@@ -23,7 +23,7 @@
 
   /* ---------- Accent (Anthropic clay coral, lifted in dark) ---------- */
   --accent:   light-dark(#D97757, #E08B6E);
-  --accent-d: light-dark(#E08B6E, #C97557); /* light hover LIGHTENS (7.1:1 with slate label); darkening hover failed 4.07:1 */
+  --accent-d: light-dark(#E08B6E, #E99B80); /* hover LIGHTENS in both modes, away from the dark label; dark hover increases label contrast from 6.49:1 to 7.59:1 */
   --accent-tint: light-dark(
     color-mix(in srgb, var(--accent) 14%, transparent),
     color-mix(in srgb, var(--accent) 18%, transparent));
@@ -39,9 +39,12 @@
   --gray-700: light-dark(#3D3D3A, #C4BFB2);
 }
 
-/* Select chevron dark-mode override: see canonical inkwell-tokens.css for rationale.
-   Stroke uses clay's dark --gray-500 (#9C988D) so the chevron matches the neutral scale. */
-@media (prefers-color-scheme: dark) {
+/* Select chevrons mirror this palette's --gray-500 in each mode.
+   SVG data URIs cannot inherit CSS variables; keep the native select markup. */
+.select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%236E6D62' stroke-width='1.5' stroke-linecap='round'/></svg>");
+}
+@media screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .select {
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%239C988D' stroke-width='1.5' stroke-linecap='round'/></svg>");
   }

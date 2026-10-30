@@ -1,6 +1,6 @@
 /* =====================================================================
    Inkwell — design tokens & dark-mode cascade.
-   Version: 3.8.0
+   Version: 3.8.1
    Default palette: Indigo & Cloud (cool stone + deep indigo).
 
    This file contains ONLY:
@@ -231,12 +231,13 @@
    The base .select rule in inkwell-components.css uses a data URI SVG
    with a hardcoded stroke color. light-dark() only accepts <color>
    values and data URIs can't reference CSS variables, so the dark
-   chevron needs explicit dark-active selectors (auto + manual). The
+   chevron needs explicit dark-active screen selectors (auto + manual),
+   keeping the base light arrow in the forced-light print palette. The
    stroke is the dark --gray-500 (#9A9AA0). Specificity is locked
    above the base rule so the dark chevron wins regardless of cascade
    order.
    ===================================================================== */
-@media (prefers-color-scheme: dark) {
+@media screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .select {
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%239A9AA0' stroke-width='1.5' stroke-linecap='round'/></svg>");
   }
