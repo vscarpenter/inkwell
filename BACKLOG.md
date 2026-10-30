@@ -6,7 +6,7 @@ Move completed work into the relevant documentation and `CHANGELOG.md` under Unr
 
 ## Next
 
-No additional component work is scheduled. The action menu shipped in 3.9.0; see `CHANGELOG.md` for the completed work.
+No additional work is scheduled. The homepage redesign and appearance-control contrast fix are included in 3.10.0 in `CHANGELOG.md`.
 
 ## Needs a demonstrated use case
 

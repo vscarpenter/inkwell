@@ -5,25 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#F4F4F0">
   <link rel="canonical" href="https://inkwell.vinny.dev/">
-  <title>Inkwell Sample Pages</title>
-  <meta name="description" content="A gallery of sample pages — dashboard, landing, docs, pricing, settings, and more — built with the Inkwell pure-CSS design system.">
+  <title>Inkwell — Build interfaces with character</title>
+  <meta name="description" content="Build product and editorial interfaces with Inkwell: 39 component families, five palettes, light and dark modes, and no consumer build step.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Inkwell">
-  <meta property="og:url" content="https://inkwell.vinny.dev/index.html">
-  <meta property="og:title" content="Inkwell Sample Pages">
-  <meta property="og:description" content="A gallery of sample pages — dashboard, landing, docs, pricing, settings, and more — built with the Inkwell pure-CSS design system.">
+  <meta property="og:url" content="https://inkwell.vinny.dev/">
+  <meta property="og:title" content="Inkwell — Build interfaces with character">
+  <meta property="og:description" content="Build product and editorial interfaces with Inkwell: 39 component families, five palettes, light and dark modes, and no consumer build step.">
   <meta property="og:image" content="https://inkwell.vinny.dev/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Inkwell — a pure-CSS design system">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Inkwell Sample Pages">
-  <meta name="twitter:description" content="A gallery of sample pages — dashboard, landing, docs, pricing, settings, and more — built with the Inkwell pure-CSS design system.">
+  <meta name="twitter:title" content="Inkwell — Build interfaces with character">
+  <meta name="twitter:description" content="Build product and editorial interfaces with Inkwell: 39 component families, five palettes, light and dark modes, and no consumer build step.">
   <meta name="twitter:image" content="https://inkwell.vinny.dev/og-image.png">
   <link rel="icon" type="image/png" href="favicon-512.png">
   <link rel="apple-touch-icon" href="favicon-512.png">
   <link rel="stylesheet" href="inkwell.css">
-  <link rel="stylesheet" href="demo.css">
+  <link rel="stylesheet" href="home.css">
   <script>
     // Apply saved theme and palette before first paint (README: "writes data-theme before paint").
     // KEEP IN SYNC: this snippet is hand-copied across examples/*.html + preview.html.
@@ -38,244 +38,188 @@
     })();
   </script>
 </head>
-<body>
+<body class="inkwell-home">
   <a class="skip-link" href="#main-content">Skip to content</a>
-  <main id="main-content" class="demo-shell">
-    <div class="wrap-wide">
-      <nav class="demo-nav" aria-label="Sample pages">
-        <a class="brand" href="index.html" aria-current="page">
-          <span class="brand-mark" aria-hidden="true">
-            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
-              <path d="M5 2.5h7v12H5z" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M7.2 5.4h2.8M7.2 8.3h3.6M7.2 11.2h2.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-          </span>
-          <span class="t-h3">Inkwell</span>
-        </a>
-        <div class="palette-toggle" role="group" aria-label="Palette">
-          <button class="btn btn-ghost" type="button" data-palette-choice="indigo"   title="Indigo &amp; Cloud">Indigo</button>
-          <button class="btn btn-ghost" type="button" data-palette-choice="clay"     title="Clay">Clay</button>
-          <button class="btn btn-ghost" type="button" data-palette-choice="sage"     title="Sage &amp; Stone">Sage</button>
-          <button class="btn btn-ghost" type="button" data-palette-choice="burgundy" title="Burgundy &amp; Bone">Burgundy</button>
-          <button class="btn btn-ghost" type="button" data-palette-choice="azure"    title="Azure &amp; Ink">Azure</button>
-        </div>
-        <div class="theme-toggle" role="group" aria-label="Theme">
-          <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
-          <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
-          <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
-        </div>
-      </nav>
+  <header class="home-header wrap-wide">
+    <a class="home-brand" href="index.html" aria-current="page">
+      <svg aria-hidden="true" width="24" height="28" viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 3h14v22H5z"/><path d="M8.5 8h7M8.5 13h7M8.5 18h4" stroke-linecap="round"/></svg>
+      <span>Inkwell</span>
+    </a>
+    <nav class="home-nav" aria-label="Primary">
+      <a href="docs.html">Docs</a>
+      <a href="components.html">Components</a>
+      <a href="#components">Examples</a>
+      <a href="https://github.com/vscarpenter/inkwell">GitHub <svg class="icon-directional" aria-hidden="true" width="14" height="14" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m4 14 10-10M4 4h10v10"/></svg></a>
+    </nav>
+  </header>
 
-      <section class="hero">
-        <div>
-          <span class="eyebrow">Design system sample</span>
-          <h1>Editorial product UI with <em class="accent">tokenized polish.</em></h1>
-          <p class="hero-copy">These pages demonstrate the Inkwell CSS system: serif headings, cool neutral surfaces, indigo accents, 1.5px borders, compact components, and automatic dark mode.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="dashboard.html">View dashboard sample</a>
-            <a class="btn btn-secondary" href="components.html">Browse components</a>
-          </div>
-        </div>
-
-        <aside class="demo-panel" aria-label="Component preview">
-          <div class="demo-panel-head">
-            <span class="t-caption">SYSTEM HEALTH</span>
-            <span class="badge badge-success">Ready</span>
-          </div>
-          <div class="preview-stack">
-            <div class="metric-grid">
-              <div class="stat-card">
-                <div class="stat-num">42</div>
-                <div class="stat-label">Tokens</div>
-                <div class="stat-delta up">+8 refined</div>
-              </div>
-              <div class="stat-card is-primary">
-                <div class="stat-num">1.5</div>
-                <div class="stat-label">Border px</div>
-                <div class="stat-delta flat">signature</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-num">2</div>
-                <div class="stat-label">Themes</div>
-                <div class="stat-delta up">auto switch</div>
-              </div>
-            </div>
-            <div class="tldr">
-              <div class="tldr-label">TL;DR</div>
-              Link <code>inkwell.css</code>, then compose pages with token-backed classes.
-            </div>
-          </div>
-        </aside>
-      </section>
-
-      <div class="alert is-info" id="get-started" style="margin-top: var(--sp-8);">
-        <div>
-          <p class="alert-title">Using Claude/Codex/Devin/Cursor - tell your coding assistant to:</p>
-          <p class="alert-body">
-          Read <code>https://raw.githubusercontent.com/vscarpenter/inkwell/v3.9.0/agent-instructions.md</code> and apply the Inkwell Design System to this web app. Follow the design tokens, CSS classes, typography, spacing, color rules, and component patterns exactly, without introducing a competing styling system.
-          </p>
-        </div>
+  <main class="wrap-wide" id="main-content">
+    <section class="home-intro" aria-labelledby="home-title">
+      <h1 id="home-title">Build interfaces with character.</h1>
+      <p>A CSS design system with 39 components, five palettes, and light and dark modes. No build step.</p>
+      <div class="home-actions">
+        <a class="btn btn-primary" href="#get-started">Start building</a>
+        <a class="btn btn-secondary" href="components.html">Explore components</a>
       </div>
+    </section>
 
-      <section class="section" id="components">
-        <div class="sec-head">
-          <span class="idx">01</span>
-          <h2>Example pages</h2>
-          <span class="count">All examples</span>
+    <figure class="home-stage" aria-labelledby="specimen-title">
+      <figcaption class="home-stage-toolbar">
+        <p>Live components. Make them yours.</p>
+        <div class="home-appearance">
+          <div class="palette-toggle" role="group" aria-label="Palette" data-home-appearance hidden>
+            <button class="btn btn-ghost" type="button" data-palette-choice="indigo" title="Indigo &amp; Cloud">Indigo</button>
+            <button class="btn btn-ghost" type="button" data-palette-choice="clay">Clay</button>
+            <button class="btn btn-ghost" type="button" data-palette-choice="sage" title="Sage &amp; Stone">Sage</button>
+            <button class="btn btn-ghost" type="button" data-palette-choice="burgundy" title="Burgundy &amp; Bone">Burgundy</button>
+            <button class="btn btn-ghost" type="button" data-palette-choice="azure" title="Azure &amp; Ink">Azure</button>
+          </div>
+          <div class="theme-toggle" role="group" aria-label="Theme" data-home-appearance hidden>
+            <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+            <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+            <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+          </div>
         </div>
-        <div class="card-grid">
-          <a class="card is-link" href="components.html">
-            <span class="badge badge-accent">Reference</span>
-            <h3 class="t-h3">Component contracts</h3>
-            <p class="t-small">Selectors, anatomy, modifiers, states, accessibility, JavaScript responsibilities, version history, and copyable markup from one generated catalog.</p>
-          </a>
-          <a class="card is-link" href="docs.html">
-            <span class="badge badge-accent">Start here</span>
-            <h3 class="t-h3">Getting started guide</h3>
-            <p class="t-small">Long-form documentation page exercising TOC, code blocks, kbd chips, alerts, tables, and the full editorial typography hierarchy.</p>
-          </a>
-          <a class="card is-link" href="carousel.html">
-            <span class="badge badge-accent">New</span>
-            <h3 class="t-h3">Editorial carousel</h3>
-            <p class="t-small">A swipeable five-part series built on CSS scroll-snap — callouts, cited findings, keyboard navigation, and a zero-JS core.</p>
-          </a>
-          <a class="card is-link" href="dashboard.html">
-            <span class="badge badge-accent">Operations</span>
-            <h3 class="t-h3">Dashboard patterns</h3>
-            <p class="t-small">Stats, tables, status chips, timeline entries, and compact toolbar controls.</p>
-          </a>
-          <a class="card is-link" href="app-shell.html">
-            <span class="badge badge-accent">Product</span>
-            <h3 class="t-h3">App shell</h3>
-            <p class="t-small">SaaS chrome with <code>.navbar</code>, sidebar column, scrollable table, tooltips, and <code>aria-busy</code> export.</p>
-          </a>
-          <a class="card is-link" href="tailwind.html">
-            <span class="badge badge-neutral">Integration</span>
-            <h3 class="t-h3">Tailwind v4 integration</h3>
-            <p class="t-small">Inkwell tokens and components alongside Tailwind utilities — <code>border-inkwell</code>, <code>dark:</code>, and cascade-order notes.</p>
-          </a>
-          <a class="card is-link" href="settings.html">
-            <span class="badge badge-neutral">Forms</span>
-            <h3 class="t-h3">Input patterns</h3>
-            <p class="t-small">Text inputs, checkboxes, destructive actions, saved-state labels, and field grouping.</p>
-          </a>
-          <a class="card is-link" href="forms.html">
-            <span class="badge badge-accent">New</span>
-            <h3 class="t-h3">Form patterns &amp; dialogs</h3>
-            <p class="t-small">Field states, radio &amp; switch, alerts, code blocks, kbd chips, and a native dialog.</p>
-          </a>
-          <a class="card is-link" href="article.html">
-            <span class="badge badge-accent">Editorial</span>
-            <h3 class="t-h3">Article layout</h3>
-            <p class="t-small">Long-form reading, table of contents chips, callouts, and section rhythm.</p>
-          </a>
-          <a class="card is-link" href="pricing.html">
-            <span class="badge badge-success">Commerce</span>
-            <h3 class="t-h3">Pricing page</h3>
-            <p class="t-small">Plan cards, feature lists, selected states, and primary purchase actions.</p>
-          </a>
-          <a class="card is-link" href="profile.html">
-            <span class="badge badge-neutral">People</span>
-            <h3 class="t-h3">Profile page</h3>
-            <p class="t-small">Identity header, status badges, activity table, and team metadata.</p>
-          </a>
-          <a class="card is-link" href="roadmap.html">
-            <span class="badge badge-warning">Planning</span>
-            <h3 class="t-h3">Roadmap page</h3>
-            <p class="t-small">Timeline entries, severity pills, progress chips, and milestone cards.</p>
-          </a>
-          <a class="card is-link" href="auth-pattern.html">
-            <span class="badge badge-accent">Auth</span>
-            <h3 class="t-h3">Sign-in form pattern</h3>
-            <p class="t-small">Static demo of a sign-in surface — fields, checkbox, primary action, and support copy. No real authentication.</p>
-          </a>
-          <a class="card is-link" href="landing.html">
-            <span class="badge badge-accent">Marketing</span>
-            <h3 class="t-h3">Landing page</h3>
-            <p class="t-small">Hero, feature grid, pull quote, FAQ with native &lt;details&gt;, and a CTA — all token-driven.</p>
-          </a>
-          <a class="card is-link" href="search.html">
-            <span class="badge badge-accent">Patterns</span>
-            <h3 class="t-h3">Search results</h3>
-            <p class="t-small">Search bar, filter facets, category tabs, breadcrumbs, pagination, and skeleton loading.</p>
-          </a>
-          <a class="card is-link" href="changelog.html">
-            <span class="badge badge-neutral">Release notes</span>
-            <h3 class="t-h3">Changelog</h3>
-            <p class="t-small">Version pills, categorized changes, migration code blocks, and pagination.</p>
-          </a>
-          <a class="card is-link" href="not-found.html">
-            <span class="badge badge-warning">Error</span>
-            <h3 class="t-h3">404 page</h3>
-            <p class="t-small">Centered empty-state with icon slot, headline, body, and a list of likely destinations.</p>
-          </a>
-          <a class="card is-link" href="preview.html">
-            <span class="badge badge-accent">Showcase</span>
-            <h3 class="t-h3">Component preview</h3>
-            <p class="t-small">Every component, every state, on one page. The palette toggle in the header flips Indigo &amp; Cloud, Clay, Sage, Burgundy, and Azure live.</p>
-          </a>
-          <a class="card is-link" href="variants/compare.html">
-            <span class="badge badge-neutral">Palettes</span>
-            <h3 class="t-h3">Compare palettes</h3>
-            <p class="t-small">Five iframes side-by-side rendering the preview in each palette. Toggle theme in the header to flip all five together.</p>
-          </a>
-          <a class="card is-link" href="preview.html#findings">
-            <span class="badge badge-neutral">Responsive layout</span>
-            <h3 class="t-h3">Container-aware findings</h3>
-            <p class="t-small">The same statistic and source in a wide reading column and a narrow sidebar, adapting to available space.</p>
-          </a>
-          <a class="card is-link" href="preview.html#menus">
-            <span class="badge badge-neutral">Interaction</span>
-            <h3 class="t-h3">Keyboard action menus</h3>
-            <p class="t-small">Project commands with arrow-key navigation, focus restoration, Arabic RTL, and native-browser fallbacks.</p>
-          </a>
-          <a class="card is-link" href="docs.html#theme">
-            <span class="badge badge-warning">Tokens</span>
-            <h3 class="t-h3">Theme primitives</h3>
-            <p class="t-small">Palette, typography, spacing, radius, shadow, motion, and layout variables. Also exported as <code>tokens.json</code>.</p>
-          </a>
+      </figcaption>
+      <div class="home-specimen">
+        <div class="home-specimen-copy">
+          <span class="badge badge-neutral">A working example</span>
+          <h2 id="specimen-title">Make room for the work.</h2>
+          <p>Serif for the idea. Sans for the detail. A small project brief, made from components you can copy.</p>
+          <p class="t-small">Try the fields, open the menu, or change the palette. Nothing is saved.</p>
         </div>
-      </section>
+        <fieldset class="home-specimen-fields">
+          <legend class="sr-only">Try form controls</legend>
+          <div class="field">
+            <label class="field-label" for="home-project-name">Project name</label>
+            <input class="input" id="home-project-name" name="project" type="text" value="Thoughtful interfaces" required dir="auto">
+          </div>
+          <label class="checkbox"><input id="home-updates" name="updates" type="checkbox" checked>Send updates</label>
+          <div class="home-actions">
+            <button class="btn btn-secondary" type="button" id="home-preview" hidden>Preview changes</button>
+            <div class="menu" data-menu>
+              <button class="btn btn-ghost" type="button" data-menu-trigger id="home-menu-trigger" hidden>Specimen actions <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m3 4.5 3 3 3-3"/></svg></button>
+              <div class="menu-panel" aria-labelledby="home-menu-trigger">
+                <button class="menu-item" type="button" id="home-reset" disabled>Reset example</button>
+                <a class="menu-item" href="components.html#form-controls">View input markup</a>
+                <a class="menu-item" href="preview.html#menus">Explore menu behavior</a>
+              </div>
+            </div>
+          </div>
+          <p class="home-status" id="home-preview-status" role="status">Try the fields. Nothing is saved.</p>
+        </fieldset>
+      </div>
+      <div class="home-stage-foot">
+        <div>
+          <div class="home-progress-label"><label for="home-progress">Native progress · example</label><span>72%</span></div>
+          <progress class="progress" id="home-progress" max="100" value="72">72%</progress>
+        </div>
+        <a class="link" href="preview.html">See every component and state <span class="icon-directional" aria-hidden="true">→</span></a>
+      </div>
+    </figure>
 
-      <section class="section">
-        <div class="sec-head">
-          <span class="idx">02</span>
-          <h2>Palette samples</h2>
-          <span class="count">8 swatches</span>
-        </div>
-        <div class="swatch-grid">
-          <div class="swatch bg-ivory"><strong>--ivory</strong><span>Page background</span></div>
-          <div class="swatch bg-paper"><strong>--paper</strong><span>Panel surface</span></div>
-          <div class="swatch bg-slate"><strong>--slate</strong><span>Primary text</span></div>
-          <div class="swatch bg-accent"><strong>--accent</strong><span>Primary action</span></div>
-          <div class="swatch bg-oat"><strong>--oat</strong><span>Hover surface</span></div>
-          <div class="swatch bg-success"><strong>--olive</strong><span>Success</span></div>
-          <div class="swatch bg-warning"><strong>--warning</strong><span>Warning</span></div>
-          <div class="swatch bg-danger"><strong>--rust</strong><span>Danger</span></div>
-        </div>
-      </section>
+    <section class="home-section" id="get-started" aria-labelledby="start-title">
+      <h2 id="start-title">Three files. Your next interface.</h2>
+      <p>Use the CSS directly, or give your coding agent the same component contract.</p>
+      <div class="home-install-grid">
+        <article class="home-install-path" aria-labelledby="css-path-title">
+          <h3 id="css-path-title">Link the CSS</h3>
+          <p>Keep these files together, then add the stylesheet to your page.</p>
+          <ul class="home-file-list" aria-label="CSS source files">
+            <li><a class="link" href="https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0/inkwell.css">inkwell.css</a></li>
+            <li><a class="link" href="https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0/inkwell-tokens.css">inkwell-tokens.css</a></li>
+            <li><a class="link" href="https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0/inkwell-components.css">inkwell-components.css</a></li>
+          </ul>
+          <div class="code-block home-code"><pre dir="ltr" lang="en"><code id="html-install">&lt;link rel="stylesheet" href="inkwell.css"&gt;</code></pre></div>
+          <div class="home-copy-row">
+            <button class="btn btn-secondary btn-sm" type="button" data-home-copy="html-install" data-home-copied="HTML copied." aria-describedby="html-copy-status" hidden>Copy HTML</button>
+            <p class="home-status" id="html-copy-status" role="status">Select the snippet to copy it.</p>
+          </div>
+          <p class="t-small">Add the optional <a class="link" href="https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0/inkwell-interactions.js">interaction companion</a> for menus, tabs, carousel controls, dialogs, and tooltips. <a class="link" href="docs.html">Read the setup guide</a>.</p>
+        </article>
+        <article class="home-install-path" aria-labelledby="agent-path-title">
+          <h3 id="agent-path-title">Build with your coding agent</h3>
+          <p>Give it the instructions below. The tokens, markup, and accessibility rules travel together.</p>
+          <div class="code-block home-code"><pre dir="ltr" lang="en"><code id="agent-prompt">Read https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0/agent-instructions.md and build this interface with Inkwell. Use its existing tokens, components, and accessibility contracts.</code></pre></div>
+          <div class="home-copy-row">
+            <button class="btn btn-secondary btn-sm" type="button" data-home-copy="agent-prompt" data-home-copied="Agent prompt copied." aria-describedby="agent-copy-status" hidden>Copy agent prompt</button>
+            <p class="home-status" id="agent-copy-status" role="status">Select the prompt to copy it.</p>
+          </div>
+          <p class="t-small"><a class="link" href="https://raw.githubusercontent.com/vscarpenter/inkwell/v3.10.0/agent-instructions.md">Read the agent instructions</a> or use the <a class="link" href="tailwind.html">Tailwind v4 integration</a> in an existing Tailwind project.</p>
+        </article>
+      </div>
+    </section>
 
-      <footer class="page-footer t-small">
-        Built with <code>inkwell.css</code>, the optional <code>inkwell-interactions.js</code>, and demo-only helpers in <code>demo.css</code>.
-        Need a minimal copy-paste starter? See the <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/index.html">starter template source</a>.
-        <p class="footer-links">
-          <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.9.0</a>
-          <span class="sep" aria-hidden="true">·</span>
-          <time data-inkwell-deployed datetime="">Deployment pending</time>
-          <span class="sep" aria-hidden="true">·</span>
-          <a class="link" href="https://github.com/vscarpenter/inkwell">GitHub</a>
-          <span class="sep" aria-hidden="true">·</span>
-          <a class="link" href="https://raw.githubusercontent.com/vscarpenter/inkwell/v3.9.0/agent-instructions.md">Agent instructions</a>
-          <span class="sep" aria-hidden="true">·</span>
-          <a class="link" href="https://vinny.dev">vinny.dev</a>
-        </p>
-      </footer>
-      <p class="t-caption" style="text-align: center; margin: 16px 0 24px; font-style: italic; letter-spacing: 0.02em;">
-        Made with hairlines and serifs by <a class="link" href="https://vinny.dev">Vinny Carpenter</a>. The 1.5px is on purpose.
-      </p>
+    <section class="home-section" id="components" aria-labelledby="featured-title">
+      <div class="home-section-heading">
+        <h2 id="featured-title">A system with range.</h2>
+        <p>The same tokens, from a working product to a page worth reading.</p>
+      </div>
+      <div>
+        <a class="home-feature" href="dashboard.html"><span>Product</span><h3>A clear view of the work.</h3><p>Tables, status, and everyday product controls.</p><svg class="icon-directional" aria-hidden="true" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9h12m-5-5 5 5-5 5"/></svg></a>
+        <a class="home-feature" href="article.html"><span>Editorial</span><h3>Give an idea room to land.</h3><p>Reading rhythm, cited findings, and considered type.</p><svg class="icon-directional" aria-hidden="true" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9h12m-5-5 5 5-5 5"/></svg></a>
+        <a class="home-feature" href="forms.html"><span>Interaction</span><h3>Care in every state.</h3><p>Fields, feedback, keyboard menus, and native dialogs.</p><svg class="icon-directional" aria-hidden="true" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9h12m-5-5 5 5-5 5"/></svg></a>
+      </div>
+    </section>
 
-    </div>
+    <section class="home-section" aria-labelledby="example-directory-title">
+      <h2 id="example-directory-title">Find your starting point.</h2>
+      <p>All 20 pages, grouped by what you are making.</p>
+      <nav class="home-directory" id="example-directory" aria-labelledby="example-directory-title">
+        <div><h3>Product interfaces</h3><ul>
+          <li><a class="link" href="dashboard.html">Dashboard</a></li>
+          <li><a class="link" href="app-shell.html">App shell</a></li>
+          <li><a class="link" href="settings.html">Settings</a></li>
+          <li><a class="link" href="forms.html">Forms and dialogs</a></li>
+          <li><a class="link" href="auth-pattern.html">Sign-in form</a></li>
+          <li><a class="link" href="search.html">Search results</a></li>
+          <li><a class="link" href="profile.html">Profile</a></li>
+          <li><a class="link" href="roadmap.html">Roadmap</a></li>
+        </ul></div>
+        <div><h3>Content and marketing</h3><ul>
+          <li><a class="link" href="article.html">Article layout</a></li>
+          <li><a class="link" href="landing.html">Landing page</a></li>
+          <li><a class="link" href="pricing.html">Pricing</a></li>
+          <li><a class="link" href="carousel.html">Editorial carousel</a></li>
+          <li><a class="link" href="not-found.html">404 page</a></li>
+        </ul></div>
+        <div><h3>Explore the system</h3><ul>
+          <li><a class="link" href="index.html">Inkwell homepage</a></li>
+          <li><a class="link" href="docs.html">Getting started</a></li>
+          <li><a class="link" href="components.html">Component contracts</a></li>
+          <li><a class="link" href="preview.html">Component showcase</a></li>
+          <li><a class="link" href="variants/compare.html">Palette comparison</a></li>
+          <li><a class="link" href="tailwind.html">Tailwind v4</a></li>
+          <li><a class="link" href="changelog.html">Release notes</a></li>
+        </ul></div>
+      </nav>
+      <div class="home-deep-links">
+        <a class="link" href="preview.html#findings">Container-aware findings</a>
+        <a class="link" href="preview.html#menus">Keyboard action menus</a>
+        <a class="link" href="docs.html#theme">Theme primitives</a>
+      </div>
+    </section>
+
+    <section class="home-section home-closing" aria-labelledby="closing-title">
+      <h2 id="closing-title">Make something considered.</h2>
+      <a class="btn btn-primary" href="#get-started">Start building</a>
+    </section>
   </main>
+
+  <footer class="home-footer wrap-wide">
+    <p>Inkwell. The 1.5px is on purpose.</p>
+    <nav aria-label="Footer">
+      <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/index.html">Starter template</a>
+      <a class="link" href="https://github.com/vscarpenter/inkwell">GitHub</a>
+      <a class="link" href="https://vinny.dev">Vinny Carpenter</a>
+    </nav>
+    <div class="home-release">
+      <a class="link" href="changelog.html" data-inkwell-version>Inkwell v3.10.0</a>
+      <time data-inkwell-deployed datetime="">Deployment pending</time>
+    </div>
+  </footer>
   <script src="demo.js"></script>
+  <script src="inkwell-interactions.js"></script>
+  <script src="home.js"></script>
 </body>
 </html>

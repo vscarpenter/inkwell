@@ -195,9 +195,16 @@ function main() {
     version);
   if (nextPage !== page) (check ? stale : writes).push([PAGE, nextPage]);
 
-  // Every other example page only gets the footer stamp.
-  for (const name of readdirSync(resolve(ROOT, "examples")).filter((f) => f.endsWith(".html")).sort()) {
-    const file = resolve(ROOT, "examples", name);
+  // Stamp canonical showcase/comparison sources as well as their deployed
+  // mirrors, so the Pages copy step cannot restore an old release footer.
+  const stampedPages = [
+    ...readdirSync(resolve(ROOT, "examples")).filter((f) => f.endsWith(".html"))
+      .map((name) => resolve(ROOT, "examples", name)),
+    resolve(ROOT, "preview.html"),
+    resolve(ROOT, "variants/compare.html"),
+    resolve(ROOT, "examples/variants/compare.html"),
+  ].sort();
+  for (const file of stampedPages) {
     if (file === PAGE) continue;
     const html = readFileSync(file, "utf8");
     if (!STAMP_RE.test(html)) continue;

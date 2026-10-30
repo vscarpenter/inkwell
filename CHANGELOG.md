@@ -6,6 +6,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [3.10.0] — 2026-10-30
+
+### Changed
+- **An adoption-first homepage.** The public `examples/index.html` now introduces Inkwell, offers a working component specimen, and provides separate CSS and coding-agent setup paths. Featured product/editorial/form examples and a compact grouped directory preserve direct access to all 20 published pages and existing deep links. The root `index.html` remains the copyable starter. Page layout and demonstrations are scoped to `examples/home.css` and `examples/home.js`; the public component API and consumer install are unchanged.
+- **Progressive homepage interactions.** The specimen previews field changes, validates blank names, and resets through a keyboard-operable action menu. Copy actions report success only after completion and provide manual instructions when clipboard access fails. Adoption snippets and reference links remain usable without JavaScript; theme/palette controls, enlarged text, RTL, and native contrast modes are covered by browser regressions.
+
+### Fixed
+- **Readable appearance-control labels.** Shared demo theme/palette selections now use `--on-accent` instead of `--paper`, correcting the Clay light-mode control's 3.19:1 text contrast. Browser checks verify the active labels across all five palettes and manual/automatic modes on the homepage and an existing dashboard example.
+- **Complete release-footer generation.** The changelog generator now stamps the canonical showcase and palette-comparison sources alongside their deployed mirrors, so copying those sources during deployment cannot restore an older release number.
+
 ## [3.9.0] — 2026-10-30
 
 ### Added
