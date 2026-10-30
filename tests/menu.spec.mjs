@@ -26,6 +26,7 @@ async function open(page, key = "ArrowDown") {
   await page.keyboard.press(key);
   await expect(page.locator("#actions")).toHaveAttribute("aria-expanded", "true");
   await expect(page.locator("#action-list")).toBeVisible();
+  await expect.poll(() => page.locator("#action-list").evaluate(el => el.contains(document.activeElement))).toBe(true);
 }
 
 async function closed(page) {
@@ -40,6 +41,7 @@ for (const backend of ["native", "fallback", "script"]) {
     await expect(panel).toHaveAttribute("role", "menu");
     await expect(panel).toHaveAttribute("aria-labelledby", "actions");
     await expect(page.locator("#actions")).toHaveAttribute("aria-haspopup", "menu");
+    await expect(panel.getByRole("menuitem",{name:"Publish update",exact:true})).toBeDisabled();
     await open(page);
     await expect(panel.getByRole("menuitem", { name: "Rename project", exact: true })).toBeFocused();
     await page.keyboard.press("ArrowUp");
@@ -108,6 +110,14 @@ for (const backend of ["native", "fallback", "script"]) {
     await page.locator("#outside").click();
     await closed(page);
     await expect(page.locator("#outside")).toBeFocused();
+    // Native toggle is queued; leaving focus before it fires must not reopen or steal focus.
+    await page.evaluate(() => {
+      document.getElementById("actions").focus();
+      document.getElementById("actions").click();
+      document.getElementById("outside").focus();
+    });
+    await closed(page);
+    await expect(page.locator("#outside")).toBeFocused();
     await open(page);
     await page.locator("#outside").focus();
     await closed(page);
@@ -122,6 +132,8 @@ for (const backend of ["native", "fallback", "script"]) {
     await closed(page);
     await expect(page.locator("#settings")).toBeVisible();
     await expect(page.locator("#dialog-input")).toBeFocused();
+    await page.getByRole("button", {name:"Close settings",exact:true}).click();
+    await expect(page.locator("#actions")).toBeFocused();
   });
 
   test(`${backend}: RTL, enlarged labels, viewport edges, and reinitialization stay contained`, async ({ page }) => {
@@ -137,7 +149,11 @@ for (const backend of ["native", "fallback", "script"]) {
           document.getElementById("host").style.cssText = "position:fixed; bottom:20px; inset-inline-end:20px; max-inline-size:calc(100% - 40px)";
           window.InkwellInteractions.init(document.getElementById("primary-menu"));
         }, {dir,root});
+        await expect(page.locator("html")).toHaveCSS("font-size", root + "px");
         await open(page);
+        await expect.poll(() => page.locator("#action-list").evaluate(el => {
+          const r=el.getBoundingClientRect(); return r.left>=7 && r.right<=633 && r.top>=7 && r.bottom<=633;
+        })).toBe(true);
         const boxes = await page.locator("#action-list").evaluate(el => {
           const a=el.getBoundingClientRect(), b=document.getElementById("actions").getBoundingClientRect();
           return {left:a.left,right:a.right,top:a.top,bottom:a.bottom,triggerTop:b.top,width:el.clientWidth,scroll:el.scrollWidth};
@@ -155,18 +171,144 @@ for (const backend of ["native", "fallback", "script"]) {
     await page.locator("#host").evaluate(el => { el.style.cssText = "position:fixed;top:50px;left:150px"; });
     await page.evaluate(() => {
       document.documentElement.style.fontSize = "16px";
+      document.querySelector('#action-list [data-action="rename"]').textContent = "Rename project";
       const root = document.getElementById("primary-menu"); root.dir = "rtl";
       window.InkwellInteractions.init(root);
     });
+    await expect(page.locator("html")).toHaveCSS("font-size", "16px");
     await open(page);
-    const aligned = await page.locator("#action-list").evaluate(el => Math.abs(el.getBoundingClientRect().right-document.getElementById("actions").getBoundingClientRect().right));
-    expect(aligned).toBeLessThan(2);
+    await expect.poll(() => page.locator("#action-list").evaluate(el => Math.abs(el.getBoundingClientRect().right-document.getElementById("actions").getBoundingClientRect().right))).toBeLessThan(2);
     await page.setViewportSize({ width: 320, height: 640 });
     await expect.poll(() => page.locator("#action-list").evaluate(el => {
       const r=el.getBoundingClientRect();return r.left>=7 && r.right<=313;
     })).toBe(true);
   });
+
+  test(`${backend}: dynamic commands, localized typeahead, and disabled pointer activation`, async ({ page }) => {
+    await load(page, backend);
+    await page.evaluate(() => {
+      const panel=document.getElementById("action-list");
+      panel.querySelector('[data-action="rename"]').hidden=true;
+      const item=document.createElement("button"); item.type="button"; item.className="menu-item"; item.textContent="Review activity";
+      panel.append(item);
+      document.querySelector('[aria-disabled="true"]').addEventListener("click", () => { window.disabledActivated=true; });
+      window.InkwellInteractions.init(document.getElementById("primary-menu"));
+    });
+    await open(page);
+    await expect(page.locator('[data-action="rename"]')).not.toBeVisible();
+    await expect(page.getByRole("menuitem", {name:"Duplicate project",exact:true})).toBeFocused();
+    await page.keyboard.press("r");
+    await expect(page.getByRole("menuitem", {name:"Review settings…",exact:true})).toBeFocused();
+    await page.keyboard.press("r");
+    await expect(page.getByRole("menuitem", {name:"Review activity",exact:true})).toBeFocused();
+    const unavailable=page.getByRole("menuitem", {name:"Export report (unavailable)",exact:true});
+    const box=await unavailable.boundingBox();
+    await page.mouse.click(box.x+box.width/2, box.y+box.height/2);
+    expect(await page.evaluate(() => window.disabledActivated || false)).toBe(false);
+    await expect(page.locator("#actions")).toHaveAttribute("aria-expanded","true");
+    await page.keyboard.press("Escape");
+    await page.evaluate(() => {
+      document.getElementById("primary-menu").lang="ar";
+      document.getElementById("primary-menu").dir="rtl";
+      document.querySelector('[data-action="duplicate"]').textContent="نسخ المشروع";
+      window.InkwellInteractions.init(document.getElementById("primary-menu"));
+    });
+    await open(page);
+    await page.keyboard.press("End");
+    await page.getByRole("menuitem", {name:"Review activity",exact:true}).dispatchEvent("keydown",{key:"ن",bubbles:true});
+    await expect(page.getByRole("menuitem", {name:"نسخ المشروع",exact:true})).toBeFocused();
+    await page.keyboard.press("Escape");
+    await page.evaluate(() => {
+      document.getElementById("primary-menu").lang="tr";
+      document.querySelector('[data-action="duplicate"]').textContent="Işık";
+      window.InkwellInteractions.init(document.getElementById("primary-menu"));
+    });
+    await open(page);
+    await page.keyboard.press("End");
+    await page.getByRole("menuitem", {name:"Review activity",exact:true}).dispatchEvent("keydown",{key:"ı",bubbles:true});
+    await expect(page.getByRole("menuitem", {name:"Işık",exact:true})).toBeFocused();
+  });
+
+  test(`${backend}: form defaults and live resizing preserve action and focus`, async ({ page }) => {
+    await load(page, backend);
+    await page.evaluate(() => {
+      const form=document.createElement("form"), menu=document.getElementById("primary-menu");
+      menu.before(form); form.append(menu);
+      const command=document.querySelector('[data-action="rename"]'); command.type="submit"; command.name="action"; command.value="rename";
+      command.addEventListener("click", () => { window.formAssociated=command.form===form; });
+      form.addEventListener("submit", event => { event.preventDefault(); window.submitted=event.submitter.value; });
+    });
+    await open(page);
+    await page.keyboard.press("Enter");
+    await closed(page);
+    expect(await page.evaluate(() => ({associated:window.formAssociated, submitted:window.submitted}))).toEqual({associated:true,submitted:"rename"});
+    await open(page);
+    await page.evaluate(() => { document.documentElement.style.fontSize="32px"; });
+    await expect(page.locator("html")).toHaveCSS("font-size","32px");
+    await expect.poll(() => page.locator("#action-list").evaluate(el => {
+      const r=el.getBoundingClientRect(); return r.left>=7 && r.right<=innerWidth-7 && r.top>=7 && r.bottom<=innerHeight-7;
+    })).toBe(true);
+    await expect(page.getByRole("menuitem",{name:"Rename project",exact:true})).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(page.getByRole("menuitem",{name:"Archive project",exact:true})).toBeInViewport();
+    await page.evaluate(() => { document.body.style.minHeight="3000px"; });
+    await page.evaluate(() => { window.scrollTo(0,1500); });
+    await closed(page);
+  });
 }
+
+test("native API dismissal synchronizes focus and expanded state", async ({ page }) => {
+  await load(page);
+  if (!await page.evaluate(() => typeof HTMLElement.prototype.hidePopover === "function")) return;
+  await open(page);
+  await expect(page.getByRole("menuitem",{name:"Rename project",exact:true})).toBeFocused();
+  await page.locator("#action-list").evaluate(el => el.hidePopover());
+  await closed(page);
+  await expect(page.locator("#actions")).toBeFocused();
+});
+
+test("empty menus keep the baseline and refresh after commands are added", async ({ page }) => {
+  await load(page);
+  await page.evaluate(() => {
+    const wrapper=document.createElement("div"); wrapper.className="menu"; wrapper.id="empty-menu"; wrapper.dataset.menu="";
+    wrapper.innerHTML='<button data-menu-trigger hidden type="button">New actions</button><div class="menu-panel"></div>';
+    document.querySelector("main").append(wrapper); window.InkwellInteractions.init(wrapper);
+  });
+  await expect(page.locator("#empty-menu button")).not.toBeVisible();
+  await expect(page.locator("#empty-menu [role=menu]")).toHaveCount(0);
+  await page.evaluate(() => {
+    const wrapper=document.getElementById("empty-menu"); wrapper.querySelector(".menu-panel").innerHTML='<button class="menu-item" type="button">New command</button>';
+    window.InkwellInteractions.init(wrapper);
+  });
+  await page.getByRole("button",{name:"New actions",exact:true}).press("ArrowDown");
+  await expect(page.getByRole("menuitem",{name:"New command",exact:true})).toBeFocused();
+});
+
+test("all palettes and light/dark/auto keep menu colors aligned with tokens", async ({ page }) => {
+  await load(page,"fallback");
+  for (const palette of ["indigo","clay","sage","burgundy","azure"]) {
+    await page.evaluate(async palette => {
+      document.getElementById("palette-css")?.remove();
+      if (palette!=="indigo") await new Promise((resolve,reject) => {
+        const link=document.createElement("link"); link.id="palette-css"; link.rel="stylesheet"; link.href="/variants/"+palette+".css"; link.onload=resolve; link.onerror=reject; document.head.append(link);
+      });
+    },palette);
+    for (const [mode,os] of [["light","dark"],["dark","light"],["auto","light"],["auto","dark"]]) {
+      await page.emulateMedia({colorScheme:os});
+      await page.evaluate(mode => {
+        document.documentElement.removeAttribute("data-theme");
+        if (mode!=="auto") document.documentElement.dataset.theme=mode;
+      },mode);
+      await open(page);
+      await expect.poll(() => page.locator("#action-list").evaluate(el => {
+        const probe=document.createElement("span"); probe.style.cssText="color:var(--slate);background:var(--paper)"; document.getElementById("primary-menu").append(probe);
+        const a=getComputedStyle(probe), b=getComputedStyle(el), c=getComputedStyle(el.querySelector('.menu-item'));
+        const match=a.backgroundColor===b.backgroundColor && a.color===c.color; probe.remove(); return match;
+      })).toBe(true);
+      await page.keyboard.press("Escape");
+    }
+  }
+});
 
 test("fallback escapes clipping and transformed hosts, preserves tokens, and restores its DOM location", async ({ page }) => {
   await load(page, "fallback");
@@ -177,6 +319,11 @@ test("fallback escapes clipping and transformed hosts, preserves tokens, and res
   expect(await page.locator("#action-list").evaluate(el => el.parentElement === document.body)).toBe(true);
   await page.keyboard.press("Escape");
   expect(await page.locator("#action-list").evaluate(el => el.parentElement.id)).toBe("primary-menu");
+  await page.locator("#action-list").evaluate(el => { el.style.setProperty("--paper","rgb(230, 235, 240)"); });
+  await open(page);
+  await expect(page.locator("#action-list")).toHaveCSS("background-color","rgb(230, 235, 240)");
+  await page.keyboard.press("Escape");
+  expect(await page.locator("#action-list").evaluate(el => el.style.getPropertyValue("--paper"))).toBe("rgb(230, 235, 240)");
   await page.evaluate(() => {
     const dialog=document.getElementById("settings"); dialog.querySelector('.dialog-body').append(document.getElementById("host")); dialog.showModal();
   });

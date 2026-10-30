@@ -9,7 +9,8 @@
     body { padding: 24px; }
     main { max-inline-size: 44rem; }
     #host { margin-block: 24px; }
-    #outside { margin-block: 16px; }
+    #outside { position: fixed; top: 16px; inset-inline-end: 16px; }
+    #secondary-menu { position: fixed; top: 80px; inset-inline-end: 16px; }
   </style>
   <script src="../../inkwell-interactions.js" defer></script>
 </head>
@@ -27,7 +28,7 @@
           <a class="menu-item" href="#after" data-action="docs">View documentation</a>
           <button class="menu-item" type="button" disabled>Publish update</button>
           <hr class="menu-separator">
-          <button class="menu-item" type="button" data-action="dialog">Review settings…</button>
+          <button class="menu-item" type="button" data-action="dialog" data-dialog-open="settings">Review settings…</button>
           <button class="menu-item" type="button" data-action="archive">Archive project</button>
         </div>
       </div>
@@ -51,7 +52,6 @@
     document.addEventListener("inkwell-menu-select", function (event) {
       window.menuSelections++;
       document.getElementById("result").textContent = event.detail.item.textContent.trim();
-      if (event.detail.item.dataset.action === "dialog") document.getElementById("settings").showModal();
     });
   </script>
 </body>
