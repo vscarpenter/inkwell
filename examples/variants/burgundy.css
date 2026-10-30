@@ -35,9 +35,12 @@
   --gray-700: light-dark(#403B33, #C5BAB1);
 }
 
-/* Select chevron dark-mode override: see canonical inkwell-tokens.css for rationale.
-   Stroke uses burgundy's dark --gray-500 (#9C928A) so the chevron matches the neutral scale. */
-@media (prefers-color-scheme: dark) {
+/* Select chevrons mirror this palette's --gray-500 in each mode.
+   SVG data URIs cannot inherit CSS variables; keep the native select markup. */
+.select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%236F6A5F' stroke-width='1.5' stroke-linecap='round'/></svg>");
+}
+@media screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .select {
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%239C928A' stroke-width='1.5' stroke-linecap='round'/></svg>");
   }

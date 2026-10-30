@@ -1,31 +1,20 @@
 # Inkwell — Backlog
 
-Things explicitly deferred, not yet decided, or worth exploring next. Items are grouped by area and ordered by impact-per-effort within each group. (The standalone Audit document this file used to reference was retired; audit-driven follow-ups now live here directly.)
+Things explicitly deferred, not yet decided, or worth exploring next. Items are grouped by readiness: the next substantial feature, ideas that need a demonstrated consumer benefit, and future-major exploration.
 
-Promote an item by deleting it from here and writing it up in the relevant doc + `CHANGELOG.md` once shipped.
+Move completed work into the relevant documentation and `CHANGELOG.md` under Unreleased until a release is published. The retired standalone Audit document's remaining follow-ups are tracked here directly.
 
----
+## Next
 
-## Audit follow-ups
+- **Popover-based menu** — the next substantial feature to design. Define keyboard navigation, focus entry/restoration, dismissal, edge positioning, and RTL behavior before implementation. The Firefox 120 floor predates native popovers (125), and CSS anchor positioning also needs fallbacks at the supported floor. Preserve the browser policy and dependency-free install. Native `<details>` disclosures already cover simple expandable content.
 
-*(The `light-dark()` + `color-mix()` cascade collapse shipped as 3.0.0 — see `docs/specs/2026-06-12-v3-architecture-design.md` and `CHANGELOG.md`.)*
-
-### Deferred from the 3.0 design pass
+## Needs a demonstrated use case
 
 - **Further container-aware components** — `.finding` shipped in 3.8.0. Apply the same approach elsewhere only when a concrete narrow-host case demonstrates a benefit; keep containment local and verify intrinsic sizing, enlarged text, and nested contexts.
-- **Popover-based menu** — define the keyboard, focus, dismissal, edge positioning, and RTL contract before implementation. The Firefox 120 floor predates native popovers (125), and CSS anchor positioning also needs fallbacks at the supported floor. Preserve the browser policy and dependency-free install. Native `<details>` disclosures already cover simple expandable content.
-- **Relative color syntax for lifted dark accents** (`oklch(from var(--accent) …)`) — rejected for 3.0 because deriving dark values would change the hand-tuned 2.1.0 contrast work; candidate for a future major with a fresh contrast pass.
+- **Stronger dashboard status colors** — prototype an opt-in treatment on a real dashboard before adding `*-strong` tokens. Existing `--olive-dark`, `--warning-dark`, and `--rust` already provide readable status colors. Add alternatives only when the comparison demonstrates a useful distinction, retaining muted editorial defaults and text/icon cues for meaning.
+- **Replace mono `.eyebrow` entirely** — retain the existing mono product/dashboard role and `.eyebrow-serif` editorial alternative. Revisit only if consumer feedback shows the two-role approach is insufficient. This was option A of the retired audit's item #1; option B already shipped.
+- **Promote `--sky` to secondary interactive** — require a concrete secondary-action need and a full text/fill/focus/state contrast contract before introducing a second interactive hue. The existing `--accent`, `--accent-ink`, and `--on-accent` already separate fill, text, and label jobs; preserve the one-brand-accent principle.
 
-### Audit Tier-2 items left for a 3.x
+## Future major
 
-Carried forward from the retired 1.4.0 audit notes as "discuss," not "do":
-- **#1 (option A) Replace mono `.eyebrow` entirely** — we shipped option B (added `.eyebrow-serif` as a sibling). Revisit if any consumer survey says the mono eyebrow still reads as developer-tools.
-- **#5 `*-strong` dashboard semantic colors** — add saturated variants of olive/rust/warning so dashboards can use unambiguous signal colors while editorial contexts keep the muted ones.
-- **#9 Promote `--sky` to secondary interactive** — split the seventeen jobs `--accent` does today (badges, eyebrow rule, secondary tabs, timeline dots, etc.).
-
----
-
-## Post-2.1 follow-ups
-
-- **Light-mode `.select` chevron still uses canonical cool gray (`#6F6F75`) in all five palettes.** The dark-mode parity fix (2.1.0) applies only to dark. This is palette coherence, not a current contrast defect. Preserve the drop-in `.select` markup when evaluating a fix; applying a mask directly to the select would mask the entire control. The SVG chevron remains the only Pattern B duplication because `light-dark()` cannot carry a `background-image`.
-- **Clay dark-mode hover darkens toward the label** (passes 4.95:1) while every other palette/mode hover now moves *away* from the label color — coherence, not compliance; revisit if hover styling gets reworked.
+- **Relative color syntax for lifted dark accents** (`oklch(from var(--accent) …)`) — exploratory, not committed. Rejected for 3.0 because deriving dark values would replace hand-tuned contrast work. Reconsider only with a demonstrated benefit, a browser-support review, and a fresh contrast pass across every palette and mode. The `light-dark()` / `color-mix()` architecture itself already shipped in 3.0.0.

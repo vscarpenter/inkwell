@@ -75,7 +75,8 @@ for (const palette of palettes) {
     for (const theme of ["dark", "auto"]) {
       await setTheme(page, theme, "dark");
       await page.emulateMedia({ media: "print" });
-      await expect(select).toHaveCSS("background-image", "none");
+      await expect(page.locator("html")).toHaveCSS("color-scheme", "light");
+      await expect.poll(() => chevronMatches(page), { message: `${palette}/${theme}/print` }).toBe(true);
       await page.emulateMedia({ media: "screen" });
       await expect.poll(() => chevronMatches(page)).toBe(true);
     }
