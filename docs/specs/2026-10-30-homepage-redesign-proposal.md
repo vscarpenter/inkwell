@@ -1,6 +1,6 @@
 # Homepage redesign proposal
 
-Status: proposed direction following the 3.9.0 release. This document records the backlog review and a concrete section map; it does not mark a design or implementation as approved.
+Status: the user approved this direction on October 30, 2026: “Implement this direction.” Approval covers the spec, plan, implementation, and verification in one continuous pass. The work remains Unreleased at 3.9.0; publication is a separate request.
 
 ## Target and outcome
 
