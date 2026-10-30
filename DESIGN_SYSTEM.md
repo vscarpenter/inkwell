@@ -1,6 +1,6 @@
 # Inkwell
 
-A reusable design system for product UI, dashboards, and technical interfaces. Drop-in CSS tokens, 38 documented component families, light + dark mode out of the box.
+A reusable design system for product UI, dashboards, and technical interfaces. Drop-in CSS tokens, 39 documented component families (including the Unreleased action menu), light + dark mode out of the box.
 
 **Inkwell** ships with the **Indigo & Cloud** palette — cool stone background, deep indigo accent, serif headlines for gravitas, monospace for technical metadata, hairline 1.5px borders. Reads as Linear/Stripe/Notion-adjacent without being a clone of any of them.
 
@@ -219,7 +219,7 @@ The one surviving piece of the old Pattern B duplication is the `.select` chevro
 
 ## 3. Components
 
-`inkwell-components.css` ships 38 documented component families (the table below). Use `examples/components.html` for the generated adoption contract and copyable markup; use `preview.html` for a visual tour in light, dark, auto, and every palette. `component-manifest.json` is the machine-readable source for the component reference.
+`inkwell-components.css` documents 39 component families (the table below); the action menu is Unreleased and available in the current source. Use `examples/components.html` for the generated adoption contract and copyable markup; use `preview.html` for a visual tour in light, dark, auto, and every palette. `component-manifest.json` is the machine-readable source for the component reference.
 
 | Class | Purpose |
 |---|---|
@@ -244,6 +244,7 @@ The one surviving piece of the old Pattern B duplication is the `.select` chevro
 | `.dialog` | Styling for native `<dialog>` with backdrop blur; `inkwell-interactions.js` can wire `data-dialog-open="id"` and `data-dialog-close` with focus restoration |
 | `.tabs` (+ `.tab` / `.tab-panel`) | Tab nav; the companion handles selected state, roving focus, reachable panels, disabled tabs, RTL, and vertical Up/Down navigation with `aria-orientation="vertical"`. |
 | `.tooltip` (with `[data-tooltip]`) | Hoverable hint on hover or contained focus. Load the companion for viewport placement and Escape dismissal; provide the text in an accessible name or `aria-describedby` target. |
+| `.menu` (`[data-menu]`, `.menu-panel`, `.menu-item`, `.menu-separator`) | Unreleased single-level action menu; companion supplies popover/fallback placement, keyboard navigation, dismissal, and focus management. |
 | `.breadcrumbs` | `<ol>` list with `/` separators; `aria-current="page"` for the leaf |
 | `.pagination` | Numbered page list with prev/next; `aria-current="page"` for the active page |
 | `.skeleton` (+ `.is-text` / `.is-title` / `.is-block` / `.is-circle`) | Shimmer placeholder; reduced-motion-safe |
@@ -295,6 +296,33 @@ Indeterminate progress uses a 30% moving segment. Reduced motion and print pause
 The showcase covers all progress states and three meter ranges. `tests/progress-meter.spec.mjs` checks native semantics, value updates, rendered fill direction and colors, narrow containers and enlarged text, reduced motion, print, and forced colors. These are automated checks, not screen-reader certification.
 
 ---
+
+### Action menu (Unreleased)
+
+Use an action menu for a short list of commands and related destinations. Use native selects for choosing a value, disclosures for expandable navigation, and dialogs for forms. This release does not implement submenus, checkable menu items, or menubars.
+
+```html
+<div class="menu" data-menu>
+  <button class="btn btn-secondary" type="button" data-menu-trigger id="project-actions" hidden>Project actions</button>
+  <div class="menu-panel" aria-labelledby="project-actions">
+    <button class="menu-item" type="button">Rename project</button>
+    <button class="menu-item" type="button" aria-disabled="true">Export report (unavailable)</button>
+    <hr class="menu-separator">
+    <a class="menu-item" href="settings.html">Project settings</a>
+  </div>
+</div>
+<script src="inkwell-interactions.js"></script>
+```
+
+Keep the trigger hidden and the next-sibling panel visible in source, without `popover`, menu roles, or authored tabindex values. The companion adds IDs, relationships, roles, and roving focus, hides the panel, and reveals a valid trigger. Without it, ordinary links/buttons remain in document order. Application commands still need their own handlers or server-backed form behavior. Only native buttons and real links are menu items; keep inputs and nested menus out of the panel.
+
+Enter/Space or Down opens at the first item; Up opens at the last. Pointer opening keeps focus on the trigger. Up/Down wrap, Home/End reach the edges, and typing searches localized labels, including repeated-letter cycling. Left/Right retain their ordinary meaning in this vertical menu, including RTL. `aria-disabled="true"` commands remain arrow-reachable but cannot activate; native disabled and hidden items are skipped. Escape restores trigger focus. Tab/Shift+Tab close and continue document navigation from the trigger. Outside clicks/focus close without taking focus from their destination. Declarative dialog commands return to the menu trigger when the dialog closes.
+
+Native `popover="auto"` provides top-layer presentation when supported. Command invokers and logical CSS anchors are independently detected. Older browsers use measured viewport placement and manual dismissal. Placement follows the wrapper's inherited direction, flips above when needed, clamps to the visual viewport, and scrolls long menus. It updates on scroll, viewport changes, and trigger/panel resizing. Offscreen or removed triggers close the popup. Coarse-pointer items reach 44px; forced colors use system colors; print omits the menu.
+
+The missing-Popover fallback temporarily moves its panel to `body`, or the containing open dialog, to escape clipping and transforms. It preserves Inkwell tokens, inline token overrides, direction, language, and color scheme, then restores the panel's original location. Attach application command handlers directly to items, or listen for the bubbling `inkwell-menu-select` event on the original `[data-menu]` wrapper. Its `detail` contains `item`, `trigger`, and `originalEvent`; the event is a notification, while native link and form defaults remain intact. Ancestor-dependent custom CSS and delegated item click listeners must account for the temporary move.
+
+Call `InkwellInteractions.init(menu)` after inserting/changing items or changing language/direction. Reinitialization is idempotent; an empty/invalid initial menu keeps its baseline. Use `preview.html#menus`, `examples/forms.html#action-menu`, and `tests/menu.spec.mjs` for demonstrations and regression coverage. This feature is available in current source, not the v3.8.1 tag.
 
 ## 4. Anti-patterns
 
@@ -397,7 +425,7 @@ Copy three files — `inkwell.css`, `inkwell-tokens.css`, and `inkwell-component
 </html>
 ```
 
-For a fuller starting point, copy `index.html` — it includes the navbar, layout shell, sample components, and a working light/dark/auto toggle. Load `inkwell-interactions.js` for tabs, carousel controls, declarative dialogs, or tooltip dismissal. Use `examples/components.html` for the comprehensive adoption reference and `preview.html` for visual review.
+For a fuller starting point, copy `index.html` — it includes the navbar, layout shell, sample components, and a working light/dark/auto toggle. Load `inkwell-interactions.js` for tabs, carousel controls, declarative dialogs, tooltip dismissal, or action menus (Unreleased). Use `examples/components.html` for the comprehensive adoption reference and `preview.html` for visual review.
 
 ---
 
@@ -414,7 +442,7 @@ inkwell/
 ├── inkwell-components.css  ← source: base reset, components, layout helpers, a11y
 ├── inkwell-theme.css       ← Tailwind v4 entry — imports the two source files,
 │                             declares @theme aliases + @custom-variant dark
-├── inkwell-interactions.js ← optional tabs, carousel, dialog, and tooltip behavior
+├── inkwell-interactions.js ← optional tabs, carousel, dialog, tooltip, and menu behavior
 ├── tokens.json             ← machine-readable mirror for Figma plugins / Style Dictionary
 ├── inkwell.tokens.json     ← optional typed DTCG 2025.10 export, all palettes/modes
 ├── component-manifest.json ← machine-readable public component contract

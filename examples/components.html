@@ -944,10 +944,41 @@
         </div>
       </article>
 
+      <article class="reference-entry" id="menu">
+        <header class="reference-head">
+          <div>
+            <span class="eyebrow">38 · Unreleased</span>
+            <h2 class="t-h2">Action menu</h2>
+          </div>
+          <a class="link t-small" href="#menu">#menu</a>
+        </header>
+        <p class="reference-selectors"><code>.menu</code> <code>.menu-panel</code> <code>.menu-item</code> <code>.menu-separator</code> <code>[data-menu]</code> <code>[data-menu-trigger]</code></p>
+        <div class="reference-contract">
+          <section><h3 class="t-h3">Anatomy</h3><ul><li>A .menu[data-menu] with a direct, initially hidden native button[data-menu-trigger], followed by a visible .menu-panel.</li><li>Use native buttons or real links with .menu-item and optional hr.menu-separator. No authored popover/menu roles/tabindex; the companion supplies them.</li></ul></section>
+          <section><h3 class="t-h3">Modifiers</h3><ul><li>aria-disabled=true keeps commands discoverable but blocks activation; native disabled and hidden items are skipped.</li><li>Single-level commands only; no submenus, checkable items, or embedded form fields.</li></ul></section>
+          <section><h3 class="t-h3">States</h3><ul><li>No script: ordinary visible actions with a hidden trigger. Enhanced: closed/open, roving keyboard focus, unavailable commands, and viewport-constrained scrolling.</li><li>Native Popover/invokers/anchors are independently detected; manual fallbacks preserve RTL, tokens, focus, and dismissal.</li></ul></section>
+          <section><h3 class="t-h3">Accessibility</h3><ul><li>Label the trigger and panel; localize labels with HTML lang/dir. The companion assigns missing IDs, relationships, menu roles, and roving tabindex.</li><li>Enter/Space/Down opens first; Up opens last. Up/Down wrap, Home/End reach edges, typing searches labels, Escape returns to the trigger, and Tab/Shift+Tab leave normally.</li><li>Pointer opening keeps trigger focus. Outside clicks/focus close without stealing destination focus. Declarative dialogs restore the menu trigger when closed.</li></ul></section>
+        </div>
+        <div class="alert is-info reference-js"><div><p class="alert-title">JavaScript contract</p><p class="alert-body">Requires inkwell-interactions.js for menu enhancement. Applications own command handlers; native link/form defaults remain intact. Listen directly on items or for bubbling inkwell-menu-select on the wrapper (detail.item, detail.trigger, detail.originalEvent). Missing-Popover panels temporarily move to body/open dialog and return on close; ancestor delegation/custom CSS must account for this. Call init(menu) after item/language/direction changes.</p></div></div>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy-code="component-code-menu">Copy markup</button>
+          <pre dir="ltr" lang="en"><code id="component-code-menu">&lt;div class=&quot;menu&quot; data-menu&gt;
+  &lt;button class=&quot;btn btn-secondary&quot; type=&quot;button&quot; data-menu-trigger id=&quot;reference-project-actions&quot; hidden&gt;Project actions&lt;/button&gt;
+  &lt;div class=&quot;menu-panel&quot; aria-labelledby=&quot;reference-project-actions&quot;&gt;
+    &lt;button class=&quot;menu-item&quot; type=&quot;button&quot;&gt;Rename project&lt;/button&gt;
+    &lt;button class=&quot;menu-item&quot; type=&quot;button&quot; aria-disabled=&quot;true&quot;&gt;Export report (unavailable)&lt;/button&gt;
+    &lt;hr class=&quot;menu-separator&quot;&gt;
+    &lt;a class=&quot;menu-item&quot; href=&quot;settings.html&quot;&gt;Project settings&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script src=&quot;inkwell-interactions.js&quot;&gt;&lt;/script&gt;</code></pre>
+        </div>
+      </article>
+
       <article class="reference-entry" id="tooltip">
         <header class="reference-head">
           <div>
-            <span class="eyebrow">38 · Since 1.3.0</span>
+            <span class="eyebrow">39 · Since 1.3.0</span>
             <h2 class="t-h2">Tooltip</h2>
           </div>
           <a class="link t-small" href="#tooltip">#tooltip</a>

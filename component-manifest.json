@@ -447,6 +447,38 @@
       "markup": "<p>Press <kbd>⌘</kbd> <kbd>K</kbd> to search.</p>"
     },
     {
+      "id": "menu",
+      "name": "Action menu",
+      "selectors": [
+        ".menu",
+        ".menu-panel",
+        ".menu-item",
+        ".menu-separator",
+        "[data-menu]",
+        "[data-menu-trigger]"
+      ],
+      "since": "Unreleased",
+      "anatomy": [
+        "A .menu[data-menu] with a direct, initially hidden native button[data-menu-trigger], followed by a visible .menu-panel.",
+        "Use native buttons or real links with .menu-item and optional hr.menu-separator. No authored popover/menu roles/tabindex; the companion supplies them."
+      ],
+      "modifiers": [
+        "aria-disabled=true keeps commands discoverable but blocks activation; native disabled and hidden items are skipped.",
+        "Single-level commands only; no submenus, checkable items, or embedded form fields."
+      ],
+      "states": [
+        "No script: ordinary visible actions with a hidden trigger. Enhanced: closed/open, roving keyboard focus, unavailable commands, and viewport-constrained scrolling.",
+        "Native Popover/invokers/anchors are independently detected; manual fallbacks preserve RTL, tokens, focus, and dismissal."
+      ],
+      "accessibility": [
+        "Label the trigger and panel; localize labels with HTML lang/dir. The companion assigns missing IDs, relationships, menu roles, and roving tabindex.",
+        "Enter/Space/Down opens first; Up opens last. Up/Down wrap, Home/End reach edges, typing searches labels, Escape returns to the trigger, and Tab/Shift+Tab leave normally.",
+        "Pointer opening keeps trigger focus. Outside clicks/focus close without stealing destination focus. Declarative dialogs restore the menu trigger when closed."
+      ],
+      "javascript": "Requires inkwell-interactions.js for menu enhancement. Applications own command handlers; native link/form defaults remain intact. Listen directly on items or for bubbling inkwell-menu-select on the wrapper (detail.item, detail.trigger, detail.originalEvent). Missing-Popover panels temporarily move to body/open dialog and return on close; ancestor delegation/custom CSS must account for this. Call init(menu) after item/language/direction changes.",
+      "markup": "<div class=\"menu\" data-menu>\n  <button class=\"btn btn-secondary\" type=\"button\" data-menu-trigger id=\"reference-project-actions\" hidden>Project actions</button>\n  <div class=\"menu-panel\" aria-labelledby=\"reference-project-actions\">\n    <button class=\"menu-item\" type=\"button\">Rename project</button>\n    <button class=\"menu-item\" type=\"button\" aria-disabled=\"true\">Export report (unavailable)</button>\n    <hr class=\"menu-separator\">\n    <a class=\"menu-item\" href=\"settings.html\">Project settings</a>\n  </div>\n</div>\n<script src=\"inkwell-interactions.js\"></script>"
+    },
+    {
       "id": "tooltip",
       "name": "Tooltip",
       "selectors": [".tooltip", "[data-tooltip]"],

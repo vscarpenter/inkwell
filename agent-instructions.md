@@ -23,7 +23,7 @@ Do not apply `CLAUDE.md` editing rules when consuming Inkwell in another project
 
 ## 1. What Inkwell is
 
-A pure-CSS design system. **No build step. No package manager. No JS framework. No dependencies.** The core deliverable is three CSS files plus reference HTML. An optional dependency-free JavaScript file supplies portable behavior for tabs, carousels, native-dialog triggers, and tooltip dismissal; static styles do not depend on it.
+A pure-CSS design system. **No build step. No package manager. No JS framework. No dependencies.** The core deliverable is three CSS files plus reference HTML. An optional dependency-free JavaScript file supplies portable behavior for tabs, carousels, native-dialog triggers, tooltip dismissal, and action menus (Unreleased); static styles do not depend on it.
 
 Inkwell ships with the **Indigo & Cloud** palette: cool stone background (`--ivory`), deep indigo accent (`--accent`), serif headlines at weight 600, monospace eyebrows for product/dashboard contexts (italic-serif `.eyebrow-serif` for editorial), and a signature **1.5px hairline border** that is the system's most recognizable feature.
 
@@ -77,7 +77,7 @@ Full Tailwind setup guide and conventions: [`TAILWIND.md`](TAILWIND.md) in the r
 | File | When to fetch |
 |---|---|
 | `tokens.json` | User wants tokens for Style Dictionary or a Figma plugin |
-| `inkwell-interactions.js` | Page uses tabs, enhanced carousel controls, declarative native-dialog triggers, or custom tooltips |
+| `inkwell-interactions.js` | Page uses tabs, enhanced carousel controls, declarative native-dialog triggers, custom tooltips, or action menus (Unreleased) |
 | `component-manifest.json` | User or tooling needs the machine-readable public component contract |
 | `index.html` | User wants a starter template with navbar + theme toggle |
 | `preview.html` | User wants the full component showcase page |
@@ -230,6 +230,7 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 | `.disclosure` | Native `<details>` disclosure/accordion item; no JavaScript |
 | `.segmented` (`aria-pressed` / `.is-active`) | Pill-shaped group of mutually-exclusive options (theme toggle, view modes, density) |
 | `.tooltip` (`[data-tooltip]`) | Hoverable hint on hover or contained focus; load `inkwell-interactions.js` for Escape dismissal. Provide an accessible name/description separately. |
+| `.menu` (`[data-menu]`, `.menu-panel`, `.menu-item`, `.menu-separator`) | Unreleased action menu in current source, not the v3.8.1 tag. Load the companion for keyboard/focus behavior and popover/browser fallbacks; see the contract below. |
 | `.breadcrumbs` | `<ol>` with `/` separators |
 | `.pagination` | Numbered page list |
 | `.skeleton` (`.is-text`, `.is-title`, `.is-block`, `.is-circle`) | Loading shimmer |
@@ -263,13 +264,19 @@ When a component is missing, build it with tokens — never with hardcoded value
 
 ### Optional shared interactions
 
-Load the companion after component markup when the page uses tabs, enhanced carousel controls, declarative dialogs, or custom tooltips:
+Load the companion after component markup when the page uses tabs, enhanced carousel controls, declarative dialogs, custom tooltips, or action menus (Unreleased):
 
 ```html
 <script src="/path/to/inkwell-interactions.js"></script>
 ```
 
 The script auto-initializes and exposes `window.InkwellInteractions.init(root)` for dynamically inserted markup. Initialization is idempotent. The required HTML and ARIA relationships remain the consumer's responsibility; the component reference shows complete examples.
+
+For the Unreleased action menu, use `.menu[data-menu]` with a direct `button[data-menu-trigger]` initially `hidden`, followed by a visible `.menu-panel`. Put native `button.menu-item` or `a.menu-item[href]` commands inside; separate groups with `hr.menu-separator`. Do not author `popover`, menu roles, or tabindex values: the companion adds them only on enhancement, leaving ordinary actions visible without JavaScript. Supply meaningful labels and localize them with HTML `lang` / `dir`. No submenus, checkable items, or embedded inputs are supported.
+
+Enter/Space/Down opens at the first item; Up opens at the last. Up/Down wrap, Home/End reach edges, and typeahead searches labels. Escape restores the trigger; Tab/Shift+Tab leave normally. Pointer entry stays on the trigger. ARIA-disabled commands remain discoverable but cannot activate; native disabled and hidden items are skipped. Native Popover, invokers, and logical anchors are progressively detected, with manual placement/dismissal at the supported browser floor.
+
+The missing-Popover fallback temporarily moves the panel to `body` or its open dialog, preserving tokens/direction and restoring it on close. Use direct item listeners or the bubbling `inkwell-menu-select` notification on the original wrapper (`detail.item`, `detail.trigger`, `detail.originalEvent`); ancestor click delegation/custom CSS must account for the move. Native links and form actions retain their defaults. Declarative dialogs opened by commands restore focus to the menu trigger on close. Call `init(menu)` after item, direction, or language changes. See `DESIGN_SYSTEM.md` and the generated component reference for markup and placement details.
 
 ---
 

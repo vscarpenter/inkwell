@@ -41,8 +41,8 @@ for (const backend of ["native", "fallback", "script"]) {
     await expect(panel).toHaveAttribute("role", "menu");
     await expect(panel).toHaveAttribute("aria-labelledby", "actions");
     await expect(page.locator("#actions")).toHaveAttribute("aria-haspopup", "menu");
-    await expect(panel.getByRole("menuitem",{name:"Publish update",exact:true})).toBeDisabled();
     await open(page);
+    await expect(panel.getByRole("menuitem",{name:"Publish update",exact:true})).toBeDisabled();
     await expect(panel.getByRole("menuitem", { name: "Rename project", exact: true })).toBeFocused();
     await page.keyboard.press("ArrowUp");
     await expect(panel.getByRole("menuitem", { name: "Archive project", exact: true })).toBeFocused();

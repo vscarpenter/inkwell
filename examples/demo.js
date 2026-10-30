@@ -1,3 +1,8 @@
+document.addEventListener("inkwell-menu-select", function (event) {
+  var result = document.getElementById(event.target.getAttribute("data-menu-result"));
+  if (result) result.textContent = event.detail.item.textContent.trim();
+});
+
 (function () {
   var root = document.documentElement;
   var themeMeta = document.querySelector('meta[name="theme-color"]');

@@ -894,6 +894,52 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
       </div>
     </div>
   </section>
+  <section id="menus" aria-labelledby="menus-title">
+    <div class="sec-head">
+      <span class="idx">30</span><h2 id="menus-title">Action menus</h2>
+      <span class="count">keyboard · native popover</span>
+    </div>
+    <p class="t-small" style="margin-bottom: var(--sp-5);">Open a menu with Enter or Space, move with the arrow keys, and close with Escape. These example commands update the result below; Archive opens the confirmation dialog.</p>
+    <div class="stage" style="display: flex; flex-wrap: wrap; align-items: start; gap: var(--sp-6); min-block-size: 20rem;">
+      <div style="min-inline-size: 0;">
+        <div class="menu" data-menu data-menu-result="pv-menu-result">
+          <button class="btn btn-secondary" type="button" data-menu-trigger id="pv-menu-trigger" hidden>Project actions <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m3 4.5 3 3 3-3"/></svg></button>
+          <div class="menu-panel" id="pv-menu-panel" aria-labelledby="pv-menu-trigger">
+            <button class="menu-item" type="button">Rename project</button>
+            <button class="menu-item" type="button">Duplicate project</button>
+            <button class="menu-item" type="button">Move to workspace</button>
+            <button class="menu-item" type="button" aria-disabled="true">Export report (unavailable)</button>
+            <a class="menu-item" href="#progress-meter">View progress examples</a>
+            <hr class="menu-separator">
+            <button class="menu-item" type="button" data-dialog-open="pv-menu-dialog">Archive project…</button>
+          </div>
+        </div>
+        <p class="t-small" id="pv-menu-result" role="status" style="margin-top: var(--sp-3);">Choose a project action.</p>
+      </div>
+      <div lang="ar" dir="rtl" style="min-inline-size: 0;">
+        <div class="menu" data-menu data-menu-result="pv-menu-rtl-result">
+          <button class="btn btn-secondary" type="button" data-menu-trigger id="pv-menu-rtl-trigger" hidden>إجراءات المشروع <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m3 4.5 3 3 3-3"/></svg></button>
+          <div class="menu-panel" id="pv-menu-rtl-panel" aria-labelledby="pv-menu-rtl-trigger">
+            <button class="menu-item" type="button">إعادة تسمية المشروع</button>
+            <button class="menu-item" type="button">نسخ المشروع</button>
+            <a class="menu-item" href="#findings">عرض الأمثلة</a>
+          </div>
+        </div>
+        <p class="t-small" id="pv-menu-rtl-result" role="status" style="margin-top: var(--sp-3);">اختر إجراءً.</p>
+      </div>
+    </div>
+    <dialog class="dialog" id="pv-menu-dialog" aria-labelledby="pv-menu-dialog-title">
+      <div class="dialog-head">
+        <h2 id="pv-menu-dialog-title">Archive this project?</h2>
+        <button class="dialog-close" type="button" aria-label="Close project confirmation" data-dialog-close>×</button>
+      </div>
+      <div class="dialog-body">Members will lose access. The project can be restored from the archive.</div>
+      <div class="dialog-foot">
+        <button class="btn btn-secondary" type="button" data-dialog-close>Cancel</button>
+        <button class="btn btn-danger" type="button" data-dialog-close>Archive project</button>
+      </div>
+    </dialog>
+  </section>
 </main>
 
 <div class="palette-toggle" role="group" aria-label="Palette">
@@ -920,6 +966,10 @@ document.querySelector('#open').addEventListener('click', () =&gt; {
 </button>
 <script src="inkwell-interactions.js"></script>
 <script>
+  document.addEventListener('inkwell-menu-select', function (event) {
+    const result = document.getElementById(event.target.getAttribute('data-menu-result'));
+    if (result) result.textContent = event.detail.item.textContent.trim();
+  });
   (function () {
     const root = document.documentElement;
     const btn = document.getElementById('theme-toggle');
