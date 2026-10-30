@@ -23,3 +23,7 @@ Composition: **stacked**, drawn during the proposal review. Short copy gives the
 ## Acceptance
 
 Page purpose, primary action, live specimen, complete route inventory, keyboard/menu/reset behavior, clipboard denial/no-API states, no-script adoption, 320px width, enlarged fonts, nested RTL, forced colors, and all five palettes in light/dark/auto are required. Shared active appearance labels must clear 4.5:1 against their fill. Use logical properties and intrinsic wrapping; never hide page overflow to conceal layout defects. All existing repository and browser checks remain required. No public API, package/build tooling, new palette, version bump, or deployment is part of this change.
+
+## Completion
+
+Implemented locally on October 30, 2026. The complete browser suite passed with 495 checks and 13 existing skips; generated-file, token-export, contrast, contract, and whitespace checks passed. Desktop/mobile light and dark views were reviewed. The approved stacked composition is confirmed by screenshot and geometry; the fold classifier's low-confidence split reading of the specimen's internal columns is documented in `docs/plans/2026-10-30-homepage-redesign-implementation.md`. No findings were suppressed. The changelog remains Unreleased at 3.9.0.
