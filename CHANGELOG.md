@@ -6,6 +6,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [3.8.1] — 2026-10-29
+
 ### Fixed
 - **Clay dark-mode hover consistency.** Primary-button hover and pressed fills now lift to `#E99B80`, increasing dark-label contrast from 6.49:1 at rest to 7.59:1 on hover/press. Clay's light-mode colors are unchanged.
 - **Palette-matched select chevrons.** Light-mode arrows now match each palette's `--gray-500`, complementing the dark-mode overrides. Dark arrows are screen-only so a dark OS preference cannot leave the wrong arrow on the light print palette. Native select markup, pickers, RTL placement, and forced-colors affordances remain intact. Browser regressions cover palette/mode matching, live OS preference changes, print, native selection, and hover contrast.

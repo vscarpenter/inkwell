@@ -1,6 +1,6 @@
 {
   "name": "Inkwell",
-  "version": "3.8.0",
+  "version": "3.8.1",
   "components": [
     {
       "id": "type-styles",
@@ -336,7 +336,7 @@
       "states": ["Container-level horizontal scroll on narrow screens."],
       "accessibility": ["Provide a caption, use th with scope, and keep page-level scrolling vertical."],
       "javascript": "None.",
-      "markup": "<div class=\"tbl-scroll\"><table class=\"tbl\"><caption class=\"sr-only\">Release status</caption><thead><tr><th scope=\"col\">Version</th><th scope=\"col\">Status</th></tr></thead><tbody><tr><td>3.8.0</td><td>Ready</td></tr></tbody></table></div>"
+      "markup": "<div class=\"tbl-scroll\"><table class=\"tbl\"><caption class=\"sr-only\">Release status</caption><thead><tr><th scope=\"col\">Version</th><th scope=\"col\">Status</th></tr></thead><tbody><tr><td>3.8.1</td><td>Ready</td></tr></tbody></table></div>"
     },
     {
       "id": "toc",
