@@ -100,9 +100,22 @@
       <!-- BEGIN GENERATED: releases — edit CHANGELOG.md and run scripts/build-changelog-html.mjs -->
       <article class="release">
         <div class="release-head">
+          <span class="ver">Unreleased</span>
+          <span class="badge badge-accent">Latest</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Changed</div>
+          <ul class="change-list">
+            <li><strong>Container-aware metric layouts.</strong> Stat cards now size direct value text from their own inline width within 2–2.75rem, retain tabular numerals, and wrap long values, labels, and comparisons. The example metric grid uses intrinsic columns with a root-relative preferred minimum instead of viewport breakpoints. Dashboard wide/panel examples and a narrow showcase card demonstrate reuse without new markup requirements, JavaScript, or a public component family.</li>
+            <li><strong>Actionable backlog.</strong> Completed metric work is tracked here. Dashboard status colors remain a comparison experiment; the mono/editorial eyebrow split and one-interactive-accent policy are standing decisions with explicit reopening criteria. Further container work still requires a demonstrated use case.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
           <span class="ver">v3.10.0</span>
           <span class="release-date">2026-10-30</span>
-          <span class="badge badge-accent">Latest</span>
         </div>
         <div class="change-block">
           <div class="change-label">Changed</div>

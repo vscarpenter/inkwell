@@ -19,8 +19,10 @@ async function render(page, { root = 16, dir = "ltr", palette = "indigo", theme 
       <div class="host" style="--host-width: 500px"><div class="metric-grid" id="medium">${card()}${card("17", "Open checks")}${card("3", "Attention items")}</div></div>
       <div class="host" style="--host-width: 220px"><div class="metric-grid" id="narrow">${card()}${card("17", "Open checks")}${card("3", "Attention items")}</div></div>
       <div class="host" id="single-host" style="--host-width: 220px">${card("1,248,320", "Processed events", "Up 12,408 since the previous release")}</div>
+      <div class="host" style="--host-width: 220px"><div class="stat-num" id="uncontained-number">68%</div></div>
     </main></body></html>`);
   await expect(page.locator("#wide")).toHaveCSS("display", "grid");
+  await expect(page.locator("#single-host .stat-card")).toHaveCSS("border-top-style", "solid");
   await expect(page.locator("html")).toHaveCSS("font-size", `${root}px`);
 }
 
@@ -55,6 +57,7 @@ test("stat numbers follow their own card width and retain tabular figures", asyn
   await page.setViewportSize({ width: 640, height: 900 });
   expect(await font("#single-host .stat-num")).toBeCloseTo(narrow, 2);
   await expect(page.locator("#single-host .stat-num")).toHaveCSS("font-variant-numeric", "tabular-nums");
+  await expect(page.locator("#uncontained-number")).toHaveCSS("font-size", "44px");
 });
 
 test("font preferences enlarge numbers and reduce the metric group's column count", async ({ page }) => {

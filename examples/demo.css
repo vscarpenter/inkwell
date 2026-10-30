@@ -142,8 +142,9 @@
 }
 
 .metric-grid {
+  --metric-min: 14rem;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--metric-min)), 1fr));
   gap: var(--sp-4);
 }
 
@@ -356,7 +357,6 @@
   .theme-toggle .btn,
   .palette-toggle .btn { flex: 0 0 auto; }
 
-  .metric-grid,
   .two-grid,
   .swatch-grid {
     grid-template-columns: minmax(0, 1fr);

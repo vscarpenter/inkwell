@@ -218,7 +218,7 @@ The most-used tokens. Full list lives in `inkwell-tokens.css` (the file is well-
 | `.badge` (neutral / accent / success / warning / danger) | Status pill labels |
 | `.alert` (`.is-info`, `.is-success`, `.is-warning`, `.is-danger`) | Flat-tinted system messages |
 | `.card` (`.is-link`) | Generic card; `.is-link` shifts only the border on hover — no lift, no shadow swap |
-| `.stat-card` (`.is-primary`) | Big-number metric tile; `.is-primary` marks the headline metric with a full 1.5px accent border |
+| `.stat-card` (`.is-primary`) | Container-aware metric tile; direct `.stat-num` children scale within 2–2.75rem, text wraps, and `.is-primary` marks the full border with accent |
 | `.findings` / `.finding` | Cited statistics. Each finding's two direct children are `.finding-num` and an explanation/source paragraph or wrapper. It stacks at up to 35rem of its own width; statistic type scales locally. The host supplies width through normal block/flex/grid layout; give shrink-to-fit hosts an explicit width. |
 | `.tbl` | Table with sans headers and hairline rows |
 | `.tbl-scroll` | Overflow wrapper for `.tbl` — horizontal scroll on narrow viewports |
