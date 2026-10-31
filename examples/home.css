@@ -79,6 +79,50 @@
 .inkwell-home .home-diff-more { margin: 0; font: var(--t-caption)/1.5 var(--mono); color: var(--gray-700); }
 .inkwell-home #home-palette-status { margin-block-start: var(--sp-4); }
 
+/* ---------- Seams ---------- */
+.inkwell-home .seam {
+  display: block;
+  margin-block-start: var(--sp-2);
+  font: var(--t-caption)/1.5 var(--mono);
+  color: var(--gray-700);
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+.inkwell-home .seam::before {
+  content: "";
+  display: inline-block;
+  inline-size: 8px;
+  block-size: 8px;
+  margin-inline-end: var(--sp-2);
+  border: 1.5px solid var(--gray-500);
+  vertical-align: 0.05em;
+}
+.inkwell-home[data-seams="off"] .seam { display: none; }
+.inkwell-home .home-intro > .seam { margin-block-start: var(--sp-3); }
+.inkwell-home .home-press > .seam { margin-block: 0 var(--sp-3); }
+.inkwell-home .home-closing > .seam { margin-block-start: var(--sp-4); }
+
+/* ---------- Seams stage ---------- */
+.inkwell-home .home-plate {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: var(--sp-6);
+  padding: var(--sp-6);
+  background: var(--paper);
+  border: var(--border);
+  border-radius: var(--r-lg);
+}
+.inkwell-home .home-plate > .seam { grid-column: 1 / -1; margin: 0; }
+.inkwell-home .home-plate-copy, .inkwell-home .home-plate-controls { display: grid; gap: var(--sp-5); align-content: start; min-inline-size: 0; }
+.inkwell-home .home-plate-controls { margin: 0; padding: 0; border: 0; }
+.inkwell-home .home-part { min-inline-size: 0; }
+.inkwell-home .home-part > h3 { margin: 0; font: 600 var(--t-h3)/1.2 var(--serif); letter-spacing: -0.02em; }
+.inkwell-home .home-plate-row { display: flex; flex-wrap: wrap; gap: var(--sp-5); align-items: start; }
+.inkwell-home .home-plate .stat-card { inline-size: 12rem; max-inline-size: 100%; }
+.inkwell-home .home-plate .menu-panel { margin-block-start: var(--sp-3); }
+.inkwell-home .home-plate .menu-panel[data-inkwell-menu-ready] { margin-block-start: 0; }
+.inkwell-home .home-plate .home-status { margin-block-start: 0; }
+
 /* ---------- Sections shared ---------- */
 .inkwell-home .home-section { margin-block-start: var(--home-section-gap); }
 .inkwell-home .home-section > h2 { margin: 0; max-inline-size: 25ch; font: 600 clamp(1.75rem, 1.4rem + 1.4vw, 2.75rem)/1.15 var(--serif); letter-spacing: -0.025em; }
@@ -126,7 +170,8 @@
 }
 @media (max-width: 46rem) {
   .inkwell-home .home-intro { padding-block-start: var(--sp-7); }
-  .inkwell-home .home-install-grid { grid-template-columns: minmax(0, 1fr); }
+  .inkwell-home :is(.home-plate, .home-install-grid) { grid-template-columns: minmax(0, 1fr); }
+  .inkwell-home .home-plate { padding: var(--sp-5); }
 }
 @media (max-width: 28rem) {
   .inkwell-home .home-nav { gap: var(--sp-2) var(--sp-4); }

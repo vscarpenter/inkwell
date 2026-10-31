@@ -60,27 +60,42 @@ test("theme and direction propagate into the sheets", async ({ page }) => {
   await expect.poll(() => page.frameLocator('[data-sheet="clay"] iframe').locator("html").evaluate(h => h.hasAttribute("data-theme"))).toBe(false);
 });
 
-test("live specimen previews changes and resets through the keyboard menu", async ({ page }) => {
+test("seams switch shows and hides every callout", async ({ page }) => {
   await page.goto(home);
-  await page.getByLabel("Project name",{exact:true}).fill("   ");
-  await page.getByRole("button",{name:"Preview changes",exact:true}).click();
-  expect(await page.getByLabel("Project name",{exact:true}).evaluate(el=>el.validity.valid)).toBe(false);
-  await expect(page.getByLabel("Project name",{exact:true})).toBeFocused();
-  await page.getByLabel("Project name",{exact:true}).fill("A project with مساحة للكتابة");
-  await page.getByLabel("Send updates",{exact:true}).uncheck();
-  await page.getByRole("button",{name:"Preview changes",exact:true}).click();
-  await expect(page.locator("#home-preview-status")).toContainText("A project with مساحة للكتابة");
-  await expect(page.locator("#home-preview-status")).toContainText("Notifications off");
-  const trigger=page.getByRole("button",{name:"Specimen actions",exact:true});
+  const seams = page.locator(".seam");
+  await expect(seams).toHaveCount(12);
+  await expect(seams.first()).toBeVisible();
+  const toggle = page.getByRole("button", { name: "Seams", exact: true });
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await expect(seams.first()).toBeHidden();
+  expect(await seams.evaluateAll(es => es.every(e => getComputedStyle(e).display === "none"))).toBe(true);
+  await toggle.click();
+  await expect(seams.first()).toBeVisible();
+});
+
+test("live specimen reports a blank name inline and resets through the keyboard menu", async ({ page }) => {
+  await page.goto(home);
+  const name = page.getByLabel("Project name", { exact: true });
+  await name.fill("   ");
+  await page.getByRole("button", { name: "Preview changes", exact: true }).click();
+  await expect(page.locator("#home-preview-status")).toHaveText("Enter a project name.");
+  await expect(name).toHaveAttribute("aria-invalid", "true");
+  await expect(name).toBeFocused();
+  await name.fill("A project with مساحة للكتابة");
+  expect(await name.evaluate(el => el.hasAttribute("aria-invalid"))).toBe(false);
+  await page.getByRole("button", { name: "Preview changes", exact: true }).click();
+  await expect(page.locator("#home-preview-status")).toHaveText('Preview ready for "A project with مساحة للكتابة".');
+  const trigger = page.getByRole("button", { name: "Specimen actions", exact: true });
   await trigger.press("ArrowDown");
-  const reset=page.getByRole("menuitem",{name:"Reset example",exact:true});
+  const reset = page.getByRole("menuitem", { name: "Reset example", exact: true });
   await expect(reset).toBeFocused();
   await page.keyboard.press("Enter");
-  await expect(page.getByLabel("Project name",{exact:true})).toHaveValue("Thoughtful interfaces");
-  await expect(page.getByLabel("Send updates",{exact:true})).toBeChecked();
+  await expect(name).toHaveValue("Thoughtful interfaces");
   await expect(page.locator("#home-preview-status")).toHaveText("Example reset.");
   await expect(trigger).toBeFocused();
-  await expect(trigger).toHaveAttribute("aria-expanded","false");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
 });
 
 test("copy actions report success and rejection without losing focus", async ({ page }) => {

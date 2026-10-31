@@ -40,4 +40,50 @@
       if (paletteStatus && name) paletteStatus.textContent = "Palette: " + name + ". It follows you across the gallery.";
     });
   });
+
+  // Seams: the mono callouts naming each part's class and tokens. On by
+  // default, not persisted; without this script they simply stay visible.
+  var seams = document.getElementById("home-seams");
+  function setSeams(on) {
+    seams.setAttribute("aria-pressed", String(on));
+    if (on) document.body.removeAttribute("data-seams");
+    else document.body.setAttribute("data-seams", "off");
+  }
+  seams.addEventListener("click", function () { setSeams(seams.getAttribute("aria-pressed") !== "true"); });
+  seams.hidden = false;
+
+  // The specimen: preview a name, report a blank one inline, reset by menu.
+  var name = document.getElementById("home-project-name");
+  var previewButton = document.getElementById("home-preview");
+  var resetItem = document.getElementById("home-reset");
+  var status = document.getElementById("home-preview-status");
+
+  function clearError() {
+    name.removeAttribute("aria-invalid");
+    name.classList.remove("is-error");
+  }
+  function preview() {
+    var value = name.value.trim();
+    if (!value) {
+      name.setAttribute("aria-invalid", "true");
+      name.classList.add("is-error");
+      status.textContent = "Enter a project name.";
+      name.focus();
+      return;
+    }
+    status.textContent = 'Preview ready for "' + value + '".';
+  }
+  function reset() {
+    name.value = name.defaultValue;
+    clearError();
+    status.textContent = "Example reset.";
+  }
+  name.addEventListener("input", clearError);
+  name.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" && !event.isComposing) { event.preventDefault(); preview(); }
+  });
+  previewButton.addEventListener("click", preview);
+  resetItem.addEventListener("click", reset);
+  previewButton.hidden = false;
+  resetItem.disabled = false;
 })();

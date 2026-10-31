@@ -65,6 +65,7 @@
   <main class="wrap-wide" id="main-content">
     <section class="home-intro" aria-labelledby="home-title">
       <h1 id="home-title">One system. <em class="accent">Five inks.</em></h1>
+      <span class="seam" aria-hidden="true">h1 · --serif 600 · -0.035em · em.accent --accent-ink</span>
       <p class="home-lede">A pure-CSS design system for product and editorial interfaces. Three files, 39 component families, five palettes, light and dark, no build step.</p>
       <div class="home-actions">
         <a class="btn btn-primary" href="#get-started">Start building</a>
@@ -74,6 +75,7 @@
 
     <section class="home-press" aria-labelledby="press-title">
       <h2 id="press-title" class="sr-only">Five palettes, printed together</h2>
+      <span class="seam" aria-hidden="true">sheet · iframe srcdoc · inkwell.css + variants/*.css · --border frame</span>
       <div class="home-strip">
         <article class="home-sheet" data-sheet="indigo">
           <iframe class="home-sheet-frame" title="Indigo &amp; Cloud sheet" srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="inkwell.css"><style>body{margin:0;padding:var(--sp-4);background:var(--ivory)}.sheet>*+*{margin-block-start:var(--sp-3)}.sheet h2{margin:0}.sheet .row{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);margin:0}</style></head><body><article class="sheet"><span class="eyebrow">Release brief</span><h2 class="t-h3">Make room for the work.</h2><table class="tbl"><thead><tr><th>Item</th><th>Count</th></tr></thead><tbody><tr><td>Files to copy</td><td>3</td></tr><tr><td>Component families</td><td>39</td></tr><tr><td>Palettes</td><td>5</td></tr></tbody></table><p class="row"><span class="badge badge-accent">Draft</span><button class="btn btn-primary" type="button" tabindex="-1" aria-hidden="true">Approve</button></p></article></body></html>'></iframe>
@@ -124,7 +126,68 @@
       <p class="home-status" id="home-palette-status" role="status">Pick a sheet to print this page in its ink. The choice follows you across the gallery.</p>
     </section>
 
-    <!-- stage -->
+    <section class="home-section home-stage" id="seams" aria-labelledby="seams-title">
+      <h2 id="seams-title">Under the ink.</h2>
+      <p>The same brief at full size, in whatever ink the page is printed in. Every part names the class and the tokens behind it.</p>
+      <div class="home-plate">
+        <span class="seam" aria-hidden="true">frame · --border · 1.5px solid --gray-300 · --r-lg</span>
+        <div class="home-plate-copy">
+          <div class="home-part">
+            <span class="eyebrow">Release brief</span>
+            <span class="seam" aria-hidden="true">.eyebrow · --mono · --t-eyebrow · 0.12em</span>
+          </div>
+          <div class="home-part">
+            <h3 id="specimen-title">Make room for the work.</h3>
+            <span class="seam" aria-hidden="true">h3 · --serif 600 · --t-h3</span>
+          </div>
+          <div class="home-part">
+            <table class="tbl">
+              <thead><tr><th>Item</th><th>Count</th></tr></thead>
+              <tbody>
+                <tr><td>Files to copy</td><td>3</td></tr>
+                <tr><td>Component families</td><td>39</td></tr>
+                <tr><td>Palettes</td><td>5</td></tr>
+              </tbody>
+            </table>
+            <span class="seam" aria-hidden="true">.tbl · --border frame · 1px --gray-100 rows · --gray-100 header</span>
+          </div>
+          <div class="home-plate-row">
+            <div class="home-part">
+              <div class="stat-card"><div class="stat-num">39</div><div class="stat-label">Component families</div></div>
+              <span class="seam" aria-hidden="true">.stat-card · .stat-num --serif · sized by its container</span>
+            </div>
+            <div class="home-part">
+              <span class="badge badge-accent">Draft</span>
+              <span class="seam" aria-hidden="true">.badge-accent · --accent-tint · --accent-ink</span>
+            </div>
+          </div>
+        </div>
+        <fieldset class="home-plate-controls">
+          <legend class="sr-only">Try the specimen</legend>
+          <div class="home-part field">
+            <label class="field-label" for="home-project-name">Project name</label>
+            <input class="input" id="home-project-name" name="project" type="text" value="Thoughtful interfaces" required dir="auto" aria-describedby="home-preview-status">
+            <span class="seam" aria-hidden="true">.input · --control-border · 44px on touch</span>
+          </div>
+          <div class="home-part">
+            <button class="btn btn-primary" type="button" id="home-preview" hidden>Preview changes</button>
+            <span class="seam" aria-hidden="true">.btn-primary · --accent · --on-accent</span>
+          </div>
+          <div class="home-part">
+            <div class="menu" data-menu>
+              <button class="btn btn-ghost" type="button" data-menu-trigger id="home-menu-trigger" hidden>Specimen actions <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m3 4.5 3 3 3-3"/></svg></button>
+              <div class="menu-panel" aria-labelledby="home-menu-trigger">
+                <button class="menu-item" type="button" id="home-reset" disabled>Reset example</button>
+                <a class="menu-item" href="components.html#form-controls">View input markup</a>
+                <a class="menu-item" href="preview.html#menus">Explore menu behavior</a>
+              </div>
+            </div>
+            <span class="seam" aria-hidden="true">.menu[data-menu] · companion · popover with fallback</span>
+          </div>
+          <p class="home-status" id="home-preview-status" role="status">Try the field or the menu. Fields reset on reload.</p>
+        </fieldset>
+      </div>
+    </section>
 
     <section class="home-section" id="get-started" aria-labelledby="start-title">
       <h2 id="start-title">Three files. Your next interface.</h2>
@@ -163,6 +226,7 @@
     <section class="home-section home-closing" aria-labelledby="closing-title">
       <h2 id="closing-title">The 1.5px is on purpose.</h2>
       <p>Made with hairlines and serifs. Three files, one contract.</p>
+      <span class="seam" aria-hidden="true">h2 · --serif 600 · --border-rule above · the 1.5px</span>
     </section>
   </main>
 
