@@ -80,6 +80,8 @@ test("seams switch shows and hides every callout", async ({ page }) => {
   const seams = page.locator(".seam");
   await expect(seams).toHaveCount(12);
   await expect(seams.first()).toBeVisible();
+  await expect(page.locator(".home-plate > :last-child .eyebrow")).toHaveCount(1);
+  expect(await page.locator(".seam").evaluateAll(es => es.map(e => e.textContent).filter(t => /never|review/i.test(t)).length)).toBe(0);
   const toggle = page.getByRole("button", { name: "Seams", exact: true });
   await expect(toggle).toHaveAttribute("aria-pressed", "true");
   await toggle.click();

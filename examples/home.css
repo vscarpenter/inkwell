@@ -105,7 +105,8 @@
   border: var(--border);
   border-radius: var(--r-lg);
 }
-.inkwell-home .home-plate-meta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: start; gap: var(--sp-3) var(--sp-5); }
+.inkwell-home .home-plate > .seam { grid-column: 1 / -1; margin: 0; }
+.inkwell-home .home-plate-meta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-5); padding-block-start: var(--sp-4); border-block-start: var(--border-hair); }
 .inkwell-home .home-plate-meta > .seam { margin: 0; }
 .inkwell-home .home-plate-copy, .inkwell-home .home-plate-controls { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-5); align-content: start; min-inline-size: 0; }
 .inkwell-home .home-plate-controls { margin: 0; padding: 0; border: 0; }
