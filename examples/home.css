@@ -113,12 +113,13 @@
   border-radius: var(--r-lg);
 }
 .inkwell-home .home-plate > .seam { grid-column: 1 / -1; margin: 0; }
-.inkwell-home .home-plate-copy, .inkwell-home .home-plate-controls { display: grid; gap: var(--sp-5); align-content: start; min-inline-size: 0; }
+.inkwell-home .home-plate-copy, .inkwell-home .home-plate-controls { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-5); align-content: start; min-inline-size: 0; }
 .inkwell-home .home-plate-controls { margin: 0; padding: 0; border: 0; }
 .inkwell-home .home-part { min-inline-size: 0; }
 .inkwell-home .home-part > h3 { margin: 0; font: 600 var(--t-h3)/1.2 var(--serif); letter-spacing: -0.02em; }
 .inkwell-home .home-plate-row { display: flex; flex-wrap: wrap; gap: var(--sp-5); align-items: start; }
-.inkwell-home .home-plate .stat-card { inline-size: 12rem; max-inline-size: 100%; }
+.inkwell-home .home-plate-row > .home-part { flex: 1 1 10rem; }
+.inkwell-home .home-plate .stat-card { inline-size: 100%; max-inline-size: 16rem; }
 .inkwell-home .home-plate .menu-panel { margin-block-start: var(--sp-3); }
 .inkwell-home .home-plate .menu-panel[data-inkwell-menu-ready] { margin-block-start: 0; }
 .inkwell-home .home-plate .home-status { margin-block-start: 0; }
@@ -195,8 +196,11 @@
   .inkwell-home .home-appearance { margin-inline-start: 0; }
 }
 @media (pointer: coarse) {
-  .inkwell-home :is(.theme-toggle .btn, .home-seams, .home-nav a) { min-block-size: 44px; }
+  .inkwell-home :is(.theme-toggle .btn, .home-seams, .home-nav a, .home-sheet-pick) { min-block-size: 44px; }
+  .inkwell-home .home-directory a { display: flex; align-items: center; min-block-size: 44px; }
+  .inkwell-home :is(.home-file-list, .home-deep-links, .home-footer nav, .home-diff-more) a { display: inline-flex; align-items: center; min-block-size: 44px; }
 }
 @media (forced-colors: active) {
-  .inkwell-home .theme-toggle .is-active, .inkwell-home .home-seams[aria-pressed="true"] { background: Highlight; color: HighlightText; outline: 1px solid ButtonText; }
+  .inkwell-home :is(.theme-toggle .is-active, .home-sheet-pick.is-active, .home-seams[aria-pressed="true"]) { background: Highlight; color: HighlightText; outline: 1px solid ButtonText; }
+  .inkwell-home .home-sheet:has(.home-sheet-pick.is-active) .home-sheet-frame { outline: 2px solid Highlight; }
 }

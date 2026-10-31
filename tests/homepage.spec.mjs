@@ -145,35 +145,36 @@ test("adoption and example links remain usable without JavaScript or clipboard s
 });
 
 test("homepage fits enlarged type, RTL, and narrow screens with reachable controls", async ({ page, isMobile, browserName }) => {
-  await page.setViewportSize({width:320,height:812});
-  await page.emulateMedia({reducedMotion:"reduce"});
+  await page.setViewportSize({ width: 320, height: 812 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(home);
-  for (const dir of ["ltr","rtl"]) {
-    await page.evaluate(dir => { document.documentElement.dir=dir; document.documentElement.style.fontSize="32px"; },dir);
-    await expect(page.locator("html")).toHaveCSS("font-size","32px");
-    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth<=document.documentElement.clientWidth)).toBe(true);
-    await page.getByLabel("Project name",{exact:true}).fill("Long project name with العربية and averylongunbreakableidentifier");
-    await page.getByRole("button",{name:"Preview changes",exact:true}).click();
-    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth<=document.documentElement.clientWidth)).toBe(true);
-    await expect(page.locator("#html-install")).toHaveCSS("direction","ltr");
-    const trigger=page.getByRole("button",{name:"Specimen actions",exact:true});
+  for (const dir of ["ltr", "rtl"]) {
+    await page.evaluate(dir => { document.documentElement.dir = dir; document.documentElement.style.fontSize = "32px"; }, dir);
+    await expect(page.locator("html")).toHaveCSS("font-size", "32px");
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+    expect(await page.locator(".home-strip").evaluate(el => el.scrollWidth > el.clientWidth)).toBe(true);
+    await page.getByLabel("Project name", { exact: true }).fill("Long project name with العربية and averylongunbreakableidentifier");
+    await page.getByRole("button", { name: "Preview changes", exact: true }).click();
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+    await expect(page.locator("#html-install")).toHaveCSS("direction", "ltr");
+    const trigger = page.getByRole("button", { name: "Specimen actions", exact: true });
     await trigger.scrollIntoViewIfNeeded();
     await expect(trigger).toBeInViewport();
     await trigger.press("ArrowDown");
-    await expect(page.getByRole("menuitem",{name:"Reset example",exact:true})).toBeFocused();
+    await expect(page.getByRole("menuitem", { name: "Reset example", exact: true })).toBeFocused();
     await page.keyboard.press("Escape");
     await expect(trigger).toBeFocused();
   }
   if (isMobile) {
-    for (const selector of ['[data-palette-choice="clay"]','[data-theme-choice="dark"]']) {
-      expect(await page.locator(selector).evaluate(el=>el.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44);
+    for (const selector of ['[data-palette-choice="clay"]', '[data-theme-choice="dark"]', ".home-file-list a", ".home-deep-links a", ".home-footer nav a", "#home-seams"]) {
+      expect(await page.locator(selector).first().evaluate(el => el.getBoundingClientRect().height), selector).toBeGreaterThanOrEqual(44);
     }
   }
-  if (browserName==="chromium") {
-    await page.emulateMedia({forcedColors:"active"});
-    await expect(page.getByLabel("Send updates",{exact:true})).toHaveCSS("appearance","auto");
-    await page.getByRole("button",{name:"Preview changes",exact:true}).focus();
-    await expect(page.getByRole("button",{name:"Preview changes",exact:true})).toHaveCSS("outline-style","solid");
+  if (browserName === "chromium") {
+    await page.emulateMedia({ forcedColors: "active" });
+    await page.getByRole("button", { name: "Preview changes", exact: true }).focus();
+    await expect(page.getByRole("button", { name: "Preview changes", exact: true })).toHaveCSS("outline-style", "solid");
+    await expect(page.locator(".home-sheet-pick.is-active")).toHaveCSS("outline-style", "solid");
   }
 });
 
@@ -197,7 +198,7 @@ test("shared appearance controls have readable labels in every palette and mode"
         await page.emulateMedia({colorScheme:os});
         await page.locator('[data-theme-choice="'+choice+'"]').click();
         await expect.poll(async () => {
-          const colors=await page.locator('.theme-toggle .is-active, .palette-toggle .is-active').evaluateAll(es=>es.map(e=>({fg:getComputedStyle(e).color,bg:getComputedStyle(e).backgroundColor})));
+          const colors=await page.locator('.theme-toggle .is-active, .palette-toggle .is-active, .home-sheet-pick.is-active').evaluateAll(es=>es.map(e=>({fg:getComputedStyle(e).color,bg:getComputedStyle(e).backgroundColor})));
           return colors.length===2 && colors.every(c=>contrast(c.fg,c.bg)>=4.5);
         },{message:path+'/'+palette+'/'+choice+'/'+os}).toBe(true);
       }
