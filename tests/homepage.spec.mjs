@@ -27,6 +27,39 @@ test("homepage leads with the press sheet and keeps the complete example directo
   expect(await page.locator("html").innerHTML()).not.toMatch(/[–—]/);
 });
 
+test("sheets keep their own palettes and a pick re-inks the page", async ({ page }) => {
+  await page.goto(home + "?palette=clay");
+  await expect(page.locator("#inkwell-palette-css")).toHaveAttribute("href", "variants/clay.css");
+  await expect(page.locator('[data-palette-choice="clay"]')).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("iframe.home-sheet-frame")).toHaveCount(5);
+  const fills = [];
+  for (const name of ["indigo", "clay", "sage", "burgundy", "azure"]) {
+    const frame = page.frameLocator(`[data-sheet="${name}"] iframe`);
+    await expect(frame.locator("table.tbl")).toBeVisible();
+    fills.push(await frame.locator(".btn-primary").evaluate(el => getComputedStyle(el).backgroundColor));
+  }
+  expect(new Set(fills).size).toBe(5);
+  await expect(page.frameLocator('[data-sheet="indigo"] iframe').locator('link[href^="variants/"]')).toHaveCount(0);
+  await page.locator('[data-palette-choice="sage"]').click();
+  await expect(page.locator("#inkwell-palette-css")).toHaveAttribute("href", "variants/sage.css");
+  await expect(page.locator("#home-palette-status")).toHaveText("Palette: Sage & Stone. It follows you across the gallery.");
+  await expect(page.locator('[data-sheet="sage"] .home-sheet-pick')).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator('[data-sheet="clay"] .home-sheet-pick')).toHaveAttribute("aria-pressed", "false");
+});
+
+test("theme and direction propagate into the sheets", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.goto(home);
+  await page.locator('[data-theme-choice="light"]').click();
+  for (const name of ["indigo", "azure"]) {
+    await expect(page.frameLocator(`[data-sheet="${name}"] iframe`).locator("html")).toHaveAttribute("data-theme", "light");
+  }
+  await page.evaluate(() => { document.documentElement.dir = "rtl"; });
+  await expect(page.frameLocator('[data-sheet="clay"] iframe').locator("html")).toHaveAttribute("dir", "rtl");
+  await page.locator('[data-theme-choice="auto"]').click();
+  await expect.poll(() => page.frameLocator('[data-sheet="clay"] iframe').locator("html").evaluate(h => h.hasAttribute("data-theme"))).toBe(false);
+});
+
 test("live specimen previews changes and resets through the keyboard menu", async ({ page }) => {
   await page.goto(home);
   await page.getByLabel("Project name",{exact:true}).fill("   ");

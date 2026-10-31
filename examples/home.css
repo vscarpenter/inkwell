@@ -49,6 +49,36 @@
 .inkwell-home .home-lede { max-inline-size: 53ch; margin-block: var(--sp-5); font-size: var(--t-lede); color: var(--gray-700); line-height: 1.5; }
 .inkwell-home .home-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); }
 
+/* ---------- Press sheet ---------- */
+.inkwell-home .home-press { margin-block-start: var(--sp-5); }
+.inkwell-home .home-strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--sp-4); }
+.inkwell-home .home-sheet { display: flex; flex-direction: column; gap: var(--sp-3); min-inline-size: 0; }
+.inkwell-home .home-sheet-frame {
+  display: block;
+  inline-size: 100%;
+  block-size: 24rem;
+  border: var(--border);
+  border-radius: var(--r-md);
+  background: var(--ivory);
+}
+.inkwell-home .home-sheet:has(.home-sheet-pick.is-active) .home-sheet-frame { border-color: var(--slate); }
+.inkwell-home .home-sheet-pick {
+  inline-size: 100%;
+  min-block-size: 36px;
+  border: var(--border);
+  border-radius: var(--r-sm);
+  font: 600 var(--t-caption)/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.inkwell-home .home-sheet-pick.is-active { background: var(--slate); color: var(--ivory); border-color: var(--slate); }
+.inkwell-home .home-diff { display: grid; gap: var(--sp-1); margin: 0; font: var(--t-caption)/1.5 var(--mono); color: var(--gray-700); }
+.inkwell-home .home-diff > div { display: flex; flex-wrap: wrap; gap: 0 var(--sp-2); }
+.inkwell-home .home-diff dt { color: var(--gray-500); }
+.inkwell-home .home-diff dd { margin: 0; }
+.inkwell-home .home-diff-more { margin: 0; font: var(--t-caption)/1.5 var(--mono); color: var(--gray-700); }
+.inkwell-home #home-palette-status { margin-block-start: var(--sp-4); }
+
 /* ---------- Sections shared ---------- */
 .inkwell-home .home-section { margin-block-start: var(--home-section-gap); }
 .inkwell-home .home-section > h2 { margin: 0; max-inline-size: 25ch; font: 600 clamp(1.75rem, 1.4rem + 1.4vw, 2.75rem)/1.15 var(--serif); letter-spacing: -0.025em; }
@@ -84,6 +114,16 @@
 .inkwell-home .home-release { flex-basis: 100%; font: var(--t-caption)/1.5 var(--mono); }
 
 /* ---------- Responsive ---------- */
+@media (max-width: 64rem) {
+  .inkwell-home .home-strip {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    padding-block-end: var(--sp-3);
+  }
+  .inkwell-home .home-sheet { flex: 0 0 min(80vw, 22rem); scroll-snap-align: start; }
+}
 @media (max-width: 46rem) {
   .inkwell-home .home-intro { padding-block-start: var(--sp-7); }
   .inkwell-home .home-install-grid { grid-template-columns: minmax(0, 1fr); }
