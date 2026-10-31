@@ -35,15 +35,20 @@ test("homepage leads with the press sheet and keeps the complete example directo
 });
 
 test("sheets keep their own palettes and a pick re-inks the page", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(home + "?palette=clay");
   await expect(page.locator("#inkwell-palette-css")).toHaveAttribute("href", "variants/clay.css");
   await expect(page.locator('[data-palette-choice="clay"]')).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("iframe.home-sheet-frame")).toHaveCount(5);
+  await expect(page.locator(".home-strip-picks")).toBeInViewport();
   const fills = [];
-  for (const name of ["indigo", "clay", "sage", "burgundy", "azure"]) {
+  const names = { indigo: "Indigo & Cloud", clay: "Clay", sage: "Sage & Stone", burgundy: "Burgundy & Bone", azure: "Azure & Ink" };
+  for (const name of Object.keys(names)) {
     const frame = page.frameLocator(`[data-sheet="${name}"] iframe`);
+    await expect(frame.locator(".ink")).toHaveText(names[name]);
     await expect(frame.locator("table.tbl")).toBeVisible();
     expect(await frame.locator("thead th").last().evaluate(el => { const range = document.createRange(); range.selectNodeContents(el); return range.getClientRects().length; }), `${name} header wraps`).toBe(1);
+    expect(await frame.locator("tbody td").first().evaluate(el => { const range = document.createRange(); range.selectNodeContents(el); return range.getClientRects().length; }), `${name} row label wraps`).toBe(1);
     fills.push(await frame.locator(".btn-primary").evaluate(el => getComputedStyle(el).backgroundColor));
   }
   expect(new Set(fills).size).toBe(5);
@@ -51,8 +56,10 @@ test("sheets keep their own palettes and a pick re-inks the page", async ({ page
   await page.locator('[data-palette-choice="sage"]').click();
   await expect(page.locator("#inkwell-palette-css")).toHaveAttribute("href", "variants/sage.css");
   await expect(page.locator("#home-palette-status")).toHaveText("Palette: Sage & Stone. It follows you across the gallery.");
-  await expect(page.locator('[data-sheet="sage"] .home-sheet-pick')).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator('[data-sheet="clay"] .home-sheet-pick')).toHaveAttribute("aria-pressed", "false");
+  await expect(page.locator('.home-sheet-pick[data-palette-choice="sage"]')).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator('.home-sheet-pick[data-palette-choice="clay"]')).toHaveAttribute("aria-pressed", "false");
+  await expect(page.locator('[data-sheet="sage"]')).toHaveCSS("outline-style", "solid");
+  await expect(page.locator('[data-sheet="clay"]')).toHaveCSS("outline-style", "none");
 });
 
 test("theme and direction propagate into the sheets", async ({ page }) => {

@@ -25,19 +25,20 @@
 .inkwell-home .theme-toggle { display: flex; flex-wrap: wrap; gap: var(--sp-1); padding: var(--sp-1); border: var(--border); border-radius: var(--r-sm); max-inline-size: 100%; }
 .inkwell-home .theme-toggle .btn { min-block-size: 28px; padding: var(--sp-2) var(--sp-3); font-size: var(--t-caption); }
 .inkwell-home .theme-toggle .is-active { background: var(--accent); color: var(--on-accent); }
-.inkwell-home .home-seams {
-  min-block-size: 36px;
-  padding: var(--sp-2) var(--sp-4);
-  border: var(--border);
-  border-radius: var(--r-sm);
-  font: 600 var(--t-caption)/1 var(--mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
+.inkwell-home .home-seams { min-block-size: 36px; padding: var(--sp-2) var(--sp-4); border: var(--border); border-radius: var(--r-sm); }
 .inkwell-home .home-seams[aria-pressed="true"] { background: var(--slate); color: var(--ivory); border-color: var(--slate); }
 
 /* ---------- Opening ---------- */
-.inkwell-home .home-intro { padding-block: calc(var(--sp-8) + var(--sp-4)) var(--sp-7); }
+.inkwell-home .home-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  column-gap: var(--sp-7);
+  row-gap: var(--sp-3);
+  align-items: end;
+  padding-block: var(--sp-7) var(--sp-5);
+}
+.inkwell-home .home-intro > h1, .inkwell-home .home-intro > .seam { grid-column: 1; }
+.inkwell-home .home-intro-side { grid-column: 2; grid-row: 1 / span 2; align-self: end; }
 .inkwell-home h1 {
   max-inline-size: 12ch;
   margin: 0;
@@ -46,31 +47,23 @@
   text-wrap: balance;
 }
 .inkwell-home h1 em.accent { font-style: italic; color: var(--accent-ink); }
-.inkwell-home .home-lede { max-inline-size: 53ch; margin-block: var(--sp-5); font-size: var(--t-lede); color: var(--gray-700); line-height: 1.5; }
+.inkwell-home .home-lede { max-inline-size: 48ch; margin-block: 0 var(--sp-5); font-size: var(--t-lede); color: var(--gray-700); line-height: 1.5; }
 .inkwell-home .home-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); }
 
 /* ---------- Press sheet ---------- */
-.inkwell-home .home-press { margin-block-start: var(--sp-5); }
-.inkwell-home .home-strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--sp-4); }
-.inkwell-home .home-sheet { display: flex; flex-direction: column; gap: var(--sp-3); min-inline-size: 0; }
-.inkwell-home .home-sheet-frame {
-  display: block;
-  inline-size: 100%;
-  block-size: 24rem;
-  border: var(--border);
-  border-radius: var(--r-md);
-  background: var(--ivory);
-}
-.inkwell-home .home-sheet:has(.home-sheet-pick.is-active) .home-sheet-frame { border-color: var(--slate); }
-.inkwell-home .home-sheet-pick {
-  inline-size: 100%;
-  min-block-size: 36px;
-  border: var(--border);
-  border-radius: var(--r-sm);
-  font: 600 var(--t-caption)/1 var(--mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
+.inkwell-home .home-press { margin-block-start: var(--sp-2); }
+.inkwell-home .home-strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-block: var(--border); }
+.inkwell-home .home-sheet { display: flex; flex-direction: column; gap: var(--sp-3); min-inline-size: 0; padding: var(--sp-3); border-inline-end: var(--border); }
+.inkwell-home .home-sheet:last-child { border-inline-end: 0; }
+.inkwell-home .home-sheet-frame { display: block; inline-size: 100%; block-size: 19rem; border: 0; background: var(--ivory); }
+/* The picked impression is outlined in its own ink: picking a sheet re-inks the page, so --accent is that sheet's accent. */
+.inkwell-home .home-press:has([data-palette-choice="indigo"].is-active) [data-sheet="indigo"],
+.inkwell-home .home-press:has([data-palette-choice="clay"].is-active) [data-sheet="clay"],
+.inkwell-home .home-press:has([data-palette-choice="sage"].is-active) [data-sheet="sage"],
+.inkwell-home .home-press:has([data-palette-choice="burgundy"].is-active) [data-sheet="burgundy"],
+.inkwell-home .home-press:has([data-palette-choice="azure"].is-active) [data-sheet="azure"] { outline: 3px solid var(--accent); outline-offset: -3px; }
+.inkwell-home .home-strip-picks { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--sp-2); margin-block-start: var(--sp-3); }
+.inkwell-home .home-sheet-pick { inline-size: 100%; min-block-size: 36px; border: var(--border); }
 .inkwell-home .home-sheet-pick.is-active { background: var(--slate); color: var(--ivory); border-color: var(--slate); }
 .inkwell-home .home-diff { display: grid; gap: var(--sp-1); margin: 0; font: var(--t-caption)/1.5 var(--mono); color: var(--gray-700); }
 .inkwell-home .home-diff > div { display: flex; flex-wrap: wrap; gap: 0 var(--sp-2); }
@@ -91,15 +84,15 @@
 .inkwell-home .seam::before {
   content: "";
   display: inline-block;
-  inline-size: 8px;
-  block-size: 8px;
+  inline-size: 14px;
+  block-size: 1.5px;
   margin-inline-end: var(--sp-2);
-  border: 1.5px solid var(--gray-500);
-  vertical-align: 0.05em;
+  background: var(--accent-ink);
+  vertical-align: middle;
 }
 .inkwell-home[data-seams="off"] .seam { display: none; }
 .inkwell-home .home-intro > .seam { margin-block-start: var(--sp-3); }
-.inkwell-home .home-press > .seam { margin-block: 0 var(--sp-3); }
+.inkwell-home .home-press > .seam { margin-block: 0 var(--sp-2); }
 .inkwell-home .home-closing > .seam { margin-block-start: var(--sp-4); }
 
 /* ---------- Seams stage ---------- */
@@ -112,7 +105,8 @@
   border: var(--border);
   border-radius: var(--r-lg);
 }
-.inkwell-home .home-plate > .seam { grid-column: 1 / -1; margin: 0; }
+.inkwell-home .home-plate-meta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: start; gap: var(--sp-3) var(--sp-5); }
+.inkwell-home .home-plate-meta > .seam { margin: 0; }
 .inkwell-home .home-plate-copy, .inkwell-home .home-plate-controls { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-5); align-content: start; min-inline-size: 0; }
 .inkwell-home .home-plate-controls { margin: 0; padding: 0; border: 0; }
 .inkwell-home .home-part { min-inline-size: 0; }
@@ -176,14 +170,18 @@
 
 /* ---------- Responsive ---------- */
 @media (max-width: 64rem) {
+  .inkwell-home .home-intro { grid-template-columns: minmax(0, 1fr); }
+  .inkwell-home .home-intro-side { grid-column: 1; grid-row: auto; }
   .inkwell-home .home-strip {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--sp-3);
     scrollbar-width: thin;
-    padding-block-end: var(--sp-3);
   }
-  .inkwell-home .home-sheet { flex: 0 0 min(80vw, 22rem); scroll-snap-align: start; }
+  .inkwell-home .home-sheet { flex: 0 0 72vw; scroll-snap-align: start; }
+  .inkwell-home .home-strip-picks { display: flex; flex-wrap: wrap; }
+  .inkwell-home .home-sheet-pick { inline-size: auto; flex: 1 1 auto; }
 }
 @media (max-width: 46rem) {
   .inkwell-home .home-intro { padding-block-start: var(--sp-7); }
@@ -202,5 +200,5 @@
 }
 @media (forced-colors: active) {
   .inkwell-home :is(.theme-toggle .is-active, .home-sheet-pick.is-active, .home-seams[aria-pressed="true"]) { background: Highlight; color: HighlightText; outline: 1px solid ButtonText; }
-  .inkwell-home .home-sheet:has(.home-sheet-pick.is-active) .home-sheet-frame { outline: 2px solid Highlight; }
+  .inkwell-home .home-sheet { outline-color: Highlight; }
 }
