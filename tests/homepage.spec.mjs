@@ -24,6 +24,13 @@ test("homepage leads with the press sheet and keeps the complete example directo
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://inkwell.vinny.dev/");
   await expect(page.locator('meta[property="og:url"]')).toHaveAttribute("content", "https://inkwell.vinny.dev/");
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute("content", "Inkwell: one system, five inks");
+  const linked = await page.locator("#example-directory a[href]").evaluateAll(links => links.map(a => new URL(a.href).pathname.replace("/examples/", "")));
+  expect([...new Set(linked)].sort()).toEqual(routes);
+  await expect(page.locator("#example-directory .home-addr")).toHaveCount(20);
+  await expect(page.locator("#example-directory .home-addr").first()).toHaveText("01");
+  await expect(page.locator("#example-directory .home-addr").last()).toHaveText("20");
+  await expect(page.locator('#example-directory a[aria-current="page"]')).toHaveAttribute("href", "index.html");
+  await expect(page.locator("#components")).toHaveCount(1);
   expect(await page.locator("html").innerHTML()).not.toMatch(/[–—]/);
 });
 

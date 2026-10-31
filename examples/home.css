@@ -141,6 +141,22 @@
 .inkwell-home .home-status { min-block-size: 1.5em; margin-block: var(--sp-4) 0; font-size: var(--t-small); color: var(--gray-700); }
 .inkwell-home .home-copy-row .home-status { margin: 0; }
 
+/* ---------- Directory ---------- */
+.inkwell-home .home-directory { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-6); margin-block-start: var(--sp-6); }
+.inkwell-home .home-directory h3 { margin: 0 0 var(--sp-4); font: 600 var(--t-h3)/1.3 var(--serif); }
+.inkwell-home .home-directory ul { list-style: none; padding: 0; margin: 0; }
+.inkwell-home .home-directory li { display: flex; align-items: baseline; border-block-end: var(--border-hair); }
+.inkwell-home .home-addr {
+  flex: 0 0 auto;
+  inline-size: 2ch;
+  margin-inline-end: var(--sp-3);
+  font: var(--t-caption)/1.5 var(--mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--gray-500);
+}
+.inkwell-home .home-directory a { display: block; flex: 1 1 auto; padding-block: var(--sp-3); font-size: var(--t-small); }
+.inkwell-home .home-deep-links { display: flex; flex-wrap: wrap; gap: var(--sp-3) var(--sp-5); margin-block-start: var(--sp-5); font-size: var(--t-small); }
+
 /* ---------- Close ---------- */
 .inkwell-home .home-closing { padding-block: var(--sp-8) var(--sp-7); border-block-start: var(--border-rule); }
 .inkwell-home .home-closing > h2 {
@@ -172,6 +188,7 @@
   .inkwell-home .home-intro { padding-block-start: var(--sp-7); }
   .inkwell-home :is(.home-plate, .home-install-grid) { grid-template-columns: minmax(0, 1fr); }
   .inkwell-home .home-plate { padding: var(--sp-5); }
+  .inkwell-home .home-directory { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
 }
 @media (max-width: 28rem) {
   .inkwell-home .home-nav { gap: var(--sp-2) var(--sp-4); }

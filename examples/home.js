@@ -86,4 +86,26 @@
   resetItem.addEventListener("click", reset);
   previewButton.hidden = false;
   resetItem.disabled = false;
+
+  // Copy buttons appear only when the clipboard API exists, report success
+  // after the write resolves, and fall back to manual-copy guidance.
+  if (!navigator.clipboard || typeof navigator.clipboard.writeText !== "function") return;
+  document.querySelectorAll("[data-home-copy]").forEach(function (button) {
+    var source = document.getElementById(button.getAttribute("data-home-copy"));
+    var feedback = document.getElementById(button.getAttribute("aria-describedby"));
+    button.addEventListener("click", async function () {
+      if (button.dataset.copying) return;
+      button.dataset.copying = "true";
+      feedback.textContent = "Copying…";
+      try {
+        await navigator.clipboard.writeText(source.textContent.trim());
+        feedback.textContent = button.getAttribute("data-home-copied");
+      } catch (error) {
+        feedback.textContent = "Copy unavailable. Select the snippet and copy it manually.";
+      } finally {
+        delete button.dataset.copying;
+      }
+    });
+    button.hidden = false;
+  });
 })();
