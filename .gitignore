@@ -20,3 +20,6 @@
 # Browser verification artifacts
 test-results/
 playwright-report/
+
+# Plan-execution scratch (ledger, briefs)
+.superpowers/
