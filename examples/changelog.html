@@ -100,9 +100,22 @@
       <!-- BEGIN GENERATED: releases — edit CHANGELOG.md and run scripts/build-changelog-html.mjs -->
       <article class="release">
         <div class="release-head">
+          <span class="ver">Unreleased</span>
+          <span class="badge badge-accent">Latest</span>
+        </div>
+        <div class="change-block">
+          <div class="change-label">Changed</div>
+          <ul class="change-list">
+            <li><strong>A homepage that is its own specimen.</strong> The public <code>examples/index.html</code> now opens with "One system. Five inks." over five live palette sheets: inline <code>srcdoc</code> iframes that each link <code>inkwell.css</code> and one variant file, so all five palettes render at once, with or without JavaScript, and picking a sheet re-inks the page. A full-size specimen plate and twelve mono callouts name the class and tokens behind every part; a Seams switch in the header hides them. The directory keeps all 20 published pages with numbered addresses, both adoption paths are unchanged, and "The 1.5px is on purpose." closes the page at display size. The eight-chip appearance toolbar, the decorative progress bar, and the "A system with range" rows are gone. The specimen reports a blank name inline with <code>aria-invalid</code> and says that fields reset on reload.</li>
+            <li><strong>Palette-diff drift guard.</strong> The three-token diff under each sheet is hand-authored; <code>node --test tests/home-palettes.test.mjs</code> parses <code>variants/*.css</code> and fails when a value or the override count drifts. The Pages workflow runs it, and the contrast gate gains the callout text and the inverted active control.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
           <span class="ver">v3.11.0</span>
           <span class="release-date">2026-10-30</span>
-          <span class="badge badge-accent">Latest</span>
         </div>
         <div class="change-block">
           <div class="change-label">Changed</div>
