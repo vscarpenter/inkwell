@@ -9,22 +9,22 @@ const routes = [
   ...readdirSync(new URL("../examples/variants/", import.meta.url)).filter(name => name.endsWith(".html")).map(name => "variants/" + name),
 ].sort();
 
-test("homepage leads to adoption and keeps the complete example directory", async ({ page }) => {
+test("homepage leads with the press sheet and keeps the complete example directory", async ({ page }) => {
   await page.goto(home);
-  await expect(page).toHaveTitle("Inkwell — Build interfaces with character");
-  await expect(page.getByRole("heading", {level:1})).toHaveText("Build interfaces with character.");
-  expect(await page.evaluate(() => {
-    const intro=document.querySelector('.home-intro').getBoundingClientRect(), specimen=document.querySelector('.home-stage').getBoundingClientRect();
-    return intro.bottom<=specimen.top+1 && specimen.width>=intro.width*.95;
-  })).toBe(true);
-  await page.getByRole("link", {name:"Start building",exact:true}).first().click();
+  await expect(page).toHaveTitle("Inkwell: one system, five inks");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("One system. Five inks.");
+  await expect(page.locator("h1 em.accent")).toHaveText("Five inks.");
+  for (const name of ["Docs", "Reference", "Showcase", "Examples", "GitHub"]) {
+    await expect(page.locator(".home-nav").getByRole("link", { name, exact: true })).toHaveCount(1);
+  }
+  await expect(page.locator(".home-nav").getByRole("link", { name: "Examples", exact: true })).toHaveAttribute("href", "#components");
+  await expect(page.getByRole("heading", { name: "The 1.5px is on purpose.", exact: true })).toHaveCount(1);
+  await page.getByRole("link", { name: "Start building", exact: true }).click();
   await expect(page).toHaveURL(/#get-started$/);
-  await expect(page.getByRole("heading", {name:"Three files. Your next interface.",exact:true})).toBeInViewport();
-  const linked = await page.locator("#example-directory a[href]").evaluateAll(links => links.map(a => new URL(a.href).pathname.replace("/examples/", "")));
-  expect([...new Set(linked)].sort()).toEqual(routes);
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href","https://inkwell.vinny.dev/");
-  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute("content","https://inkwell.vinny.dev/");
-  await expect(page.locator("#components")).toHaveCount(1);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://inkwell.vinny.dev/");
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute("content", "https://inkwell.vinny.dev/");
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute("content", "Inkwell: one system, five inks");
+  expect(await page.locator("html").innerHTML()).not.toMatch(/[–—]/);
 });
 
 test("live specimen previews changes and resets through the keyboard menu", async ({ page }) => {

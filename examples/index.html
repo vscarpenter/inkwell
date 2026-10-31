@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#F4F4F0">
   <link rel="canonical" href="https://inkwell.vinny.dev/">
-  <title>Inkwell — Build interfaces with character</title>
-  <meta name="description" content="Build product and editorial interfaces with Inkwell: 39 component families, five palettes, light and dark modes, and no consumer build step.">
+  <title>Inkwell: one system, five inks</title>
+  <meta name="description" content="A pure-CSS design system for product and editorial interfaces. Three files, 39 component families, five palettes, light and dark, no build step.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Inkwell">
   <meta property="og:url" content="https://inkwell.vinny.dev/">
-  <meta property="og:title" content="Inkwell — Build interfaces with character">
-  <meta property="og:description" content="Build product and editorial interfaces with Inkwell: 39 component families, five palettes, light and dark modes, and no consumer build step.">
+  <meta property="og:title" content="Inkwell: one system, five inks">
+  <meta property="og:description" content="A pure-CSS design system for product and editorial interfaces. Three files, 39 component families, five palettes, light and dark, no build step.">
   <meta property="og:image" content="https://inkwell.vinny.dev/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Inkwell — a pure-CSS design system">
+  <meta property="og:image:alt" content="Inkwell, a pure-CSS design system">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Inkwell — Build interfaces with character">
-  <meta name="twitter:description" content="Build product and editorial interfaces with Inkwell: 39 component families, five palettes, light and dark modes, and no consumer build step.">
+  <meta name="twitter:title" content="Inkwell: one system, five inks">
+  <meta name="twitter:description" content="A pure-CSS design system for product and editorial interfaces. Three files, 39 component families, five palettes, light and dark, no build step.">
   <meta name="twitter:image" content="https://inkwell.vinny.dev/og-image.png">
   <link rel="icon" type="image/png" href="favicon-512.png">
   <link rel="apple-touch-icon" href="favicon-512.png">
@@ -47,76 +47,34 @@
     </a>
     <nav class="home-nav" aria-label="Primary">
       <a href="docs.html">Docs</a>
-      <a href="components.html">Components</a>
+      <a href="components.html">Reference</a>
+      <a href="preview.html">Showcase</a>
       <a href="#components">Examples</a>
       <a href="https://github.com/vscarpenter/inkwell">GitHub <svg class="icon-directional" aria-hidden="true" width="14" height="14" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m4 14 10-10M4 4h10v10"/></svg></a>
     </nav>
+    <div class="home-appearance">
+      <div class="theme-toggle" role="group" aria-label="Theme" data-home-appearance hidden>
+        <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
+        <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
+        <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
+      </div>
+      <button class="btn btn-ghost home-seams" type="button" id="home-seams" aria-pressed="true" hidden>Seams</button>
+    </div>
   </header>
 
   <main class="wrap-wide" id="main-content">
     <section class="home-intro" aria-labelledby="home-title">
-      <h1 id="home-title">Build interfaces with character.</h1>
-      <p>A CSS design system with 39 components, five palettes, and light and dark modes. No build step.</p>
+      <h1 id="home-title">One system. <em class="accent">Five inks.</em></h1>
+      <p class="home-lede">A pure-CSS design system for product and editorial interfaces. Three files, 39 component families, five palettes, light and dark, no build step.</p>
       <div class="home-actions">
         <a class="btn btn-primary" href="#get-started">Start building</a>
-        <a class="btn btn-secondary" href="components.html">Explore components</a>
+        <a class="btn btn-secondary" href="components.html">Read the reference</a>
       </div>
     </section>
 
-    <figure class="home-stage" aria-labelledby="specimen-title">
-      <figcaption class="home-stage-toolbar">
-        <p>Live components. Make them yours.</p>
-        <div class="home-appearance">
-          <div class="palette-toggle" role="group" aria-label="Palette" data-home-appearance hidden>
-            <button class="btn btn-ghost" type="button" data-palette-choice="indigo" title="Indigo &amp; Cloud">Indigo</button>
-            <button class="btn btn-ghost" type="button" data-palette-choice="clay">Clay</button>
-            <button class="btn btn-ghost" type="button" data-palette-choice="sage" title="Sage &amp; Stone">Sage</button>
-            <button class="btn btn-ghost" type="button" data-palette-choice="burgundy" title="Burgundy &amp; Bone">Burgundy</button>
-            <button class="btn btn-ghost" type="button" data-palette-choice="azure" title="Azure &amp; Ink">Azure</button>
-          </div>
-          <div class="theme-toggle" role="group" aria-label="Theme" data-home-appearance hidden>
-            <button class="btn btn-ghost" type="button" data-theme-choice="auto">Auto</button>
-            <button class="btn btn-ghost" type="button" data-theme-choice="light">Light</button>
-            <button class="btn btn-ghost" type="button" data-theme-choice="dark">Dark</button>
-          </div>
-        </div>
-      </figcaption>
-      <div class="home-specimen">
-        <div class="home-specimen-copy">
-          <span class="badge badge-neutral">A working example</span>
-          <h2 id="specimen-title">Make room for the work.</h2>
-          <p>Serif for the idea. Sans for the detail. A small project brief, made from components you can copy.</p>
-          <p class="t-small">Try the fields, open the menu, or change the palette. Nothing is saved.</p>
-        </div>
-        <fieldset class="home-specimen-fields">
-          <legend class="sr-only">Try form controls</legend>
-          <div class="field">
-            <label class="field-label" for="home-project-name">Project name</label>
-            <input class="input" id="home-project-name" name="project" type="text" value="Thoughtful interfaces" required dir="auto">
-          </div>
-          <label class="checkbox"><input id="home-updates" name="updates" type="checkbox" checked>Send updates</label>
-          <div class="home-actions">
-            <button class="btn btn-secondary" type="button" id="home-preview" hidden>Preview changes</button>
-            <div class="menu" data-menu>
-              <button class="btn btn-ghost" type="button" data-menu-trigger id="home-menu-trigger" hidden>Specimen actions <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m3 4.5 3 3 3-3"/></svg></button>
-              <div class="menu-panel" aria-labelledby="home-menu-trigger">
-                <button class="menu-item" type="button" id="home-reset" disabled>Reset example</button>
-                <a class="menu-item" href="components.html#form-controls">View input markup</a>
-                <a class="menu-item" href="preview.html#menus">Explore menu behavior</a>
-              </div>
-            </div>
-          </div>
-          <p class="home-status" id="home-preview-status" role="status">Try the fields. Nothing is saved.</p>
-        </fieldset>
-      </div>
-      <div class="home-stage-foot">
-        <div>
-          <div class="home-progress-label"><label for="home-progress">Native progress · example</label><span>72%</span></div>
-          <progress class="progress" id="home-progress" max="100" value="72">72%</progress>
-        </div>
-        <a class="link" href="preview.html">See every component and state <span class="icon-directional" aria-hidden="true">→</span></a>
-      </div>
-    </figure>
+    <!-- strip -->
+
+    <!-- stage -->
 
     <section class="home-section" id="get-started" aria-labelledby="start-title">
       <h2 id="start-title">Three files. Your next interface.</h2>
@@ -150,64 +108,16 @@
       </div>
     </section>
 
-    <section class="home-section" id="components" aria-labelledby="featured-title">
-      <div class="home-section-heading">
-        <h2 id="featured-title">A system with range.</h2>
-        <p>The same tokens, from a working product to a page worth reading.</p>
-      </div>
-      <div>
-        <a class="home-feature" href="dashboard.html"><span>Product</span><h3>A clear view of the work.</h3><p>Tables, status, and everyday product controls.</p><svg class="icon-directional" aria-hidden="true" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9h12m-5-5 5 5-5 5"/></svg></a>
-        <a class="home-feature" href="article.html"><span>Editorial</span><h3>Give an idea room to land.</h3><p>Reading rhythm, cited findings, and considered type.</p><svg class="icon-directional" aria-hidden="true" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9h12m-5-5 5 5-5 5"/></svg></a>
-        <a class="home-feature" href="forms.html"><span>Interaction</span><h3>Care in every state.</h3><p>Fields, feedback, keyboard menus, and native dialogs.</p><svg class="icon-directional" aria-hidden="true" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9h12m-5-5 5 5-5 5"/></svg></a>
-      </div>
-    </section>
-
-    <section class="home-section" aria-labelledby="example-directory-title">
-      <h2 id="example-directory-title">Find your starting point.</h2>
-      <p>All 20 pages, grouped by what you are making.</p>
-      <nav class="home-directory" id="example-directory" aria-labelledby="example-directory-title">
-        <div><h3>Product interfaces</h3><ul>
-          <li><a class="link" href="dashboard.html">Dashboard</a></li>
-          <li><a class="link" href="app-shell.html">App shell</a></li>
-          <li><a class="link" href="settings.html">Settings</a></li>
-          <li><a class="link" href="forms.html">Forms and dialogs</a></li>
-          <li><a class="link" href="auth-pattern.html">Sign-in form</a></li>
-          <li><a class="link" href="search.html">Search results</a></li>
-          <li><a class="link" href="profile.html">Profile</a></li>
-          <li><a class="link" href="roadmap.html">Roadmap</a></li>
-        </ul></div>
-        <div><h3>Content and marketing</h3><ul>
-          <li><a class="link" href="article.html">Article layout</a></li>
-          <li><a class="link" href="landing.html">Landing page</a></li>
-          <li><a class="link" href="pricing.html">Pricing</a></li>
-          <li><a class="link" href="carousel.html">Editorial carousel</a></li>
-          <li><a class="link" href="not-found.html">404 page</a></li>
-        </ul></div>
-        <div><h3>Explore the system</h3><ul>
-          <li><a class="link" href="index.html">Inkwell homepage</a></li>
-          <li><a class="link" href="docs.html">Getting started</a></li>
-          <li><a class="link" href="components.html">Component contracts</a></li>
-          <li><a class="link" href="preview.html">Component showcase</a></li>
-          <li><a class="link" href="variants/compare.html">Palette comparison</a></li>
-          <li><a class="link" href="tailwind.html">Tailwind v4</a></li>
-          <li><a class="link" href="changelog.html">Release notes</a></li>
-        </ul></div>
-      </nav>
-      <div class="home-deep-links">
-        <a class="link" href="preview.html#findings">Container-aware findings</a>
-        <a class="link" href="preview.html#menus">Keyboard action menus</a>
-        <a class="link" href="docs.html#theme">Theme primitives</a>
-      </div>
-    </section>
+    <!-- directory -->
 
     <section class="home-section home-closing" aria-labelledby="closing-title">
-      <h2 id="closing-title">Make something considered.</h2>
-      <a class="btn btn-primary" href="#get-started">Start building</a>
+      <h2 id="closing-title">The 1.5px is on purpose.</h2>
+      <p>Made with hairlines and serifs. Three files, one contract.</p>
     </section>
   </main>
 
   <footer class="home-footer wrap-wide">
-    <p>Inkwell. The 1.5px is on purpose.</p>
+    <p>Inkwell, a pure-CSS design system.</p>
     <nav aria-label="Footer">
       <a class="link" href="https://github.com/vscarpenter/inkwell/blob/main/index.html">Starter template</a>
       <a class="link" href="https://github.com/vscarpenter/inkwell">GitHub</a>
