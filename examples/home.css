@@ -197,7 +197,7 @@
 @media (pointer: coarse) {
   .inkwell-home :is(.theme-toggle .btn, .home-seams, .home-nav a, .home-sheet-pick) { min-block-size: 44px; }
   .inkwell-home .home-directory a { display: flex; align-items: center; min-block-size: 44px; }
-  .inkwell-home :is(.home-file-list, .home-deep-links, .home-footer nav, .home-diff-more) a { display: inline-flex; align-items: center; min-block-size: 44px; }
+  .inkwell-home :is(.home-file-list, .home-deep-links, .home-footer nav, .home-release, .home-diff-more) a, .inkwell-home .home-brand { display: inline-flex; align-items: center; min-block-size: 44px; }
 }
 @media (forced-colors: active) {
   .inkwell-home :is(.theme-toggle .is-active, .home-sheet-pick.is-active, .home-seams[aria-pressed="true"]) { background: Highlight; color: HighlightText; outline: 1px solid ButtonText; }

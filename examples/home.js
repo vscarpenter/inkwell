@@ -34,6 +34,7 @@
   });
 
   var paletteStatus = document.getElementById("home-palette-status");
+  if (paletteStatus) paletteStatus.hidden = false;
   document.querySelectorAll("[data-palette-choice]").forEach(function (button) {
     button.addEventListener("click", function () {
       var name = PALETTE_NAMES[button.getAttribute("data-palette-choice")];
@@ -57,8 +58,10 @@
   var previewButton = document.getElementById("home-preview");
   var resetItem = document.getElementById("home-reset");
   var status = document.getElementById("home-preview-status");
+  var restingStatus = status.textContent;
 
   function clearError() {
+    if (name.classList.contains("is-error")) status.textContent = restingStatus;
     name.removeAttribute("aria-invalid");
     name.classList.remove("is-error");
   }

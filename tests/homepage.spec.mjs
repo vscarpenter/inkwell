@@ -102,6 +102,7 @@ test("live specimen reports a blank name inline and resets through the keyboard 
   await expect(name).toBeFocused();
   await name.fill("A project with مساحة للكتابة");
   expect(await name.evaluate(el => el.hasAttribute("aria-invalid"))).toBe(false);
+  await expect(page.locator("#home-preview-status")).toHaveText("Try the field or the menu. Fields reset on reload.");
   await page.getByRole("button", { name: "Preview changes", exact: true }).click();
   await expect(page.locator("#home-preview-status")).toHaveText('Preview ready for "A project with مساحة للكتابة".');
   const trigger = page.getByRole("button", { name: "Specimen actions", exact: true });
@@ -143,6 +144,8 @@ test("sheets, callouts, and adoption links remain usable without JavaScript or c
     await expect(baseline.frameLocator('[data-sheet="clay"] iframe').locator('link[href="variants/clay.css"]')).toHaveCount(1);
     await expect(baseline.locator(".seam").first()).toBeVisible();
     await expect(baseline.getByRole("button", { name: "Seams", exact: true })).toHaveCount(0);
+    await expect(baseline.getByRole("button", { name: "Clay", exact: true })).toHaveCount(0);
+    await expect(baseline.locator("#home-palette-status")).toBeHidden();
     await expect(baseline.getByRole("button", { name: "Copy HTML", exact: true })).toHaveCount(0);
     await expect(baseline.getByRole("button", { name: "Preview changes", exact: true })).toHaveCount(0);
     await expect(baseline.getByRole("link", { name: "View input markup", exact: true })).toBeVisible();
@@ -180,7 +183,7 @@ test("homepage fits enlarged type, RTL, and narrow screens with reachable contro
     await expect(trigger).toBeFocused();
   }
   if (isMobile) {
-    for (const selector of ['[data-palette-choice="clay"]', '[data-theme-choice="dark"]', ".home-file-list a", ".home-deep-links a", ".home-footer nav a", "#home-seams"]) {
+    for (const selector of ['[data-palette-choice="clay"]', '[data-theme-choice="dark"]', ".home-brand", ".home-nav a", ".home-directory a", ".home-diff-more a", ".home-file-list a", ".home-deep-links a", ".home-footer nav a", ".home-release a", "#home-seams"]) {
       expect(await page.locator(selector).first().evaluate(el => el.getBoundingClientRect().height), selector).toBeGreaterThanOrEqual(44);
     }
   }
