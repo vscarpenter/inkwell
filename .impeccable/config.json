@@ -119,6 +119,15 @@
         ],
         "createdAt": "2026-10-29T17:42:55.426Z",
         "reason": "Agent triage: all eight palette swatches resolve in the browser to 12px padding on every side and 1.5px borders. The static scanner incorrectly treats padding var(--sp-3) from imported demo.css as zero. This preserves the existing swatch specimen rather than altering its spacing."
+      },
+      {
+        "rule": "em-dash-overuse",
+        "value": "*",
+        "files": [
+          "examples/index.html"
+        ],
+        "createdAt": "2026-10-31T02:59:56.607Z",
+        "reason": "Agent triage: the detector counts the double hyphens in CSS custom property names (--accent, --border) printed by the homepage's seam callouts and palette diffs as em dashes; the page contains no em or en dash, which tests/homepage.spec.mjs asserts on the rendered document."
       }
     ]
   }

@@ -63,6 +63,8 @@ If you add a new source CSS file at the repo root, also add it to the workflow's
 
 After editing `component-manifest.json`, run `node scripts/build-components-reference.mjs` and commit `examples/components.html`. Before every commit, run `node scripts/check-system-contract.mjs`; it verifies mirrors, versions, manifest selectors, page landmarks/metadata, error relationships, and local links.
 
+The homepage's five palette sheets (`examples/index.html`) are inline `srcdoc` iframes, and the three-token diff under each sheet is hand-authored. After editing any `variants/*.css` token that the diff shows, update the diff text and run `node --test tests/home-palettes.test.mjs`; CI fails on drift.
+
 For HTML/CSS/interaction changes, run `npx --yes --package=playwright@1.62.1 -- sh scripts/run-browser-smoke.sh` after installing the matching Chromium, Firefox, and WebKit runtimes. The suite includes mobile targets and component resilience checks for forced colors, narrow containers, enlarged text, tab navigation, and tooltip dismissal. Forced-colors emulation runs in Chromium; native assistive-technology testing remains a separate review.
 
 ### After editing CHANGELOG.md

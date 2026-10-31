@@ -43,6 +43,7 @@ test("sheets keep their own palettes and a pick re-inks the page", async ({ page
   for (const name of ["indigo", "clay", "sage", "burgundy", "azure"]) {
     const frame = page.frameLocator(`[data-sheet="${name}"] iframe`);
     await expect(frame.locator("table.tbl")).toBeVisible();
+    expect(await frame.locator("thead th").last().evaluate(el => { const range = document.createRange(); range.selectNodeContents(el); return range.getClientRects().length; }), `${name} header wraps`).toBe(1);
     fills.push(await frame.locator(".btn-primary").evaluate(el => getComputedStyle(el).backgroundColor));
   }
   expect(new Set(fills).size).toBe(5);
@@ -124,23 +125,27 @@ test("copy actions report success and rejection without losing focus", async ({ 
   await expect(html).toBeFocused();
 });
 
-test("adoption and example links remain usable without JavaScript or clipboard support", async ({ browser, page }) => {
-  const context=await browser.newContext({javaScriptEnabled:false});
-  const baseline=await context.newPage();
+test("sheets, callouts, and adoption links remain usable without JavaScript or clipboard support", async ({ browser, page }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const baseline = await context.newPage();
   try {
-    await baseline.goto('http://127.0.0.1:4173'+home);
+    await baseline.goto("http://127.0.0.1:4173" + home);
+    await expect(baseline.locator("iframe.home-sheet-frame")).toHaveCount(5);
+    await expect(baseline.frameLocator('[data-sheet="clay"] iframe').locator('link[href="variants/clay.css"]')).toHaveCount(1);
+    await expect(baseline.locator(".seam").first()).toBeVisible();
+    await expect(baseline.getByRole("button", { name: "Seams", exact: true })).toHaveCount(0);
+    await expect(baseline.getByRole("button", { name: "Copy HTML", exact: true })).toHaveCount(0);
+    await expect(baseline.getByRole("button", { name: "Preview changes", exact: true })).toHaveCount(0);
+    await expect(baseline.getByRole("link", { name: "View input markup", exact: true })).toBeVisible();
     await expect(baseline.locator("#html-install")).toBeVisible();
     await expect(baseline.locator("#agent-prompt")).toBeVisible();
-    await expect(baseline.getByRole("button",{name:"Copy HTML",exact:true})).toHaveCount(0);
-    await expect(baseline.getByRole("button",{name:"Preview changes",exact:true})).toHaveCount(0);
-    await expect(baseline.getByRole("link",{name:"View input markup",exact:true})).toBeVisible();
     await expect(baseline.locator("#example-directory a")).toHaveCount(20);
-    await baseline.getByRole("link",{name:"Start building",exact:true}).first().click();
+    await baseline.getByRole("link", { name: "Start building", exact: true }).click();
     await expect(baseline).toHaveURL(/#get-started$/);
   } finally { await context.close(); }
-  await page.addInitScript(() => { Object.defineProperty(navigator,"clipboard",{configurable:true,value:undefined}); });
+  await page.addInitScript(() => { Object.defineProperty(navigator, "clipboard", { configurable: true, value: undefined }); });
   await page.goto(home);
-  await expect(page.getByRole("button",{name:"Copy HTML",exact:true})).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Copy HTML", exact: true })).toHaveCount(0);
   await expect(page.locator("#html-install")).toBeVisible();
 });
 

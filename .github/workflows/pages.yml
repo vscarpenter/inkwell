@@ -34,7 +34,7 @@ jobs:
         run: |
           node scripts/build-tokens-json.mjs --check
           node scripts/build-design-tokens.mjs --check
-          node --test tests/token-export.test.mjs
+          node --test tests/token-export.test.mjs tests/home-palettes.test.mjs
           node scripts/build-changelog-html.mjs --check
           node scripts/build-components-reference.mjs --check
           node scripts/stamp-deployment.mjs --check
